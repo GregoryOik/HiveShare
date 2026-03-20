@@ -444,7 +444,8 @@ const Origins = () => {
         
         <div className="w-full md:w-[45%] flex items-center justify-center">
           <div className="w-full aspect-square border border-honey/20 bg-[#110C05] relative flex items-center justify-center overflow-hidden group rounded-[2px]">
-            <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC4wMSIgbnVtT2N0YXZlcz0iMyIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNuKSIgb3BhY2l0eT0iMC41Ii8+PC9zdmc+')] mix-blend-overlay"></div>
+            {/* TODO: Replace /map-texture.jpg in the public folder with your own map texture or image */}
+            <img src="/map-texture.jpg" alt="Map texture" className="absolute inset-0 w-full h-full object-cover opacity-20 mix-blend-overlay" />
             {/* Topographic lines simulation */}
             <div className="absolute inset-0 border border-honey/5 rounded-full scale-[0.3] group-hover:scale-[0.32] transition-transform duration-1000"></div>
             <div className="absolute inset-0 border border-honey/10 rounded-full scale-[0.6] group-hover:scale-[0.63] transition-transform duration-1000"></div>
@@ -466,12 +467,11 @@ const Beekeeper = () => {
     <section className="py-32 px-6 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 md:gap-24">
       <div className="w-full md:w-1/2 relative">
         <div className="absolute -inset-4 border border-border-amber rounded-[2px] -z-10 translate-x-2 translate-y-2"></div>
-        {/* TODO: Replace this placeholder with the actual photo of your father working the hives */}
+        {/* TODO: Replace /beekeeper.jpg in the public folder with the actual photo of your father working the hives */}
         <img 
-          src="https://picsum.photos/seed/beekeeperhands/800/1000?grayscale" 
-          alt="Beekeeper working the hives" 
+          src="/beekeeper.jpg" 
+          alt="Petros Oikonomakos working the hives" 
           className="w-full aspect-[4/5] object-cover rounded-[2px] sepia-[0.2] contrast-125"
-          referrerPolicy="no-referrer"
         />
       </div>
       <div className="w-full md:w-1/2">
@@ -480,7 +480,7 @@ const Beekeeper = () => {
           "I manage 600 hives. I know when the thyme will bloom two weeks before it happens. My grandfather did the exact same thing, in this exact same place."
         </p>
         <div className="text-[10px] uppercase tracking-widest text-text-muted">
-          Yiannis · Master Beekeeper
+          Petros Oikonomakos · Master Beekeeper
         </div>
       </div>
     </section>
@@ -510,7 +510,7 @@ const Pricing = () => {
           </ul>
           
           <a 
-            href="https://buy.stripe.com/6oUaEX1ilas29Lc2uN8k801"
+            href="https://buy.stripe.com/test_7sYdR9gYn4ZB9Io8aAdwc00"
             target="_blank"
             rel="noopener noreferrer"
             className="block text-center w-full border border-border-amber py-3 text-xs uppercase tracking-wider font-medium hover:bg-cream transition-colors rounded-[2px]"
@@ -537,7 +537,7 @@ const Pricing = () => {
           </ul>
           
           <a 
-            href="https://buy.stripe.com/7sY4gz2mp1VwbTkglD8k800"
+            href="https://buy.stripe.com/test_9B6dR9azZdw79Io0I8dwc01"
             target="_blank"
             rel="noopener noreferrer"
             className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"

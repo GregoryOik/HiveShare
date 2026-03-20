@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://myhiveshare.com/sitemap.xml
+Sitemap: https://oikonomakos.gr/sitemap.xml
