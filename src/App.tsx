@@ -25,9 +25,12 @@ const Navbar = () => {
             <a href="#pricing" className="hover:text-honey transition-colors duration-200">Pricing</a>
           </div>
           <div className="hidden md:block">
-            <button className="bg-honey text-white px-6 py-3 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors active:scale-95">
-              Join Waitlist
-            </button>
+            <a 
+              href="#pricing"
+              className="inline-block bg-honey text-white px-6 py-3 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors active:scale-95"
+            >
+              Get Started
+            </a>
           </div>
           <button 
             className="md:hidden z-50 relative text-text-dark"
@@ -45,9 +48,13 @@ const Navbar = () => {
           <a href="#features" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Features</a>
           <a href="#origins" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Origins</a>
           <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Pricing</a>
-          <button onClick={() => setMobileMenuOpen(false)} className="mt-8 bg-honey text-white px-8 py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors">
-            Join Waitlist
-          </button>
+          <a 
+            href="#pricing"
+            onClick={() => setMobileMenuOpen(false)}
+            className="mt-8 inline-block bg-honey text-white px-8 py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors"
+          >
+            Get Started
+          </a>
         </div>
       </div>
     </>
@@ -502,7 +509,14 @@ const Pricing = () => {
             <li className="flex gap-3"><span className="text-honey">—</span> Standard shipping</li>
           </ul>
           
-          <button className="w-full border border-border-amber py-3 text-xs uppercase tracking-wider font-medium hover:bg-cream transition-colors rounded-[2px]">Select Starter</button>
+          <a 
+            href="https://buy.stripe.com/6oUaEX1ilas29Lc2uN8k801"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-center w-full border border-border-amber py-3 text-xs uppercase tracking-wider font-medium hover:bg-cream transition-colors rounded-[2px]"
+          >
+            Select Starter
+          </a>
         </div>
         
         {/* Premium */}
@@ -522,7 +536,14 @@ const Pricing = () => {
             <li className="flex gap-3"><span className="text-honey">—</span> Priority shipping included</li>
           </ul>
           
-          <button className="w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]">Join Waitlist</button>
+          <a 
+            href="https://buy.stripe.com/7sY4gz2mp1VwbTkglD8k800"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"
+          >
+            Select Premium
+          </a>
         </div>
         
         {/* Corporate */}
@@ -541,7 +562,12 @@ const Pricing = () => {
             <li className="flex gap-3"><span className="text-honey">—</span> Corporate gifting fulfillment</li>
           </ul>
           
-          <button className="w-full border border-border-amber py-3 text-xs uppercase tracking-wider font-medium hover:bg-cream transition-colors rounded-[2px]">Contact Us</button>
+          <button 
+            onClick={() => document.getElementById('join')?.scrollIntoView({ behavior: 'smooth' })}
+            className="w-full border border-border-amber py-3 text-xs uppercase tracking-wider font-medium hover:bg-cream transition-colors rounded-[2px]"
+          >
+            Contact Us
+          </button>
         </div>
       </div>
     </section>
@@ -589,7 +615,7 @@ const FinalCTA = () => {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <section className="bg-hive-dark text-cream py-32 px-6 relative overflow-hidden">
+    <section id="join" className="bg-hive-dark text-cream py-32 px-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(200,134,10,0.08)_0%,_transparent_70%)]"></div>
       
       <div className="max-w-2xl mx-auto text-center relative z-10">
