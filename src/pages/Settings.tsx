@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { Save, User, MapPin, Calendar, ArrowLeft, Loader2, CheckCircle, ShieldCheck } from 'lucide-react';
+import { Save, User, MapPin, Calendar, ArrowLeft, Loader2, CheckCircle, ShieldCheck, Mail, Crown, Star, AlertTriangle, XCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
 
 export default function Settings() {
-  const { profile, updateProfile } = useAuth();
+  const { user, profile, updateProfile, cancelSubscription } = useAuth();
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+  const [cancelSuccess, setCancelSuccess] = useState(false);
   
   const [isInitialized, setIsInitialized] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
@@ -34,10 +37,8 @@ export default function Settings() {
     setIsValidating(true);
 
     try {
-      // Mock "validation proof" for the address
       await new Promise(resolve => setTimeout(resolve, 1500));
       setIsValidating(false);
-
       await updateProfile(formData);
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 4000);
@@ -48,6 +49,23 @@ export default function Settings() {
       setIsValidating(false);
     }
   };
+
+  const handleCancelSubscription = async () => {
+    setIsCancelling(true);
+    try {
+      await cancelSubscription();
+      setCancelSuccess(true);
+      setShowCancelConfirm(false);
+      setTimeout(() => setCancelSuccess(false), 5000);
+    } catch (error) {
+      console.error('Failed to cancel', error);
+    } finally {
+      setIsCancelling(false);
+    }
+  };
+
+  const tierLabel = profile?.tier === 'premium' ? 'Premium' : profile?.tier === 'starter' ? 'Starter' : 'Free';
+  const hasSubscription = profile?.tier && profile.subscribedHives?.length > 0;
 
   return (
     <div className="min-h-screen bg-[#1A1208] text-white/80 font-body selection:bg-honey selection:text-white pb-20">
@@ -70,29 +88,112 @@ export default function Settings() {
           {/* Section Header */}
           <div className="space-y-2">
             <h1 className="font-display text-4xl text-white">Your Profile</h1>
-            <p className="text-sm text-white/50">Manage your subscription details and shipping preferences.</p>
+            <p className="text-sm text-white/50">Manage your account, subscription, and shipping preferences.</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Membership Status (Read Only) */}
-            <div className="bg-[#110C05] border border-honey/10 p-6 rounded-[2px] space-y-4">
+          {/* Account Info (Read Only) */}
+          <div className="bg-[#110C05] border border-honey/10 p-6 rounded-[2px] space-y-4">
+            <div className="flex items-center gap-3 text-honey">
+              <Mail className="w-4 h-4" />
+              <span className="text-[10px] uppercase tracking-widest font-bold">Account Information</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Display Name</p>
+                <p className="text-white font-medium">{user?.displayName || profile?.customLabel || 'Not set'}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Email</p>
+                <p className="text-white font-medium">{user?.email || 'N/A'}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Member Since</p>
+                <p className="text-white font-medium">{user?.metadata?.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Unknown'}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Auth Provider</p>
+                <p className="text-white font-medium capitalize">{user?.providerData?.[0]?.providerId === 'google.com' ? 'Google' : 'Email & Password'}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Subscription Status */}
+          <div className="bg-[#110C05] border border-honey/10 p-6 rounded-[2px] space-y-4">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-3 text-honey">
                 <Calendar className="w-4 h-4" />
-                <span className="text-[10px] uppercase tracking-widest font-bold">Subscription Info</span>
+                <span className="text-[10px] uppercase tracking-widest font-bold">Subscription</span>
               </div>
-              <div className="grid grid-cols-2 gap-8">
-                <div>
-                  <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Status</p>
-                  <p className="text-white font-medium capitalize">{profile?.role || 'User'}</p>
-                </div>
-                <div>
-                  <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Next Harvest</p>
-                  <p className="text-white font-medium">{profile?.nextHarvestDate || 'TBD (Seasonal)'}</p>
-                </div>
+              <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-honey/20 bg-honey/5">
+                {profile?.tier === 'premium' ? (
+                  <Crown size={12} className="text-honey" />
+                ) : (
+                  <Star size={12} className="text-white/40" />
+                )}
+                <span className="text-[10px] uppercase tracking-widest font-bold text-white/70">{tierLabel}</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Status</p>
+                <p className="text-white font-medium capitalize">{hasSubscription ? 'Active' : 'Inactive'}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Hives Adopted</p>
+                <p className="text-white font-medium">{profile?.subscribedHives?.length || 0}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Next Harvest</p>
+                <p className="text-white font-medium">{profile?.nextHarvestDate || 'TBD (Seasonal)'}</p>
               </div>
             </div>
 
-            {/* Editable Fields */}
+            {/* Cancel Subscription */}
+            {hasSubscription && profile?.role !== 'admin' && (
+              <div className="pt-4 border-t border-honey/10">
+                {!showCancelConfirm ? (
+                  <button 
+                    onClick={() => setShowCancelConfirm(true)}
+                    className="text-xs text-red-400/60 hover:text-red-400 transition-colors uppercase tracking-widest"
+                  >
+                    Cancel Subscription
+                  </button>
+                ) : (
+                  <div className="bg-red-500/5 border border-red-500/20 p-4 rounded-[2px] space-y-3">
+                    <div className="flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
+                      <div>
+                        <p className="text-sm text-red-400 font-medium">Are you sure?</p>
+                        <p className="text-xs text-white/40 mt-1">Your hive access will be revoked and you will lose your dashboard data. This cannot be undone.</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3">
+                      <button 
+                        onClick={handleCancelSubscription}
+                        disabled={isCancelling}
+                        className="inline-flex items-center gap-2 bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-2 text-xs uppercase tracking-widest rounded-[2px] hover:bg-red-500/30 transition-colors disabled:opacity-50"
+                      >
+                        {isCancelling ? <Loader2 className="w-3 h-3 animate-spin" /> : <XCircle className="w-3 h-3" />}
+                        Yes, Cancel
+                      </button>
+                      <button 
+                        onClick={() => setShowCancelConfirm(false)}
+                        className="text-xs text-white/50 hover:text-white transition-colors uppercase tracking-widest px-4 py-2"
+                      >
+                        Keep Subscription
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {cancelSuccess && (
+                  <p className="text-xs text-green-500 mt-3 uppercase tracking-widest">Subscription cancelled successfully.</p>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Editable Profile Form */}
+          <form onSubmit={handleSubmit} className="space-y-8">
             <div className="space-y-6">
               <div className="space-y-2">
                 <label className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-white/50 font-bold ml-1">

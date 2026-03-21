@@ -5,6 +5,9 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   User as FirebaseUser
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, updateDoc, onSnapshot as onFirestoreSnapshot } from 'firebase/firestore';
@@ -26,8 +29,12 @@ interface AuthContextType {
   loading: boolean;
   error: string | null;
   signInWithGoogle: () => Promise<void>;
+  signUp: (email: string, password: string) => Promise<void>;
+  signInWithEmail: (email: string, password: string) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (newData: Partial<UserProfile>) => Promise<void>;
+  cancelSubscription: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -50,7 +57,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const authUnsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
-      // Clean up previous listener if it exists
       if (profileUnsubscribe) {
         profileUnsubscribe();
         profileUnsubscribe = null;
@@ -64,11 +70,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (docSnap.exists()) {
             const data = docSnap.data() as UserProfile;
             
-            // SUPER ADMIN FALLBACK: Ensure the owner is ALWAYS an admin
-            if (user?.email === 'gregorygate46@gmail.com' && data.role !== 'admin') {
+            // SUPER ADMIN FALLBACK
+            if (currentUser?.email === 'gregorygate46@gmail.com' && data.role !== 'admin') {
               console.warn('Super Admin Override: Restoring admin role for owner.');
               data.role = 'admin';
-              // Automatically repair the document in Firestore
               updateDoc(userDocRef, { role: 'admin' }).catch(e => console.error('Failed to auto-repair role:', e));
             }
             
@@ -115,6 +120,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw error;
     }
   };
+
+  const signUp = async (email: string, password: string) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error('Error creating account', error);
+      throw error;
+    }
+  };
+
+  const signInWithEmail = async (email: string, password: string) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error('Error signing in with email', error);
+      throw error;
+    }
+  };
+
+  const resetPassword = async (email: string) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+    } catch (error) {
+      console.error('Error sending password reset', error);
+      throw error;
+    }
+  };
+
   const logout = async () => {
     try {
       await signOut(auth);
@@ -129,15 +162,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const userDocRef = doc(db, 'users', user.uid);
       await updateDoc(userDocRef, newData);
-      // No need to setProfile manually, onFirestoreSnapshot will handle it!
     } catch (error) {
       console.error('Error updating profile', error);
       throw error;
     }
   };
 
+  const cancelSubscription = async () => {
+    if (!user) return;
+    try {
+      const userDocRef = doc(db, 'users', user.uid);
+      await updateDoc(userDocRef, {
+        role: 'subscriber',
+        tier: null,
+        subscribedHives: []
+      });
+    } catch (error) {
+      console.error('Error cancelling subscription', error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, error, signInWithGoogle, logout, updateProfile }}>
+    <AuthContext.Provider value={{ user, profile, loading, error, signInWithGoogle, signUp, signInWithEmail, resetPassword, logout, updateProfile, cancelSubscription }}>
       {children}
     </AuthContext.Provider>
   );

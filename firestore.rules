@@ -67,7 +67,7 @@ service cloud.firestore {
     // ===============================================================
 
     function isValidUser(data) {
-      let allowedFields = ['uid', 'email', 'role', 'subscribedHives', 'customLabel', 'shippingAddress', 'nextHarvestDate'];
+      let allowedFields = ['uid', 'email', 'role', 'subscribedHives', 'customLabel', 'shippingAddress', 'nextHarvestDate', 'tier'];
       let requiredFields = ['uid', 'email', 'role'];
       
       return hasOnlyAllowedFields(allowedFields) &&
