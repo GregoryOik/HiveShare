@@ -1,0 +1,166 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the HiveShare platform.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The user's unique ID."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The user's email address."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["subscriber", "admin"],
+          "description": "The user's role."
+        },
+        "subscribedHives": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of hive IDs the user is subscribed to."
+        }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Hive": {
+      "title": "Hive",
+      "description": "A beehive monitored by HiveShare.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the hive."
+        },
+        "location": {
+          "type": "string",
+          "description": "The location of the hive."
+        },
+        "weight": {
+          "type": "number",
+          "description": "The current weight of the hive in kg."
+        },
+        "temp": {
+          "type": "number",
+          "description": "The internal temperature of the hive in Celsius."
+        },
+        "humidity": {
+          "type": "number",
+          "description": "The internal humidity of the hive in percentage."
+        },
+        "activity": {
+          "type": "string",
+          "enum": ["Low", "Medium", "High"],
+          "description": "The activity level of the hive."
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "day": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "number"
+              }
+            },
+            "required": ["day", "weight"]
+          },
+          "description": "Historical weight data for the hive."
+        },
+        "activeHarvest": {
+          "type": "string",
+          "description": "The current active harvest season."
+        },
+        "nextHarvestDate": {
+          "type": "string",
+          "description": "The estimated date of the next harvest."
+        },
+        "photoUrl": {
+          "type": "string",
+          "description": "URL to the latest hive snapshot."
+        },
+        "beeSpecies": {
+          "type": "string",
+          "description": "The species of the bees in the hive."
+        },
+        "installationDate": {
+          "type": "string",
+          "description": "The date the hive was installed."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["available", "assigned"],
+          "description": "The assignment status of the hive."
+        },
+        "lastDiaryEntryTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of the last beekeeper's diary entry."
+        }
+      },
+      "required": ["id", "location", "weight", "temp", "humidity", "activity", "history", "activeHarvest", "nextHarvestDate", "photoUrl", "beeSpecies", "installationDate", "status"]
+    },
+    "Harvest": {
+      "title": "Harvest",
+      "description": "A honey harvest event.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the harvest."
+        },
+        "hiveId": {
+          "type": "string",
+          "description": "The ID of the hive this harvest belongs to."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of honey harvested (e.g., Thyme, Pine)."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "in-progress", "completed"],
+          "description": "The status of the harvest."
+        },
+        "estimatedYield": {
+          "type": "number",
+          "description": "Estimated yield in kg."
+        },
+        "completionDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the harvest was completed."
+        }
+      },
+      "required": ["id", "hiveId", "type", "status"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/User"
+      },
+      "description": "Stores user profiles."
+    },
+    "hives/{hiveId}": {
+      "schema": {
+        "$ref": "#/entities/Hive"
+      },
+      "description": "Stores hive telemetry data."
+    },
+    "harvests/{harvestId}": {
+      "schema": {
+        "$ref": "#/entities/Harvest"
+      },
+      "description": "Stores honey harvest events."
+    }
+  }
+}

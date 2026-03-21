@@ -28,33 +28,18 @@ function ProtectedRoute({ children, requireAdmin = false }: { children: React.Re
 }
 
 export default function App() {
-  const isDashboardSubdomain = window.location.hostname.startsWith('dashboard.');
-
   return (
     <ErrorBoundary>
       <AuthProvider>
         <Router>
           <Routes>
-            {isDashboardSubdomain ? (
-              <>
-                <Route path="/" element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                } />
-                <Route path="/dashboard" element={<Navigate to="/" replace />} />
-              </>
-            ) : (
-              <>
-                <Route path="/" element={<Landing />} />
-                <Route path="/dashboard" element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                } />
-              </>
-            )}
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            } />
             <Route path="/admin" element={
               <ProtectedRoute requireAdmin={true}>
                 <Admin />
@@ -62,7 +47,6 @@ export default function App() {
             } />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
-            <Route path="*" element={<Navigate to={isDashboardSubdomain ? "/dashboard" : "/"} replace />} />
           </Routes>
         </Router>
       </AuthProvider>

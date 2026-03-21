@@ -123,7 +123,7 @@ export default function Login() {
         </div>
         
         <div className="mt-8 text-center text-xs text-white/30">
-          <a href={window.location.hostname.startsWith('dashboard.') ? 'https://oikonomakos.gr/' : '/'} className="hover:text-honey transition-colors">← Back to home</a>
+          <Link to="/" className="hover:text-honey transition-colors">← Back to home</Link>
         </div>
       </div>
     </div>
