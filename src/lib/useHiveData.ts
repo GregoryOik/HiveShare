@@ -158,9 +158,10 @@ export function useHiveData() {
       // 4. Update User Profile
       const currentHives = profile.subscribedHives || [];
       if (!currentHives.includes(randomHive.id)) {
+        const isAlreadyAdmin = profile.role === 'admin';
         await updateDoc(doc(db, 'users', user.uid), {
           subscribedHives: [...currentHives, randomHive.id],
-          role: 'subscriber',
+          role: isAlreadyAdmin ? 'admin' : 'subscriber',
           tier // Set the member's tier
         });
       }

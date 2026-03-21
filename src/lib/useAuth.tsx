@@ -62,7 +62,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         profileUnsubscribe = onFirestoreSnapshot(userDocRef, async (docSnap) => {
           if (docSnap.exists()) {
-            setProfile(docSnap.data() as UserProfile);
+            const data = docSnap.data() as UserProfile;
+            
+            // SUPER ADMIN FALLBACK: Ensure the owner is ALWAYS an admin
+            if (user?.email === 'gregorygate46@gmail.com' && data.role !== 'admin') {
+              console.warn('Super Admin Override: Restoring admin role for owner.');
+              data.role = 'admin';
+              // Automatically repair the document in Firestore
+              updateDoc(userDocRef, { role: 'admin' }).catch(e => console.error('Failed to auto-repair role:', e));
+            }
+            
+            setProfile(data);
             setLoading(false);
           } else {
             const newProfile: UserProfile = {
