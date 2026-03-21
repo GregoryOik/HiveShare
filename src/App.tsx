@@ -12,6 +12,7 @@ import Cancel from './pages/Cancel';
 import Settings from './pages/Settings';
 import { AuthProvider, useAuth } from './lib/useAuth';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import CookieConsent from './components/CookieConsent';
 
 function ProtectedRoute({ children, requireAdmin = false }: { children: React.ReactNode, requireAdmin?: boolean }) {
   const { user, profile, loading } = useAuth();
@@ -66,6 +67,7 @@ export default function App() {
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to={isDashboardSubdomain ? "/" : "/"} replace />} />
           </Routes>
+          <CookieConsent />
         </Router>
       </AuthProvider>
     </ErrorBoundary>
