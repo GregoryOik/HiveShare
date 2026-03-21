@@ -48,7 +48,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (currentUser) {
         try {
           const userDocRef = doc(db, 'users', currentUser.uid);
-          const userDoc = await getDoc(userDocRef);
+          
+          // Timeout wrapper to prevent hanging promise
+          const withTimeout = <T,>(promise: Promise<T>, ms: number = 5000) => {
+            return Promise.race([
+              promise,
+              new Promise<never>((_, reject) => 
+                setTimeout(() => reject(new Error('Firestore operation timed out. Is the database created?')), ms)
+              )
+            ]);
+          };
+
+          const userDoc = await withTimeout(getDoc(userDocRef));
           
           if (userDoc.exists()) {
             setProfile(userDoc.data() as UserProfile);
@@ -63,7 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               subscribedHives: [] // No default hives for new users
             };
             
-            await setDoc(userDocRef, newProfile);
+            await withTimeout(setDoc(userDocRef, newProfile));
             setProfile(newProfile);
           }
         } catch (err: any) {
