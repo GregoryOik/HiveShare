@@ -1,9 +1,9 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 import { auth, db } from './firebase';
-import { 
-  onAuthStateChanged, 
-  signInWithPopup, 
-  GoogleAuthProvider, 
+import {
+  onAuthStateChanged,
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut,
   User as FirebaseUser
 } from 'firebase/auth';
@@ -40,40 +40,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setError('Firebase not configured. Please check environment variables.');
       return;
     }
-    
+
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-      setError(null);
-      
+
       if (currentUser) {
+        setError(null);
         try {
           const userDocRef = doc(db, 'users', currentUser.uid);
-          
+
           // Timeout wrapper to prevent hanging promise
           const withTimeout = <T,>(promise: Promise<T>, ms: number = 5000) => {
             return Promise.race([
               promise,
-              new Promise<never>((_, reject) => 
+              new Promise<never>((_, reject) =>
                 setTimeout(() => reject(new Error('Firestore operation timed out. Is the database created?')), ms)
               )
             ]);
           };
 
           const userDoc = await withTimeout(getDoc(userDocRef));
-          
+
           if (userDoc.exists()) {
             setProfile(userDoc.data() as UserProfile);
           } else {
             // Check if this is the default admin
             const isDefaultAdmin = currentUser.email === 'gregorygate46@gmail.com' && currentUser.emailVerified;
-            
+
             const newProfile: UserProfile = {
               uid: currentUser.uid,
               email: currentUser.email || '',
               role: isDefaultAdmin ? 'admin' : 'subscriber',
               subscribedHives: [] // No default hives for new users
             };
-            
+
             await withTimeout(setDoc(userDocRef, newProfile));
             setProfile(newProfile);
           }
@@ -88,7 +88,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else {
         setProfile(null);
       }
-      
+
       setLoading(false);
     });
 
