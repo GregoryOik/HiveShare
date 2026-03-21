@@ -69,12 +69,12 @@ export default function Login() {
           </button>
           
           <div className="mt-8 text-xs text-white/40">
-            By continuing, you agree to our <a href="/terms" className="text-honey hover:underline">Terms of Service</a> and <a href="/privacy" className="text-honey hover:underline">Privacy Policy</a>.
+            By continuing, you agree to our <a href="https://oikonomakos.gr/terms" className="text-honey hover:underline">Terms of Service</a> and <a href="https://oikonomakos.gr/privacy" className="text-honey hover:underline">Privacy Policy</a>.
           </div>
         </div>
         
         <div className="mt-8 text-center text-xs text-white/30">
-          <a href="/" className="hover:text-honey transition-colors">← Back to home</a>
+          <a href="https://oikonomakos.gr/" className="hover:text-honey transition-colors">← Back to home</a>
         </div>
       </div>
     </div>

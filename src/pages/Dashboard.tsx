@@ -27,9 +27,9 @@ export default function Dashboard() {
       {/* Header */}
       <header className="border-b border-honey/20 bg-[#1A1208] sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link to="/" className="font-display text-2xl tracking-wide text-white">
+          <a href="https://oikonomakos.gr/" className="font-display text-2xl tracking-wide text-white">
             Hive<span className="text-honey">Share</span>
-          </Link>
+          </a>
           
           <div className="hidden md:flex items-center gap-2 text-sm tracking-widest uppercase text-white/50 relative group">
             <select 

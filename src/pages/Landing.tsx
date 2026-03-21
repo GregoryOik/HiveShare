@@ -29,13 +29,13 @@ const Navbar = () => {
           </div>
           <div className="hidden md:flex items-center space-x-6">
             {user ? (
-              <Link to="/dashboard" className="text-[10px] uppercase tracking-[0.2em] font-medium text-text-muted hover:text-honey transition-colors duration-200">
+              <a href="https://dashboard.oikonomakos.gr/dashboard" className="text-[10px] uppercase tracking-[0.2em] font-medium text-text-muted hover:text-honey transition-colors duration-200">
                 Dashboard
-              </Link>
+              </a>
             ) : (
-              <Link to="/login" className="text-[10px] uppercase tracking-[0.2em] font-medium text-text-muted hover:text-honey transition-colors duration-200">
+              <a href="https://dashboard.oikonomakos.gr/login" className="text-[10px] uppercase tracking-[0.2em] font-medium text-text-muted hover:text-honey transition-colors duration-200">
                 Log In
-              </Link>
+              </a>
             )}
             <a 
               href="#pricing"
@@ -61,9 +61,9 @@ const Navbar = () => {
           <a href="#origins" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Origins</a>
           <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Pricing</a>
           {user ? (
-            <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Dashboard</Link>
+            <a href="https://dashboard.oikonomakos.gr/dashboard" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Dashboard</a>
           ) : (
-            <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Log In</Link>
+            <a href="https://dashboard.oikonomakos.gr/login" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Log In</a>
           )}
           <a 
             href="#pricing"
