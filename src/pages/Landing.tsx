@@ -206,41 +206,41 @@ const Hero = () => {
         <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-honey/20 to-transparent"></div>
 
         {/* TOP - Hive ID */}
-        <div className="absolute top-12 left-12 border-l-2 border-honey/40 pl-4 z-10">
-          <div className="text-[9px] uppercase tracking-widest text-white/30 mb-1">
+        <div className="absolute top-6 left-6 md:top-12 md:left-12 border-l-2 border-honey/40 pl-3 md:pl-4 z-10">
+          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-white/30 mb-1">
             Your hive
           </div>
-          <div className="font-display italic text-3xl text-pale-honey">#247</div>
-          <div className="text-[9px] text-white/20 mt-1">Taygetos · 800m</div>
+          <div className="font-display italic text-2xl md:text-3xl text-pale-honey">#247</div>
+          <div className="text-[8px] md:text-[9px] text-white/20 mt-1">Taygetos · 800m</div>
         </div>
 
         {/* Hive ID Counter Base Layer */}
-        <div className="absolute inset-0 flex items-center justify-center z-1 pointer-events-none">
-          <span className="font-display text-[20rem] leading-none text-honey/[0.03] select-none">
+        <div className="absolute inset-0 flex items-center justify-center z-1 pointer-events-none overflow-hidden">
+          <span className="font-display text-[12rem] md:text-[20rem] leading-none text-honey/[0.03] select-none">
             247
           </span>
         </div>
 
         {/* MIDDLE - Temp */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#1A1208]/70 backdrop-blur-md border border-honey/20 p-5 rounded-[2px] z-10">
-          <div className="text-[9px] uppercase tracking-widest text-white/40 mb-2">Temp</div>
-          <div className="font-display text-3xl text-pale-honey">34.5°C</div>
+        <div className="absolute top-[45%] md:top-1/2 left-1/3 md:left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#1A1208]/70 backdrop-blur-md border border-honey/20 p-3 md:p-5 rounded-[2px] z-10">
+          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-white/40 mb-1 md:mb-2">Temp</div>
+          <div className="font-display text-2xl md:text-3xl text-pale-honey">34.5°C</div>
         </div>
 
         {/* RIGHT MIDDLE - Activity */}
-        <div className="absolute top-1/3 right-12 bg-[#1A1208]/70 backdrop-blur-md border border-honey/20 p-4 rounded-[2px] z-10">
-          <div className="text-[9px] uppercase tracking-widest text-white/40 mb-2">Activity</div>
-          <div className="font-display text-2xl text-green-400">High</div>
+        <div className="absolute top-1/4 right-6 md:top-1/3 md:right-12 bg-[#1A1208]/70 backdrop-blur-md border border-honey/20 p-3 md:p-4 rounded-[2px] z-10">
+          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-white/40 mb-1 md:mb-2">Activity</div>
+          <div className="font-display text-xl md:text-2xl text-green-400">High</div>
         </div>
         
         {/* Live Data Card */}
-        <div className="absolute bottom-12 right-12 bg-[#1A1208]/60 backdrop-blur-md border border-honey/30 p-5 rounded-[2px] shadow-2xl z-10">
-          <div className="flex items-center space-x-2 mb-3">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-blink"></div>
-            <div className="text-[10px] uppercase tracking-widest text-white/70 font-medium">Live · Hive #247</div>
+        <div className="absolute bottom-6 right-6 md:bottom-12 md:right-12 bg-[#1A1208]/60 backdrop-blur-md border border-honey/30 p-4 md:p-5 rounded-[2px] shadow-2xl z-10">
+          <div className="flex items-center space-x-2 mb-2 md:mb-3">
+            <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-green-500 animate-blink"></div>
+            <div className="text-[9px] md:text-[10px] uppercase tracking-widest text-white/70 font-medium">Live · Hive #247</div>
           </div>
-          <div className="font-display italic text-4xl text-pale-honey mb-1">38.2 kg</div>
-          <div className="text-[10px] text-white/40">Updated 4 min ago</div>
+          <div className="font-display italic text-3xl md:text-4xl text-pale-honey mb-1">38.2 kg</div>
+          <div className="text-[9px] md:text-[10px] text-white/40">Updated 4 min ago</div>
         </div>
       </div>
     </section>

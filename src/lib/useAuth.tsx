@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               uid: currentUser.uid,
               email: currentUser.email || '',
               role: isDefaultAdmin ? 'admin' : 'subscriber',
-              subscribedHives: ['247'] // Default hive for new users
+              subscribedHives: [] // No default hives for new users
             };
             
             await setDoc(userDocRef, newProfile);

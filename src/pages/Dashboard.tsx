@@ -20,7 +20,46 @@ export default function Dashboard() {
   
   const data = hives.find(h => h.id === selectedHiveId) || hives[0];
 
-  if (!data) return <div className="min-h-screen bg-[#1A1208] text-white p-12 flex items-center justify-center">No hives found for your account.</div>;
+  if (!data) {
+    return (
+      <div className="min-h-screen bg-[#1A1208] text-white/80 font-body selection:bg-honey selection:text-white flex flex-col">
+        <header className="border-b border-honey/20 bg-[#1A1208] sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between w-full">
+            <a href="https://oikonomakos.gr/" className="font-display text-2xl tracking-wide text-white">
+              Hive<span className="text-honey">Share</span>
+            </a>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-honey/50"></div>
+                <span className="text-[10px] uppercase tracking-widest text-white/50">{profile?.email}</span>
+              </div>
+              <button onClick={logout} className="text-[10px] uppercase tracking-widest text-white/30 hover:text-white transition-colors flex items-center gap-1">
+                <LogOut className="w-3 h-3" />
+                <span className="hidden md:inline">Logout</span>
+              </button>
+            </div>
+          </div>
+        </header>
+        <main className="flex-1 flex items-center justify-center p-6">
+          <div className="max-w-md w-full text-center space-y-8">
+            <div className="w-24 h-24 mx-auto border border-honey/20 rounded-full flex items-center justify-center bg-[#110C05]">
+              <Package className="w-8 h-8 text-honey opacity-50" />
+            </div>
+            <h1 className="font-display text-3xl md:text-4xl text-white">Welcome to HiveShare</h1>
+            <p className="text-sm text-white/50 leading-relaxed">
+              You don't have any active hive subscriptions yet. Adopt a hive to start tracking its progress, viewing real-time data, and receiving your share of the honey harvest.
+            </p>
+            <a 
+              href="https://oikonomakos.gr/#pricing" 
+              className="inline-block bg-honey text-white px-8 py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors"
+            >
+              Adopt a Hive
+            </a>
+          </div>
+        </main>
+      </div>
+    );
+  }
   
   return (
     <div className="min-h-screen bg-[#1A1208] text-white/80 font-body selection:bg-honey selection:text-white pb-20">
