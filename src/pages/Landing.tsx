@@ -792,6 +792,7 @@ export default function Landing() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartPlan, setCartPlan] = useState<{id: string, name: string, price: number, link: string} | null>(null);
   const [hasOliveOil, setHasOliveOil] = useState(false);
+  const { user } = useAuth();
 
   const cartItemsCount = (cartPlan ? 1 : 0) + (hasOliveOil ? 1 : 0);
   const cartTotal = (cartPlan?.price || 0) + (hasOliveOil ? 18 : 0);
@@ -877,12 +878,21 @@ export default function Landing() {
                   <span className="font-display text-3xl">{cartTotal} €</span>
                 </div>
                 {cartPlan ? (
-                  <a 
-                    href={cartPlan.link}
-                    className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"
-                  >
-                    Proceed to Checkout
-                  </a>
+                  user ? (
+                    <a 
+                      href={cartPlan.link}
+                      className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"
+                    >
+                      Proceed to Checkout
+                    </a>
+                  ) : (
+                    <Link 
+                      to="/login"
+                      className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"
+                    >
+                      Login to Checkout
+                    </Link>
+                  )
                 ) : (
                   <button 
                     disabled
