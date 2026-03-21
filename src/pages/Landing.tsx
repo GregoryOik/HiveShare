@@ -130,7 +130,7 @@ const Hero = () => {
         </h1>
         
         <p className="text-text-muted text-base max-w-sm mb-8 leading-relaxed font-light">
-          A direct connection to a single, named beehive in the Peloponnese. Real-time data, apiary snapshots, and three distinct harvests delivered to your door.
+          Adopt a hive for 12 months. Get a direct connection to a single, named beehive in the Peloponnese with real-time data, apiary snapshots, and ~1.5kg of honey delivered to your door across three distinct seasonal harvests.
         </p>
         
         <div className="mb-8 max-w-md">
@@ -211,7 +211,7 @@ const Hero = () => {
             Your hive
           </div>
           <div className="font-display italic text-2xl md:text-3xl text-pale-honey">#247</div>
-          <div className="text-[8px] md:text-[9px] text-white/20 mt-1">Taygetos · 800m</div>
+          <div className="text-[8px] md:text-[9px] text-white/20 mt-1">Lagia, Mani</div>
         </div>
 
         {/* Hive ID Counter Base Layer */}
@@ -282,9 +282,9 @@ const WhatYouGet = () => {
     { icon: <Scale size={18} strokeWidth={1} className="text-honey/60" />, title: 'Live weight tracking', desc: 'See exactly how much honey your bees are producing in real-time.' },
     { icon: <Camera size={18} strokeWidth={1} className="text-honey/60" />, title: 'Apiary snapshots', desc: 'A visual record of your colony, updated regularly by the beekeeper.' },
     { icon: <Thermometer size={18} strokeWidth={1} className="text-honey/60" />, title: 'Colony health data', desc: 'Monitor internal temperature and humidity to ensure your bees are thriving.' },
-    { icon: <Package size={18} strokeWidth={1} className="text-honey/60" />, title: 'Three annual harvests', desc: 'Spring wildflower, summer thyme, and autumn pine honey deliveries.' },
+    { icon: <Package size={18} strokeWidth={1} className="text-honey/60" />, title: 'Three annual harvests', desc: 'Spring Wildflower, Summer Thyme or Fir Vanilla, and Autumn Pine honey deliveries.' },
     { icon: <FlaskConical size={18} strokeWidth={1} className="text-honey/60" />, title: 'Lab-certified purity', desc: 'Every batch is tested by Eurofins for authenticity and zero pesticide residue.' },
-    { icon: <MapPin size={18} strokeWidth={1} className="text-honey/60" />, title: 'Direct from Sparta', desc: 'No middlemen, no blending. Straight from the Taygetos mountains to you.' }
+    { icon: <MapPin size={18} strokeWidth={1} className="text-honey/60" />, title: 'Direct from the Beekeeper', desc: 'No middlemen, no blending. Straight from Petros Oikonomakos to you.' }
   ];
 
   return (
@@ -323,7 +323,7 @@ const DashboardPreview = () => {
         <div className="bg-[#110C05] border border-honey/20 rounded-[2px] p-6 shadow-2xl transform rotate-y-[-5deg] transition-transform duration-700 hover:rotate-y-0">
           {/* Header */}
           <div className="flex justify-between items-center border-b border-honey/10 pb-4 mb-6">
-            <div className="text-cream text-sm tracking-wide">Hive #247 — Taygetos, Laconia</div>
+            <div className="text-cream text-sm tracking-wide">Hive #247 — Lagia, Mani</div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-blink"></div>
               <div className="text-[9px] uppercase tracking-widest text-white/50">Live</div>
@@ -370,49 +370,40 @@ const Origins = () => {
 
   const harvests = [
     { 
-      color: '#D4B483', 
-      name: 'Vanilla', 
-      season: 'Feb–Mar', 
-      location: 'Coastal Laconia', 
-      character: 'Pale, delicate, almost sweet-cream',
-      yield: '1.8 kg',
-      desc: 'Early season. Rare in volume. Subscriber favourite. The bees forage on the winter-blooming Erica manipuliflora, producing a honey that crystallizes quickly into a thick, creamy texture.' 
-    },
-    { 
       color: '#E8A030', 
       name: 'Wildflower', 
-      season: 'Mar–May', 
-      location: 'Mixed bloom, coastal plains', 
+      season: 'Spring', 
+      location: 'Sparta', 
       character: 'Golden, floral, complex',
       yield: '3.5 kg',
-      desc: 'The most seasonal. Changes character every year. A vibrant reflection of the spring awakening across the Peloponnese, capturing dozens of native blossoms in a single extraction.' 
+      desc: 'The most seasonal. Changes character every year. A vibrant reflection of the spring awakening across Sparta, capturing dozens of native blossoms in a single extraction.' 
     },
     { 
       color: '#F5C842', 
       name: 'Thyme', 
-      season: 'Jun–Jul', 
-      location: 'Taygetos highlands', 
+      season: 'Summer', 
+      location: 'Lagia, Mani, Laconia', 
       character: 'Light amber, intensely aromatic, high diastase',
       yield: '2.2 kg',
-      desc: 'The most prized. Greece\'s signature. The bees work the Taygetos slopes in June heat — short season, concentrated flavor. High diastase means it stays liquid longer than most Greek honeys.' 
+      desc: 'The most prized. Greece\'s signature. The bees work the rugged landscapes of Mani in the summer heat — short season, concentrated flavor. High diastase means it stays liquid longer than most Greek honeys.' 
     },
     { 
-      color: '#2D5A3D', 
-      name: 'Fir', 
-      season: 'Jul–Aug', 
-      location: 'Mountain firs', 
-      character: 'Pale gold, mild, honeydew origin',
+      color: '#D4B483', 
+      name: 'Fir Vanilla', 
+      season: 'Summer', 
+      location: 'Arachova, Arcadia', 
+      character: 'Pale, delicate, thick texture',
       yield: '1.5 kg',
-      desc: 'Rare. High altitude only. Almost no pollen. Pale gold, almost translucent. Honeydew origin — the bees collect secretions from fir trees, not flower nectar. Never available before July.' 
+      desc: 'Rare. High altitude only. Almost no pollen. Pale gold, almost translucent with a thick, creamy texture. Honeydew origin — the bees collect secretions from fir trees in the Arcadian mountains.' 
     },
     { 
       color: '#5C3D1A', 
       name: 'Pine', 
-      season: 'Aug–Oct', 
-      location: 'Arcadian forests', 
+      season: 'Autumn', 
+      location: 'Evia', 
       character: 'Dark, mineral, slow to crystallise',
       yield: '4.0 kg',
-      desc: '65% of Greek production. Rich and complex. A robust, malty honeydew that grounds the end of the beekeeping year. High in trace minerals and antioxidants.' 
+      desc: 'Rich and complex. A robust, malty honeydew that grounds the end of the beekeeping year. Harvested from the vast pine forests of Evia. High in trace minerals and antioxidants.' 
     }
   ];
 
@@ -420,9 +411,9 @@ const Origins = () => {
     <section id="origins" className="bg-hive-dark text-cream py-32 px-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-20">
         <div className="w-full md:w-[55%]">
-          <h2 className="font-display text-4xl font-light mb-6">Five honeys. One apiary.</h2>
+          <h2 className="font-display text-4xl font-light mb-6">Four honeys. A nomadic journey.</h2>
           <p className="text-sm text-white/60 mb-16 max-w-md leading-relaxed">
-            What arrives at your door depends on what bloomed this year — and when. That is the point. This is not a product catalog; it is a living map of the seasons.
+            Our hives travel across Greece's most pristine landscapes to capture distinct seasonal flavors. What arrives at your door depends on what bloomed this year — and when.
           </p>
           
           <div className="flex flex-col border-t border-honey/20">
@@ -470,7 +461,7 @@ const Origins = () => {
             
             <div className="z-10 text-center bg-[#110C05]/80 backdrop-blur-sm p-6 border border-honey/20 rounded-[2px]">
               <div className="text-[10px] uppercase tracking-widest text-white/40 mb-2">36°57'14.0"N 22°21'08.0"E</div>
-              <div className="font-display text-xl text-pale-honey">Taygetos, 800m</div>
+              <div className="font-display text-xl text-pale-honey">Lagia, Mani</div>
             </div>
           </div>
         </div>
@@ -494,7 +485,7 @@ const Beekeeper = () => {
       <div className="w-full md:w-1/2">
         <div className="w-8 h-[1px] bg-honey mb-10"></div>
         <p className="font-display text-3xl md:text-4xl leading-[1.4] font-light text-text-dark italic mb-10">
-          "I manage 600 hives. I know when the thyme will bloom two weeks before it happens. My grandfather did the exact same thing, in this exact same place."
+          "I manage 600 hives. I know when the thyme will bloom in Mani two weeks before it happens. My grandfather followed the same blooms across these mountains."
         </p>
         <div className="text-[10px] uppercase tracking-widest text-text-muted">
           Petros Oikonomakos · Master Beekeeper
@@ -549,7 +540,7 @@ const Pricing = () => {
             <li className="flex gap-3"><span className="text-honey">—</span> Dedicated numbered hive</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Real-time dashboard access</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Regular apiary snapshots</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> 3 distinct seasonal harvests</li>
+            <li className="flex gap-3"><span className="text-honey">—</span> 3 distinct seasonal harvests · ~1.5kg total</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Priority shipping included</li>
           </ul>
           
@@ -585,6 +576,51 @@ const Pricing = () => {
           >
             Contact Us
           </button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const AboutOurHoney = () => {
+  return (
+    <section className="bg-cream py-32 px-6 border-t border-border-amber">
+      <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-16">
+        <div className="w-full md:w-1/2">
+          <img 
+            src="/4jars.jpg" 
+            alt="Four seasonal harvests of Greek honey" 
+            className="w-full h-[500px] object-cover rounded-[2px] shadow-xl border border-border-amber/30"
+          />
+        </div>
+        <div className="w-full md:w-1/2">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-honey mb-4">Quality & Compliance</div>
+          <h2 className="font-display text-4xl font-light mb-8 text-text-dark">About Our Honey</h2>
+          
+          <div className="space-y-6 text-sm text-text-muted leading-relaxed">
+            <p>
+              Every jar of honey you receive is produced exclusively by master beekeeper Petros Oikonomakos. Our hives travel across Greece's most pristine landscapes to capture distinct seasonal flavors: Wildflower from Sparta, Thyme from Lagia (Mani), Fir Vanilla from Arachova (Arcadia), and Pine from Evia.
+            </p>
+            
+            <ul className="space-y-4">
+              <li className="flex gap-4">
+                <span className="text-honey mt-1">✓</span> 
+                <span><strong>100% Pure & Unblended:</strong> Our honey is raw, unpasteurized, and never blended with imported honeys or syrups.</span>
+              </li>
+              <li className="flex gap-4">
+                <span className="text-honey mt-1">✓</span> 
+                <span><strong>EU Honey Directive Compliant:</strong> We strictly adhere to all European Union regulations regarding honey quality, ensuring no added sugar or water.</span>
+              </li>
+              <li className="flex gap-4">
+                <span className="text-honey mt-1">✓</span> 
+                <span><strong>Official Labeling:</strong> Each delivery comes with a fully compliant EU label indicating "Product of Greece", the exact weight, and our official producer details and VAT number for complete traceability.</span>
+              </li>
+            </ul>
+            
+            <p className="pt-4 border-t border-border-amber/50 italic">
+              When you adopt a hive, you're not just getting a digital experience; you're securing a seasonal supply of authentic, artisanal Greek honey delivered straight to your door.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -730,6 +766,7 @@ export default function Landing() {
       <Origins />
       <Beekeeper />
       <Pricing />
+      <AboutOurHoney />
       <FAQ />
       <FinalCTA />
       <Footer />

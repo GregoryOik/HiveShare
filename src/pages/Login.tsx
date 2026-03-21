@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate, Navigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
 
 export default function Login() {
   const [localError, setLocalError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [acceptedMarketing, setAcceptedMarketing] = useState(false);
   const navigate = useNavigate();
   const { signInWithGoogle, user, profile, error: authError } = useAuth();
 
@@ -24,9 +26,16 @@ export default function Login() {
   }
 
   const handleLogin = async () => {
+    if (!acceptedTerms) {
+      setLocalError('You must accept the Terms & Conditions and Privacy Policy to continue.');
+      return;
+    }
+    
     setLocalError('');
     setIsLoading(true);
     try {
+      // In a real app, you might want to save the `acceptedMarketing` preference to the user's profile
+      // after they successfully authenticate.
       await signInWithGoogle();
       // Navigation is handled by the redirect above once user state updates
     } catch (err) {
@@ -58,10 +67,46 @@ export default function Login() {
             </div>
           )}
 
+          <div className="text-left space-y-4 mb-8">
+            <label className="flex items-start gap-3 cursor-pointer group">
+              <div className="relative flex items-center justify-center mt-0.5">
+                <input 
+                  type="checkbox" 
+                  className="peer appearance-none w-4 h-4 border border-white/20 rounded-[2px] bg-transparent checked:bg-honey checked:border-honey transition-colors cursor-pointer"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                />
+                <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <span className="text-xs text-white/70 group-hover:text-white/90 transition-colors leading-relaxed">
+                I accept the <Link to="/terms" className="text-honey hover:underline">Terms & Conditions</Link> and <Link to="/privacy" className="text-honey hover:underline">Privacy Policy</Link>. *
+              </span>
+            </label>
+
+            <label className="flex items-start gap-3 cursor-pointer group">
+              <div className="relative flex items-center justify-center mt-0.5">
+                <input 
+                  type="checkbox" 
+                  className="peer appearance-none w-4 h-4 border border-white/20 rounded-[2px] bg-transparent checked:bg-honey checked:border-honey transition-colors cursor-pointer"
+                  checked={acceptedMarketing}
+                  onChange={(e) => setAcceptedMarketing(e.target.checked)}
+                />
+                <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <span className="text-xs text-white/70 group-hover:text-white/90 transition-colors leading-relaxed">
+                Keep me updated about my hive and honey harvests + promotional offers.
+              </span>
+            </label>
+          </div>
+
           <button 
             onClick={handleLogin}
-            disabled={isLoading}
-            className="w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px] flex items-center justify-center gap-3 disabled:opacity-50"
+            disabled={isLoading || !acceptedTerms}
+            className="w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px] flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Signing in...' : (
               <>
@@ -75,14 +120,10 @@ export default function Login() {
               </>
             )}
           </button>
-          
-          <div className="mt-8 text-xs text-white/40">
-            By continuing, you agree to our <a href="https://oikonomakos.gr/terms" className="text-honey hover:underline">Terms of Service</a> and <a href="https://oikonomakos.gr/privacy" className="text-honey hover:underline">Privacy Policy</a>.
-          </div>
         </div>
         
         <div className="mt-8 text-center text-xs text-white/30">
-          <a href="https://oikonomakos.gr/" className="hover:text-honey transition-colors">← Back to home</a>
+          <Link to="/" className="hover:text-honey transition-colors">← Back to home</Link>
         </div>
       </div>
     </div>

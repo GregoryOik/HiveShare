@@ -23,7 +23,7 @@ export interface HiveData {
 const DEFAULT_HIVES: HiveData[] = [
   {
     id: '247',
-    location: 'Taygetos, Laconia',
+    location: 'Lagia, Mani',
     weight: 38.2,
     temp: 34.8,
     humidity: 62,

@@ -7,64 +7,127 @@ export default function Terms() {
     <div className="min-h-screen bg-[#1A1208] text-white/80 font-body selection:bg-honey selection:text-white pb-20">
       <header className="border-b border-honey/20 bg-[#1A1208] sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center">
-          <a href="https://oikonomakos.gr/" className="flex items-center gap-2 text-honey hover:text-white transition-colors">
+          <Link to="/" className="flex items-center gap-2 text-honey hover:text-white transition-colors">
             <ArrowLeft className="w-5 h-5" />
             <span className="text-sm uppercase tracking-widest font-medium">Back to Home</span>
-          </a>
+          </Link>
         </div>
       </header>
 
       <main className="max-w-3xl mx-auto px-6 pt-16">
         <h1 className="font-display text-4xl md:text-5xl text-honey mb-8">Terms and Conditions</h1>
         
-        <div className="space-y-8 text-sm leading-relaxed text-white/70">
+        <div className="space-y-12 text-sm leading-relaxed text-white/70">
+          
           <section>
-            <h2 className="text-xl font-display text-white mb-4">1. Acceptance of Terms</h2>
-            <p>
-              By accessing and using HiveShare ("the Service"), you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you may not use our service.
+            <h2 className="text-2xl font-display text-white mb-6 border-b border-honey/20 pb-2">HIVESHARE SUBSCRIPTION AGREEMENT</h2>
+            <p className="mb-4">
+              <strong>Between:</strong> HiveShare (Petros Oikonomakos), Sparta, Laconia, Greece<br/>
+              <strong>And:</strong> The Subscriber (as identified at registration)
+            </p>
+
+            <h3 className="text-lg font-display text-white mt-6 mb-2">1. SUBSCRIPTION PERIOD</h3>
+            <p className="mb-4">
+              This agreement commences on the date of payment and runs for 12 consecutive months. The subscription covers one full agricultural season including all scheduled harvests within that period.
+            </p>
+
+            <h3 className="text-lg font-display text-white mt-6 mb-2">2. AUTOMATIC RENEWAL</h3>
+            <p className="mb-4">
+              The subscription renews automatically for a further 12-month period unless the Subscriber cancels at least 14 days before the renewal date. The Subscriber will receive a renewal reminder by email 30 days before the renewal date. Renewal pricing may be updated with 30 days' notice.
+            </p>
+
+            <h3 className="text-lg font-display text-white mt-6 mb-2">3. RIGHT OF CANCELLATION</h3>
+            <p className="mb-4">
+              The Subscriber may cancel within 14 days of initial purchase for a full refund, in accordance with EU Consumer Rights Directive 2011/83/EU. After 14 days, the subscription is non-refundable as the hive assignment and agricultural cycle require upfront commitment. To cancel renewal, the Subscriber may do so at any time via email to gregory@oikonomakos.gr or through their account dashboard.
+            </p>
+
+            <h3 className="text-lg font-display text-white mt-6 mb-2">4. HONEY DELIVERY</h3>
+            <p className="mb-4">
+              HiveShare commits to the following deliveries per 12-month subscription period:
+            </p>
+            <div className="overflow-x-auto mb-4">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-honey/30 text-white">
+                    <th className="py-2 pr-4 font-medium">Harvest</th>
+                    <th className="py-2 pr-4 font-medium">Variety</th>
+                    <th className="py-2 pr-4 font-medium">Period</th>
+                    <th className="py-2 font-medium">Allocated Weight</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-white/10">
+                    <td className="py-2 pr-4">Spring</td>
+                    <td className="py-2 pr-4">Wildflower (Sparta)</td>
+                    <td className="py-2 pr-4">April–May</td>
+                    <td className="py-2">~500g</td>
+                  </tr>
+                  <tr className="border-b border-white/10">
+                    <td className="py-2 pr-4">Summer</td>
+                    <td className="py-2 pr-4">Thyme (Mani) / Fir Vanilla (Arcadia)</td>
+                    <td className="py-2 pr-4">July–August</td>
+                    <td className="py-2">~500g</td>
+                  </tr>
+                  <tr className="border-b border-white/10">
+                    <td className="py-2 pr-4">Autumn</td>
+                    <td className="py-2 pr-4">Pine (Evia)</td>
+                    <td className="py-2 pr-4">September–October</td>
+                    <td className="py-2">~500g</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p className="mb-4">
+              Total annual allocation: approximately 1.5kg across three shipments.<br/>
+              Exact weights may vary ±20% depending on seasonal yield. In low-yield years, HiveShare guarantees a minimum of 1kg total delivery or will issue a proportional credit toward the following season.<br/>
+              Shipping is included for Netherlands and Germany. Other EU countries may incur additional shipping costs notified at checkout.
+            </p>
+
+            <h3 className="text-lg font-display text-white mt-6 mb-2">5. HIVE ASSIGNMENT</h3>
+            <p className="mb-4">
+              Each subscriber is assigned a specific numbered hive within the HiveShare apiary in Laconia, Greece. The subscriber does not acquire ownership of the physical hive, bees, or land. The subscription grants access to hive monitoring data and honey yield from the assigned hive for the duration of the agreement.
+            </p>
+
+            <h3 className="text-lg font-display text-white mt-6 mb-2">6. DASHBOARD ACCESS</h3>
+            <p className="mb-4">
+              Subscribers receive access to the HiveShare member portal throughout their subscription period, including live sensor data, apiary snapshots, and harvest notifications. Access terminates upon expiry or cancellation of the subscription.
+            </p>
+
+            <h3 className="text-lg font-display text-white mt-6 mb-2">7. FORCE MAJEURE</h3>
+            <p className="mb-4">
+              HiveShare is not liable for yield reduction or delivery delays caused by extreme weather, colony disease, or circumstances beyond reasonable control. In such cases, HiveShare will communicate transparently and offer credit or partial refund at its discretion.
+            </p>
+
+            <h3 className="text-lg font-display text-white mt-6 mb-2">8. GOVERNING LAW</h3>
+            <p className="mb-4">
+              This agreement is governed by Greek law and subject to EU consumer protection regulations. Disputes may be referred to the European Online Dispute Resolution platform at ec.europa.eu/odr.
+            </p>
+
+            <h3 className="text-lg font-display text-white mt-6 mb-2">9. CONTACT</h3>
+            <p className="mb-4">
+              HiveShare · Sparta, Laconia, Greece<br/>
+              gregory@oikonomakos.gr<br/>
+              www.oikonomakos.gr
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">2. Description of Service</h2>
-            <p>
-              HiveShare provides a platform for users to virtually adopt beehives, monitor their telemetry data (including weight, temperature, and humidity), and receive a portion of the honey harvested from the adopted hive.
+            <h2 className="text-2xl font-display text-white mb-6 border-b border-honey/20 pb-2">WEBSITE TERMS OF USE</h2>
+            <p className="mb-4">
+              By accessing and using the HiveShare website and dashboard, you agree to comply with these general rules of use. The platform is provided for personal, non-commercial use to monitor your assigned hive.
+            </p>
+            <p className="mb-4">
+              <strong>Disclaimer:</strong> The information provided on the dashboard, including weight estimates, weather forecasts, and harvest predictions, are approximations based on sensor data and historical patterns. They do not constitute a binding guarantee of final honey yield. Beekeeping is subject to natural fluctuations.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">3. Agricultural Risks and Yields</h2>
-            <p>
-              Beekeeping is an agricultural practice subject to natural variables including weather, disease, and environmental factors. 
-              <strong> You acknowledge that honey yields are estimates, not guarantees.</strong> In the event of a poor harvest or hive failure, HiveShare will make reasonable efforts to provide honey from a reserve or an alternate hive, but cannot guarantee the exact quantity or floral source originally estimated.
+            <h2 className="text-2xl font-display text-white mb-6 border-b border-honey/20 pb-2">RETURN & REFUND POLICY</h2>
+            <p className="mb-4">
+              <strong>Digital Experience & Subscription:</strong> The HiveShare subscription includes immediate access to a digital tracking experience and the reservation of agricultural resources. Therefore, once the initial 14-day cancellation period has passed, the subscription is <strong>non-refundable</strong>. Partial refunds are only issued in exceptional cases (e.g., total apiary failure) at our sole discretion.
             </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-display text-white mb-4">4. Subscriptions and Payments</h2>
-            <p>
-              Subscriptions are billed on an annual basis. Payments are non-refundable once the harvest season has commenced. You may cancel your subscription for the following year at any time through your account settings.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-display text-white mb-4">5. Data Accuracy</h2>
-            <p>
-              While we strive to provide accurate real-time telemetry from our hives, sensor malfunctions or connectivity issues may occasionally result in inaccurate or delayed data. HiveShare is not liable for any discrepancies in the data provided on the dashboard.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-display text-white mb-4">6. Limitation of Liability</h2>
-            <p>
-              HiveShare shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the Service.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-display text-white mb-4">7. Changes to Terms</h2>
-            <p>
-              We reserve the right to modify these terms at any time. We will notify users of any material changes via email or through a notice on the platform.
+            <p className="mb-4">
+              <strong>Honey Deliveries:</strong> As honey is a perishable food product, we cannot accept returns of delivered honey jars for health and safety reasons. If your honey arrives damaged, broken, or there is a demonstrable issue with the delivery or product quality, please contact us within 7 days of receipt with photographic evidence, and we will arrange a replacement or proportional credit.
             </p>
           </section>
 
