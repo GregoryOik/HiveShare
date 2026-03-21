@@ -132,7 +132,7 @@ export function useHiveData() {
     }
   };
 
-  const claimRandomHive = async () => {
+  const claimRandomHive = async (tier: 'starter' | 'premium' = 'starter') => {
     if (!user || !profile) return null;
     
     try {
@@ -160,7 +160,8 @@ export function useHiveData() {
       if (!currentHives.includes(randomHive.id)) {
         await updateDoc(doc(db, 'users', user.uid), {
           subscribedHives: [...currentHives, randomHive.id],
-          role: 'subscriber' // Ensure they are marked as subscriber
+          role: 'subscriber',
+          tier // Set the member's tier
         });
       }
 

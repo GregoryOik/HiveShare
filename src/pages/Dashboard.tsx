@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight, Award } from 'lucide-react';
+import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight, Award, Crown, Star, Lock } from 'lucide-react';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
 import { jsPDF } from 'jspdf';
@@ -280,6 +280,20 @@ export default function Dashboard() {
             </select>
             <ChevronDown className="w-4 h-4 absolute right-0 pointer-events-none text-honey" />
           </div>
+
+          <div className="flex items-center gap-2 px-3 py-1 bg-honey/10 border border-honey/20 rounded-full">
+            {profile?.tier === 'premium' ? (
+              <>
+                <Crown size={12} className="text-honey" />
+                <span className="text-[10px] uppercase tracking-widest text-honey font-bold">Premium Member</span>
+              </>
+            ) : (
+              <>
+                <Star size={12} className="text-white/40" />
+                <span className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Starter Member</span>
+              </>
+            )}
+          </div>
           
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -399,9 +413,46 @@ export default function Dashboard() {
           
           {/* Metric Cards */}
           <div className="lg:col-span-4 flex flex-col gap-4">
-            <div className="bg-[#110C05] border border-honey/20 p-5 rounded-[2px] flex justify-between items-center">
-              <div className="text-[10px] uppercase tracking-widest text-white/40">Internal Temp</div>
-              <div className="font-display text-2xl text-white/90">{data.temp.toFixed(1)}°C</div>
+            {/* Temp & Acoustic (Conditionally Locked) */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-[#110C05] border border-honey/10 p-5 rounded-[2px] relative overflow-hidden group">
+                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-2">Internal Temp</p>
+                <div className="flex items-end gap-2">
+                  <span className="text-2xl font-display text-white">{profile?.tier === 'premium' ? `${data.temp}°C` : '—'}</span>
+                  {profile?.tier === 'premium' && (
+                    <span className="text-[10px] text-green-500 mb-1">+0.2</span>
+                  )}
+                </div>
+                {profile?.tier !== 'premium' && (
+                  <div className="absolute inset-0 bg-[#110C05]/80 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-help">
+                    <div className="flex flex-col items-center gap-1">
+                      <Lock size={12} className="text-honey" />
+                      <span className="text-[8px] uppercase tracking-widest text-honey font-bold">Premium Only</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="bg-[#110C05] border border-honey/10 p-5 rounded-[2px] relative overflow-hidden group">
+                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-2">Acoustic Activity</p>
+                <div className="flex items-end gap-2">
+                  <span className="text-2xl font-display text-white">{profile?.tier === 'premium' ? data.activity : '—'}</span>
+                  {profile?.tier === 'premium' && (
+                    <div className="flex gap-0.5 mb-1.5">
+                      {[1, 2, 3, 4, 5].map(i => (
+                        <div key={i} className={`w-1 h-3 rounded-full ${i <= 4 ? 'bg-honey animate-pulse' : 'bg-honey/20'}`} style={{ animationDelay: `${i * 0.1}s` }}></div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                {profile?.tier !== 'premium' && (
+                  <div className="absolute inset-0 bg-[#110C05]/80 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-help">
+                    <div className="flex flex-col items-center gap-1">
+                      <Lock size={12} className="text-honey" />
+                      <span className="text-[8px] uppercase tracking-widest text-honey font-bold">Premium Only</span>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
             
             <div className="bg-[#110C05] border border-honey/20 p-5 rounded-[2px] flex justify-between items-center">
@@ -409,11 +460,6 @@ export default function Dashboard() {
               <div className="font-display text-2xl text-white/90">{data.humidity}%</div>
             </div>
             
-            <div className="bg-[#110C05] border border-honey/20 p-5 rounded-[2px] flex justify-between items-center">
-              <div className="text-[10px] uppercase tracking-widest text-white/40">Activity</div>
-              <div className={`font-display text-2xl ${data.activity === 'High' ? 'text-green-400' : data.activity === 'Medium' ? 'text-honey' : 'text-white/50'}`}>{data.activity}</div>
-            </div>
-
             <div className="bg-[#110C05] border border-honey/20 p-5 rounded-[2px] flex flex-col gap-1">
               <div className="text-[10px] uppercase tracking-widest text-white/40">Bee Species</div>
               <div className="font-display text-lg text-white/90">{data.beeSpecies || 'Apis mellifera'}</div>

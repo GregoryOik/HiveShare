@@ -9,6 +9,7 @@ export interface UserProfile {
   subscribedHives: string[];
   customLabel?: string;
   shippingAddress?: string;
+  tier?: 'starter' | 'premium';
 }
 
 export function useAdminUsers() {

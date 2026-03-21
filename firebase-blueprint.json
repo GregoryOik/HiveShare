@@ -25,6 +25,14 @@
             "type": "string"
           },
           "description": "List of hive IDs the user is subscribed to."
+        },
+        "customLabel": {
+          "type": "string",
+          "description": "The user's preferred label for their honey jars."
+        },
+        "shippingAddress": {
+          "type": "string",
+          "description": "The user's physical shipping address for honey delivery."
         }
       },
       "required": ["uid", "email", "role"]

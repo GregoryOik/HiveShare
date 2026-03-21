@@ -13,11 +13,13 @@ export default function Success() {
 
   useEffect(() => {
     const fulfill = async () => {
+      const tier = (searchParams.get('tier') as 'starter' | 'premium') || 'starter';
+      
       // Only fulfill if they don't have a hive yet
       if (profile && (!profile.subscribedHives || profile.subscribedHives.length === 0)) {
         // Small delay to feel more "process-y"
         await new Promise(resolve => setTimeout(resolve, 1500));
-        const newId = await claimRandomHive();
+        const newId = await claimRandomHive(tier);
         if (newId) setClaimedId(newId);
       } else if (profile?.subscribedHives?.length > 0) {
         setClaimedId(profile.subscribedHives[0]);

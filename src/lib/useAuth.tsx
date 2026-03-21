@@ -17,6 +17,7 @@ interface UserProfile {
   customLabel?: string;
   shippingAddress?: string;
   nextHarvestDate?: string;
+  tier?: 'starter' | 'premium';
 }
 
 interface AuthContextType {

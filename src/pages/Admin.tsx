@@ -338,6 +338,17 @@ export default function Admin() {
                               </select>
                             </div>
                             <div className="space-y-2">
+                              <label className="text-[10px] text-white/40 uppercase tracking-widest block">Tier</label>
+                              <select 
+                                value={user.tier || 'starter'}
+                                onChange={(e) => updateUser(user.uid, { tier: e.target.value as any })}
+                                className="w-full bg-[#1A1208] border border-honey/20 rounded-[2px] px-2 py-1.5 text-xs text-white focus:outline-none focus:border-honey/50"
+                              >
+                                <option value="starter">Starter (€80)</option>
+                                <option value="premium">Premium (€160)</option>
+                              </select>
+                            </div>
+                            <div className="space-y-2">
                               <label className="text-[10px] text-white/40 uppercase tracking-widest block">Custom Label</label>
                               <input 
                                 type="text" 
