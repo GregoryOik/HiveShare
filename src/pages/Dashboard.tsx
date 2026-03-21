@@ -156,12 +156,12 @@ export default function Dashboard() {
             </div>
 
             <div className="pt-4">
-              <a 
-                href="https://oikonomakos.gr/#pricing" 
+              <Link 
+                to="/membership" 
                 className="inline-block bg-honey text-white px-10 py-4 text-xs uppercase tracking-widest font-medium hover:bg-honey/90 transition-all hover:shadow-[0_0_20px_rgba(200,134,10,0.3)] rounded-sm"
               >
                 Adopt Your Hive Today
-              </a>
+              </Link>
               <p className="mt-4 text-xs text-white/30">
                 Already adopted? <a href="mailto:info@oikonomakos.gr" className="text-honey hover:underline">Contact support</a> to link your account.
               </p>

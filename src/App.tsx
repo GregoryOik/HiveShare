@@ -4,6 +4,7 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
+import Membership from './pages/Membership';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import { AuthProvider, useAuth } from './lib/useAuth';
@@ -45,6 +46,11 @@ export default function App() {
 
             {/* Shared Routes */}
             <Route path="/login" element={<Login />} />
+            <Route path="/membership" element={
+              <ProtectedRoute>
+                <Membership />
+              </ProtectedRoute>
+            } />
             <Route path="/admin" element={
               <ProtectedRoute requireAdmin={true}>
                 <Admin />
