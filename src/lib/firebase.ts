@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { initializeFirestore } from 'firebase/firestore';
 
 let app;
 let auth: any;
@@ -23,7 +23,7 @@ try {
   if (firebaseConfig.apiKey) {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
-    db = getFirestore(app);
+    db = initializeFirestore(app, { experimentalForceLongPolling: true });
   } else {
     console.warn('Firebase config missing API key, skipping initialization to prevent crash.');
   }
