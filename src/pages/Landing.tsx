@@ -29,13 +29,13 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
           </div>
           <div className="hidden md:flex items-center space-x-6">
             {user ? (
-              <a href="https://dashboard.oikonomakos.gr/" className="text-[10px] uppercase tracking-[0.2em] font-medium text-text-muted hover:text-honey transition-colors duration-200">
+              <Link to="/dashboard" className="text-[10px] uppercase tracking-[0.2em] font-medium text-text-muted hover:text-honey transition-colors duration-200">
                 Dashboard
-              </a>
+              </Link>
             ) : (
-              <a href="https://dashboard.oikonomakos.gr/login" className="text-[10px] uppercase tracking-[0.2em] font-medium text-text-muted hover:text-honey transition-colors duration-200">
+              <Link to="/login" className="text-[10px] uppercase tracking-[0.2em] font-medium text-text-muted hover:text-honey transition-colors duration-200">
                 Log In
-              </a>
+              </Link>
             )}
             <a 
               href="#pricing"
@@ -72,9 +72,9 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
           <a href="#origins" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Origins</a>
           <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Pricing</a>
           {user ? (
-            <a href="https://dashboard.oikonomakos.gr/" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Dashboard</a>
+            <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Dashboard</Link>
           ) : (
-            <a href="https://dashboard.oikonomakos.gr/login" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Log In</a>
+            <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Log In</Link>
           )}
           <a 
             href="#pricing"

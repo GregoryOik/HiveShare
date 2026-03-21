@@ -11,13 +11,13 @@ try {
   const env: any = (import.meta && import.meta.env) ? import.meta.env : {};
 
   const firebaseConfig = {
-    apiKey: env.VITE_FIREBASE_API_KEY || "AIzaSyBGYzcgljqr92VRW9BCj2txh5YklZUIujY",
-    authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || "hiveshare-f458a.firebaseapp.com",
-    projectId: env.VITE_FIREBASE_PROJECT_ID || "hiveshare-f458a",
-    storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || "hiveshare-f458a.firebasestorage.app",
-    messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || "905885744950",
-    appId: env.VITE_FIREBASE_APP_ID || "1:905885744950:web:24cc769c7878d75d79fd97",
-    measurementId: env.VITE_FIREBASE_MEASUREMENT_ID || "G-EYDTXKCYT8"
+    apiKey: env.VITE_FIREBASE_API_KEY,
+    authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: env.VITE_FIREBASE_APP_ID,
+    measurementId: env.VITE_FIREBASE_MEASUREMENT_ID
   };
 
   if (firebaseConfig.apiKey) {

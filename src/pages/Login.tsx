@@ -38,8 +38,8 @@ export default function Login() {
       // after they successfully authenticate.
       await signInWithGoogle();
       // Navigation is handled by the redirect above once user state updates
-    } catch (err) {
-      setLocalError('Failed to sign in. Please try again.');
+    } catch (err: any) {
+      setLocalError('Firebase Error: ' + (err.message || 'Failed to sign in with Google.'));
       setIsLoading(false);
     }
   };
