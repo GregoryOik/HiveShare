@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
-import { Activity, Thermometer, Droplets, Scale, Calendar, Image as ImageIcon, Plus, Trash2, MapPin, LogOut } from 'lucide-react';
+import { useAdminUsers } from '../lib/useAdminUsers';
+import { Activity, Thermometer, Droplets, Scale, Calendar, Image as ImageIcon, Plus, Trash2, MapPin, LogOut, Users, UserPlus, UserMinus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Admin() {
-  const { hives, loading, updateHive, addHive, removeHive } = useHiveData();
+  const { hives, loading: hivesLoading, updateHive, addHive, removeHive } = useHiveData();
+  const { users, loading: usersLoading, assignHiveToUser, removeHiveFromUser } = useAdminUsers();
   const { logout } = useAuth();
   const [selectedHiveId, setSelectedHiveId] = useState<string>('');
+  const [selectedUserEmail, setSelectedUserEmail] = useState<string>('');
 
   useEffect(() => {
     if (hives.length > 0 && !selectedHiveId) {
@@ -15,11 +18,22 @@ export default function Admin() {
     }
   }, [hives, selectedHiveId]);
 
-  if (loading) return <div className="min-h-screen bg-[#110C05] p-12 text-white flex items-center justify-center">Loading...</div>;
+  if (hivesLoading || usersLoading) return <div className="min-h-screen bg-[#110C05] p-12 text-white flex items-center justify-center">Loading...</div>;
 
   const data = hives.find(h => h.id === selectedHiveId) || hives[0];
 
   if (!data) return <div className="min-h-screen bg-[#110C05] p-12 text-white flex items-center justify-center">No hives found.</div>;
+
+  const assignedUsers = users.filter(u => u.subscribedHives?.includes(data.id));
+  const unassignedUsers = users.filter(u => !u.subscribedHives?.includes(data.id));
+
+  const handleAssign = () => {
+    const user = users.find(u => u.email === selectedUserEmail);
+    if (user) {
+      assignHiveToUser(user.uid, data.id);
+      setSelectedUserEmail('');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#110C05] text-[#FAF4E8] p-6 md:p-12 font-sans">
@@ -167,9 +181,35 @@ export default function Admin() {
 
             {/* Content Management */}
             <div className="bg-[#1A1208] border border-honey/20 p-6 rounded-[2px]">
-              <h2 className="text-xl font-display text-honey mb-6">Content Management</h2>
+              <h2 className="text-xl font-display text-honey mb-6">Hive Details & Content</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-xs text-white/50 mb-2 flex items-center gap-2">
+                    <MapPin className="w-3 h-3" /> Bee Species
+                  </label>
+                  <input 
+                    type="text" 
+                    value={data.beeSpecies || ''}
+                    onChange={(e) => updateHive(data.id, { beeSpecies: e.target.value })}
+                    className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-white/50 mb-2 flex items-center gap-2">
+                    <Calendar className="w-3 h-3" /> Installation Date
+                  </label>
+                  <input 
+                    type="date" 
+                    value={data.installationDate || ''}
+                    onChange={(e) => updateHive(data.id, { installationDate: e.target.value })}
+                    className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
+                  />
+                </div>
+
+                <div className="md:col-span-2 border-t border-honey/10 pt-4 mt-2"></div>
+
                 <div>
                   <label className="block text-xs text-white/50 mb-2 flex items-center gap-2">
                     <Calendar className="w-3 h-3" /> Active Harvest Season
@@ -199,7 +239,7 @@ export default function Admin() {
                 
                 <div className="md:col-span-2 pt-4 border-t border-honey/10">
                   <label className="block text-xs text-white/50 mb-2 flex items-center gap-2">
-                    <ImageIcon className="w-3 h-3" /> Photo of the Day URL
+                    <ImageIcon className="w-3 h-3" /> Latest Hive Snapshot URL
                   </label>
                   <input 
                     type="text" 
@@ -208,6 +248,69 @@ export default function Admin() {
                     placeholder="/beekeeper.jpg"
                     className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors text-xs"
                   />
+                </div>
+              </div>
+            </div>
+
+            {/* Subscriber Management */}
+            <div className="bg-[#1A1208] border border-honey/20 p-6 rounded-[2px]">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-display text-honey flex items-center gap-2">
+                  <Users className="w-5 h-5" /> Subscriber Management
+                </h2>
+                <span className="text-xs text-white/50 bg-white/5 px-2 py-1 rounded">
+                  {assignedUsers.length} Sponsors
+                </span>
+              </div>
+              
+              <div className="space-y-6">
+                {/* Assign New User */}
+                <div className="flex items-end gap-4 bg-[#110C05] p-4 rounded-[2px] border border-honey/10">
+                  <div className="flex-1">
+                    <label className="block text-xs text-white/50 mb-2">Assign Hive to User</label>
+                    <select 
+                      value={selectedUserEmail}
+                      onChange={(e) => setSelectedUserEmail(e.target.value)}
+                      className="w-full bg-[#1A1208] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors appearance-none text-sm"
+                    >
+                      <option value="">Select a user by email...</option>
+                      {unassignedUsers.map(u => (
+                        <option key={u.uid} value={u.email}>{u.email}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <button 
+                    onClick={handleAssign}
+                    disabled={!selectedUserEmail}
+                    className="bg-honey text-[#110C05] px-4 py-2 rounded-[2px] text-sm font-medium hover:bg-honey/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    <UserPlus className="w-4 h-4" /> Assign
+                  </button>
+                </div>
+
+                {/* Assigned Users List */}
+                <div>
+                  <h3 className="text-xs text-white/50 mb-3 uppercase tracking-widest">Current Sponsors</h3>
+                  {assignedUsers.length === 0 ? (
+                    <div className="text-sm text-white/30 italic p-4 bg-[#110C05] rounded-[2px] border border-white/5 text-center">
+                      No users are currently assigned to this hive.
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      {assignedUsers.map(user => (
+                        <div key={user.uid} className="flex items-center justify-between bg-[#110C05] p-3 rounded-[2px] border border-white/5">
+                          <span className="text-sm text-white/80">{user.email}</span>
+                          <button 
+                            onClick={() => removeHiveFromUser(user.uid, data.id)}
+                            className="text-red-400/70 hover:text-red-400 transition-colors p-1"
+                            title="Remove Access"
+                          >
+                            <UserMinus className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

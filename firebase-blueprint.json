@@ -85,10 +85,62 @@
         },
         "photoUrl": {
           "type": "string",
-          "description": "URL to the photo of the day."
+          "description": "URL to the latest hive snapshot."
+        },
+        "beeSpecies": {
+          "type": "string",
+          "description": "The species of the bees in the hive."
+        },
+        "installationDate": {
+          "type": "string",
+          "description": "The date the hive was installed."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["available", "assigned"],
+          "description": "The assignment status of the hive."
+        },
+        "lastDiaryEntryTimestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of the last beekeeper's diary entry."
         }
       },
-      "required": ["id", "location", "weight", "temp", "humidity", "activity", "history", "activeHarvest", "nextHarvestDate", "photoUrl"]
+      "required": ["id", "location", "weight", "temp", "humidity", "activity", "history", "activeHarvest", "nextHarvestDate", "photoUrl", "beeSpecies", "installationDate", "status"]
+    },
+    "Harvest": {
+      "title": "Harvest",
+      "description": "A honey harvest event.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the harvest."
+        },
+        "hiveId": {
+          "type": "string",
+          "description": "The ID of the hive this harvest belongs to."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of honey harvested (e.g., Thyme, Pine)."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "in-progress", "completed"],
+          "description": "The status of the harvest."
+        },
+        "estimatedYield": {
+          "type": "number",
+          "description": "Estimated yield in kg."
+        },
+        "completionDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the harvest was completed."
+        }
+      },
+      "required": ["id", "hiveId", "type", "status"]
     }
   },
   "firestore": {
@@ -103,6 +155,12 @@
         "$ref": "#/entities/Hive"
       },
       "description": "Stores hive telemetry data."
+    },
+    "harvests/{harvestId}": {
+      "schema": {
+        "$ref": "#/entities/Harvest"
+      },
+      "description": "Stores honey harvest events."
     }
   }
 }

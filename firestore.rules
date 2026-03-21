@@ -79,10 +79,11 @@ service cloud.firestore {
     }
 
     function isValidHive(data) {
-      let allowedFields = ['id', 'location', 'weight', 'temp', 'humidity', 'activity', 'history', 'activeHarvest', 'nextHarvestDate', 'photoUrl'];
+      let allowedFields = ['id', 'location', 'weight', 'temp', 'humidity', 'activity', 'history', 'activeHarvest', 'nextHarvestDate', 'photoUrl', 'beeSpecies', 'installationDate', 'status', 'lastDiaryEntryTimestamp'];
+      let requiredFields = ['id', 'location', 'weight', 'temp', 'humidity', 'activity', 'history', 'activeHarvest', 'nextHarvestDate', 'photoUrl', 'beeSpecies', 'installationDate', 'status'];
       
       return hasOnlyAllowedFields(allowedFields) &&
-             hasRequiredFields(allowedFields) &&
+             hasRequiredFields(requiredFields) &&
              data.id is string && data.id.size() > 0 && data.id.size() < 50 &&
              data.location is string && data.location.size() < 100 &&
              data.weight is number && data.weight >= 0 &&
@@ -92,7 +93,25 @@ service cloud.firestore {
              data.history is list && data.history.size() <= 365 &&
              data.activeHarvest is string && data.activeHarvest.size() < 100 &&
              data.nextHarvestDate is string && data.nextHarvestDate.size() < 100 &&
-             data.photoUrl is string && data.photoUrl.size() < 500;
+             data.photoUrl is string && data.photoUrl.size() < 500 &&
+             data.beeSpecies is string && data.beeSpecies.size() < 100 &&
+             data.installationDate is string && data.installationDate.size() < 100 &&
+             data.status in ['available', 'assigned'] &&
+             (!('lastDiaryEntryTimestamp' in data) || data.lastDiaryEntryTimestamp is string);
+    }
+
+    function isValidHarvest(data) {
+      let allowedFields = ['id', 'hiveId', 'type', 'status', 'estimatedYield', 'completionDate'];
+      let requiredFields = ['id', 'hiveId', 'type', 'status'];
+
+      return hasOnlyAllowedFields(allowedFields) &&
+             hasRequiredFields(requiredFields) &&
+             data.id is string && data.id.size() > 0 && data.id.size() < 50 &&
+             data.hiveId is string && data.hiveId.size() > 0 && data.hiveId.size() < 50 &&
+             data.type is string && data.type.size() < 100 &&
+             data.status in ['pending', 'in-progress', 'completed'] &&
+             (!('estimatedYield' in data) || (data.estimatedYield is number && data.estimatedYield >= 0)) &&
+             (!('completionDate' in data) || data.completionDate is string);
     }
 
     // ===============================================================
@@ -125,6 +144,13 @@ service cloud.firestore {
       // Only admins can create, update, or delete hives.
       allow create: if isAdmin() && isValidHive(request.resource.data) && request.resource.data.id == hiveId;
       allow update: if isAdmin() && isValidHive(request.resource.data) && request.resource.data.id == resource.data.id;
+      allow delete: if isAdmin();
+    }
+
+    match /harvests/{harvestId} {
+      allow read: if isAuthenticated();
+      allow create: if isAdmin() && isValidHarvest(request.resource.data) && request.resource.data.id == harvestId;
+      allow update: if isAdmin() && isValidHarvest(request.resource.data) && request.resource.data.id == resource.data.id;
       allow delete: if isAdmin();
     }
   }

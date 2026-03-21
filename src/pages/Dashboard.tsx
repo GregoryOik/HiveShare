@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Check, Clock, Package, ChevronDown, LogOut } from 'lucide-react';
+import { Check, Clock, Package, ChevronDown, LogOut, Share2 } from 'lucide-react';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
 
@@ -41,20 +41,63 @@ export default function Dashboard() {
           </div>
         </header>
         <main className="flex-1 flex items-center justify-center p-6">
-          <div className="max-w-md w-full text-center space-y-8">
-            <div className="w-24 h-24 mx-auto border border-honey/20 rounded-full flex items-center justify-center bg-[#110C05]">
-              <Package className="w-8 h-8 text-honey opacity-50" />
+          <div className="max-w-lg w-full text-center space-y-8">
+            <div className="w-24 h-24 mx-auto border border-honey/20 rounded-full flex items-center justify-center bg-[#110C05] shadow-[0_0_30px_rgba(200,134,10,0.15)]">
+              <Package className="w-8 h-8 text-honey" />
             </div>
-            <h1 className="font-display text-3xl md:text-4xl text-white">Welcome to HiveShare</h1>
-            <p className="text-sm text-white/50 leading-relaxed">
-              You don't have any active hive subscriptions yet. Adopt a hive to start tracking its progress, viewing real-time data, and receiving your share of the honey harvest.
-            </p>
-            <a 
-              href="https://oikonomakos.gr/#pricing" 
-              className="inline-block bg-honey text-white px-8 py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors"
-            >
-              Adopt a Hive
-            </a>
+            
+            <div className="space-y-4">
+              <h1 className="font-display text-3xl md:text-4xl text-white">Ready for Your Own Honey?</h1>
+              <p className="text-sm text-white/60 leading-relaxed max-w-md mx-auto">
+                HiveShare by oikonomakos.gr lets you sponsor a real beehive and track its health, weight, and honey harvests in real time — turning your honey subscription into a living, data-driven experience.
+              </p>
+            </div>
+
+            <div className="bg-[#110C05] border border-honey/10 rounded-2xl p-6 text-left space-y-4 max-w-sm mx-auto">
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 bg-honey/20 p-1 rounded-full text-honey"><Check className="w-3 h-3" /></div>
+                <p className="text-sm text-white/80"><strong className="text-white font-medium">Real-time tracking:</strong> Watch your hive's weight and activity grow.</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 bg-honey/20 p-1 rounded-full text-honey"><Check className="w-3 h-3" /></div>
+                <p className="text-sm text-white/80"><strong className="text-white font-medium">Pure harvest:</strong> Receive premium honey straight from your bees.</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 bg-honey/20 p-1 rounded-full text-honey"><Check className="w-3 h-3" /></div>
+                <p className="text-sm text-white/80"><strong className="text-white font-medium">Support nature:</strong> Help sustain local bee populations.</p>
+              </div>
+            </div>
+
+            <div className="pt-4">
+              <a 
+                href="https://oikonomakos.gr/#pricing" 
+                className="inline-block bg-honey text-white px-10 py-4 text-xs uppercase tracking-widest font-medium hover:bg-honey/90 transition-all hover:shadow-[0_0_20px_rgba(200,134,10,0.3)] rounded-sm"
+              >
+                Adopt Your Hive Today
+              </a>
+              <p className="mt-4 text-xs text-white/30">
+                Already adopted? <a href="mailto:info@oikonomakos.gr" className="text-honey hover:underline">Contact support</a> to link your account.
+              </p>
+            </div>
+
+            <div className="mt-12 pt-8 border-t border-honey/10 text-left max-w-sm mx-auto space-y-6">
+              <h3 className="text-xs font-display text-honey uppercase tracking-widest text-center mb-6">Frequently Asked Questions</h3>
+              
+              <div>
+                <h4 className="text-sm text-white font-medium mb-1">How many hives can I sponsor?</h4>
+                <p className="text-xs text-white/50 leading-relaxed">You can sponsor as many hives as you like! Each hive will appear in a dropdown menu at the top of your dashboard.</p>
+              </div>
+              
+              <div>
+                <h4 className="text-sm text-white font-medium mb-1">How often do I get honey?</h4>
+                <p className="text-xs text-white/50 leading-relaxed">Honey is typically shipped 1-2 times per year, directly following the main harvest seasons (Spring and Autumn).</p>
+              </div>
+              
+              <div>
+                <h4 className="text-sm text-white font-medium mb-1">How long does adoption last?</h4>
+                <p className="text-xs text-white/50 leading-relaxed">Adoptions are valid for one full year and can be renewed annually to keep tracking your bees.</p>
+              </div>
+            </div>
           </div>
         </main>
       </div>
@@ -121,12 +164,27 @@ export default function Dashboard() {
         <section className="relative mb-16 py-12 border border-honey/20 rounded-[2px] bg-[#110C05] overflow-hidden flex flex-col items-center justify-center text-center">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(200,134,10,0.15)_0%,_transparent_60%)]"></div>
           
-          <div className="relative z-10">
-            <div className="text-[10px] uppercase tracking-widest text-white/40 mb-4">Current Hive Weight</div>
+          <div className="relative z-10 w-full max-w-2xl px-6">
+            <div className="text-xs text-white/60 mb-6 flex items-center justify-center gap-3 flex-wrap">
+              <span>This week: <strong className="text-white">+{((data.weight - data.history[0].weight)).toFixed(1)} kg</strong></span>
+              <span className="w-1 h-1 rounded-full bg-white/20"></span>
+              <span>Activity: <strong className="text-white">{data.activity}</strong></span>
+              <span className="w-1 h-1 rounded-full bg-white/20"></span>
+              <span>Next harvest: <strong className="text-white">{data.nextHarvestDate}</strong></span>
+            </div>
+
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="text-[10px] uppercase tracking-widest text-white/40">Current Hive Weight</div>
+              <div className="px-2 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[9px] uppercase tracking-widest font-medium flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                Healthy & Active
+              </div>
+            </div>
+            
             <div className="font-display italic text-7xl md:text-8xl text-honey mb-6">{data.weight.toFixed(1)} kg</div>
             
             {/* Subtle trend line (mockup using SVG) */}
-            <div className="w-48 h-8 mx-auto opacity-50">
+            <div className="w-48 h-8 mx-auto opacity-50 mb-6">
               <svg viewBox="0 0 100 20" className="w-full h-full overflow-visible">
                 <path 
                   d="M0,15 Q20,15 40,10 T80,5 T100,0" 
@@ -138,34 +196,64 @@ export default function Dashboard() {
                 <circle cx="100" cy="0" r="2" fill="#C8860A" />
               </svg>
             </div>
-            <div className="text-[10px] text-white/30 mt-2">+{((data.weight - data.history[0].weight)).toFixed(1)} kg this week</div>
+            
+            <div className="flex flex-col items-center gap-4">
+              <div className="bg-[#1A1208] border border-honey/10 rounded-full py-2 px-6 inline-block">
+                <p className="text-xs text-white/70">
+                  <strong className="text-honey font-medium">Great news!</strong> Your hive is gaining honey fast – weight increased by <span className="text-white">+{((data.weight - data.history[0].weight)).toFixed(1)} kg</span> this week.
+                </p>
+              </div>
+              
+              <button 
+                onClick={() => {
+                  const text = `I just adopted a beehive with HiveShare! My bees have gathered ${data.weight.toFixed(1)}kg of honey so far. Adopt your own at oikonomakos.gr`;
+                  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+                }} 
+                className="text-[10px] uppercase tracking-widest text-honey hover:text-white transition-colors border border-honey/20 px-4 py-2 rounded-full flex items-center gap-2 hover:bg-honey/10"
+              >
+                <Share2 className="w-3 h-3" /> Share my hive
+              </button>
+            </div>
           </div>
         </section>
 
         {/* Metrics & Chart Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16">
           
-          {/* Three Metric Cards */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
-            <div className="bg-[#110C05] border border-honey/20 p-6 rounded-[2px] flex justify-between items-center">
+          {/* Metric Cards */}
+          <div className="lg:col-span-4 flex flex-col gap-4">
+            <div className="bg-[#110C05] border border-honey/20 p-5 rounded-[2px] flex justify-between items-center">
               <div className="text-[10px] uppercase tracking-widest text-white/40">Internal Temp</div>
-              <div className="font-display text-3xl text-white/90">{data.temp.toFixed(1)}°C</div>
+              <div className="font-display text-2xl text-white/90">{data.temp.toFixed(1)}°C</div>
             </div>
             
-            <div className="bg-[#110C05] border border-honey/20 p-6 rounded-[2px] flex justify-between items-center">
+            <div className="bg-[#110C05] border border-honey/20 p-5 rounded-[2px] flex justify-between items-center">
               <div className="text-[10px] uppercase tracking-widest text-white/40">Humidity</div>
-              <div className="font-display text-3xl text-white/90">{data.humidity}%</div>
+              <div className="font-display text-2xl text-white/90">{data.humidity}%</div>
             </div>
             
-            <div className="bg-[#110C05] border border-honey/20 p-6 rounded-[2px] flex justify-between items-center">
+            <div className="bg-[#110C05] border border-honey/20 p-5 rounded-[2px] flex justify-between items-center">
               <div className="text-[10px] uppercase tracking-widest text-white/40">Activity</div>
-              <div className={`font-display text-3xl ${data.activity === 'High' ? 'text-green-400' : data.activity === 'Medium' ? 'text-honey' : 'text-white/50'}`}>{data.activity}</div>
+              <div className={`font-display text-2xl ${data.activity === 'High' ? 'text-green-400' : data.activity === 'Medium' ? 'text-honey' : 'text-white/50'}`}>{data.activity}</div>
+            </div>
+
+            <div className="bg-[#110C05] border border-honey/20 p-5 rounded-[2px] flex flex-col gap-1">
+              <div className="text-[10px] uppercase tracking-widest text-white/40">Bee Species</div>
+              <div className="font-display text-lg text-white/90">{data.beeSpecies || 'Apis mellifera'}</div>
+            </div>
+
+            <div className="bg-[#110C05] border border-honey/20 p-5 rounded-[2px] flex flex-col gap-1">
+              <div className="text-[10px] uppercase tracking-widest text-white/40">Installed</div>
+              <div className="font-display text-lg text-white/90">{data.installationDate ? new Date(data.installationDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Spring 2025'}</div>
             </div>
           </div>
 
           {/* Weight Chart */}
           <div className="lg:col-span-8 bg-[#110C05] border border-honey/20 p-6 rounded-[2px] flex flex-col">
-            <div className="text-[10px] uppercase tracking-widest text-white/40 mb-8">7-Day Weight Accumulation</div>
+            <div className="flex justify-between items-start mb-8">
+              <div className="text-[10px] uppercase tracking-widest text-white/40">7-Day Weight Accumulation</div>
+              <div className="text-[10px] text-honey bg-honey/10 px-2 py-1 rounded border border-honey/20">Active nectar flow</div>
+            </div>
             <div className="flex-1 min-h-[200px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data.history} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
@@ -202,11 +290,11 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Harvest Timeline & Upcoming */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-16">
+        {/* Harvest Timeline & Diary */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16">
           
           {/* Timeline */}
-          <div className="bg-[#110C05] border border-honey/20 p-8 rounded-[2px]">
+          <div className="lg:col-span-5 bg-[#110C05] border border-honey/20 p-8 rounded-[2px]">
             <h3 className="font-display text-2xl mb-8 text-white/90">Harvest Timeline</h3>
             
             <div className="space-y-8 relative before:absolute before:inset-0 before:ml-[11px] before:-translate-x-px before:h-full before:w-[1px] before:bg-honey/10">
@@ -258,16 +346,40 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Upcoming Harvest Card */}
-          <div className="bg-[#110C05] border border-honey/20 p-8 rounded-[2px] flex flex-col justify-center items-center text-center">
-            <Package size={32} strokeWidth={1} className="text-honey mb-6" />
-            <div className="text-[10px] uppercase tracking-widest text-white/40 mb-4">Next Delivery</div>
-            <h3 className="font-display text-3xl text-white/90 mb-4">{data.activeHarvest}</h3>
-            <div className="w-12 h-[1px] bg-honey/30 mb-6"></div>
-            <div className="space-y-2 text-sm text-white/60">
-              <p>Est. harvest: <span className="text-white/90">{data.nextHarvestDate}</span></p>
-              <p>Expected yield: <span className="text-white/90">~3.5 kg</span></p>
-              <p>Status: <span className="text-honey">Maturing in comb</span></p>
+          {/* Upcoming Harvest Card & Diary */}
+          <div className="lg:col-span-7 flex flex-col gap-6">
+            <div className="bg-[#110C05] border border-honey/20 p-8 rounded-[2px] flex flex-col justify-center items-center text-center flex-1">
+              <Package size={32} strokeWidth={1} className="text-honey mb-6" />
+              <div className="text-[10px] uppercase tracking-widest text-white/40 mb-4">Next Delivery</div>
+              <h3 className="font-display text-3xl text-white/90 mb-4">{data.activeHarvest}</h3>
+              <div className="w-12 h-[1px] bg-honey/30 mb-6"></div>
+              <div className="space-y-2 text-sm text-white/60">
+                <p>Est. harvest: <span className="text-white/90">{data.nextHarvestDate}</span></p>
+                <p>Expected yield: <span className="text-white/90">~3.5 kg</span></p>
+                <p>Status: <span className="text-honey">Maturing in comb</span></p>
+              </div>
+            </div>
+
+            {/* Hive Diary */}
+            <div className="bg-[#110C05] border border-honey/20 p-6 rounded-[2px] flex-1 flex flex-col">
+              <h3 className="text-xs font-display text-honey uppercase tracking-widest mb-4">Beekeeper's Diary</h3>
+              <div className="space-y-4 flex-1">
+                <div className="border-l-2 border-honey/30 pl-4 py-1">
+                  <div className="text-[10px] text-white/40 mb-1">Today</div>
+                  <p className="text-xs text-white/80 leading-relaxed">
+                    Bees are extremely active today. The warm spring airflow has triggered a massive foraging response. Added a new super to accommodate the rapid nectar flow.
+                  </p>
+                </div>
+                <div className="border-l-2 border-white/10 pl-4 py-1">
+                  <div className="text-[10px] text-white/40 mb-1">3 days ago</div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Routine inspection completed. Queen is healthy and laying well. Brood pattern looks excellent. Hive weight increased by 0.4kg since last check.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 pt-4 border-t border-white/5 text-[10px] text-white/30 text-right">
+                Last entry: 20 March 2026
+              </div>
             </div>
           </div>
 
@@ -276,37 +388,37 @@ export default function Dashboard() {
         {/* Photo Gallery */}
         <section>
           <div className="flex items-center justify-between mb-8">
-            <h3 className="font-display text-2xl text-white/90">Apiary Log</h3>
-            <button className="text-[10px] uppercase tracking-widest text-honey hover:text-white transition-colors">View All</button>
+            <h3 className="font-display text-2xl text-white/90">Apiary Snapshots</h3>
+            <button className="text-[10px] uppercase tracking-widest text-honey hover:text-white transition-colors">View Gallery</button>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="group cursor-pointer">
               <div className="aspect-[4/3] bg-[#110C05] border border-honey/20 rounded-[2px] overflow-hidden mb-3 relative">
                 <div className="absolute inset-0 flex items-center justify-center text-white/10 group-hover:scale-105 transition-transform duration-700">
-                  <img src={data.photoUrl} alt="Today's photo" className="w-full h-full object-cover opacity-40 sepia-[0.3]" />
+                  <img src={data.photoUrl} alt="Latest snapshot" className="w-full h-full object-cover opacity-40 sepia-[0.3]" />
                 </div>
               </div>
-              <div className="text-xs text-white/80">Today's apiary photo</div>
-              <div className="text-[10px] text-white/40 mt-1">08:30 AM</div>
+              <div className="text-xs text-white/80">Latest hive snapshot</div>
+              <div className="text-[10px] text-white/40 mt-1">Updated occasionally</div>
             </div>
             
             <div className="group cursor-pointer">
               <div className="aspect-[4/3] bg-[#110C05] border border-honey/20 rounded-[2px] overflow-hidden mb-3 relative">
                 <div className="absolute inset-0 flex items-center justify-center text-white/10 group-hover:scale-105 transition-transform duration-700">
-                  <img src="/map-texture.jpg" alt="Yesterday's photo" className="w-full h-full object-cover opacity-20 sepia-[0.3]" />
+                  <img src="/map-texture.jpg" alt="Previous snapshot" className="w-full h-full object-cover opacity-20 sepia-[0.3]" />
                 </div>
               </div>
-              <div className="text-xs text-white/80">Yesterday</div>
-              <div className="text-[10px] text-white/40 mt-1">07:45 AM</div>
+              <div className="text-xs text-white/80">Previous snapshot</div>
+              <div className="text-[10px] text-white/40 mt-1">Last month</div>
             </div>
             
             <div className="group cursor-pointer">
               <div className="aspect-[4/3] bg-[#110C05] border border-honey/20 rounded-[2px] overflow-hidden mb-3 relative flex items-center justify-center">
-                <div className="text-xs text-white/20 font-display italic">No photo recorded</div>
+                <div className="text-xs text-white/20 font-display italic">Archive</div>
               </div>
-              <div className="text-xs text-white/80">2 days ago</div>
-              <div className="text-[10px] text-white/40 mt-1">--:--</div>
+              <div className="text-xs text-white/80">Older photos</div>
+              <div className="text-[10px] text-white/40 mt-1">View all</div>
             </div>
           </div>
         </section>

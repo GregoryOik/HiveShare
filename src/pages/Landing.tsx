@@ -130,7 +130,7 @@ const Hero = () => {
         </h1>
         
         <p className="text-text-muted text-base max-w-sm mb-8 leading-relaxed font-light">
-          A direct connection to a single, named beehive in the Peloponnese. Real-time data, daily photos, and three distinct harvests delivered to your door.
+          A direct connection to a single, named beehive in the Peloponnese. Real-time data, apiary snapshots, and three distinct harvests delivered to your door.
         </p>
         
         <div className="mb-8 max-w-md">
@@ -250,7 +250,7 @@ const Hero = () => {
 const HowItWorks = () => {
   const steps = [
     { num: '01', title: 'The Assignment', desc: 'You are paired with a specific, numbered hive in our Laconian apiary.' },
-    { num: '02', title: 'The Connection', desc: 'Access your dashboard. Watch the weight grow, see the weather, view daily photos.' },
+    { num: '02', title: 'The Connection', desc: 'Access your dashboard. Watch the weight grow, see the weather, view apiary snapshots.' },
     { num: '03', title: 'The Harvest', desc: 'As the seasons change, our beekeepers extract honey exclusively from your hive.' },
     { num: '04', title: 'The Delivery', desc: 'Three times a year, raw, unfiltered honey arrives at your door in numbered jars.' }
   ];
@@ -280,7 +280,7 @@ const HowItWorks = () => {
 const WhatYouGet = () => {
   const features = [
     { icon: <Scale size={18} strokeWidth={1} className="text-honey/60" />, title: 'Live weight tracking', desc: 'See exactly how much honey your bees are producing in real-time.' },
-    { icon: <Camera size={18} strokeWidth={1} className="text-honey/60" />, title: 'Daily hive photos', desc: 'A visual record of your colony, updated every morning at sunrise.' },
+    { icon: <Camera size={18} strokeWidth={1} className="text-honey/60" />, title: 'Apiary snapshots', desc: 'A visual record of your colony, updated regularly by the beekeeper.' },
     { icon: <Thermometer size={18} strokeWidth={1} className="text-honey/60" />, title: 'Colony health data', desc: 'Monitor internal temperature and humidity to ensure your bees are thriving.' },
     { icon: <Package size={18} strokeWidth={1} className="text-honey/60" />, title: 'Three annual harvests', desc: 'Spring wildflower, summer thyme, and autumn pine honey deliveries.' },
     { icon: <FlaskConical size={18} strokeWidth={1} className="text-honey/60" />, title: 'Lab-certified purity', desc: 'Every batch is tested by Eurofins for authenticity and zero pesticide residue.' },
@@ -314,7 +314,7 @@ const DashboardPreview = () => {
         <ul className="space-y-6 text-sm text-text-muted">
           <li className="flex gap-4"><span className="text-honey">—</span> Real-time weight metrics show exactly when the nectar flow begins.</li>
           <li className="flex gap-4"><span className="text-honey">—</span> Internal climate sensors ensure the colony is healthy and regulating temperature.</li>
-          <li className="flex gap-4"><span className="text-honey">—</span> Daily photos from the apiary connect you to the landscape.</li>
+          <li className="flex gap-4"><span className="text-honey">—</span> Regular snapshots from the apiary connect you to the landscape.</li>
           <li className="flex gap-4"><span className="text-honey">—</span> Harvest predictions tell you exactly when to expect your next delivery.</li>
         </ul>
       </div>
@@ -548,7 +548,7 @@ const Pricing = () => {
           <ul className="space-y-4 text-sm text-white/90 mb-12">
             <li className="flex gap-3"><span className="text-honey">—</span> Dedicated numbered hive</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Real-time dashboard access</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> Daily apiary photos</li>
+            <li className="flex gap-3"><span className="text-honey">—</span> Regular apiary snapshots</li>
             <li className="flex gap-3"><span className="text-honey">—</span> 3 distinct seasonal harvests</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Priority shipping included</li>
           </ul>

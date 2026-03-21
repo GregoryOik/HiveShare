@@ -14,6 +14,10 @@ export interface HiveData {
   activeHarvest: string;
   nextHarvestDate: string;
   photoUrl: string;
+  beeSpecies: string;
+  installationDate: string;
+  status: string;
+  lastDiaryEntryTimestamp?: string;
 }
 
 const DEFAULT_HIVES: HiveData[] = [
@@ -35,7 +39,10 @@ const DEFAULT_HIVES: HiveData[] = [
     ],
     activeHarvest: 'Summer Wildflower',
     nextHarvestDate: '14 July',
-    photoUrl: '/beekeeper.jpg'
+    photoUrl: '/beekeeper.jpg',
+    beeSpecies: 'Apis mellifera macedonica',
+    installationDate: '2025-04-12',
+    status: 'available'
   }
 ];
 

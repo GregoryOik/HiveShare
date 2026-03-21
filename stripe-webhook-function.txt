@@ -1,0 +1,111 @@
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+import Stripe from 'stripe';
+
+admin.initializeApp();
+const db = admin.firestore();
+
+// Initialize Stripe with your secret key
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: '2023-10-16',
+});
+
+// Your Stripe Webhook Secret
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
+
+export const handleStripeWebhook = functions.https.onRequest(async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+
+  let event;
+
+  try {
+    // Verify the webhook signature
+    event = stripe.webhooks.constructEvent(req.rawBody, sig as string, endpointSecret);
+  } catch (err: any) {
+    console.error(`Webhook Error: ${err.message}`);
+    res.status(400).send(`Webhook Error: ${err.message}`);
+    return;
+  }
+
+  // Handle the checkout.session.completed event
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object as Stripe.Checkout.Session;
+    const customerEmail = session.customer_details?.email;
+
+    if (!customerEmail) {
+      console.error('No customer email found in session.');
+      res.status(400).send('No customer email');
+      return;
+    }
+
+    try {
+      // 1. Find an available hive
+      const availableHivesSnapshot = await db.collection('hives')
+        .where('status', '==', 'available')
+        .limit(1)
+        .get();
+
+      if (availableHivesSnapshot.empty) {
+        console.error('No available hives found!');
+        // In a real app, you might want to alert the admin here
+        res.status(500).send('No available hives');
+        return;
+      }
+
+      const assignedHiveDoc = availableHivesSnapshot.docs[0];
+      const assignedHiveId = assignedHiveDoc.id;
+
+      // 2. Find or create the user
+      const usersSnapshot = await db.collection('users')
+        .where('email', '==', customerEmail)
+        .limit(1)
+        .get();
+
+      let userId;
+      if (usersSnapshot.empty) {
+        // Create new user
+        const newUserRef = await db.collection('users').add({
+          email: customerEmail,
+          role: 'subscriber',
+          subscribedHives: [assignedHiveId],
+          createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+        userId = newUserRef.id;
+        // Ensure the document has a uid field matching its ID
+        await newUserRef.update({ uid: userId });
+        console.log(`Created new user ${customerEmail} with ID ${userId}`);
+      } else {
+        // Update existing user
+        const userDoc = usersSnapshot.docs[0];
+        userId = userDoc.id;
+        await userDoc.ref.update({
+          subscribedHives: admin.firestore.FieldValue.arrayUnion(assignedHiveId)
+        });
+        console.log(`Updated existing user ${customerEmail}`);
+      }
+
+      // 3. Mark the hive as assigned
+      await assignedHiveDoc.ref.update({
+        status: 'assigned'
+      });
+      console.log(`Assigned hive ${assignedHiveId} to user ${userId}`);
+
+      // Optional: Trigger a welcome email here using Firebase Extensions (Trigger Email)
+      // await db.collection('mail').add({
+      //   to: customerEmail,
+      //   message: {
+      //     subject: 'Welcome to HiveShare! Your hive is ready.',
+      //     text: `Hello! You've successfully adopted Hive #${assignedHiveId}. Log in to view your dashboard.`,
+      //   }
+      // });
+
+    } catch (error) {
+      console.error('Error processing webhook:', error);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  res.send();
+});
