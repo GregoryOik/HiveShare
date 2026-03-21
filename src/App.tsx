@@ -35,25 +35,15 @@ export default function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            {isDashboardSubdomain ? (
-              <>
-                <Route path="/" element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                } />
-                <Route path="/dashboard" element={<Navigate to="/" replace />} />
-              </>
-            ) : (
-              <>
-                <Route path="/" element={<Landing />} />
-                <Route path="/dashboard" element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                } />
-              </>
-            )}
+            {/* Dashboard Subdomain Routes */}
+            {isDashboardSubdomain && <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />}
+            {isDashboardSubdomain && <Route path="/dashboard" element={<Navigate to="/" replace />} />}
+            
+            {/* Standard Domain Routes */}
+            {!isDashboardSubdomain && <Route path="/" element={<Landing />} />}
+            {!isDashboardSubdomain && <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />}
+
+            {/* Shared Routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={
               <ProtectedRoute requireAdmin={true}>
@@ -62,7 +52,7 @@ export default function App() {
             } />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
-            <Route path="*" element={<Navigate to={isDashboardSubdomain ? "/dashboard" : "/"} replace />} />
+            <Route path="*" element={<Navigate to={isDashboardSubdomain ? "/" : "/"} replace />} />
           </Routes>
         </Router>
       </AuthProvider>

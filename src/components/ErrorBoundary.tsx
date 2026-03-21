@@ -26,17 +26,19 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#1A1208] text-white flex flex-col items-center justify-center p-6">
-          <h1 className="text-3xl font-display text-honey mb-4">Something went wrong</h1>
-          <p className="text-white/70 mb-8 max-w-md text-center">
+        <div className="fixed inset-0 min-h-screen bg-red-600 text-white flex flex-col items-center justify-center p-6 z-[9999]">
+          <h1 className="text-5xl font-bold text-white mb-4">CRASH DETECTED</h1>
+          <p className="text-white/90 mb-8 max-w-md text-center text-lg">
             We're sorry, but an unexpected error occurred. Please try refreshing the page.
           </p>
-          <div className="bg-[#110C05] p-4 rounded border border-red-500/30 text-red-400 text-sm max-w-2xl overflow-auto">
+          <div className="bg-black/50 p-6 rounded border border-white/30 text-white text-base max-w-2xl overflow-auto w-full font-mono">
             {this.state.error?.message}
+            <br/><br/>
+            {this.state.error?.stack}
           </div>
           <button 
             onClick={() => window.location.reload()}
-            className="mt-8 bg-honey text-[#110C05] px-6 py-2 rounded font-medium"
+            className="mt-8 bg-white text-red-600 px-8 py-3 rounded font-bold text-lg hover:bg-gray-100"
           >
             Refresh Page
           </button>
