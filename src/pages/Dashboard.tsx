@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight, Award, Crown, Star, Lock } from 'lucide-react';
+import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight, Award, Crown, Star, Lock, Plus } from 'lucide-react';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
 import { jsPDF } from 'jspdf';
@@ -404,6 +404,12 @@ export default function Dashboard() {
               >
                 <Share2 className="w-3 h-3" /> Share my hive
               </button>
+              <Link 
+                to="/membership" 
+                className="text-[10px] uppercase tracking-widest text-white/50 hover:text-honey transition-colors border border-white/10 hover:border-honey/30 px-4 py-2 rounded-full flex items-center gap-2 hover:bg-honey/5"
+              >
+                <Plus className="w-3 h-3" /> Adopt another hive
+              </Link>
             </div>
           </div>
         </section>

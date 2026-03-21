@@ -14,20 +14,25 @@ export default function Success() {
   useEffect(() => {
     const fulfill = async () => {
       const tier = (searchParams.get('tier') as 'starter' | 'premium') || 'starter';
+      const isNewHive = searchParams.get('new_hive') === 'true';
       
-      // Only fulfill if they don't have a hive yet
-      if (profile && (!profile.subscribedHives || profile.subscribedHives.length === 0)) {
-        // Small delay to feel more "process-y"
+      // Claim a new hive if: no hives yet OR explicitly buying an additional hive
+      const hasNoHives = !profile?.subscribedHives || profile.subscribedHives.length === 0;
+      
+      if (profile && (hasNoHives || isNewHive)) {
         await new Promise(resolve => setTimeout(resolve, 1500));
         const newId = await claimRandomHive(tier);
         if (newId) setClaimedId(newId);
       } else if (profile?.subscribedHives?.length > 0) {
-        setClaimedId(profile.subscribedHives[0]);
+        // Already has hives and not a new purchase — just show existing
+        setClaimedId(profile.subscribedHives[profile.subscribedHives.length - 1]);
       }
       setIsFulfilling(false);
     };
     if (!loading) fulfill();
-  }, [loading, profile, claimRandomHive]);
+  }, [loading]);
+
+  const isAdditional = (profile?.subscribedHives?.length || 0) > 1;
 
   return (
     <div className="min-h-screen bg-[#1A1208] text-white flex items-center justify-center p-6">
@@ -42,12 +47,14 @@ export default function Success() {
         
         <div className="space-y-4">
           <h1 className="font-display text-4xl text-white">
-            {isFulfilling ? "Assigning Your Hive..." : "Welcome to the Hive!"}
+            {isFulfilling ? "Assigning Your Hive..." : isAdditional ? "New Hive Added!" : "Welcome to the Hive!"}
           </h1>
           <p className="text-white/60 leading-relaxed font-light">
             {isFulfilling 
               ? "We are connecting your account to a specific apiary in Laconia, Greece..." 
-              : `Your membership is now active! You've been assigned Hive #${claimedId || 'Pending'}. Your Welcome Jar is being prepared.`
+              : isAdditional
+                ? `Hive #${claimedId || 'Pending'} has been added to your collection! You now have ${profile?.subscribedHives?.length || 0} hives.`
+                : `Your membership is now active! You've been assigned Hive #${claimedId || 'Pending'}. Your Welcome Jar is being prepared.`
             }
           </p>
         </div>
