@@ -20,6 +20,7 @@ interface AuthContextType {
   user: FirebaseUser | null;
   profile: UserProfile | null;
   loading: boolean;
+  error: string | null;
   signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -30,10 +31,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+      setError(null);
       
       if (currentUser) {
         try {
@@ -56,8 +59,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             await setDoc(userDocRef, newProfile);
             setProfile(newProfile);
           }
-        } catch (error) {
-          console.error('Error fetching user profile:', error);
+        } catch (err: any) {
+          console.error('Error fetching/creating user profile:', err);
+          setError(err.message || 'Failed to load user profile');
+          // Sign out if profile creation fails so they aren't stuck in a half-logged-in state
+          await signOut(auth);
+          setUser(null);
+          setProfile(null);
         }
       } else {
         setProfile(null);
@@ -89,7 +97,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, profile, loading, error, signInWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );

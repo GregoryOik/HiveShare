@@ -3,10 +3,18 @@ import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
 
 export default function Login() {
-  const [error, setError] = useState('');
+  const [localError, setLocalError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { signInWithGoogle, user, profile } = useAuth();
+  const { signInWithGoogle, user, profile, error: authError } = useAuth();
+
+  // If there's an auth error from the context (e.g. profile creation failed), stop loading
+  React.useEffect(() => {
+    if (authError) {
+      setIsLoading(false);
+      setLocalError(authError);
+    }
+  }, [authError]);
 
   if (user && profile) {
     if (profile.role === 'admin') {
@@ -16,13 +24,13 @@ export default function Login() {
   }
 
   const handleLogin = async () => {
-    setError('');
+    setLocalError('');
     setIsLoading(true);
     try {
       await signInWithGoogle();
       // Navigation is handled by the redirect above once user state updates
     } catch (err) {
-      setError('Failed to sign in. Please try again.');
+      setLocalError('Failed to sign in. Please try again.');
       setIsLoading(false);
     }
   };
@@ -44,9 +52,9 @@ export default function Login() {
         <div className="bg-[#110C05] border border-honey/20 p-8 rounded-[2px] shadow-2xl text-center">
           <h2 className="text-xl font-display text-white mb-6">Welcome Back</h2>
           
-          {error && (
-            <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs p-3 mb-6 rounded">
-              {error}
+          {localError && (
+            <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs p-3 mb-6 rounded text-left">
+              {localError}
             </div>
           )}
 
