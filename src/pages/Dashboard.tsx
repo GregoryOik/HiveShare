@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Check, Clock, Package, ChevronDown, LogOut, Share2 } from 'lucide-react';
+import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon } from 'lucide-react';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
 
@@ -224,6 +224,9 @@ export default function Dashboard() {
             {profile?.role === 'admin' && (
               <Link to="/admin" className="text-[10px] uppercase tracking-widest text-honey hover:text-white transition-colors">Admin</Link>
             )}
+            <Link to="/settings" className="text-white/50 hover:text-white transition-colors" title="Settings">
+              <SettingsIcon className="w-4 h-4" />
+            </Link>
             <button onClick={logout} className="text-white/50 hover:text-white transition-colors" title="Sign Out">
               <LogOut className="w-4 h-4" />
             </button>

@@ -109,6 +109,21 @@ export default function Admin() {
             <div className="bg-[#1A1208] border border-honey/20 p-6 rounded-[2px]">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-display text-honey">Hive #{data.id} Telemetry</h2>
+                <button 
+                  onClick={() => {
+                    const newWeight = data.weight + (Math.random() * 0.4 - 0.1); // Slight growth
+                    const newHistory = [...data.history.slice(1), { day: 'New', weight: Number(newWeight.toFixed(1)) }];
+                    updateHive(data.id, { 
+                      weight: Number(newWeight.toFixed(1)),
+                      temp: 34 + (Math.random() * 2),
+                      humidity: 60 + (Math.random() * 10),
+                      history: newHistory
+                    });
+                  }}
+                  className="text-[10px] uppercase tracking-widest bg-honey/10 text-honey border border-honey/30 px-3 py-1.5 rounded-[2px] hover:bg-honey hover:text-[#110C05] transition-all"
+                >
+                  Simulate 24h Data
+                </button>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -309,15 +324,39 @@ export default function Admin() {
                               <UserMinus className="w-4 h-4" />
                             </button>
                           </div>
-                          <div className="flex items-center gap-2 mt-1">
-                            <label className="text-[10px] text-white/40 uppercase tracking-widest w-24">Custom Label</label>
-                            <input 
-                              type="text" 
-                              value={user.customLabel || ''}
-                              onChange={(e) => updateUser(user.uid, { customLabel: e.target.value })}
-                              placeholder="e.g. The Smith Family"
-                              className="flex-1 bg-[#1A1208] border border-honey/20 rounded-[2px] px-2 py-1 text-xs text-white focus:outline-none focus:border-honey/50 transition-colors"
-                            />
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div className="space-y-2">
+                              <label className="text-[10px] text-white/40 uppercase tracking-widest block">Role</label>
+                              <select 
+                                value={user.role}
+                                onChange={(e) => updateUser(user.uid, { role: e.target.value as any })}
+                                className="w-full bg-[#1A1208] border border-honey/20 rounded-[2px] px-2 py-1.5 text-xs text-white focus:outline-none focus:border-honey/50"
+                              >
+                                <option value="user">User (Prospect)</option>
+                                <option value="subscriber">Subscriber</option>
+                                <option value="admin">Admin</option>
+                              </select>
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-[10px] text-white/40 uppercase tracking-widest block">Custom Label</label>
+                              <input 
+                                type="text" 
+                                value={user.customLabel || ''}
+                                onChange={(e) => updateUser(user.uid, { customLabel: e.target.value })}
+                                placeholder="e.g. The Smith Family"
+                                className="w-full bg-[#1A1208] border border-honey/20 rounded-[2px] px-2 py-1.5 text-xs text-white focus:outline-none focus:border-honey/50 transition-colors"
+                              />
+                            </div>
+                            <div className="md:col-span-2 space-y-2">
+                              <label className="text-[10px] text-white/40 uppercase tracking-widest block">Shipping Address</label>
+                              <textarea 
+                                value={user.shippingAddress || ''}
+                                onChange={(e) => updateUser(user.uid, { shippingAddress: e.target.value })}
+                                placeholder="No address provided yet."
+                                rows={2}
+                                className="w-full bg-[#1A1208] border border-honey/20 rounded-[2px] px-2 py-1.5 text-xs text-white focus:outline-none focus:border-honey/50 transition-colors resize-none"
+                              />
+                            </div>
                           </div>
                         </div>
                       ))}

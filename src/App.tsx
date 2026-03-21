@@ -7,6 +7,9 @@ import Admin from './pages/Admin';
 import Membership from './pages/Membership';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
+import Success from './pages/Success';
+import Cancel from './pages/Cancel';
+import Settings from './pages/Settings';
 import { AuthProvider, useAuth } from './lib/useAuth';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
@@ -58,6 +61,9 @@ export default function App() {
             } />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/success" element={<ProtectedRoute><Success /></ProtectedRoute>} />
+            <Route path="/cancel" element={<ProtectedRoute><Cancel /></ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
             <Route path="*" element={<Navigate to={isDashboardSubdomain ? "/" : "/"} replace />} />
           </Routes>
         </Router>

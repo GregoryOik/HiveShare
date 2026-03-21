@@ -8,6 +8,7 @@ export interface UserProfile {
   role: 'subscriber' | 'admin';
   subscribedHives: string[];
   customLabel?: string;
+  shippingAddress?: string;
 }
 
 export function useAdminUsers() {

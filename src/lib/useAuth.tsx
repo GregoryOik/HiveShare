@@ -7,7 +7,7 @@ import {
   signOut,
   User as FirebaseUser
 } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 
 interface UserProfile {
   uid: string;
@@ -15,6 +15,8 @@ interface UserProfile {
   role: 'subscriber' | 'admin';
   subscribedHives: string[];
   customLabel?: string;
+  shippingAddress?: string;
+  nextHarvestDate?: string;
 }
 
 interface AuthContextType {
@@ -24,6 +26,7 @@ interface AuthContextType {
   error: string | null;
   signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (newData: Partial<UserProfile>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -104,7 +107,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw error;
     }
   };
-
   const logout = async () => {
     try {
       await signOut(auth);
@@ -114,8 +116,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const updateProfile = async (newData: Partial<UserProfile>) => {
+    if (!user) return;
+    try {
+      const userDocRef = doc(db, 'users', user.uid);
+      await updateDoc(userDocRef, newData);
+      setProfile(prev => prev ? { ...prev, ...newData } : null);
+    } catch (error) {
+      console.error('Error updating profile', error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, error, signInWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, profile, loading, error, signInWithGoogle, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
