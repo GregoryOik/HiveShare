@@ -162,7 +162,8 @@ export function useHiveData() {
         await updateDoc(doc(db, 'users', user.uid), {
           subscribedHives: [...currentHives, randomHive.id],
           role: isAlreadyAdmin ? 'admin' : 'subscriber',
-          tier // Set the member's tier
+          tier,
+          subscriptionStartDate: new Date().toISOString()
         });
       }
 

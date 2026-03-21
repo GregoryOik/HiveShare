@@ -21,6 +21,7 @@ interface UserProfile {
   shippingAddress?: string;
   nextHarvestDate?: string;
   tier?: 'starter' | 'premium';
+  subscriptionStartDate?: string;
 }
 
 interface AuthContextType {

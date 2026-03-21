@@ -133,6 +133,8 @@ export default function Settings() {
                 <span className="text-[10px] uppercase tracking-widest font-bold text-white/70">{tierLabel}</span>
               </div>
             </div>
+
+            {/* Subscription Details Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Status</p>
@@ -147,6 +149,66 @@ export default function Settings() {
                 <p className="text-white font-medium">{profile?.nextHarvestDate || 'TBD (Seasonal)'}</p>
               </div>
             </div>
+
+            {/* Subscription Timer */}
+            {hasSubscription && (() => {
+              const startDate = profile?.subscriptionStartDate ? new Date(profile.subscriptionStartDate) : null;
+              const now = new Date();
+              const endDate = startDate ? new Date(startDate.getTime() + 365 * 24 * 60 * 60 * 1000) : null;
+              const daysLeft = endDate ? Math.max(0, Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))) : null;
+              const daysSinceStart = startDate ? Math.floor((now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) : null;
+              const isInCoolingOff = daysSinceStart !== null && daysSinceStart <= 14;
+              const coolingOffDaysLeft = isInCoolingOff ? 14 - daysSinceStart : 0;
+              const progressPercent = daysLeft !== null ? Math.min(100, ((365 - daysLeft) / 365) * 100) : 0;
+
+              return (
+                <div className="pt-4 border-t border-honey/10 space-y-4">
+                  {/* Duration Bar */}
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="text-[10px] uppercase tracking-widest text-white/30">Subscription Duration</p>
+                      <p className="text-xs text-white/60">
+                        {daysLeft !== null ? (
+                          <><strong className="text-white">{daysLeft}</strong> days remaining</>
+                        ) : (
+                          'Started recently'
+                        )}
+                      </p>
+                    </div>
+                    <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-honey to-honey/60 rounded-full transition-all duration-1000" 
+                        style={{ width: `${progressPercent}%` }}
+                      ></div>
+                    </div>
+                    <div className="flex justify-between mt-1.5">
+                      <p className="text-[9px] text-white/20">
+                        {startDate ? startDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}
+                      </p>
+                      <p className="text-[9px] text-white/20">
+                        {endDate ? endDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* EU Cooling-Off Notice */}
+                  {isInCoolingOff && (
+                    <div className="bg-blue-500/5 border border-blue-500/20 p-4 rounded-[2px]">
+                      <div className="flex items-start gap-2">
+                        <ShieldCheck className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" />
+                        <div>
+                          <p className="text-xs text-blue-400 font-medium">EU 14-Day Right of Withdrawal</p>
+                          <p className="text-[11px] text-white/40 mt-1 leading-relaxed">
+                            You have <strong className="text-white/70">{coolingOffDaysLeft} day{coolingOffDaysLeft !== 1 ? 's' : ''}</strong> left to cancel under EU consumer protection law. 
+                            If your Welcome Jar has already been shipped, the cost of the honey and shipping (approx. €25) will be deducted from your refund.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Cancel Subscription */}
             {hasSubscription && profile?.role !== 'admin' && (
@@ -164,7 +226,18 @@ export default function Settings() {
                       <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
                       <div>
                         <p className="text-sm text-red-400 font-medium">Are you sure?</p>
-                        <p className="text-xs text-white/40 mt-1">Your hive access will be revoked and you will lose your dashboard data. This cannot be undone.</p>
+                        <p className="text-xs text-white/40 mt-1">
+                          {(() => {
+                            const startDate = profile?.subscriptionStartDate ? new Date(profile.subscriptionStartDate) : null;
+                            const daysSince = startDate ? Math.floor((new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) : null;
+                            const inCooling = daysSince !== null && daysSince <= 14;
+                            
+                            if (inCooling) {
+                              return 'Under EU law, you may cancel within 14 days. If your Welcome Jar has already shipped, the cost of honey & shipping (approx. €25) may be deducted from your refund.';
+                            }
+                            return 'Your hive access will be revoked and you will lose your dashboard data. As the 14-day cooling-off period has passed, refunds are no longer available under EU law.';
+                          })()}
+                        </p>
                       </div>
                     </div>
                     <div className="flex gap-3">
