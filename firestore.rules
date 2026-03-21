@@ -1,0 +1,131 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {userId}
+    // Fields:
+    //   - uid: string (required) - The user's unique ID
+    //   - email: string (required) - The user's email address
+    //   - role: string (required) - "subscriber" or "admin"
+    //   - subscribedHives: list (optional) - List of hive IDs
+    //
+    // Collection: hives
+    // Document ID: {hiveId}
+    // Fields:
+    //   - id: string (required)
+    //   - location: string (required)
+    //   - weight: number (required)
+    //   - temp: number (required)
+    //   - humidity: number (required)
+    //   - activity: string (required) - "Low", "Medium", "High"
+    //   - history: list (required) - List of objects { day: string, weight: number }
+    //   - activeHarvest: string (required)
+    //   - nextHarvestDate: string (required)
+    //   - photoUrl: string (required)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
+        (request.auth.token.email == "gregorygate46@gmail.com" && request.auth.token.email_verified == true)
+      );
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function hasOnlyAllowedFields(allowedFields) {
+      return request.resource.data.keys().hasOnly(allowedFields);
+    }
+
+    function hasRequiredFields(requiredFields) {
+      return request.resource.data.keys().hasAll(requiredFields);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidUser(data) {
+      let allowedFields = ['uid', 'email', 'role', 'subscribedHives'];
+      let requiredFields = ['uid', 'email', 'role'];
+      
+      return hasOnlyAllowedFields(allowedFields) &&
+             hasRequiredFields(requiredFields) &&
+             data.uid is string && data.uid.size() > 0 && data.uid.size() < 100 &&
+             isValidEmail(data.email) &&
+             data.role in ['subscriber', 'admin'] &&
+             (!('subscribedHives' in data) || (data.subscribedHives is list && data.subscribedHives.size() < 100));
+    }
+
+    function isValidHive(data) {
+      let allowedFields = ['id', 'location', 'weight', 'temp', 'humidity', 'activity', 'history', 'activeHarvest', 'nextHarvestDate', 'photoUrl'];
+      
+      return hasOnlyAllowedFields(allowedFields) &&
+             hasRequiredFields(allowedFields) &&
+             data.id is string && data.id.size() > 0 && data.id.size() < 50 &&
+             data.location is string && data.location.size() < 100 &&
+             data.weight is number && data.weight >= 0 &&
+             data.temp is number &&
+             data.humidity is number && data.humidity >= 0 && data.humidity <= 100 &&
+             data.activity in ['Low', 'Medium', 'High'] &&
+             data.history is list && data.history.size() <= 365 &&
+             data.activeHarvest is string && data.activeHarvest.size() < 100 &&
+             data.nextHarvestDate is string && data.nextHarvestDate.size() < 100 &&
+             data.photoUrl is string && data.photoUrl.size() < 500;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      // Users can read their own profile. Admins can read all profiles.
+      allow read: if isOwner(userId) || isAdmin();
+      
+      // Users can create their own profile, but cannot make themselves admin unless they are the default admin.
+      allow create: if isOwner(userId) && isValidUser(request.resource.data) && (
+        request.resource.data.role == 'subscriber' || isAdmin()
+      ) && request.resource.data.uid == userId;
+      
+      // Users can update their own profile, but cannot change their role or uid. Admins can update anything.
+      allow update: if (isOwner(userId) && isValidUser(request.resource.data) && 
+                       request.resource.data.role == resource.data.role &&
+                       request.resource.data.uid == resource.data.uid) || 
+                      (isAdmin() && isValidUser(request.resource.data) && request.resource.data.uid == resource.data.uid);
+                      
+      allow delete: if isAdmin();
+    }
+
+    match /hives/{hiveId} {
+      // Anyone authenticated can read hives for now (or we could restrict to subscribedHives)
+      // For MVP, let's allow all authenticated users to read hives so they can see the dashboard.
+      allow read: if isAuthenticated();
+      
+      // Only admins can create, update, or delete hives.
+      allow create: if isAdmin() && isValidHive(request.resource.data) && request.resource.data.id == hiveId;
+      allow update: if isAdmin() && isValidHive(request.resource.data) && request.resource.data.id == resource.data.id;
+      allow delete: if isAdmin();
+    }
+  }
+}
