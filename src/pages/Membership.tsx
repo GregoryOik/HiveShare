@@ -188,6 +188,23 @@ export default function Membership() {
                       </div>
                     </div>
                   )}
+                  {!hasOliveOil && cartPlan && (
+                    <div className="mt-4 p-5 rounded-[2px] bg-honey/5 border border-honey/20 flex flex-col gap-3">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="text-sm font-medium text-white mb-1">Add Laconian Olive Oil?</p>
+                          <p className="text-xs text-white/50">500ml Single-estate, cold-pressed</p>
+                        </div>
+                        <span className="font-display text-xl text-honey">18 €</span>
+                      </div>
+                      <button 
+                        onClick={() => setHasOliveOil(true)}
+                        className="w-full py-2.5 mt-2 bg-honey/20 text-honey border border-honey/30 text-[10px] uppercase tracking-widest font-medium hover:bg-honey hover:text-white transition-colors rounded-[2px]"
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  )}
                 </>
               )}
             </div>

@@ -849,6 +849,23 @@ export default function Landing() {
                       </div>
                     </div>
                   )}
+                  {!hasOliveOil && cartPlan && (
+                    <div className="mt-4 p-5 rounded-[2px] bg-cream border border-border-amber flex flex-col gap-3">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="text-sm font-medium text-text-dark mb-1">Add Laconian Olive Oil?</p>
+                          <p className="text-xs text-text-muted">500ml Single-estate, cold-pressed</p>
+                        </div>
+                        <span className="font-display text-xl text-honey">18 €</span>
+                      </div>
+                      <button 
+                        onClick={() => setHasOliveOil(true)}
+                        className="w-full py-2.5 mt-2 bg-white text-text-dark border border-border-amber text-[10px] uppercase tracking-widest font-medium hover:bg-honey hover:text-white hover:border-honey transition-colors rounded-[2px]"
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  )}
                 </>
               )}
             </div>
