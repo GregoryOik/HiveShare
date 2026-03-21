@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight, Award } from 'lucide-react';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
 
@@ -467,7 +467,7 @@ export default function Dashboard() {
                 {profile?.customLabel ? `Your Jar: ${profile.customLabel}` : data.activeHarvest}
               </h3>
               <div className="w-12 h-[1px] bg-honey/30 mb-6"></div>
-              <div className="space-y-2 text-sm text-white/60">
+              <div className="space-y-2 text-sm text-white/60 mb-8">
                 <p>Est. harvest: <span className="text-white/90">{data.nextHarvestDate}</span></p>
                 {profile?.customLabel && (
                   <p>Harvest type: <span className="text-white/90">{data.activeHarvest}</span></p>
@@ -475,6 +475,13 @@ export default function Dashboard() {
                 <p>Expected yield: <span className="text-white/90">~3.5 kg</span></p>
                 <p>Status: <span className="text-honey">Maturing in comb</span></p>
               </div>
+
+              {profile?.role === 'subscriber' && (
+                <button className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-bold text-honey/80 hover:text-honey transition-colors group">
+                  <Award className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  Download Adoption Certificate
+                </button>
+              )}
             </div>
 
             {/* Hive Diary */}

@@ -549,6 +549,7 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
             <li className="flex gap-3"><span className="text-honey">—</span> Dashboard access (full metrics + acoustic data)</li>
             <li className="flex gap-3"><span className="text-honey">—</span> 3 seasonal harvests (~700g each)</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Named jar (your name on the label)</li>
+            <li className="flex gap-3"><span className="text-honey">—</span> Digital Certificate of Adoption</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Handwritten note from Petros with each harvest</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Priority shipping & exclusive variety access</li>
           </ul>
