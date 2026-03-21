@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -50,6 +51,7 @@ export default function App() {
           </Routes>
         </Router>
       </AuthProvider>
+      <SpeedInsights />
     </ErrorBoundary>
   );
 }
