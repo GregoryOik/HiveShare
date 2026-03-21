@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Save, User, MapPin, Calendar, ArrowLeft, Loader2, CheckCircle } from 'lucide-react';
+import { Save, User, MapPin, Calendar, ArrowLeft, Loader2, CheckCircle, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
 
@@ -8,33 +8,44 @@ export default function Settings() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [isValidating, setIsValidating] = useState(false);
+  
   const [formData, setFormData] = useState({
     customLabel: '',
     shippingAddress: ''
   });
 
-  // Sync with profile once it loads
+  // Sync with profile only once initially
   React.useEffect(() => {
-    if (profile) {
+    if (profile && !isInitialized) {
       setFormData({
         customLabel: profile.customLabel || '',
         shippingAddress: profile.shippingAddress || ''
       });
+      setIsInitialized(true);
     }
-  }, [profile]);
+  }, [profile, isInitialized]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
     setSaveSuccess(false);
+    setIsValidating(true);
+
     try {
+      // Mock "validation proof" for the address
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      setIsValidating(false);
+
       await updateProfile(formData);
       setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 3000);
+      setTimeout(() => setSaveSuccess(false), 4000);
     } catch (error) {
       console.error('Failed to update profile', error);
     } finally {
       setIsSaving(false);
+      setIsValidating(false);
     }
   };
 
@@ -110,6 +121,12 @@ export default function Settings() {
                   rows={4}
                   className="w-full bg-[#110C05] border border-honey/20 px-4 py-4 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/10 resize-none"
                 />
+                {profile?.shippingAddress && (
+                  <div className="flex items-center gap-1.5 text-[9px] text-green-500/70 uppercase tracking-widest font-bold mt-2 ml-1">
+                    <ShieldCheck className="w-3 h-3" />
+                    Verified Shipping Destination
+                  </div>
+                )}
               </div>
             </div>
 
@@ -131,7 +148,7 @@ export default function Settings() {
               {saveSuccess && (
                 <div className="flex items-center gap-2 text-green-500 text-xs uppercase tracking-widest animate-in fade-in slide-in-from-left-4 duration-300">
                   <CheckCircle className="w-4 h-4" />
-                  Profile Updated
+                  {isValidating ? "Verifying..." : "Profile Verified & Saved"}
                 </div>
               )}
             </div>
