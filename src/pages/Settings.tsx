@@ -9,9 +9,19 @@ export default function Settings() {
   const [saveSuccess, setSaveSuccess] = useState(false);
   
   const [formData, setFormData] = useState({
-    customLabel: profile?.customLabel || '',
-    shippingAddress: profile?.shippingAddress || ''
+    customLabel: '',
+    shippingAddress: ''
   });
+
+  // Sync with profile once it loads
+  React.useEffect(() => {
+    if (profile) {
+      setFormData({
+        customLabel: profile.customLabel || '',
+        shippingAddress: profile.shippingAddress || ''
+      });
+    }
+  }, [profile]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

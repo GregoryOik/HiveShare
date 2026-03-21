@@ -7,7 +7,7 @@ import {
   signOut,
   User as FirebaseUser
 } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, onSnapshot as onFirestoreSnapshot } from 'firebase/firestore';
 
 interface UserProfile {
   uid: string;
@@ -44,58 +44,55 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    let profileUnsubscribe: (() => void) | null = null;
+
+    const authUnsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+
+      // Clean up previous listener if it exists
+      if (profileUnsubscribe) {
+        profileUnsubscribe();
+        profileUnsubscribe = null;
+      }
 
       if (currentUser) {
         setError(null);
-        try {
-          const userDocRef = doc(db, 'users', currentUser.uid);
-
-          // Timeout wrapper to prevent hanging promise
-          const withTimeout = <T,>(promise: Promise<T>, ms: number = 5000) => {
-            return Promise.race([
-              promise,
-              new Promise<never>((_, reject) =>
-                setTimeout(() => reject(new Error('Firestore operation timed out. Is the database created?')), ms)
-              )
-            ]);
-          };
-
-          const userDoc = await withTimeout(getDoc(userDocRef));
-
-          if (userDoc.exists()) {
-            setProfile(userDoc.data() as UserProfile);
+        const userDocRef = doc(db, 'users', currentUser.uid);
+        
+        profileUnsubscribe = onFirestoreSnapshot(userDocRef, async (docSnap) => {
+          if (docSnap.exists()) {
+            setProfile(docSnap.data() as UserProfile);
+            setLoading(false);
           } else {
-            // Check if this is the default admin
-            const isDefaultAdmin = currentUser.email === 'gregorygate46@gmail.com' && currentUser.emailVerified;
-
             const newProfile: UserProfile = {
               uid: currentUser.uid,
               email: currentUser.email || '',
-              role: isDefaultAdmin ? 'admin' : 'subscriber',
-              subscribedHives: [] // No default hives for new users
+              role: 'subscriber',
+              subscribedHives: []
             };
-
-            await withTimeout(setDoc(userDocRef, newProfile));
-            setProfile(newProfile);
+            try {
+              await setDoc(userDocRef, newProfile);
+            } catch (err) {
+              console.error('Error creating profile:', err);
+              setError('Failed to initialize user profile');
+              setLoading(false);
+            }
           }
-        } catch (err: any) {
-          console.error('Error fetching/creating user profile:', err);
-          setError(err.message || 'Failed to load user profile');
-          // Sign out if profile creation fails so they aren't stuck in a half-logged-in state
-          await signOut(auth);
-          setUser(null);
-          setProfile(null);
-        }
+        }, (err) => {
+          console.error('Profile snapshot error:', err);
+          setError('Failed to listen to profile updates');
+          setLoading(false);
+        });
       } else {
         setProfile(null);
+        setLoading(false);
       }
-
-      setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      authUnsubscribe();
+      if (profileUnsubscribe) profileUnsubscribe();
+    };
   }, []);
 
   const signInWithGoogle = async () => {
@@ -121,7 +118,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const userDocRef = doc(db, 'users', user.uid);
       await updateDoc(userDocRef, newData);
-      setProfile(prev => prev ? { ...prev, ...newData } : null);
+      // No need to setProfile manually, onFirestoreSnapshot will handle it!
     } catch (error) {
       console.error('Error updating profile', error);
       throw error;

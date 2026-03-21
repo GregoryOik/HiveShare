@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon } from 'lucide-react';
+import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight } from 'lucide-react';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
 
@@ -234,7 +234,28 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 pt-12">
+      <main className="max-w-7xl mx-auto px-6 pt-12 md:pt-16">
+        {/* Missing Address Alert */}
+        {profile && !profile.shippingAddress && (
+          <div className="mb-10 bg-[#FFB800]/5 border border-[#FFB800]/20 p-5 rounded-[2px] flex flex-col md:flex-row items-center justify-between gap-6 animate-in fade-in slide-in-from-top-4 duration-700">
+            <div className="flex items-center gap-4 text-center md:text-left flex-col md:flex-row">
+              <div className="w-12 h-12 rounded-full bg-[#FFB800]/10 flex items-center justify-center flex-shrink-0">
+                <AlertTriangle className="text-[#FFB800] w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-white tracking-wide uppercase">Shipping Address Required</p>
+                <p className="text-xs text-white/50 leading-relaxed font-light">Your membership is active, but we don't know where to ship your honey! Please provide an address in your settings.</p>
+              </div>
+            </div>
+            <Link 
+              to="/settings" 
+              className="px-8 py-3 bg-[#FFB800] text-[#110C05] text-[10px] uppercase tracking-widest font-bold hover:bg-[#FFB800]/90 transition-all hover:shadow-[0_0_20px_rgba(255,184,0,0.2)] rounded-sm flex items-center gap-2 whitespace-nowrap"
+            >
+              Update Settings
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+        )}
         {/* Mobile Title */}
         <div className="md:hidden text-xs tracking-widest uppercase text-white/50 mb-8 text-center relative flex justify-center items-center">
           <select 
