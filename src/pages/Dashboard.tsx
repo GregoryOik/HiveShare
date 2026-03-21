@@ -4,6 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight, Award } from 'lucide-react';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
+import { jsPDF } from 'jspdf';
 
 const BeeCursor = () => {
   const [position, setPosition] = useState({ x: -100, y: -100 });
@@ -94,8 +95,72 @@ const BeeCursor = () => {
 
 export default function Dashboard() {
   const { hives, loading } = useHiveData();
-  const { logout, profile } = useAuth();
+  const { user, profile, logout } = useAuth();
   const [selectedHiveId, setSelectedHiveId] = useState<string>('');
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+
+  const downloadCertificate = (hiveId: string) => {
+    setIsGeneratingPDF(true);
+    const doc = new jsPDF({
+      orientation: 'landscape',
+      unit: 'mm',
+      format: 'a4'
+    });
+
+    const userName = profile?.customLabel || user?.displayName || user?.email?.split('@')[0] || 'Member';
+    const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    // Background
+    doc.setFillColor(26, 18, 8); // #1A1208
+    doc.rect(0, 0, 297, 210, 'F');
+
+    // Border
+    doc.setDrawColor(200, 134, 10); // #C8860A (Honey)
+    doc.setLineWidth(2);
+    doc.rect(10, 10, 277, 190);
+    doc.setLineWidth(0.5);
+    doc.rect(13, 13, 271, 184);
+
+    // Content
+    doc.setTextColor(200, 134, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(40);
+    doc.text('CERTIFICATE OF ADOPTION', 148.5, 60, { align: 'center' });
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(18);
+    doc.text('This is to certify that', 148.5, 85, { align: 'center' });
+
+    doc.setFontSize(32);
+    doc.setFont('helvetica', 'bold');
+    doc.text(userName.toUpperCase(), 148.5, 105, { align: 'center' });
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(18);
+    doc.text('has successfully adopted', 148.5, 120, { align: 'center' });
+
+    doc.setFontSize(24);
+    doc.setTextColor(200, 134, 10);
+    doc.text(`HIVE #${hiveId}`, 148.5, 135, { align: 'center' });
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(14);
+    doc.text('Located in the ancient groves of Lagia, Mani (Laconia, Greece)', 148.5, 145, { align: 'center' });
+
+    doc.setFontSize(12);
+    doc.text(`Date of Issue: ${date}`, 148.5, 170, { align: 'center' });
+    
+    doc.setFont('helvetica', 'italic');
+    doc.text('Petros Oikonomakos, Master Beekeeper', 148.5, 185, { align: 'center' });
+
+    // Logo Placeholder
+    doc.setDrawColor(200, 134, 10);
+    doc.line(110, 180, 187, 180);
+
+    doc.save(`HiveShare_Certificate_Hive_${hiveId}.pdf`);
+    setIsGeneratingPDF(false);
+  };
 
   useEffect(() => {
     if (hives.length > 0 && !selectedHiveId) {
@@ -477,9 +542,13 @@ export default function Dashboard() {
               </div>
 
               {profile?.role === 'subscriber' && (
-                <button className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-bold text-honey/80 hover:text-honey transition-colors group">
+                <button 
+                  onClick={() => downloadCertificate(data.id)}
+                  disabled={isGeneratingPDF}
+                  className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] font-bold text-honey/80 hover:text-honey transition-colors group disabled:opacity-50"
+                >
                   <Award className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                  Download Adoption Certificate
+                  {isGeneratingPDF ? "Generating..." : "Download Adoption Certificate"}
                 </button>
               )}
             </div>

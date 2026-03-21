@@ -132,5 +132,44 @@ export function useHiveData() {
     }
   };
 
-  return { hives, loading, updateHive, addHive, removeHive };
+  const claimRandomHive = async () => {
+    if (!user || !profile) return null;
+    
+    try {
+      // 1. Fetch current available hives
+      const snapshot = await getDocs(collection(db, 'hives'));
+      const availableHives = snapshot.docs
+        .map(doc => doc.data() as HiveData)
+        .filter(h => h.status === 'available');
+
+      if (availableHives.length === 0) {
+        console.error('No available hives to claim');
+        return null;
+      }
+
+      // 2. Pick a random one
+      const randomHive = availableHives[Math.floor(Math.random() * availableHives.length)];
+      
+      // 3. Update Hive Status
+      await updateDoc(doc(db, 'hives', randomHive.id), {
+        status: 'assigned'
+      });
+
+      // 4. Update User Profile
+      const currentHives = profile.subscribedHives || [];
+      if (!currentHives.includes(randomHive.id)) {
+        await updateDoc(doc(db, 'users', user.uid), {
+          subscribedHives: [...currentHives, randomHive.id],
+          role: 'subscriber' // Ensure they are marked as subscriber
+        });
+      }
+
+      return randomHive.id;
+    } catch (error) {
+      console.error('Error claiming random hive:', error);
+      return null;
+    }
+  };
+
+  return { hives, loading, updateHive, addHive, removeHive, claimRandomHive };
 }
