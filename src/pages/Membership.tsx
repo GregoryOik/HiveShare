@@ -60,7 +60,7 @@ export default function Membership() {
 
       addDebug('Adding document to Firestore...');
       
-      const docRef = await addDoc(collection(db, 'users', user.uid, 'checkout_sessions'), {
+      const docRef = await addDoc(collection(db, 'customers', user.uid, 'checkout_sessions'), {
         line_items, // For newer versions
         prices: line_items, // For older versions (they use the same structure)
         success_url: `${window.location.origin}/success?tier=${cartPlan.id}&session_id={CHECKOUT_SESSION_ID}`,
@@ -80,7 +80,7 @@ export default function Membership() {
         setErrorStatus('The Stripe Extension is taking too long to respond. This usually means the API key is not configured correctly in the Firebase Console.');
       }, 15000);
 
-      onSnapshot(doc(db, 'users', user.uid, 'checkout_sessions', docRef.id), (snap) => {
+      onSnapshot(doc(db, 'customers', user.uid, 'checkout_sessions', docRef.id), (snap) => {
         const data = snap.data();
         if (data?.url) {
           clearTimeout(timeout);

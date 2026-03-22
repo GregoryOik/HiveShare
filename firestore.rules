@@ -135,10 +135,10 @@ service cloud.firestore {
                       (isAdmin() && isValidUser(request.resource.data) && request.resource.data.uid == resource.data.uid);
                       
       allow delete: if isAdmin();
+    }
 
-      // ===============================================================
-      // Stripe Extension Subcollections
-      // ===============================================================
+    match /customers/{userId} {
+      allow read: if isOwner(userId);
       
       match /checkout_sessions/{sessionId} {
         allow read, write: if isOwner(userId);
