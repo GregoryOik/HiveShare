@@ -29,7 +29,7 @@ import {
   Cell
 } from 'recharts';
 import { useAuth } from '../lib/useAuth';
-import { useHiveData } from '../lib/useHiveData';
+import { useHiveData, useSiteConfig } from '../lib/useHiveData';
 import Footer from '../components/Footer';
 import OnboardingStepper from '../components/OnboardingStepper';
 import { jsPDF } from 'jspdf';
@@ -37,6 +37,7 @@ import { jsPDF } from 'jspdf';
 export default function Dashboard() {
   const { user, profile, logout } = useAuth();
   const { hives, loading, claimRandomHive } = useHiveData();
+  const { config } = useSiteConfig();
   const [selectedHiveId, setSelectedHiveId] = useState<string>('');
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [isAutoAssigning, setIsAutoAssigning] = useState(false);
@@ -158,6 +159,16 @@ export default function Dashboard() {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-12 flex-1 w-full relative z-10">
+        {config?.systemAnnouncement && (
+          <div className="mb-10 bg-[#C8860A]/10 border border-[#C8860A]/30 p-4 rounded-[2px] backdrop-blur-md flex items-center gap-4 animate-in slide-in-from-top duration-700">
+            <div className="w-8 h-8 rounded-full bg-[#C8860A]/20 flex items-center justify-center flex-shrink-0">
+              <Star size={14} className="text-[#C8860A] animate-pulse" />
+            </div>
+            <p className="text-[10px] uppercase tracking-[0.2em] font-black text-[#C8860A]">
+              {config.systemAnnouncement}
+            </p>
+          </div>
+        )}
         {profile && !profile.shippingAddress && (
           <div className="mb-10 bg-honey/5 border border-honey/20 p-5 rounded-[2px] flex flex-col md:flex-row items-center justify-between gap-6 backdrop-blur-sm">
             <div className="flex items-center gap-4">

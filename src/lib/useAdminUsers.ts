@@ -13,6 +13,8 @@ export interface UserProfile {
   subscriptionStartDate?: string;
   nextHarvestDate?: string;
   adminNotes?: string;
+  customHoneyName?: string;
+  userHarvestStatus?: string;
 }
 
 export function useAdminUsers() {

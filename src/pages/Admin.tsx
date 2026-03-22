@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHiveData } from '../lib/useHiveData';
+import { useHiveData, useSiteConfig } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
 import { useAdminUsers } from '../lib/useAdminUsers';
 import { 
@@ -38,6 +38,7 @@ import Footer from '../components/Footer';
 export default function Admin() {
   const { hives, loading: hivesLoading, updateHive, addJournalEntry, addHive, removeHive } = useHiveData();
   const { users, loading: usersLoading, assignHiveToUser, removeHiveFromUser, updateUser } = useAdminUsers();
+  const { config, updateConfig } = useSiteConfig();
   const { user: authUser, profile, logout, forceSyncAdminRole } = useAuth();
   
   const [activeTab, setActiveTab] = useState<'hives' | 'users' | 'system' | 'finance'>('hives');
@@ -652,6 +653,34 @@ export default function Admin() {
                   </div>
 
                   <div className="space-y-4">
+                    <label className="text-[10px] uppercase tracking-widest text-honey font-black block underline decoration-honey/30 underline-offset-4">Personalized Branding (User Override)</label>
+                    <div className="bg-honey/5 border border-honey/10 p-4 rounded-md space-y-3">
+                      <p className="text-[9px] text-white/30 italic">"Override the global honey name for this specific guardian's dashboard."</p>
+                      <input 
+                        type="text"
+                        value={selectedUser.customHoneyName || ''}
+                        onChange={(e) => updateUser(selectedUser.uid, { customHoneyName: e.target.value })}
+                        placeholder="e.g. Gregory's Golden Nectar..."
+                        className="w-full bg-black/60 border border-honey/20 rounded-md p-3 text-[10px] text-white focus:border-honey outline-none font-sans"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <label className="text-[10px] uppercase tracking-widest text-[#C8860A] font-black block underline decoration-honey/30 underline-offset-4">Guardian Intelligence (Unique Status)</label>
+                    <div className="bg-honey/5 border border-honey/10 p-4 rounded-md space-y-3">
+                      <p className="text-[9px] text-white/30 italic">"Define a custom harvest phase or special status for this user."</p>
+                      <input 
+                        type="text"
+                        value={selectedUser.userHarvestStatus || ''}
+                        onChange={(e) => updateUser(selectedUser.uid, { userHarvestStatus: e.target.value })}
+                        placeholder="e.g. Final Maturation Phase..."
+                        className="w-full bg-black/60 border border-honey/20 rounded-md p-3 text-[10px] text-white focus:border-honey outline-none font-sans"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
                     <label className="text-[10px] uppercase tracking-widest text-honey font-black block">Logistical Address</label>
                     <textarea 
                       value={selectedUser.shippingAddress || ''}
@@ -753,6 +782,64 @@ export default function Admin() {
 
           {activeTab === 'system' && (
             <div className="space-y-8 animate-in zoom-in duration-500">
+                {/* Global Site Configuration */}
+                {config && (
+                  <div className="bg-[#120D08] border border-honey/10 rounded-lg p-8 grid grid-cols-1 md:grid-cols-2 gap-8 border-l-4 border-l-honey">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2 text-honey">
+                        <Terminal size={16} />
+                        <h3 className="text-[10px] uppercase tracking-widest font-black">Global Site Configuration</h3>
+                      </div>
+                      <p className="text-[11px] text-white/40 italic">
+                        "Define the default reality for all new guardians and unconfigured apiaries. Overrides at the hive or user level will take precedence."
+                      </p>
+                      <div className="space-y-3 pt-4">
+                        <div>
+                          <label className="text-[9px] uppercase tracking-widest text-honey/60 font-black block mb-2">Default Harvest Title</label>
+                          <input 
+                            type="text"
+                            value={config.globalHarvestName}
+                            onChange={(e) => updateConfig({ globalHarvestName: e.target.value })}
+                            className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-[10px] outline-none focus:border-honey"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[9px] uppercase tracking-widest text-honey/60 font-black block mb-2">Default Harvest Date</label>
+                          <input 
+                            type="date"
+                            value={config.globalHarvestDate}
+                            onChange={(e) => updateConfig({ globalHarvestDate: e.target.value })}
+                            className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-[10px] outline-none focus:border-honey"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-[9px] uppercase tracking-widest text-honey/60 font-black block mb-2">Regional Deployment Presets</label>
+                        <textarea 
+                          value={config.availableRegions.join('\n')}
+                          onChange={(e) => updateConfig({ availableRegions: e.target.value.split('\n').filter(r => r.trim()) })}
+                          placeholder="One region per line..."
+                          rows={4}
+                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-[10px] font-mono outline-none focus:border-honey"
+                        />
+                        <p className="text-[8px] text-white/20 mt-1 italic">Enter one deployment zone per line to populate the global registry.</p>
+                      </div>
+                      <div className="pt-2">
+                        <label className="text-[9px] uppercase tracking-widest text-honey/60 font-black block mb-2">Site-Wide Intelligence Broadcast</label>
+                        <input 
+                          type="text"
+                          value={config.systemAnnouncement || ''}
+                          onChange={(e) => updateConfig({ systemAnnouncement: e.target.value })}
+                          placeholder="Optional global announcement..."
+                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-[10px] outline-none focus:border-honey"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Permission Diagnostics */}
                 <div className="bg-[#120D08] border border-blue-500/20 rounded-lg p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center border-l-4 border-l-blue-500 mb-8">
                   <div className="space-y-2">

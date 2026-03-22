@@ -13,20 +13,30 @@ import {
   Info
 } from 'lucide-react';
 import { useAuth } from '../lib/useAuth';
+import { useHiveData, useSiteConfig } from '../lib/useHiveData';
 import Footer from '../components/Footer';
 
 export default function Harvest() {
   const { profile } = useAuth();
+  const { hives, loading } = useHiveData();
+  const { config } = useSiteConfig();
+
+  const selectedHiveId = profile?.subscribedHives?.[0];
+  const activeHive = hives.find(h => h.id === selectedHiveId);
+
+  // Multi-Level Inheritance Logic
+  const currentHarvestName = profile?.customHoneyName || activeHive?.activeHarvest || config?.globalHarvestName || 'Spring Wildflower';
+  const currentHarvestDate = profile?.userHarvestStatus || activeHive?.nextHarvestDate || config?.globalHarvestDate || 'April - May';
 
   const harvests = [
     {
-      id: 'spring',
-      name: 'Spring Wildflower',
-      period: 'Harvested: April - May',
-      delivery: 'Shipping: June',
+      id: 'current',
+      name: currentHarvestName,
+      period: `Estimated Phase: ${currentHarvestDate}`,
+      delivery: 'Shipping: Seasonal Flow',
       status: 'upcoming',
-      description: 'A light, floral nectar collected from the blooming valleys of Mani.',
-      varietal: 'Wild Thyme & Sage'
+      description: 'Your primary nomadic yield, following the ancient bloom cycles of Greece.',
+      varietal: activeHive?.beeSpecies || 'Mani Wildflower'
     },
     {
       id: 'summer',

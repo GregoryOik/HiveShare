@@ -22,6 +22,9 @@ interface UserProfile {
   nextHarvestDate?: string;
   tier?: 'starter' | 'premium';
   subscriptionStartDate?: string;
+  adminNotes?: string;
+  customHoneyName?: string;
+  userHarvestStatus?: string;
 }
 
 interface AuthContextType {

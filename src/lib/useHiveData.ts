@@ -24,6 +24,14 @@ export interface HiveData {
   journal?: { id: string; date: string; content: string; type: string }[];
 }
 
+export interface SiteConfig {
+  globalHarvestName: string;
+  globalHarvestDate: string;
+  availableRegions: string[];
+  systemAnnouncement?: string;
+  lastUpdated?: string;
+}
+
 const DEFAULT_HIVES: HiveData[] = [
   {
     id: '247',
@@ -253,3 +261,39 @@ export function useHiveData() {
 
   return { hives, loading, updateHive, addJournalEntry, addHive, removeHive, claimRandomHive };
 }
+export const useSiteConfig = () => {
+  const [config, setConfig] = useState<SiteConfig | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, 'config', 'site'), (doc) => {
+      if (doc.exists()) {
+        setConfig(doc.data() as SiteConfig);
+      } else {
+        // Initialize with defaults if missing
+        setConfig({
+          globalHarvestName: 'Spring Wildflower',
+          globalHarvestDate: '2026-05-15',
+          availableRegions: ['Muni, Laconia', 'Githio, Mani', 'Aeropoli, Mani']
+        });
+      }
+      setLoading(false);
+    });
+
+    return () => unsub();
+  }, []);
+
+  const updateConfig = async (newConfig: Partial<SiteConfig>) => {
+    try {
+      await setDoc(doc(db, 'config', 'site'), {
+        ...newConfig,
+        lastUpdated: new Date().toISOString()
+      }, { merge: true });
+    } catch (err: any) {
+      console.error('[useSiteConfig] Update Failure:', err);
+      throw err;
+    }
+  };
+
+  return { config, updateConfig, loading };
+};
