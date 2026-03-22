@@ -42,7 +42,7 @@ export default function Privacy() {
               <li><strong>Authentication Data:</strong> Google account ID or hashed password (we never store plaintext passwords).</li>
               <li><strong>Financial Data:</strong> Payment details are processed securely by <strong>Stripe, Inc.</strong> — we do not store your full credit card number, CVC, or bank details on our servers.</li>
               <li><strong>Technical Data:</strong> IP address, browser type, device information, and cookies (see Section 7).</li>
-              <li><strong>Usage Data:</strong> Dashboard interaction data, login timestamps, and feature usage.</li>
+              <li><strong>Usage Data:</strong> Apiary journal interaction data, login timestamps, and feature usage.</li>
             </ul>
           </section>
 
@@ -50,7 +50,7 @@ export default function Privacy() {
             <h2 className="text-xl font-display text-white mb-4">3. Legal Basis for Processing (Article 6 GDPR)</h2>
             <p className="mb-2">We process your personal data on the following legal grounds:</p>
             <ul className="list-disc pl-5 space-y-2">
-              <li><strong>Contract Performance (Art. 6(1)(b)):</strong> To fulfil your subscription, assign your hive, deliver honey, and provide dashboard access.</li>
+              <li><strong>Contract Performance (Art. 6(1)(b)):</strong> To fulfil your subscription, assign your hive, deliver honey, and provide apiary journal access.</li>
               <li><strong>Legitimate Interest (Art. 6(1)(f)):</strong> To improve our service, prevent fraud, and ensure platform security.</li>
               <li><strong>Consent (Art. 6(1)(a)):</strong> For marketing communications and non-essential cookies. You may withdraw consent at any time.</li>
               <li><strong>Legal Obligation (Art. 6(1)(c)):</strong> To comply with tax, accounting, and consumer protection laws.</li>
@@ -61,7 +61,7 @@ export default function Privacy() {
             <h2 className="text-xl font-display text-white mb-4">4. How We Use Your Information</h2>
             <ul className="list-disc pl-5 space-y-2">
               <li>To create and manage your HiveShare account.</li>
-              <li>To assign you a hive and provide real-time dashboard data.</li>
+              <li>To assign you a hive and provide real-time apiary journal data.</li>
               <li>To process subscription payments via Stripe.</li>
               <li>To ship your seasonal honey harvests to your address.</li>
               <li>To send transactional emails (harvest notifications, subscription confirmations).</li>

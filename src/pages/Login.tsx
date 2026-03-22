@@ -118,7 +118,7 @@ export default function Login() {
                 { label: 'Choose Plan', completed: false, active: false },
                 { label: 'Payment', completed: false, active: false },
                 { label: 'Hive Assigned', completed: false, active: false },
-                { label: 'Dashboard', completed: false, active: false },
+                { label: 'Apiary Journal', completed: false, active: false },
               ]} />
             </div>
           )}

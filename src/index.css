@@ -3,9 +3,9 @@
 
 @theme {
   --color-honey: #C8860A;
-  --color-hive-bg: #0A0704;
-  --color-hive-panel: #110C05;
-  --color-hive-dark: #1A1208;
+  --color-hive-bg: #140E0A; /* Slightly lighter, warmer dark */
+  --color-hive-panel: #1D1510; /* Lighter panel */
+  --color-hive-dark: #261B14;
   --color-cream: #FAF4E8;
   --color-pale-honey: #FDF6E3;
   --color-text-dark: #3D2B0E;

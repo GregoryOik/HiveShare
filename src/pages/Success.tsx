@@ -69,7 +69,7 @@ export default function Success() {
           { label: 'Choose Plan', completed: true, active: false },
           { label: 'Payment', completed: true, active: false },
           { label: 'Hive Assigned', completed: !isFulfilling && !error && !!claimedId, active: isFulfilling },
-          { label: 'Dashboard', completed: false, active: !isFulfilling && !error && !!claimedId },
+          { label: 'Apiary Journal', completed: false, active: !isFulfilling && !error && !!claimedId },
         ]} />
 
         <div className="w-20 h-20 mx-auto bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center">
@@ -122,8 +122,8 @@ export default function Success() {
               </div>
               <ul className="text-sm text-white/70 space-y-2 font-light">
                 <li>• Your Welcome Jar ships within 2 weeks.</li>
-                <li>• Download your Adoption Certificate in the dashboard.</li>
-                <li>• Live data is now streaming to your dashboard.</li>
+                <li>• Download your Adoption Certificate in the journal.</li>
+                <li>• Live vitality is now streaming to your journal.</li>
               </ul>
             </div>
 
@@ -132,7 +132,7 @@ export default function Success() {
                 to="/dashboard" 
                 className="inline-flex items-center gap-2 bg-honey text-white px-10 py-4 text-xs uppercase tracking-widest font-medium hover:bg-honey/90 transition-all hover:shadow-[0_0_20px_rgba(200,134,10,0.3)] rounded-sm group"
               >
-                Go to My Dashboard
+                Go to My Apiary Journal
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>

@@ -29,7 +29,7 @@ export default function Cancel() {
             to="/dashboard" 
             className="text-[10px] uppercase tracking-widest text-white/30 hover:text-white transition-colors"
           >
-            Back to Dashboard
+            Back to Apiary Journal
           </Link>
         </div>
       </div>

@@ -34,9 +34,9 @@ export default function Terms() {
 
             <h3 className="text-lg font-display text-white mt-6 mb-2">2. PRICING & PLANS</h3>
             <p className="mb-4">
-              <strong>Starter Membership:</strong> €80/year — Includes shared hive adoption, live dashboard access, 2.5kg annual honey allocation (3 seasonal harvests).<br/>
-              <strong>Premium Membership:</strong> €160/year — Everything in Starter plus exclusive hive, named jar labels, Digital Certificate of Adoption, detailed telemetry (temperature, acoustic data), a handwritten note from the beekeeper, and 5kg annual honey allocation (1kg welcome jar + 3 seasonal harvests).<br/><br/>
-              All prices include VAT where applicable. Shipping costs within the EU are included. Non-EU shipping may incur additional fees communicated before purchase.
+              <strong>Starter Membership:</strong> €80/year — Includes shared hive adoption, live apiary journal access, 2.5kg annual honey allocation (3 seasonal harvests).<br/>
+              <strong>Premium Membership:</strong> €200/year — Everything in Starter plus exclusive hive, named jar labels, Digital Certificate of Adoption, detailed live vitality reports (temperature, acoustic data), a handwritten note from the beekeeper, and 5kg annual honey allocation (1kg welcome jar + 3 seasonal harvests).<br/><br/>
+              All prices include VAT where applicable. Free EU shipping is included in every membership. Non-EU shipping may incur additional fees communicated before purchase.
             </p>
 
             <h3 className="text-lg font-display text-white mt-6 mb-2">3. AUTOMATIC RENEWAL</h3>
@@ -52,7 +52,7 @@ export default function Terms() {
               <strong>Important:</strong> If the Welcome Honey Jar has already been shipped before the withdrawal request, the Subscriber agrees that the cost of the honey and shipping (approximately €25) will be deducted from the refund, as permitted under Article 14(3) of the Directive.
             </p>
             <p className="mb-4">
-              After 14 days, the subscription is non-refundable as the hive assignment and agricultural cycle require upfront commitment. To cancel renewal, the Subscriber may do so at any time via email to <a href="mailto:gregory@oikonomakos.gr" className="text-honey hover:underline">gregory@oikonomakos.gr</a> or through their account dashboard under Settings.
+              After 14 days, the subscription is non-refundable as the hive assignment and agricultural cycle require upfront commitment. To cancel renewal, the Subscriber may do so at any time via email to <a href="mailto:gregory@oikonomakos.gr" className="text-honey hover:underline">gregory@oikonomakos.gr</a> or through their apiary journal under Settings.
             </p>
 
             <h3 className="text-lg font-display text-white mt-6 mb-2">5. MODEL WITHDRAWAL FORM</h3>
@@ -86,7 +86,7 @@ export default function Terms() {
               Each subscriber is assigned a specific numbered hive within the HiveShare apiary in Laconia, Greece. The subscriber does not acquire ownership of the physical hive, bees, or land. The subscription grants access to hive monitoring data and honey yield from the assigned hive for the duration of the agreement.
             </p>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">8. DASHBOARD ACCESS</h3>
+            <h3 className="text-lg font-display text-white mt-6 mb-2">8. APIARY JOURNAL ACCESS</h3>
             <p className="mb-4">
               Subscribers receive access to the HiveShare member portal throughout their subscription period, including live sensor data, apiary snapshots, and harvest notifications. Access terminates upon expiry or cancellation of the subscription. The Subscriber acknowledges that sensor data is provided "as is" and may contain inaccuracies due to hardware limitations.
             </p>
@@ -124,13 +124,13 @@ export default function Terms() {
           <section>
             <h2 className="text-2xl font-display text-white mb-6 border-b border-honey/20 pb-2">WEBSITE TERMS OF USE</h2>
             <p className="mb-4">
-              By accessing and using the HiveShare website and dashboard, you agree to comply with these general rules of use. The platform is provided for personal, non-commercial use to monitor your assigned hive.
+              By accessing and using the HiveShare website and apiary journal, you agree to comply with these general rules of use. The platform is provided for personal, non-commercial use to monitor your assigned hive.
             </p>
             <p className="mb-4">
               <strong>Intellectual Property:</strong> All content on this website, including logos, text, images, and software, is the property of HiveShare and protected by copyright law. Reproduction without permission is prohibited.
             </p>
             <p className="mb-4">
-              <strong>Disclaimer:</strong> The information provided on the dashboard, including weight estimates, weather forecasts, and harvest predictions, are approximations based on sensor data and historical patterns. They do not constitute a binding guarantee of final honey yield. Beekeeping is subject to natural fluctuations.
+              <strong>Disclaimer:</strong> The information provided on the apiary journal, including weight estimates, weather forecasts, and harvest predictions, are approximations based on sensor data and historical patterns. They do not constitute a binding guarantee of final honey yield. Beekeeping is subject to natural fluctuations.
             </p>
           </section>
 

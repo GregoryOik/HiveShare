@@ -25,7 +25,7 @@ export default function NotFound() {
             to="/dashboard" 
             className="text-[10px] uppercase tracking-widest text-white/30 hover:text-white transition-colors"
           >
-            Go to Dashboard
+            Go to Apiary Journal
           </Link>
         </div>
       </div>

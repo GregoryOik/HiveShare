@@ -41,7 +41,7 @@ export default function Admin() {
         <div className="flex items-center justify-between mb-8 border-b border-honey/20 pb-6">
           <div>
             <h1 className="text-3xl font-display text-honey mb-2">HiveShare Central Station</h1>
-            <p className="text-white/50 text-sm">Manage all apiaries and subscriber dashboards</p>
+            <p className="text-white/50 text-sm">Manage all apiaries and subscriber journals</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 text-xs text-honey bg-honey/10 px-3 py-1.5 rounded-[2px] border border-honey/20 hidden sm:flex">
@@ -49,7 +49,7 @@ export default function Admin() {
               System Online
             </div>
             <Link to="/dashboard" className="text-xs text-white/50 hover:text-white transition-colors uppercase tracking-widest">
-              Dashboard
+              Apiary Journal
             </Link>
             <button onClick={logout} className="text-white/50 hover:text-white transition-colors" title="Sign Out">
               <LogOut className="w-4 h-4" />
@@ -132,7 +132,7 @@ export default function Admin() {
           <div className="md:col-span-3 space-y-6">
             <div className="bg-hive-panel border border-honey/20 p-6 rounded-[2px] shadow-[0_0_30px_rgba(200,134,10,0.03)]">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-display text-honey">Hive #{data.id} Telemetry</h2>
+                <h2 className="text-xl font-display text-honey">Hive #{data.id} Live Vitality</h2>
                 <button 
                   onClick={() => {
                     const newWeight = data.weight + (Math.random() * 0.4 - 0.1); // Slight growth
@@ -406,7 +406,7 @@ export default function Admin() {
         
         <div className="mt-12 text-center">
           <p className="text-xs text-white/30">
-            Tip: Open the <a href="/dashboard" target="_blank" className="text-honey hover:underline">Dashboard</a> in a new window side-by-side with this Admin panel. Changes made here will instantly sync to the dashboard!
+            Tip: Open the <a href="/dashboard" target="_blank" className="text-honey hover:underline">Apiary Journal</a> in a new window side-by-side with this Admin panel. Changes made here will instantly sync to the journal!
           </p>
         </div>
       </div>

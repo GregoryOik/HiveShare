@@ -32,7 +32,7 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
           <div className="hidden md:flex items-center space-x-6">
             {user ? (
               <Link to="/dashboard" className="text-[10px] uppercase tracking-[0.2em] font-medium text-white/50 hover:text-honey transition-colors duration-200">
-                Dashboard
+                Apiary Journal
               </Link>
             ) : (
               <Link to="/login" className="text-[10px] uppercase tracking-[0.2em] font-medium text-white/50 hover:text-honey transition-colors duration-200">
@@ -75,7 +75,7 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
           <a href="#origins" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Origins</a>
           <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Pricing</a>
           {user ? (
-            <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Dashboard</Link>
+            <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Apiary Journal</Link>
           ) : (
             <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Log In</Link>
           )}
@@ -150,7 +150,7 @@ const Hero = () => {
         </h1>
         
         <p className="text-white/60 text-base max-w-sm mb-8 leading-relaxed font-light">
-          €80/year — less than €7 a month. Your own named hive in Laconia, live data, and three harvests of raw Greek honey delivered to your door. Your first jar ships within two weeks. After that, your hive decides the rest.
+          €80/year — Free EU Shipping included. Your own named hive in Laconia, live vitality reports, and three harvests of raw Greek honey delivered to your door. Your first jar ships within two weeks. After that, your hive decides the rest.
         </p>
         
         <div className="mb-8 max-w-md flex flex-col gap-4">
@@ -246,7 +246,7 @@ const Hero = () => {
 const HowItWorks = () => {
   const steps = [
     { num: '01', title: 'The Assignment', desc: 'You are paired with a specific, numbered hive in our Laconian apiary.' },
-    { num: '02', title: 'The Connection', desc: 'Access your dashboard. Watch the weight grow, see the weather, view apiary snapshots.' },
+    { num: '02', title: 'The Connection', desc: 'Access your apiary journal. Watch the weight grow, see the weather, view apiary snapshots.' },
     { num: '03', title: 'The Harvest', desc: 'As the seasons change, our beekeepers extract honey exclusively from your hive.' },
     { num: '04', title: 'The Delivery', desc: 'Your Welcome Jar ships within 2 weeks. After that, seasonal harvests arrive as nature dictates.' }
   ];
@@ -494,11 +494,11 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
             <span className="font-display text-[3rem] leading-none">80</span>
             <span className="text-xl font-medium mt-1 ml-1">€</span>
           </div>
-          <div className="text-xs text-white/40 mb-10">per year <span className="text-honey font-medium ml-1">· less than €7/mo</span></div>
+          <div className="text-xs text-white/40 mb-10">per year <span className="text-honey font-medium ml-1">· Free EU Shipping included</span></div>
           
           <ul className="space-y-4 text-sm text-white/80 mb-12">
             <li className="flex gap-3"><span className="text-honey">—</span> Welcome jar (250g)</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> Dashboard access (basic metrics)</li>
+            <li className="flex gap-3"><span className="text-honey">—</span> Apiary Journal access (basic metrics)</li>
             <li className="flex gap-3"><span className="text-honey">—</span> 3 seasonal harvests (~800g each, 2.5kg total)</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Standard label</li>
           </ul>
@@ -519,11 +519,11 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
             <span className="font-display text-[3rem] leading-none">200</span>
             <span className="text-xl font-medium mt-1 ml-1">€</span>
           </div>
-          <div className="text-xs text-white/50 mb-10">per year <span className="text-honey font-medium ml-1">· less than €14/mo</span></div>
+          <div className="text-xs text-white/50 mb-10">per year <span className="text-honey font-medium ml-1">· Free EU Shipping included</span></div>
           
           <ul className="space-y-4 text-sm text-white/90 mb-12">
             <li className="flex gap-3"><span className="text-honey">—</span> Welcome jar (1kg) shipped immediately</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> Dashboard access (full metrics + acoustic data)</li>
+            <li className="flex gap-3"><span className="text-honey">—</span> Apiary Journal access (full live vitality reports)</li>
                 <li className="flex gap-3"><span className="text-honey">—</span> 3 seasonal harvests (~1.3kg each, 5kg total)</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Named jar (your name on the label)</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Digital Certificate of Adoption</li>
@@ -550,7 +550,7 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
           
           <ul className="space-y-4 text-sm text-white/80 mb-12">
             <li className="flex gap-3"><span className="text-honey">—</span> Block of 15 dedicated hives</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> Custom branded dashboard</li>
+            <li className="flex gap-3"><span className="text-honey">—</span> Custom branded apiary journal</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Custom branded honey jars</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Corporate gifting fulfillment</li>
           </ul>
@@ -641,9 +641,9 @@ const FAQ = () => {
   const faqs = [
     { q: 'Do I actually own the hive?', a: 'You lease the production and data of a specific physical hive for the year. The bees and the physical woodenware remain the property and responsibility of our master beekeepers to ensure the colony\'s health.' },
     { q: 'What if my hive has a bad season?', a: 'Agriculture is unpredictable. If your specific hive underproduces due to weather or colony health, we supplement your delivery from our reserve hives in the same apiary to ensure you receive your minimum yield.' },
-    { q: 'How is honey shipped to NL/DE?', a: 'We ship three times a year immediately following extraction. Jars are secured in custom protective packaging. Shipping within the EU typically takes 4-6 business days.' },
+    { q: 'How is honey shipped to NL/DE?', a: 'Free EU shipping is included in every membership. We ship three times a year immediately following extraction. Jars are secured in custom protective packaging. Shipping typically takes 4-6 business days.' },
     { q: 'Can I cancel?', a: 'You can cancel your renewal at any time. Because the agricultural cycle requires upfront investment, annual memberships are non-refundable once the season begins in March.' },
-    { q: 'When does HiveShare launch?', a: 'Our first 50 founding member hives will be assigned in Spring 2027. The waitlist is currently open.' }
+    { q: 'When does HiveShare launch?', a: 'Our founding member hives are being assigned throughout 2026. Your first jar ships within 2 weeks of adoption.' }
   ];
 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -929,7 +929,7 @@ export default function Landing() {
                   {user 
                     ? `You're logged in as ${user.email}. Excellent choice to continue your support of Laconian bees.`
                     : selectedPlanForSignup.id === 'premium'
-                      ? "You've chosen the gold standard. From acoustic telemetry to your name on the jars, your bees are ready to welcome their new sponsor."
+                      ? "You've chosen the gold standard. From live vitality reports to your name on the jars, your bees are ready to welcome their new sponsor."
                       : "A beautiful start to your connection with Greek nature. You'll soon be tracking your bees and receiving the purest honey from the Mani mountains."
                   }
                 </p>

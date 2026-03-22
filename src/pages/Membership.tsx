@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Loader2, Check, AlertTriangle, X, Trash2, LogOut, ArrowRight, ShoppingCart, Crown, Star } from 'lucide-react';
+import { Loader2, Check, AlertTriangle, X, Trash2, LogOut, ArrowRight, ShoppingCart, Crown, Star, Package } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
 import { db } from '../lib/firebase';
@@ -256,6 +256,14 @@ export default function Membership() {
                   )}
                 </div>
 
+                <div className="flex justify-between text-xs mb-8 text-honey font-medium animate-in fade-in duration-700">
+                  <div className="flex items-center gap-2">
+                    <Package size={14} />
+                    <span>Free EU Shipping Included</span>
+                  </div>
+                  <span>€0.00</span>
+                </div>
+
                 <div className="h-[1px] bg-honey/10 mb-8"></div>
 
                 <div className="flex justify-between items-end mb-10">
@@ -285,7 +293,7 @@ export default function Membership() {
                   {isRedirecting ? (
                     <>
                       <Loader2 size={16} className="animate-spin" />
-                      Initializing...
+                      Connecting to your hive in Laconia...
                     </>
                   ) : (
                     <>

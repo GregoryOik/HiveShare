@@ -296,7 +296,7 @@ export default function Settings() {
                             if (inCooling) {
                               return 'Under EU law, you may cancel within 14 days. If your Welcome Jar has already shipped, the cost of honey & shipping (approx. €25) may be deducted from your refund.';
                             }
-                            return 'Your hive access will be revoked and you will lose your dashboard data. As the 14-day cooling-off period has passed, refunds are no longer available under EU law.';
+                            return 'Your hive access will be revoked and you will lose your apiary journal data. As the 14-day cooling-off period has passed, refunds are no longer available under EU law.';
                           })()}
                         </p>
                       </div>

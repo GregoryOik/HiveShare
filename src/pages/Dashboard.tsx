@@ -82,7 +82,7 @@ export default function Dashboard() {
     }
   }, [hives, selectedHiveId]);
 
-  if (loading) return <div className="min-h-screen bg-[#0A0704] text-white p-12 flex items-center justify-center font-display text-xl tracking-widest animate-pulse">Initializing Neural Hive Link...</div>;
+  if (loading) return <div className="min-h-screen bg-[#140E0A] text-white p-12 flex items-center justify-center font-display text-xl tracking-widest animate-pulse">Connecting to your hive in Laconia...</div>;
   
   const data = hives.find(h => h.id === selectedHiveId) || hives[0];
 
@@ -108,7 +108,7 @@ export default function Dashboard() {
               { label: 'Choose Plan', completed: !!profile?.tier || (profile?.subscribedHives && profile.subscribedHives.length > 0), active: !profile?.tier && (!profile?.subscribedHives || profile.subscribedHives.length === 0) },
               { label: 'Payment', completed: !!profile?.subscribedHives && profile.subscribedHives.length > 0, active: !!profile?.tier && (!profile?.subscribedHives || profile.subscribedHives.length === 0) },
               { label: 'Hive Assigned', completed: false, active: !!profile?.subscribedHives && profile.subscribedHives.length > 0 },
-              { label: 'Dashboard', completed: false, active: false },
+              { label: 'Apiary Journal', completed: false, active: false },
             ]} />
 
             <div className="w-24 h-24 mx-auto border border-honey/20 rounded-full flex items-center justify-center bg-[#110C05] shadow-[0_0_30px_rgba(200,134,10,0.2)]">
@@ -189,7 +189,7 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Dashboard Content */}
+        {/* Apiary Journal Content */}
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
           <aside className="lg:w-72 space-y-8">
