@@ -38,9 +38,10 @@ import Footer from '../components/Footer';
 export default function Admin() {
   const { hives, loading: hivesLoading, updateHive, addJournalEntry, addHive, removeHive } = useHiveData();
   const { users, loading: usersLoading, assignHiveToUser, removeHiveFromUser, updateUser } = useAdminUsers();
-  const { user: authUser, logout } = useAuth();
+  const { user: authUser, profile, logout, forceSyncAdminRole } = useAuth();
   
   const [activeTab, setActiveTab] = useState<'hives' | 'users' | 'system' | 'finance'>('hives');
+  const [isSyncing, setIsSyncing] = useState(false);
   const [selectedHiveId, setSelectedHiveId] = useState<string>('');
   const [selectedUserUid, setSelectedUserUid] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
@@ -55,20 +56,16 @@ export default function Admin() {
       setSelectedHiveId(hives[0].id);
     }
   }, [hives, selectedHiveId]);
-
   const handleAddHive = async () => {
     setIsAddingHive(true);
     try {
       const newId = await addHive();
       if (newId) {
         setSelectedHiveId(newId);
-        alert(`New unit #${newId} initialized successfully.`);
-      } else {
-        alert('Initialization failed. You may not have administrative permissions, or the system is offline.');
+        alert(`Omni-Unit #${newId} Initialized. Biometric link established.`);
       }
-    } catch (err) {
-      console.error(err);
-      alert('A critical error occurred while attempting to commission a new unit.');
+    } catch (err: any) {
+      alert(`Initialization failed: ${err.message}`);
     } finally {
       setIsAddingHive(false);
     }
@@ -328,7 +325,15 @@ export default function Admin() {
                       </div>
                       <div className="pt-2">
                         <button 
-                          onClick={() => removeHive(selectedHive.id)}
+                          onClick={async () => {
+                            if (hives.length <= 1) return;
+                            try {
+                              await removeHive(selectedHive.id);
+                              alert(`Unit #${selectedHive.id} successfully decommissioned from apiary grid.`);
+                            } catch (err: any) {
+                              alert(`Decommissioning failed: ${err.message}`);
+                            }
+                          }}
                           className="w-full py-3 border border-red-500/20 text-red-500/60 hover:bg-red-500 hover:text-white transition-all text-[10px] uppercase font-bold rounded-lg"
                         >
                           Decommission Hive
@@ -366,13 +371,16 @@ export default function Admin() {
                       onClick={async () => {
                         if (!newJournalEntry.trim()) return;
                         setIsPostingNote(true);
-                        const success = await addJournalEntry(selectedHive.id, newJournalEntry);
-                        if (success) {
-                          setNewJournalEntry('');
-                        } else {
-                          alert('Transmission failed. Audit server connectivity.');
+                        try {
+                          const success = await addJournalEntry(selectedHive.id, newJournalEntry);
+                          if (success) {
+                            setNewJournalEntry('');
+                          }
+                        } catch (err: any) {
+                          alert(`Transmission failed: ${err.message}`);
+                        } finally {
+                          setIsPostingNote(false);
                         }
-                        setIsPostingNote(false);
                       }}
                       disabled={isPostingNote}
                       className="w-full py-3 bg-honey/10 border border-honey/40 text-honey text-[10px] uppercase font-black hover:bg-honey hover:text-[#0A0704] transition-all rounded-md"
@@ -404,7 +412,13 @@ export default function Admin() {
                         const file = e.target.files?.[0];
                         if (file) {
                           const reader = new FileReader();
-                          reader.onloadend = () => updateHive(selectedHive.id, { photoUrl: reader.result as string });
+                          reader.onloadend = async () => {
+                            try {
+                              await updateHive(selectedHive.id, { photoUrl: reader.result as string });
+                            } catch (err: any) {
+                              alert(`Visual uplink failed: ${err.message}`);
+                            }
+                          };
                           reader.readAsDataURL(file);
                         }
                       }} />
@@ -419,7 +433,13 @@ export default function Admin() {
                       <input 
                         type="text"
                         value={selectedHive.photoUrl}
-                        onChange={(e) => updateHive(selectedHive.id, { photoUrl: e.target.value })}
+                        onChange={async (e) => {
+                          try {
+                            await updateHive(selectedHive.id, { photoUrl: e.target.value });
+                          } catch (err: any) {
+                            alert(`Visual uplink failed: ${err.message}`);
+                          }
+                        }}
                         placeholder="Assign Manual Image URL..."
                         className="w-full bg-black/40 border border-honey/20 rounded-md p-4 text-[10px] text-honey font-mono focus:border-honey outline-none"
                       />
@@ -464,8 +484,8 @@ export default function Admin() {
                           try {
                             await updateUser(selectedUser.uid, { role: newRole });
                             alert(`Access hierarchy for ${selectedUser.email} elevated to ${newRole.toUpperCase()}.`);
-                          } catch (err) {
-                            alert('Failed to reconfigure access hierarchy. Verify security clearance.');
+                          } catch (err: any) {
+                            alert(`Access hierarchy failed: ${err.message}`);
                           }
                         }}
                         className="w-full bg-black border border-honey/20 rounded-md p-4 text-sm text-white focus:border-honey outline-none"
@@ -484,8 +504,8 @@ export default function Admin() {
                           try {
                             await updateUser(selectedUser.uid, { tier: newTier });
                             alert(`Resource allocation for ${selectedUser.email} shifted to ${newTier.toUpperCase()}.`);
-                          } catch (err) {
-                            alert('Failed to modify membership tier. System sync error.');
+                          } catch (err: any) {
+                            alert(`Tier shift failed: ${err.message}`);
                           }
                         }}
                         className="w-full bg-black border border-honey/20 rounded-md p-4 text-sm text-white focus:border-honey outline-none"
@@ -592,7 +612,48 @@ export default function Admin() {
 
           {activeTab === 'system' && (
             <div className="space-y-8 animate-in zoom-in duration-500">
-               <div className="bg-[#120D08] border border-honey/10 rounded-lg p-10 flex flex-col items-center justify-center text-center space-y-6 min-h-[400px]">
+                {/* Permission Diagnostics */}
+                <div className="bg-[#120D08] border border-blue-500/20 rounded-lg p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center border-l-4 border-l-blue-500 mb-8">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-blue-400">
+                      <ShieldAlert size={16} />
+                      <h3 className="text-[10px] uppercase tracking-widest font-black">Permission Diagnostics</h3>
+                    </div>
+                    <p className="text-[11px] text-white/40 italic">
+                      "System mismatch detected? Manually synchronize your administrative clearance with the secure vault."
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="bg-black/40 border border-white/5 p-3 rounded-md">
+                        <div className="text-[8px] uppercase text-white/30 mb-1">State Role</div>
+                        <div className="text-[10px] text-honey font-bold uppercase">{profile?.role || 'unknown'}</div>
+                      </div>
+                      <div className="bg-black/40 border border-white/5 p-3 rounded-md">
+                        <div className="text-[8px] uppercase text-white/30 mb-1">Auth Entity</div>
+                        <div className="text-[10px] text-white truncate">{authUser?.email}</div>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={async () => {
+                        setIsSyncing(true);
+                        try {
+                          await forceSyncAdminRole();
+                          alert('Master Clearance Synchronized. Re-verify apiary commands.');
+                        } catch (err: any) {
+                          alert(`Sync Violation: ${err.message}`);
+                        }
+                        setIsSyncing(false);
+                      }}
+                      disabled={isSyncing}
+                      className="w-full py-2 bg-blue-500/10 border border-blue-500/40 text-blue-400 text-[10px] uppercase font-black hover:bg-blue-500 hover:text-white transition-all rounded-md"
+                    >
+                      {isSyncing ? 'SYNCHRONIZING...' : 'Force Permission Sync'}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="bg-[#120D08] border border-honey/10 rounded-lg p-10 flex flex-col items-center justify-center text-center space-y-6 min-h-[400px]">
                   <Terminal size={48} className="text-honey animate-pulse" />
                   <div className="space-y-2">
                     <h2 className="text-3xl font-display text-white">Grid Core Active</h2>

@@ -96,8 +96,9 @@ export function useHiveData() {
     if (!db || profile?.role !== 'admin') return;
     try {
       await updateDoc(doc(db, 'hives', id), newData);
-    } catch (error) {
-      console.error('Error updating hive:', error);
+    } catch (error: any) {
+      console.error('[useHiveData] Error updating hive:', error);
+      throw error;
     }
   };
 
@@ -115,9 +116,9 @@ export function useHiveData() {
         journal: arrayUnion(entry)
       });
       return true;
-    } catch (error) {
-      console.error('Error adding journal entry:', error);
-      return false;
+    } catch (error: any) {
+      console.error('[useHiveData] Error adding journal entry:', error);
+      throw error;
     }
   };
 
@@ -153,9 +154,9 @@ export function useHiveData() {
       await setDoc(doc(db, 'hives', newId), newHive);
       console.log('[useHiveData] setDoc success');
       return newId;
-    } catch (error) {
+    } catch (error: any) {
       console.error('[useHiveData] Error adding hive:', error);
-      return '';
+      throw error;
     }
   };
 
@@ -165,8 +166,9 @@ export function useHiveData() {
     
     try {
       await deleteDoc(doc(db, 'hives', id));
-    } catch (error) {
-      console.error('Error removing hive:', error);
+    } catch (error: any) {
+      console.error('[useHiveData] Error removing hive:', error);
+      throw error;
     }
   };
 

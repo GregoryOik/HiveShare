@@ -37,6 +37,7 @@ interface AuthContextType {
   updateProfile: (newData: Partial<UserProfile>) => Promise<void>;
   cancelSubscription: () => Promise<void>;
   manageBilling: () => Promise<void>;
+  forceSyncAdminRole: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -76,7 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             if (currentUser?.email === 'gregorygate46@gmail.com' && data.role !== 'admin') {
               console.warn('Super Admin Override: Restoring admin role for owner.');
               data.role = 'admin';
-              updateDoc(userDocRef, { role: 'admin' }).catch(e => console.error('Failed to auto-repair role:', e));
+              setDoc(userDocRef, { role: 'admin' }, { merge: true }).catch(e => console.error('Failed to auto-repair role:', e));
             }
             
             // STRIPE EXTENSION SYNC
@@ -245,8 +246,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const forceSyncAdminRole = async () => {
+    if (!user || user.email !== 'gregorygate46@gmail.com') return;
+    try {
+      const userDocRef = doc(db, 'users', user.uid);
+      await setDoc(userDocRef, { role: 'admin' }, { merge: true });
+      console.log('Admin role sync forced successfully.');
+    } catch (error) {
+      console.error('Error forcing admin role sync', error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, error, signInWithGoogle, signUp, signInWithEmail, resetPassword, logout, updateProfile, cancelSubscription, manageBilling }}>
+    <AuthContext.Provider value={{ user, profile, loading, error, signInWithGoogle, signUp, signInWithEmail, resetPassword, logout, updateProfile, cancelSubscription, manageBilling, forceSyncAdminRole }}>
       {children}
     </AuthContext.Provider>
   );

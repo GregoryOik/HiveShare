@@ -48,8 +48,9 @@ export function useAdminUsers() {
           subscribedHives: [...currentHives, hiveId]
         });
       }
-    } catch (error) {
-      console.error("Error assigning hive:", error);
+    } catch (error: any) {
+      console.error("[useAdminUsers] Error assigning hive:", error);
+      throw error;
     }
   };
 
@@ -62,16 +63,18 @@ export function useAdminUsers() {
       await updateDoc(doc(db, 'users', userId), {
         subscribedHives: currentHives.filter(id => id !== hiveId)
       });
-    } catch (error) {
-      console.error("Error removing hive:", error);
+    } catch (error: any) {
+      console.error("[useAdminUsers] Error removing hive:", error);
+      throw error;
     }
   };
 
   const updateUser = async (userId: string, data: Partial<UserProfile>) => {
     try {
       await updateDoc(doc(db, 'users', userId), data);
-    } catch (error) {
-      console.error("Error updating user:", error);
+    } catch (error: any) {
+      console.error("[useAdminUsers] Error updating user:", error);
+      throw error;
     }
   };
 
