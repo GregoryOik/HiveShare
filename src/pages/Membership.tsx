@@ -55,7 +55,7 @@ export default function Membership() {
               <ul className="space-y-4 text-sm text-white/80 mb-12 flex-1">
                 <li className="flex gap-3"><span className="text-honey">—</span> Welcome jar (250g)</li>
                 <li className="flex gap-3"><span className="text-honey">—</span> Dashboard access (basic metrics)</li>
-                <li className="flex gap-3"><span className="text-honey">—</span> 2 seasonal harvests (~500g each)</li>
+                <li className="flex gap-3"><span className="text-honey">—</span> 3 seasonal harvests (~800g each, 2.5kg total)</li>
                 <li className="flex gap-3"><span className="text-honey">—</span> Standard label</li>
               </ul>
               
@@ -81,9 +81,9 @@ export default function Membership() {
               <div className="text-xs text-white/50 mb-10">per year <span className="text-honey font-medium ml-1">· less than €14/mo</span></div>
               
               <ul className="space-y-4 text-sm text-white/90 mb-12 flex-1">
-                <li className="flex gap-3"><span className="text-honey">—</span> Welcome jar (500g) shipped immediately</li>
+                <li className="flex gap-3"><span className="text-honey">—</span> Welcome jar (1kg) shipped immediately</li>
                 <li className="flex gap-3"><span className="text-honey">—</span> Dashboard access (full metrics + acoustic data)</li>
-                <li className="flex gap-3"><span className="text-honey">—</span> 3 seasonal harvests (~700g each)</li>
+                <li className="flex gap-3"><span className="text-honey">—</span> 3 seasonal harvests (~1.3kg each, 5kg total)</li>
                 <li className="flex gap-3"><span className="text-honey">—</span> Named jar (your name on the label)</li>
                 <li className="flex gap-3"><span className="text-honey">—</span> Digital Certificate of Adoption</li>
                 <li className="flex gap-3"><span className="text-honey">—</span> Handwritten note from Petros with each harvest</li>

@@ -34,8 +34,8 @@ export default function Terms() {
 
             <h3 className="text-lg font-display text-white mt-6 mb-2">2. PRICING & PLANS</h3>
             <p className="mb-4">
-              <strong>Starter Membership:</strong> €80/year — Includes hive adoption, live dashboard access, 1.5kg annual honey allocation.<br/>
-              <strong>Premium Membership:</strong> €160/year — Everything in Starter plus named jar labels, Digital Certificate of Adoption, detailed telemetry (temperature, acoustic data), and a handwritten note from the beekeeper.<br/><br/>
+              <strong>Starter Membership:</strong> €80/year — Includes shared hive adoption, live dashboard access, 2.5kg annual honey allocation (3 seasonal harvests).<br/>
+              <strong>Premium Membership:</strong> €160/year — Everything in Starter plus exclusive hive, named jar labels, Digital Certificate of Adoption, detailed telemetry (temperature, acoustic data), a handwritten note from the beekeeper, and 5kg annual honey allocation (1kg welcome jar + 3 seasonal harvests).<br/><br/>
               All prices include VAT where applicable. Shipping costs within the EU are included. Non-EU shipping may incur additional fees communicated before purchase.
             </p>
 
@@ -74,10 +74,10 @@ export default function Terms() {
 
             <h3 className="text-lg font-display text-white mt-6 mb-2">6. HONEY DELIVERY</h3>
             <p className="mb-4">
-              HiveShare commits to seasonal harvests per 12-month subscription period, approximately 500g each (approximately 1.5kg total annually across three shipments).
+              HiveShare commits to three seasonal harvests per 12-month subscription period. Starter members receive approximately 800g per harvest (2.5kg total). Premium members receive approximately 1.3kg per harvest (5kg total), plus a 1kg Welcome Jar shipped upon subscription.
             </p>
             <p className="mb-4">
-              Exact weights may vary ±20% depending on seasonal yield. In low-yield years, HiveShare guarantees a minimum of 1kg total delivery or will issue a proportional credit toward the following season.<br/>
+              Exact weights may vary ±20% depending on seasonal yield. In low-yield years, HiveShare guarantees a minimum of 2kg (Starter) or 4kg (Premium) total delivery, or will issue a proportional credit toward the following season.<br/>
               Shipping is included for EU countries. Delivery typically takes 5–10 business days. The Subscriber will be notified by email before each shipment.
             </p>
 
