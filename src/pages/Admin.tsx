@@ -18,11 +18,11 @@ export default function Admin() {
     }
   }, [hives, selectedHiveId]);
 
-  if (hivesLoading || usersLoading) return <div className="min-h-screen bg-[#110C05] p-12 text-white flex items-center justify-center">Loading...</div>;
+  if (hivesLoading || usersLoading) return <div className="min-h-screen bg-hive-bg p-12 text-white flex items-center justify-center">Loading...</div>;
 
   const data = hives.find(h => h.id === selectedHiveId) || hives[0];
 
-  if (!data) return <div className="min-h-screen bg-[#110C05] p-12 text-white flex items-center justify-center">No hives found.</div>;
+  if (!data) return <div className="min-h-screen bg-hive-bg p-12 text-white flex items-center justify-center">No hives found.</div>;
 
   const assignedUsers = users.filter(u => u.subscribedHives?.includes(data.id));
   const unassignedUsers = users.filter(u => !u.subscribedHives?.includes(data.id));
@@ -36,7 +36,7 @@ export default function Admin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#110C05] text-[#FAF4E8] p-6 md:p-12 font-sans">
+    <div className="min-h-screen bg-hive-bg text-cream p-6 md:p-12 font-sans">
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-8 border-b border-honey/20 pb-6">
           <div>
@@ -61,7 +61,7 @@ export default function Admin() {
           
           {/* Sidebar: Hive Selection */}
           <div className="md:col-span-1 space-y-4">
-            <div className="bg-[#1A1208] border border-honey/20 p-4 rounded-[2px]">
+            <div className="bg-hive-panel border border-honey/20 p-4 rounded-[2px] shadow-[0_0_30px_rgba(200,134,10,0.03)]">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-sm font-display text-honey uppercase tracking-widest">Your Hives</h2>
                 <button 
@@ -130,7 +130,7 @@ export default function Admin() {
 
           {/* Main Content: Manual Overrides */}
           <div className="md:col-span-3 space-y-6">
-            <div className="bg-[#1A1208] border border-honey/20 p-6 rounded-[2px]">
+            <div className="bg-hive-panel border border-honey/20 p-6 rounded-[2px] shadow-[0_0_30px_rgba(200,134,10,0.03)]">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-display text-honey">Hive #{data.id} Telemetry</h2>
                 <button 
@@ -159,7 +159,7 @@ export default function Admin() {
                     type="text" 
                     value={data.location}
                     onChange={(e) => updateHive(data.id, { location: e.target.value })}
-                    className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
+                    className="w-full bg-black/20 border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
                   />
                 </div>
 
@@ -172,7 +172,7 @@ export default function Admin() {
                     step="0.1"
                     value={data.weight}
                     onChange={(e) => updateHive(data.id, { weight: Number(e.target.value) })}
-                    className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
+                    className="w-full bg-black/20 border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
                   />
                 </div>
                 
@@ -183,7 +183,7 @@ export default function Admin() {
                   <select 
                     value={data.activity}
                     onChange={(e) => updateHive(data.id, { activity: e.target.value as any })}
-                    className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors appearance-none"
+                    className="w-full bg-black/20 border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors appearance-none"
                   >
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
@@ -200,7 +200,7 @@ export default function Admin() {
                     step="0.1"
                     value={data.temp}
                     onChange={(e) => updateHive(data.id, { temp: Number(e.target.value) })}
-                    className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
+                    className="w-full bg-black/20 border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
                   />
                 </div>
 
@@ -212,14 +212,14 @@ export default function Admin() {
                     type="number" 
                     value={data.humidity}
                     onChange={(e) => updateHive(data.id, { humidity: Number(e.target.value) })}
-                    className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
+                    className="w-full bg-black/20 border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
                   />
                 </div>
               </div>
             </div>
 
             {/* Content Management */}
-            <div className="bg-[#1A1208] border border-honey/20 p-6 rounded-[2px]">
+            <div className="bg-hive-panel border border-honey/20 p-6 rounded-[2px] shadow-[0_0_30px_rgba(200,134,10,0.03)]">
               <h2 className="text-xl font-display text-honey mb-6">Hive Details & Content</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -231,7 +231,7 @@ export default function Admin() {
                     type="text" 
                     value={data.beeSpecies || ''}
                     onChange={(e) => updateHive(data.id, { beeSpecies: e.target.value })}
-                    className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
+                    className="w-full bg-black/20 border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
                   />
                 </div>
 
@@ -243,7 +243,7 @@ export default function Admin() {
                     type="date" 
                     value={data.installationDate || ''}
                     onChange={(e) => updateHive(data.id, { installationDate: e.target.value })}
-                    className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
+                    className="w-full bg-black/20 border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
                   />
                 </div>
 
@@ -256,7 +256,7 @@ export default function Admin() {
                   <select 
                     value={data.activeHarvest}
                     onChange={(e) => updateHive(data.id, { activeHarvest: e.target.value })}
-                    className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors appearance-none"
+                    className="w-full bg-black/20 border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors appearance-none"
                   >
                     <option value="Spring Thyme">Spring Thyme</option>
                     <option value="Summer Wildflower">Summer Wildflower</option>
@@ -272,7 +272,7 @@ export default function Admin() {
                     type="text" 
                     value={data.nextHarvestDate}
                     onChange={(e) => updateHive(data.id, { nextHarvestDate: e.target.value })}
-                    className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
+                    className="w-full bg-black/20 border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors"
                   />
                 </div>
                 
@@ -285,14 +285,14 @@ export default function Admin() {
                     value={data.photoUrl}
                     onChange={(e) => updateHive(data.id, { photoUrl: e.target.value })}
                     placeholder="/beekeeper.jpg"
-                    className="w-full bg-[#110C05] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors text-xs"
+                    className="w-full bg-black/20 border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors text-xs"
                   />
                 </div>
               </div>
             </div>
 
             {/* Subscriber Management */}
-            <div className="bg-[#1A1208] border border-honey/20 p-6 rounded-[2px]">
+            <div className="bg-hive-panel border border-honey/20 p-6 rounded-[2px] shadow-[0_0_30px_rgba(200,134,10,0.03)]">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-display text-honey flex items-center gap-2">
                   <Users className="w-5 h-5" /> Subscriber Management
@@ -304,7 +304,7 @@ export default function Admin() {
               
               <div className="space-y-6">
                 {/* Assign New User */}
-                <div className="flex items-end gap-4 bg-[#110C05] p-4 rounded-[2px] border border-honey/10">
+                <div className="flex items-end gap-4 bg-black/20 p-4 rounded-[2px] border border-honey/10">
                   <div className="flex-1">
                     <label className="block text-xs text-white/50 mb-2">Assign Hive to User</label>
                     <select 
@@ -331,13 +331,13 @@ export default function Admin() {
                 <div>
                   <h3 className="text-xs text-white/50 mb-3 uppercase tracking-widest">Current Sponsors</h3>
                   {assignedUsers.length === 0 ? (
-                    <div className="text-sm text-white/30 italic p-4 bg-[#110C05] rounded-[2px] border border-white/5 text-center">
+                    <div className="text-sm text-white/30 italic p-4 bg-black/20 rounded-[2px] border border-white/5 text-center">
                       No users are currently assigned to this hive.
                     </div>
                   ) : (
                     <div className="space-y-2">
                       {assignedUsers.map(user => (
-                        <div key={user.uid} className="flex flex-col gap-2 bg-[#110C05] p-3 rounded-[2px] border border-white/5">
+                        <div key={user.uid} className="flex flex-col gap-2 bg-black/20 p-3 rounded-[2px] border border-white/5">
                           <div className="flex items-center justify-between">
                             <span className="text-sm text-white/80">{user.email}</span>
                             <button 

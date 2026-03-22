@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#1A1208] text-white flex items-center justify-center p-6">
+    <div className="min-h-screen bg-hive-bg text-white flex items-center justify-center p-6">
       <div className="max-w-md w-full text-center space-y-8 animate-in fade-in zoom-in duration-500">
         <div className="font-display text-[8rem] leading-none text-honey/20 select-none">404</div>
         

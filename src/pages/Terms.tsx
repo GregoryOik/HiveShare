@@ -4,8 +4,8 @@ import { ArrowLeft } from 'lucide-react';
 
 export default function Terms() {
   return (
-    <div className="min-h-screen bg-[#1A1208] text-white/80 font-body selection:bg-honey selection:text-white pb-20">
-      <header className="border-b border-honey/20 bg-[#1A1208] sticky top-0 z-50">
+    <div className="min-h-screen bg-hive-bg text-white/80 font-body selection:bg-honey selection:text-white pb-20">
+      <header className="border-b border-honey/20 bg-hive-bg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center">
           <Link to="/" className="flex items-center gap-2 text-honey hover:text-white transition-colors">
             <ArrowLeft className="w-5 h-5" />

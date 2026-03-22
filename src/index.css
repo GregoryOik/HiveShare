@@ -3,6 +3,8 @@
 
 @theme {
   --color-honey: #C8860A;
+  --color-hive-bg: #0A0704;
+  --color-hive-panel: #110C05;
   --color-hive-dark: #1A1208;
   --color-cream: #FAF4E8;
   --color-pale-honey: #FDF6E3;
@@ -16,8 +18,8 @@
 
 body {
   font-family: var(--font-body);
-  background-color: var(--color-cream);
-  color: var(--color-text-dark);
+  background-color: var(--color-hive-bg);
+  color: var(--color-cream);
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
 }

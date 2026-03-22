@@ -18,12 +18,12 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
 
   return (
     <>
-      <nav className={`fixed top-0 w-full z-50 transition-colors duration-300 ${scrolled ? 'bg-cream/90 backdrop-blur-md border-b border-border-amber' : 'bg-transparent'}`}>
+      <nav className={`fixed top-0 w-full z-50 transition-colors duration-300 ${scrolled ? 'bg-hive-bg/90 backdrop-blur-md border-b border-honey/10' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="font-display text-2xl tracking-wide z-50 relative">
+          <div className="font-display text-2xl tracking-wide z-50 relative text-white">
             Hive<span className="text-honey">Share</span>
           </div>
-          <div className="hidden md:flex items-center space-x-12 text-[10px] uppercase tracking-[0.2em] font-medium text-text-muted">
+          <div className="hidden md:flex items-center space-x-12 text-[10px] uppercase tracking-[0.2em] font-medium text-white/50">
             <a href="#how-it-works" className="hover:text-honey transition-colors duration-200">How it works</a>
             <a href="#features" className="hover:text-honey transition-colors duration-200">Features</a>
             <a href="#origins" className="hover:text-honey transition-colors duration-200">Origins</a>
@@ -31,23 +31,23 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
           </div>
           <div className="hidden md:flex items-center space-x-6">
             {user ? (
-              <Link to="/dashboard" className="text-[10px] uppercase tracking-[0.2em] font-medium text-text-muted hover:text-honey transition-colors duration-200">
+              <Link to="/dashboard" className="text-[10px] uppercase tracking-[0.2em] font-medium text-white/50 hover:text-honey transition-colors duration-200">
                 Dashboard
               </Link>
             ) : (
-              <Link to="/login" className="text-[10px] uppercase tracking-[0.2em] font-medium text-text-muted hover:text-honey transition-colors duration-200">
+              <Link to="/login" className="text-[10px] uppercase tracking-[0.2em] font-medium text-white/50 hover:text-honey transition-colors duration-200">
                 Log In
               </Link>
             )}
             <a 
               href="#pricing"
-              className="inline-block bg-honey text-white px-6 py-3 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors active:scale-95"
+              className="inline-block bg-honey text-white px-6 py-3 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors active:scale-95 rounded-[2px]"
             >
               Get Started
             </a>
             <button 
               onClick={() => setIsCartOpen(true)} 
-              className="relative text-text-dark hover:text-honey transition-colors"
+              className="relative text-white/80 hover:text-honey transition-colors"
             >
               <ShoppingCart size={20} />
               {cartItemsCount > 0 && (
@@ -58,7 +58,7 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
             </button>
           </div>
           <button 
-            className="md:hidden z-50 relative text-text-dark"
+            className="md:hidden z-50 relative text-white/80"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -67,8 +67,9 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
       </nav>
 
       {/* Mobile Menu Drawer */}
-      <div className={`fixed inset-0 bg-cream z-40 flex flex-col items-center justify-center transition-transform duration-500 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="flex flex-col items-center space-y-8 text-sm uppercase tracking-[0.2em] font-medium text-text-dark">
+      <div className={`fixed inset-0 bg-hive-bg z-40 flex flex-col items-center justify-center transition-transform duration-500 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-honey/5 blur-[80px] rounded-full pointer-events-none"></div>
+        <div className="flex flex-col items-center space-y-8 text-sm uppercase tracking-[0.2em] font-bold text-white/80">
           <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">How it works</a>
           <a href="#features" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Features</a>
           <a href="#origins" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Origins</a>
@@ -81,7 +82,7 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
           <a 
             href="#pricing"
             onClick={() => setMobileMenuOpen(false)}
-            className="mt-8 inline-block bg-honey text-white px-8 py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors"
+            className="mt-8 inline-block bg-honey text-white px-8 py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"
           >
             Get Started
           </a>
@@ -136,19 +137,19 @@ const Hero = () => {
   return (
     <section className="min-h-screen flex flex-col md:flex-row pt-20">
       {/* Left Column */}
-      <div className="w-full md:w-[45%] flex flex-col justify-center px-6 md:pl-24 lg:pl-32 py-12 md:py-20">
+      <div className="w-full md:w-[45%] flex flex-col justify-center px-6 md:pl-24 lg:pl-32 py-12 md:py-20 text-white">
         <div className="w-12 h-[1px] bg-honey mb-6"></div>
-        <div className="text-[10px] uppercase tracking-[0.2em] text-text-muted mb-6">
+        <div className="text-[10px] uppercase tracking-[0.2em] text-white/50 mb-6">
           Laconia, Greece · Est. 2026
         </div>
         
-        <h1 className="font-display text-5xl md:text-6xl lg:text-[4.5rem] leading-[1.0] font-light mb-6">
-          Own a piece of <span className="italic text-honey">Greece.</span><br />
+        <h1 className="font-display text-5xl md:text-6xl lg:text-[4.5rem] leading-[1.0] font-light mb-6 text-white/95">
+          Own a piece of <span className="italic text-honey drop-shadow-[0_0_15px_rgba(200,134,10,0.3)]">Greece.</span><br />
           Watch it live.<br />
           Taste it home.
         </h1>
         
-        <p className="text-text-muted text-base max-w-sm mb-8 leading-relaxed font-light">
+        <p className="text-white/60 text-base max-w-sm mb-8 leading-relaxed font-light">
           €80/year — less than €7 a month. Your own named hive in Laconia, live data, and three harvests of raw Greek honey delivered to your door. Your first jar ships within two weeks. After that, your hive decides the rest.
         </p>
         
@@ -156,36 +157,36 @@ const Hero = () => {
           <div className="flex flex-wrap gap-3">
             <a 
               href="#pricing"
-              className="bg-honey text-white px-8 py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px] inline-block"
+              className="bg-honey text-white px-8 py-4 text-xs uppercase tracking-wider font-bold hover:bg-honey/90 transition-colors rounded-[2px] inline-block shadow-[0_0_20px_rgba(200,134,10,0.2)]"
             >
               Adopt Your Hive — From €80/yr
             </a>
             <a 
               href="#how-it-works"
-              className="border border-border-amber text-text-dark px-6 py-4 text-xs uppercase tracking-wider font-medium hover:bg-white transition-colors rounded-[2px] inline-block"
+              className="border border-white/20 text-white/80 px-6 py-4 text-xs uppercase tracking-wider font-bold hover:bg-white/10 hover:border-white/30 transition-colors rounded-[2px] inline-block"
             >
               How It Works
             </a>
           </div>
-          <p className="text-xs text-text-muted">
+          <p className="text-xs text-white/40">
             Questions? <a href="mailto:info@oikonomakos.gr" className="text-honey hover:underline">info@oikonomakos.gr</a>
           </p>
         </div>
         
         <div className="flex items-center space-x-8 mt-6">
           <div>
-            <div className="font-display text-3xl mb-1">600</div>
-            <div className="text-[9px] uppercase tracking-widest text-text-muted">Active hives</div>
+            <div className="font-display text-3xl mb-1 text-white">600</div>
+            <div className="text-[9px] uppercase tracking-widest text-white/40">Active hives</div>
           </div>
-          <div className="w-[1px] h-10 bg-border-amber"></div>
+          <div className="w-[1px] h-10 bg-white/10"></div>
           <div>
-            <div className="font-display text-3xl mb-1">6t</div>
-            <div className="text-[9px] uppercase tracking-widest text-text-muted">Annual yield</div>
+            <div className="font-display text-3xl mb-1 text-white">6t</div>
+            <div className="text-[9px] uppercase tracking-widest text-white/40">Annual yield</div>
           </div>
-          <div className="w-[1px] h-10 bg-border-amber"></div>
+          <div className="w-[1px] h-10 bg-white/10"></div>
           <div>
-            <div className="font-display text-3xl mb-1">3</div>
-            <div className="text-[9px] uppercase tracking-widest text-text-muted">Harvests/year</div>
+            <div className="font-display text-3xl mb-1 text-white">3</div>
+            <div className="text-[9px] uppercase tracking-widest text-white/40">Harvests/year</div>
           </div>
         </div>
       </div>
@@ -252,18 +253,18 @@ const HowItWorks = () => {
 
   return (
     <section id="how-it-works" className="py-32 px-6 max-w-7xl mx-auto">
-      <h2 className="font-display text-3xl font-light mb-16 text-text-dark">From mountain bloom to your kitchen table.</h2>
+      <h2 className="font-display text-4xl font-light mb-16 text-white text-center">From mountain bloom to your kitchen table.</h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-4 border border-border-amber">
+      <div className="grid grid-cols-1 md:grid-cols-4 border border-honey/20 rounded-[2px] overflow-hidden">
         {steps.map((step, i) => (
-          <div key={i} className="group relative p-8 border-b md:border-b-0 md:border-r border-border-amber last:border-0 transition-colors duration-500 hover:bg-white min-h-[320px] flex flex-col overflow-hidden">
+          <div key={i} className="group relative p-8 border-b md:border-b-0 md:border-r border-honey/20 last:border-0 transition-colors duration-500 hover:bg-hive-panel min-h-[320px] flex flex-col overflow-hidden">
             <span className="absolute top-0 right-0 font-display text-[8rem] leading-none text-honey/5 select-none -translate-y-2 translate-x-2 group-hover:text-honey/10 transition-colors duration-500">
               {step.num}
             </span>
             <div className="mt-auto relative z-10">
               <div className={`h-[1px] bg-honey mb-6 transition-all duration-700 group-hover:w-full ${['w-8','w-16','w-24','w-full'][i]}`}></div>
-              <h3 className="font-display text-[1.4rem] mb-4">{step.title}</h3>
-              <p className="text-sm text-text-muted leading-relaxed">{step.desc}</p>
+              <h3 className="font-display text-[1.4rem] mb-4 text-white/90">{step.title}</h3>
+              <p className="text-sm text-white/50 leading-relaxed font-light">{step.desc}</p>
             </div>
           </div>
         ))}
@@ -283,15 +284,15 @@ const WhatYouGet = () => {
   ];
 
   return (
-    <section id="features" className="bg-hive-dark text-cream py-32 px-6">
+    <section id="features" className="py-32 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 border border-honey/20">
+        <div className="grid grid-cols-1 md:grid-cols-3 border border-honey/20 rounded-[2px] overflow-hidden">
           {features.map((f, i) => (
-            <div key={i} className="p-10 border-b md:border-b-0 md:border-r md:[&:nth-child(n+4)]:border-b-0 [&:nth-child(1)]:border-b [&:nth-child(2)]:border-b [&:nth-child(3)]:border-b border-honey/20 hover:bg-honey/5 transition-colors duration-500">
-              <div className="w-10 h-10 border border-honey/40 flex items-center justify-center mb-8 rounded-[2px]">
+            <div key={i} className="p-10 border-b md:border-b-0 md:border-r md:[&:nth-child(n+4)]:border-b-0 [&:nth-child(1)]:border-b [&:nth-child(2)]:border-b [&:nth-child(3)]:border-b border-honey/20 hover:bg-hive-panel transition-colors duration-500">
+              <div className="w-10 h-10 border border-honey/40 flex items-center justify-center mb-8 rounded-[2px] bg-honey/5">
                 {f.icon}
               </div>
-              <h3 className="font-display text-[1.3rem] mb-3 text-cream">{f.title}</h3>
+              <h3 className="font-display text-[1.3rem] mb-3 text-white/90">{f.title}</h3>
               <p className="text-xs text-white/50 leading-relaxed font-light">{f.desc}</p>
             </div>
           ))}
@@ -305,8 +306,8 @@ const DashboardPreview = () => {
   return (
     <section className="py-32 px-6 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-20 overflow-hidden">
       <div className="w-full md:w-[40%]">
-        <h2 className="font-display text-4xl font-light mb-10">Watch your honey being made.</h2>
-        <ul className="space-y-6 text-sm text-text-muted">
+        <h2 className="font-display text-4xl font-light mb-10 text-white">Watch your honey being made.</h2>
+        <ul className="space-y-6 text-sm text-white/50">
           <li className="flex gap-4"><span className="text-honey">—</span> Real-time weight metrics show exactly when the nectar flow begins.</li>
           <li className="flex gap-4"><span className="text-honey">—</span> Internal climate sensors ensure the colony is healthy and regulating temperature.</li>
           <li className="flex gap-4"><span className="text-honey">—</span> Regular snapshots from the apiary connect you to the landscape.</li>
@@ -315,10 +316,10 @@ const DashboardPreview = () => {
       </div>
       
       <div className="w-full md:w-[60%] perspective-[1200px]">
-        <div className="bg-[#110C05] border border-honey/20 rounded-[2px] p-6 shadow-2xl transform rotate-y-[-5deg] transition-transform duration-700 hover:rotate-y-0">
+        <div className="bg-hive-panel border border-honey/20 rounded-[2px] p-6 shadow-[0_0_30px_rgba(200,134,10,0.05)] transform rotate-y-[-5deg] transition-transform duration-700 hover:rotate-y-0">
           {/* Header */}
           <div className="flex justify-between items-center border-b border-honey/10 pb-4 mb-6">
-            <div className="text-cream text-sm tracking-wide">Hive #247 — Lagia, Mani</div>
+            <div className="text-white/90 text-sm tracking-wide">Hive #247 — Lagia, Mani</div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-blink"></div>
               <div className="text-[9px] uppercase tracking-widest text-white/50">Live</div>
@@ -394,10 +395,10 @@ const Origins = () => {
   ];
 
   return (
-    <section id="origins" className="bg-hive-dark text-cream py-32 px-6">
+    <section id="origins" className="py-32 px-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-20">
         <div className="w-full md:w-[55%]">
-          <h2 className="font-display text-4xl font-light mb-6">Immediate welcome. A nomadic journey.</h2>
+          <h2 className="font-display text-4xl font-light mb-6 text-white text-white">Immediate welcome. A nomadic journey.</h2>
           <p className="text-sm text-white/60 mb-16 max-w-md leading-relaxed">
             Your first jar ships within two weeks to welcome you to the hive. After that, our hives travel across Greece's most pristine landscapes. What arrives next depends on what bloomed this year — and when.
           </p>
@@ -436,15 +437,15 @@ const Origins = () => {
         </div>
         
         <div className="w-full md:w-[45%] flex items-center justify-center">
-          <div className="w-full aspect-square border border-honey/20 bg-[#110C05] relative flex items-center justify-center overflow-hidden group rounded-[2px]">
+          <div className="w-full aspect-square border border-honey/20 bg-hive-panel relative flex items-center justify-center overflow-hidden group rounded-[2px]">
             {/* TODO: Replace /map-texture.jpg in the public folder with your own map texture or image */}
-            <img src="/map-texture.jpg" alt="Map texture" className="absolute inset-0 w-full h-full object-cover opacity-40" />
+            <img src="/map-texture.jpg" alt="Map texture" className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay" />
             {/* Topographic lines simulation */}
             <div className="absolute inset-0 border border-honey/5 rounded-full scale-[0.3] group-hover:scale-[0.32] transition-transform duration-1000"></div>
             <div className="absolute inset-0 border border-honey/10 rounded-full scale-[0.6] group-hover:scale-[0.63] transition-transform duration-1000"></div>
             <div className="absolute inset-0 border border-honey/15 rounded-full scale-[0.9] group-hover:scale-[0.95] transition-transform duration-1000"></div>
             
-            <div className="z-10 text-center bg-[#110C05]/80 backdrop-blur-sm p-6 border border-honey/20 rounded-[2px]">
+            <div className="z-10 text-center bg-hive-panel/80 backdrop-blur-sm p-6 border border-honey/20 rounded-[2px]">
               <div className="text-[10px] uppercase tracking-widest text-white/40 mb-2">36°57'14.0"N 22°21'08.0"E</div>
               <div className="font-display text-xl text-pale-honey">Lagia, Mani</div>
             </div>
@@ -459,7 +460,7 @@ const Beekeeper = () => {
   return (
     <section className="py-32 px-6 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 md:gap-24">
       <div className="w-full md:w-1/2 relative">
-        <div className="absolute -inset-4 border border-border-amber rounded-[2px] -z-10 translate-x-2 translate-y-2"></div>
+        <div className="absolute -inset-4 border border-honey/20 rounded-[2px] -z-10 translate-x-2 translate-y-2"></div>
         {/* TODO: Replace /beekeeper.jpg in the public folder with the actual photo of your father working the hives */}
         <img 
           src="/beekeeper.jpg" 
@@ -467,12 +468,12 @@ const Beekeeper = () => {
           className="w-full aspect-[4/5] object-cover rounded-[2px] sepia-[0.2] contrast-125"
         />
       </div>
-      <div className="w-full md:w-1/2">
+      <div className="w-full md:w-1/2 text-white">
         <div className="w-8 h-[1px] bg-honey mb-10"></div>
-        <p className="font-display text-3xl md:text-4xl leading-[1.4] font-light text-text-dark italic mb-10">
+        <p className="font-display text-3xl md:text-4xl leading-[1.4] font-light text-white/90 italic mb-10">
           "I manage 600 hives. I know when the thyme will bloom in Mani two weeks before it happens. My grandfather followed the same blooms across these mountains."
         </p>
-        <div className="text-[10px] uppercase tracking-widest text-text-muted">
+        <div className="text-[10px] uppercase tracking-widest text-white/40">
           Petros Oikonomakos · Master Beekeeper
         </div>
       </div>
@@ -482,20 +483,20 @@ const Beekeeper = () => {
 
 const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliveOil, setSelectedPlanForSignup }: any) => {
   return (
-    <section id="pricing" className="py-32 px-6 max-w-7xl mx-auto">
-      <h2 className="font-display text-4xl font-light mb-20 text-center">Membership Tiers</h2>
+    <section id="pricing" className="py-32 px-6 max-w-7xl mx-auto text-white">
+      <h2 className="font-display text-4xl font-light mb-20 text-center text-white">Membership Tiers</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-6 md:gap-0">
         {/* Starter */}
-        <div className="border border-border-amber p-10 bg-white md:border-r-0 rounded-[2px]">
-          <div className="text-[10px] uppercase tracking-widest text-text-muted mb-6">Starter</div>
-          <div className="mb-2 flex items-start">
+        <div className="border border-honey/20 p-10 bg-hive-panel md:border-r-0 rounded-[2px]">
+          <div className="text-[10px] uppercase tracking-widest text-white/40 mb-6">Starter</div>
+          <div className="mb-2 flex items-start text-white">
             <span className="font-display text-[3rem] leading-none">80</span>
             <span className="text-xl font-medium mt-1 ml-1">€</span>
           </div>
-          <div className="text-xs text-text-muted mb-10">per year <span className="text-honey font-medium ml-1">· less than €7/mo</span></div>
+          <div className="text-xs text-white/40 mb-10">per year <span className="text-honey font-medium ml-1">· less than €7/mo</span></div>
           
-          <ul className="space-y-4 text-sm text-text-dark mb-12">
+          <ul className="space-y-4 text-sm text-white/80 mb-12">
             <li className="flex gap-3"><span className="text-honey">—</span> Welcome jar (250g)</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Dashboard access (basic metrics)</li>
             <li className="flex gap-3"><span className="text-honey">—</span> 3 seasonal harvests (~800g each, 2.5kg total)</li>
@@ -504,16 +505,16 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
           
           <button 
             onClick={() => setSelectedPlanForSignup({ id: 'starter', name: 'Starter Membership' })}
-            className="block text-center w-full border border-border-amber py-3 text-xs uppercase tracking-wider font-medium hover:bg-cream transition-colors rounded-[2px]"
+            className="block text-center w-full border border-honey/30 text-white/90 py-3 text-xs uppercase tracking-wider font-medium hover:bg-white/5 transition-colors rounded-[2px]"
           >
             Select Starter
           </button>
         </div>
         
         {/* Premium */}
-        <div className="border-2 border-honey p-12 bg-hive-dark text-cream relative z-10 shadow-2xl md:-my-3 rounded-[2px]">
+        <div className="border-2 border-honey p-12 bg-[#1A1208] text-white relative z-10 shadow-[0_0_30px_rgba(200,134,10,0.15)] md:-my-3 rounded-[2px]">
           <div className="absolute top-0 right-0 bg-honey text-[#1A1208] text-[9px] uppercase tracking-widest px-3 py-1 font-bold rounded-bl-sm">Recommended</div>
-          <div className="text-[10px] uppercase tracking-widest text-white/50 mb-6">Premium</div>
+          <div className="text-[10px] uppercase tracking-widest text-honey/80 mb-6">Premium</div>
           <div className="mb-2 text-pale-honey flex items-start">
             <span className="font-display text-[3rem] leading-none">200</span>
             <span className="text-xl font-medium mt-1 ml-1">€</span>
@@ -532,22 +533,22 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
           
           <button 
             onClick={() => setSelectedPlanForSignup({ id: 'premium', name: 'Premium Membership' })}
-            className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"
+            className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-bold hover:bg-honey/90 transition-colors rounded-[2px] shadow-[0_0_15px_rgba(200,134,10,0.2)]"
           >
             Select Premium
           </button>
         </div>
         
         {/* Corporate */}
-        <div className="border border-border-amber p-10 bg-white md:border-l-0 rounded-[2px]">
-          <div className="text-[10px] uppercase tracking-widest text-text-muted mb-6">Corporate</div>
-          <div className="mb-2 flex items-start">
+        <div className="border border-honey/20 p-10 bg-hive-panel md:border-l-0 rounded-[2px]">
+          <div className="text-[10px] uppercase tracking-widest text-white/40 mb-6">Corporate</div>
+          <div className="mb-2 flex items-start text-white">
             <span className="font-display text-[3rem] leading-none">1,800</span>
             <span className="text-xl font-medium mt-1 ml-1">€</span>
           </div>
-          <div className="text-xs text-text-muted mb-10">per year</div>
+          <div className="text-xs text-white/40 mb-10">per year</div>
           
-          <ul className="space-y-4 text-sm text-text-dark mb-12">
+          <ul className="space-y-4 text-sm text-white/80 mb-12">
             <li className="flex gap-3"><span className="text-honey">—</span> Block of 15 dedicated hives</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Custom branded dashboard</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Custom branded honey jars</li>
@@ -556,7 +557,7 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
           
           <button 
             onClick={() => document.getElementById('join')?.scrollIntoView({ behavior: 'smooth' })}
-            className="w-full border border-border-amber py-3 text-xs uppercase tracking-wider font-medium hover:bg-cream transition-colors rounded-[2px]"
+            className="w-full border border-honey/30 text-white/90 py-3 text-xs uppercase tracking-wider font-medium hover:bg-white/5 transition-colors rounded-[2px]"
           >
             Contact Us
           </button>
@@ -564,22 +565,23 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
       </div>
 
       {/* Olive Oil Add-on */}
-      <div className="mt-16 border border-border-amber p-8 bg-cream rounded-[2px] max-w-3xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm">
-        <div>
+      <div className="mt-16 border border-honey/20 p-8 bg-hive-panel rounded-[2px] max-w-3xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-32 h-32 bg-honey/10 blur-[50px] pointer-events-none"></div>
+        <div className="relative z-10">
           <div className="text-[10px] uppercase tracking-widest text-honey font-bold mb-2">Annual Add-on</div>
-          <h3 className="font-display text-2xl mb-2 text-text-dark">+ Laconian Olive Oil · 500ml</h3>
-          <p className="text-sm text-text-muted mb-1">Single-estate, cold-pressed, harvest 2026</p>
-          <p className="text-sm text-text-muted">Added to your autumn shipment</p>
+          <h3 className="font-display text-2xl mb-2 text-white">+ Laconian Olive Oil · 500ml</h3>
+          <p className="text-sm text-white/50 mb-1">Single-estate, cold-pressed, harvest 2026</p>
+          <p className="text-sm text-white/50">Added to your autumn shipment</p>
         </div>
-        <div className="text-center md:text-right flex flex-col items-center md:items-end">
-          <div className="font-display text-3xl text-text-dark mb-2">18 €</div>
+        <div className="text-center md:text-right flex flex-col items-center md:items-end relative z-10">
+          <div className="font-display text-3xl text-white mb-2">18 €</div>
           <button 
             onClick={() => {
               setHasOliveOil(true);
               setIsCartOpen(true);
             }}
             disabled={hasOliveOil || !cartPlan}
-            className="px-6 py-2 bg-honey text-white text-[10px] uppercase tracking-widest font-medium hover:bg-honey/90 transition-colors rounded-[2px] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-honey text-white text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-colors rounded-[2px] disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_10px_rgba(200,134,10,0.2)]"
           >
             {!cartPlan ? 'Select a plan first' : hasOliveOil ? 'Added to Cart' : 'Add to Cart'}
           </button>
@@ -591,21 +593,22 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
 
 const AboutOurHoney = () => {
   return (
-    <section className="bg-cream py-32 px-6 border-t border-border-amber">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-16">
+    <section className="py-32 px-6 border-t border-honey/10 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[radial-gradient(circle,_rgba(200,134,10,0.03)_0%,_transparent_70%)] pointer-events-none"></div>
+      <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-16 relative z-10">
         <div className="w-full md:w-1/2">
           <img 
             src="/4jars.jpg" 
             alt="Four seasonal harvests of Greek honey" 
-            className="w-full h-[500px] object-cover rounded-[2px] shadow-xl border border-border-amber/30"
+            className="w-full h-[500px] object-cover rounded-[2px] shadow-2xl border border-honey/20"
           />
         </div>
-        <div className="w-full md:w-1/2">
-          <div className="text-[10px] uppercase tracking-[0.2em] text-honey mb-4">Quality & Compliance</div>
-          <h2 className="font-display text-4xl font-light mb-8 text-text-dark">About Our Honey</h2>
+        <div className="w-full md:w-1/2 text-white">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4">Quality & Compliance</div>
+          <h2 className="font-display text-4xl font-light mb-8 text-white/90">About Our Honey</h2>
           
-          <div className="space-y-6 text-sm text-text-muted leading-relaxed">
-            <p>
+          <div className="space-y-6 text-sm text-white/50 leading-relaxed">
+            <p className="text-white/70">
               Every jar of honey you receive is produced exclusively by master beekeeper Petros Oikonomakos. Our hives travel across Greece's most pristine landscapes to capture distinct seasonal flavors: Wildflower from Sparta, Thyme from Lagia (Mani), Fir Vanilla from Arachova (Arcadia), and Pine from Evia.
             </p>
             
@@ -624,7 +627,7 @@ const AboutOurHoney = () => {
               </li>
             </ul>
             
-            <p className="pt-4 border-t border-border-amber/50 italic">
+            <p className="pt-4 border-t border-honey/10 italic text-white/40">
               When you adopt a hive, you're not just getting a digital experience; you're securing a seasonal supply of authentic, artisanal Greek honey delivered straight to your door.
             </p>
           </div>
@@ -646,23 +649,23 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="py-32 px-6 max-w-[720px] mx-auto">
-      <h2 className="font-display text-3xl font-light mb-16 text-center">Questions we get asked</h2>
+    <section className="py-32 px-6 max-w-[720px] mx-auto text-white">
+      <h2 className="font-display text-3xl font-light mb-16 text-center text-white/90">Questions we get asked</h2>
       
       <div className="space-y-0">
         {faqs.map((faq, i) => (
-          <div key={i} className="border-b border-border-amber">
+          <div key={i} className="border-b border-honey/20">
             <button 
               className="w-full py-6 flex justify-between items-center text-left focus:outline-none group"
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
             >
-              <span className="font-display text-[1.2rem] group-hover:text-honey transition-colors">{faq.q}</span>
-              <Plus className={`w-5 h-5 text-text-muted transition-transform duration-500 ${openIndex === i ? 'rotate-45' : ''}`} strokeWidth={1} />
+              <span className="font-display text-[1.2rem] group-hover:text-honey transition-colors text-white/90">{faq.q}</span>
+              <Plus className={`w-5 h-5 text-white/40 group-hover:text-honey transition-all duration-500 ${openIndex === i ? 'rotate-45' : ''}`} strokeWidth={1} />
             </button>
             <div 
               className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === i ? 'max-h-40 opacity-100 pb-6' : 'max-h-0 opacity-0'}`}
             >
-              <p className="text-sm text-text-muted leading-relaxed">{faq.a}</p>
+              <p className="text-sm text-white/50 leading-relaxed font-light">{faq.a}</p>
             </div>
           </div>
         ))}
@@ -675,11 +678,11 @@ const FinalCTA = () => {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <section id="join" className="bg-hive-dark text-cream py-32 px-6 relative overflow-hidden">
+    <section id="join" className="py-32 px-6 relative overflow-hidden text-white border-t border-honey/10">
       <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(200,134,10,0.08)_0%,_transparent_70%)]"></div>
       
       <div className="max-w-2xl mx-auto text-center relative z-10">
-        <h2 className="font-display text-5xl font-light mb-6">Be first to own a Greek beehive</h2>
+        <h2 className="font-display text-5xl font-light mb-6 text-white/95">Be first to own a Greek beehive</h2>
         <p className="text-white/60 text-base mb-12">
           Founding members get early access, locked pricing, and a named hive in our first batch of 50.
         </p>
@@ -742,9 +745,9 @@ const FinalCTA = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-[#0A0703] text-white/40 py-10 px-6">
+    <footer className="bg-[#050302] text-white/40 py-10 px-6 border-t border-honey/5">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0 text-[10px] uppercase tracking-widest">
-        <div className="font-display text-lg tracking-wide text-cream normal-case">
+        <div className="font-display text-lg tracking-wide text-white/80 normal-case">
           Hive<span className="text-honey">Share</span>
         </div>
         
@@ -773,7 +776,7 @@ export default function Landing() {
   const cartTotal = (cartPlan?.price || 0) + (hasOliveOil ? 18 : 0);
 
   return (
-    <div className="min-h-screen bg-cream text-text-dark font-body selection:bg-honey selection:text-white">
+    <div className="min-h-screen bg-hive-bg text-cream font-body selection:bg-honey selection:text-white">
       <Navbar cartItemsCount={cartItemsCount} setIsCartOpen={setIsCartOpen} />
       <Hero />
       <HowItWorks />
@@ -796,54 +799,54 @@ export default function Landing() {
 
       {/* Cart Drawer */}
       {isCartOpen && (
-        <div className="fixed inset-0 bg-black/50 z-[100] flex justify-end" onClick={() => setIsCartOpen(false)}>
-          <div className="w-full max-w-md bg-cream h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300" onClick={e => e.stopPropagation()}>
-            <div className="p-6 border-b border-border-amber flex justify-between items-center bg-white">
-              <h2 className="font-display text-2xl">Your Cart</h2>
-              <button onClick={() => setIsCartOpen(false)} className="text-text-muted hover:text-text-dark transition-colors"><X size={24} /></button>
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex justify-end" onClick={() => setIsCartOpen(false)}>
+          <div className="w-full max-w-md bg-hive-panel border-l border-honey/20 h-full shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col animate-in slide-in-from-right duration-300" onClick={e => e.stopPropagation()}>
+            <div className="p-6 border-b border-honey/10 flex justify-between items-center bg-[#1A1208]">
+              <h2 className="font-display text-2xl text-white">Your Cart</h2>
+              <button onClick={() => setIsCartOpen(false)} className="text-white/40 hover:text-white transition-colors"><X size={24} /></button>
             </div>
             
             <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
               {cartItemsCount === 0 ? (
-                <p className="text-text-muted text-center mt-10">Your cart is empty.</p>
+                <p className="text-white/40 text-center mt-10">Your cart is empty.</p>
               ) : (
                 <>
                   {cartPlan && (
-                    <div className="flex justify-between items-center border-b border-border-amber/50 pb-4">
+                    <div className="flex justify-between items-center border-b border-honey/10 pb-4">
                       <div>
-                        <div className="font-medium text-text-dark">{cartPlan.name}</div>
-                        <div className="text-xs text-text-muted">Annual Subscription</div>
+                        <div className="font-medium text-white/90">{cartPlan.name}</div>
+                        <div className="text-xs text-white/50">Annual Subscription</div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <div className="font-display text-xl">{cartPlan.price} €</div>
-                        <button onClick={() => setCartPlan(null)} className="text-text-muted hover:text-red-500 transition-colors"><X size={16} /></button>
+                        <div className="font-display text-xl text-honey">{cartPlan.price} €</div>
+                        <button onClick={() => setCartPlan(null)} className="text-white/30 hover:text-red-400 transition-colors"><X size={16} /></button>
                       </div>
                     </div>
                   )}
                   {hasOliveOil && (
-                    <div className="flex justify-between items-center border-b border-border-amber/50 pb-4">
+                    <div className="flex justify-between items-center border-b border-honey/10 pb-4">
                       <div>
-                        <div className="font-medium text-text-dark">Laconian Olive Oil</div>
-                        <div className="text-xs text-text-muted">500ml · Annual Add-on</div>
+                        <div className="font-medium text-white/90">Laconian Olive Oil</div>
+                        <div className="text-xs text-white/50">500ml · Annual Add-on</div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <div className="font-display text-xl">18 €</div>
-                        <button onClick={() => setHasOliveOil(false)} className="text-text-muted hover:text-red-500 transition-colors"><X size={16} /></button>
+                        <div className="font-display text-xl text-honey">18 €</div>
+                        <button onClick={() => setHasOliveOil(false)} className="text-white/30 hover:text-red-400 transition-colors"><X size={16} /></button>
                       </div>
                     </div>
                   )}
                   {!hasOliveOil && cartPlan && (
-                    <div className="mt-4 p-5 rounded-[2px] bg-cream border border-border-amber flex flex-col gap-3">
+                    <div className="mt-4 p-5 rounded-[2px] bg-[#1A1208] border border-honey/20 flex flex-col gap-3">
                       <div className="flex justify-between items-start">
                         <div>
-                          <p className="text-sm font-medium text-text-dark mb-1">Add Laconian Olive Oil?</p>
-                          <p className="text-xs text-text-muted">500ml Single-estate, cold-pressed</p>
+                          <p className="text-sm font-medium text-white/90 mb-1">Add Laconian Olive Oil?</p>
+                          <p className="text-xs text-white/50">500ml Single-estate, cold-pressed</p>
                         </div>
                         <span className="font-display text-xl text-honey">18 €</span>
                       </div>
                       <button 
                         onClick={() => setHasOliveOil(true)}
-                        className="w-full py-2.5 mt-2 bg-white text-text-dark border border-border-amber text-[10px] uppercase tracking-widest font-medium hover:bg-honey hover:text-white hover:border-honey transition-colors rounded-[2px]"
+                        className="w-full py-2.5 mt-2 bg-transparent text-white/80 border border-honey/30 text-[10px] uppercase tracking-widest font-bold hover:bg-honey hover:text-white hover:border-honey transition-colors rounded-[2px]"
                       >
                         Add to Cart
                       </button>
@@ -854,23 +857,23 @@ export default function Landing() {
             </div>
             
             {cartItemsCount > 0 && (
-              <div className="p-6 border-t border-border-amber bg-white">
-                <div className="flex justify-between items-center mb-6">
-                  <span className="text-sm uppercase tracking-widest text-text-muted">Total</span>
-                  <span className="font-display text-3xl">{cartTotal} €</span>
+              <div className="p-6 border-t border-honey/10 bg-[#1A1208]">
+                <div className="flex justify-between items-center mb-6 text-white text-white">
+                  <span className="text-sm uppercase tracking-widest text-white/50">Total</span>
+                  <span className="font-display text-3xl text-pale-honey">{cartTotal} €</span>
                 </div>
                 {cartPlan ? (
                   user ? (
                     <a 
                       href={cartPlan.link}
-                      className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"
+                      className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-bold hover:bg-honey/90 transition-colors rounded-[2px] shadow-[0_0_15px_rgba(200,134,10,0.2)]"
                     >
                       Proceed to Checkout
                     </a>
                   ) : (
                     <Link 
                       to="/login"
-                      className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"
+                      className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-bold hover:bg-honey/90 transition-colors rounded-[2px] shadow-[0_0_15px_rgba(200,134,10,0.2)]"
                     >
                       Login to Checkout
                     </Link>
@@ -878,12 +881,12 @@ export default function Landing() {
                 ) : (
                   <button 
                     disabled
-                    className="block text-center w-full bg-honey/50 text-white py-4 text-xs uppercase tracking-wider font-medium cursor-not-allowed rounded-[2px]"
+                    className="block text-center w-full bg-honey/20 text-white/50 py-4 text-xs uppercase tracking-wider font-bold cursor-not-allowed rounded-[2px]"
                   >
                     Select a plan to checkout
                   </button>
                 )}
-                <p className="text-[10px] text-text-muted text-center mt-3">
+                <p className="text-[10px] text-white/40 text-center mt-4">
                   {hasOliveOil && cartPlan ? "Note: Olive oil (€18) will be invoiced separately via email after your membership is confirmed." : ""}
                   {!cartPlan && hasOliveOil ? "Please select a membership plan to checkout with add-ons." : ""}
                 </p>

@@ -102,7 +102,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-hive-dark text-cream font-body flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-hive-bg text-cream font-body flex items-center justify-center p-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(200,134,10,0.15)_0%,_transparent_60%)]"></div>
       
       <div className="w-full max-w-md relative z-10">
@@ -137,7 +137,7 @@ export default function Login() {
           )}
         </div>
 
-        <div className="bg-[#110C05] border border-honey/20 p-8 rounded-[2px] shadow-2xl">
+        <div className="bg-hive-panel border border-honey/20 p-8 rounded-[2px] shadow-[0_0_50px_rgba(200,134,10,0.05)]">
           <h2 className="text-xl font-display text-white mb-6 text-center">
             {mode === 'login' ? 'Welcome Back' : mode === 'signup' ? 'Create Account' : 'Reset Password'}
           </h2>
@@ -163,7 +163,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="w-full bg-[#1A1208] border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/20"
+                className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/20"
               />
             </div>
 
@@ -175,7 +175,7 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full bg-[#1A1208] border border-honey/20 pl-10 pr-10 py-3.5 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/20"
+                  className="w-full bg-hive-bg border border-honey/20 pl-10 pr-10 py-3.5 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/20"
                 />
                 <button
                   type="button"

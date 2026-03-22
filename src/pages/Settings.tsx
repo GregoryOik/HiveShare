@@ -68,8 +68,8 @@ export default function Settings() {
   const hasSubscription = profile?.tier && profile.subscribedHives?.length > 0;
 
   return (
-    <div className="min-h-screen bg-[#1A1208] text-white/80 font-body selection:bg-honey selection:text-white pb-20">
-      <header className="border-b border-honey/20 bg-[#1A1208] sticky top-0 z-50">
+    <div className="min-h-screen bg-hive-bg text-white/80 font-body selection:bg-honey selection:text-white pb-20">
+      <header className="border-b border-honey/10 bg-hive-bg/90 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link to="/dashboard" className="flex items-center gap-2 text-white hover:text-honey transition-colors">
             <ArrowLeft className="w-4 h-4" />
@@ -92,7 +92,7 @@ export default function Settings() {
           </div>
 
           {/* Account Info (Read Only) */}
-          <div className="bg-[#110C05] border border-honey/10 p-6 rounded-[2px] space-y-4">
+          <div className="bg-hive-panel border border-honey/10 p-6 rounded-[2px] space-y-4 shadow-[0_0_30px_rgba(200,134,10,0.03)]">
             <div className="flex items-center gap-3 text-honey">
               <Mail className="w-4 h-4" />
               <span className="text-[10px] uppercase tracking-widest font-bold">Account Information</span>
@@ -119,7 +119,7 @@ export default function Settings() {
 
           {/* Change Password — only for email/password users */}
           {user?.providerData?.[0]?.providerId !== 'google.com' && (
-            <div className="bg-[#110C05] border border-honey/10 p-6 rounded-[2px] space-y-4">
+            <div className="bg-hive-panel border border-honey/10 p-6 rounded-[2px] space-y-4 shadow-[0_0_30px_rgba(200,134,10,0.03)]">
               <div className="flex items-center gap-3 text-honey">
                 <ShieldCheck className="w-4 h-4" />
                 <span className="text-[10px] uppercase tracking-widest font-bold">Change Password</span>
@@ -179,7 +179,7 @@ export default function Settings() {
           )}
 
           {/* Subscription Status */}
-          <div className="bg-[#110C05] border border-honey/10 p-6 rounded-[2px] space-y-4">
+          <div className="bg-hive-panel border border-honey/10 p-6 rounded-[2px] space-y-4 shadow-[0_0_30px_rgba(200,134,10,0.03)]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3 text-honey">
                 <Calendar className="w-4 h-4" />
@@ -339,7 +339,7 @@ export default function Settings() {
                   value={formData.customLabel}
                   onChange={(e) => setFormData({ ...formData, customLabel: e.target.value })}
                   placeholder="e.g. The Smith Family"
-                  className="w-full bg-[#110C05] border border-honey/20 px-4 py-4 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/10"
+                  className="w-full bg-hive-bg border border-honey/20 px-4 py-4 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/10"
                 />
                 <p className="text-[10px] text-white/30 ml-1 italic">This name will appear on your personalized honey jar labels.</p>
               </div>
@@ -354,7 +354,7 @@ export default function Settings() {
                   onChange={(e) => setFormData({ ...formData, shippingAddress: e.target.value })}
                   placeholder="Line 1, City, Postcode, Country" 
                   rows={4}
-                  className="w-full bg-[#110C05] border border-honey/20 px-4 py-4 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/10 resize-none"
+                  className="w-full bg-hive-bg border border-honey/20 px-4 py-4 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/10 resize-none"
                 />
                 {profile?.shippingAddress && (
                   <div className="flex items-center gap-1.5 text-[9px] text-green-500/70 uppercase tracking-widest font-bold mt-2 ml-1">

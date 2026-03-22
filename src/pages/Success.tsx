@@ -61,7 +61,7 @@ export default function Success() {
   const isAdditional = (profile?.subscribedHives?.length || 0) > 1;
 
   return (
-    <div className="min-h-screen bg-[#1A1208] text-white flex items-center justify-center p-6">
+    <div className="min-h-screen bg-hive-bg text-white flex items-center justify-center p-6 text-center">
       <div className="max-w-2xl w-full text-center space-y-8 animate-in fade-in zoom-in duration-500">
         {/* Onboarding Stepper */}
         <OnboardingStepper steps={[
@@ -115,7 +115,7 @@ export default function Success() {
 
         {!isFulfilling && !error && (
           <>
-            <div className="bg-[#110C05] border border-honey/10 p-6 rounded-[2px] text-left space-y-3">
+            <div className="bg-hive-panel border border-honey/10 p-6 rounded-[2px] text-left space-y-3">
               <div className="flex items-center gap-2 mb-2">
                 <Package className="w-4 h-4 text-honey" />
                 <p className="text-[10px] uppercase tracking-widest text-honey font-bold">What happens next?</p>
