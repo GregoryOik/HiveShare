@@ -56,7 +56,7 @@ export default function OnboardingStepper({ steps }: OnboardingStepperProps) {
                 ? 'text-honey' 
                 : step.active 
                   ? 'text-[#2A1B0A] font-medium' 
-                  : 'text-[#2A1B0A]/30'
+                  : 'text-[#2A1B0A]/50'
             }`}>
               {step.label}
             </span>

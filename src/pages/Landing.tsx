@@ -135,7 +135,7 @@ const Hero = () => {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <section className="min-h-screen flex flex-col md:flex-row pt-20">
+    <section className="min-h-screen flex flex-col md:flex-row pt-20 overflow-hidden relative">
       {/* Left Column */}
       <div className="w-full md:w-[45%] flex flex-col justify-center px-6 md:pl-24 lg:pl-32 py-12 md:py-20 text-[#2A1B0A]">
         <div className="w-12 h-[1px] bg-honey mb-6"></div>
@@ -150,14 +150,14 @@ const Hero = () => {
         </h1>
         
         <p className="text-[#2A1B0A]/60 text-sm md:text-base max-w-sm mb-8 leading-relaxed font-light">
-          €80/year — Free EU Shipping included. Your own named hive in Laconia, live vitality reports, and three harvests of raw Greek honey delivered to your door. Your first jar ships within two weeks. After that, your hive decides the rest.
+          From €80/year (Approx. €7/month) — Free EU Shipping included. Your own named hive in Laconia, live vitality reports, and three harvests of raw Greek honey delivered to your door. Your first jar ships within two weeks. After that, your hive decides the rest.
         </p>
         
         <div className="mb-8 max-w-md flex flex-col gap-4">
           <div className="flex flex-wrap gap-3">
             <a 
               href="#pricing"
-              className="bg-honey text-[#2A1B0A] px-8 py-4 text-xs uppercase tracking-wider font-bold hover:bg-honey/90 transition-colors rounded-[2px] inline-block shadow-[0_0_20px_rgba(200,134,10,0.2)]"
+              className="bg-honey text-[#2A1B0A] px-6 md:px-8 py-4 text-[10px] md:text-xs uppercase tracking-wider font-bold hover:bg-honey/90 transition-colors rounded-[2px] inline-block shadow-[0_0_20px_rgba(200,134,10,0.2)] whitespace-nowrap"
             >
               Adopt Your Hive — From €80/yr
             </a>
@@ -552,9 +552,11 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
         <div className="border border-white/10 p-8 md:p-12 text-[#2A1B0A] bg-hive-panel/40 backdrop-blur-sm rounded-[2px] md:border-r-0">
           <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-6">Starter</div>
           <div className="mb-2 text-pale-honey flex items-start">
-            <span className="text-xl mt-1 mr-1">€</span>
-            <span className="text-5xl md:text-6xl font-display">80</span>
-            <span className="text-[#2A1B0A]/40 ml-2 mt-auto mb-2 text-sm">/year</span>
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="font-display text-5xl text-honey">€80</span>
+                <span className="text-[#2A1B0A]/40 uppercase tracking-widest text-[10px]">/year</span>
+              </div>
+              <div className="text-[#2A1B0A]/30 text-[9px] uppercase tracking-widest mb-6">Approx. €7/month</div>
           </div>
           <div className="text-[10px] text-honey font-bold uppercase tracking-widest mb-10">Free EU Shipping included</div>
           
@@ -578,9 +580,11 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
           <div className="absolute top-0 right-0 bg-honey text-hive-bg text-[9px] uppercase tracking-widest px-3 py-1 font-bold rounded-bl-sm">Recommended</div>
           <div className="text-[10px] uppercase tracking-widest text-honey/80 mb-6">Premium</div>
           <div className="mb-2 text-pale-honey flex items-start">
-            <span className="text-xl mt-1 mr-1">€</span>
-            <span className="text-5xl md:text-6xl font-display">200</span>
-            <span className="text-[#2A1B0A]/40 ml-2 mt-auto mb-2 text-sm">/year</span>
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="font-display text-7xl text-honey">€200</span>
+                <span className="text-[#2A1B0A]/40 uppercase tracking-widest text-xs">/year</span>
+              </div>
+              <div className="text-[#2A1B0A]/30 text-[10px] uppercase tracking-widest mb-8">Approx. €17/month</div>
           </div>
           <div className="text-[10px] text-honey font-bold uppercase tracking-widest mb-10">Free EU Shipping included</div>
           

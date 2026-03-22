@@ -218,6 +218,7 @@ export default function Membership() {
                     <div className="text-right">
                       <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30 mb-1">Yearly</div>
                       <div className="text-2xl font-display text-[#2A1B0A]">€{plan.price}</div>
+                      <div className="text-[8px] uppercase tracking-widest text-[#2A1B0A]/30">Approx. €{plan.id === 'starter' ? '7' : '17'}/mo</div>
                     </div>
                   </div>
 
