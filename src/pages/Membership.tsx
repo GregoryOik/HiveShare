@@ -22,14 +22,24 @@ export default function Membership() {
     setIsRedirecting(true);
     try {
       // 1. Map our internal IDs to Stripe Price IDs
-      // IMPORTANT: User needs to update these with their actual Stripe Price IDs in Stripe Dashboard
       const priceId = cartPlan.id === 'premium' 
-        ? 'price_1TDafLEhPXKoQqYJa9nt3rEy' // Real Premium Price ID
-        : 'price_1TDaerEhPXKoQqYJKuvCxiBR'; // Real Starter Price ID
+        ? 'price_1TDafLEhPXKoQqYJa9nt3rEy' 
+        : 'price_1TDaerEhPXKoQqYJKuvCxiBR';
+      
+      const OIL_PRICE_ID = 'price_oil_placeholder'; // Waiting for user's Price ID
 
-      // 2. Create the checkout session document
+      // 2. Build the line items
+      const line_items = [
+        { price: priceId, quantity: 1 }
+      ];
+
+      if (hasOliveOil) {
+        line_items.push({ price: OIL_PRICE_ID, quantity: 1 });
+      }
+
+      // 3. Create the checkout session document with line_items
       const docRef = await addDoc(collection(db, 'users', user.uid, 'checkout_sessions'), {
-        price: priceId,
+        line_items,
         success_url: `${window.location.origin}/success?tier=${cartPlan.id}&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: window.location.origin + '/membership',
         metadata: {
