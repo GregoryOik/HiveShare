@@ -97,7 +97,7 @@ export default function Admin() {
                           hive.status === 'shared' ? 'border-blue-500/30 text-blue-400 bg-blue-500/10' :
                           'border-red-500/30 text-red-400 bg-red-500/10'
                         }`}>
-                          {hive.status}
+                          {hive.status} {hive.currentSubscribers ? `(${hive.currentSubscribers})` : ''}
                         </span>
                         {hives.length > 1 && selectedHiveId === hive.id && (
                           <Trash2 
@@ -115,7 +115,7 @@ export default function Admin() {
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
-                          updateHive(hive.id, { status: 'available' });
+                          updateHive(hive.id, { status: 'available', currentSubscribers: 0 });
                         }}
                         className="mt-1 w-full text-[9px] uppercase tracking-widest text-center py-1 border border-green-500/30 text-green-400 hover:bg-green-500/20 transition-colors rounded-[2px]"
                       >

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Navigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff } from 'lucide-react';
+import OnboardingStepper from '../components/OnboardingStepper';
 
 export default function Login() {
   const [localError, setLocalError] = useState('');
@@ -101,12 +102,25 @@ export default function Login() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(200,134,10,0.15)_0%,_transparent_60%)]"></div>
       
       <div className="w-full max-w-md relative z-10">
-        <div className="text-center mb-12">
-          <div className="font-display text-4xl tracking-wide mb-2">
+        <div className="text-center mb-8">
+          <div className="font-display text-4xl tracking-wide mb-6">
             Hive<span className="text-honey">Share</span>
           </div>
+
+          {mode === 'signup' && (
+            <div className="mb-10">
+              <OnboardingStepper steps={[
+                { label: 'Sign Up', completed: false, active: true },
+                { label: 'Choose Plan', completed: false, active: false },
+                { label: 'Payment', completed: false, active: false },
+                { label: 'Hive Assigned', completed: false, active: false },
+                { label: 'Dashboard', completed: false, active: false },
+              ]} />
+            </div>
+          )}
+
           <div className="text-[10px] uppercase tracking-[0.2em] text-white/40">
-            Member Portal
+            {mode === 'login' ? 'Member Portal' : 'New Member Registration'}
           </div>
         </div>
 

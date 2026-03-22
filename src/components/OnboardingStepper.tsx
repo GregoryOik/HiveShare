@@ -21,11 +21,19 @@ export default function OnboardingStepper({ steps }: OnboardingStepperProps) {
         {/* Connecting line (progress fill) */}
         {(() => {
           const lastCompleted = steps.reduce((last, step, i) => step.completed ? i : last, -1);
-          const progress = steps.length > 1 ? ((lastCompleted + 0.5) / (steps.length - 1)) * 100 : 0;
+          // Progress is 0 if nothing completed, else percentage of the distance between dots
+          const progressPercent = steps.length > 1 && lastCompleted >= 0 
+            ? (lastCompleted / (steps.length - 1)) * 100 
+            : 0;
+          
           return (
             <div 
-              className="absolute top-4 left-8 h-[2px] bg-honey transition-all duration-700 ease-out"
-              style={{ width: `calc(${Math.min(progress, 100)}% - 4rem)` }}
+              className="absolute top-4 left-8 h-[2px] bg-honey transition-all duration-700 ease-out origin-left"
+              style={{ 
+                width: `calc(${progressPercent}% - ${progressPercent > 0 ? '0px' : '0px'})`,
+                // We use scaleX for smoother animation if desired, but width is fine here
+                right: `calc(${100 - progressPercent}% + 2rem)`
+              }}
             ></div>
           );
         })()}

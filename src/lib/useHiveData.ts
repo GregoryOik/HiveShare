@@ -17,6 +17,7 @@ export interface HiveData {
   beeSpecies: string;
   installationDate: string;
   status: string;
+  currentSubscribers?: number;
   lastDiaryEntryTimestamp?: string;
 }
 
@@ -138,44 +139,69 @@ export function useHiveData() {
       throw new Error('You must be logged in to claim a hive.');
     }
     
-    // 1. Fetch current available hives
+    // 1. Fetch current hives
     const snapshot = await getDocs(collection(db, 'hives'));
-    const allHives = snapshot.docs.map(d => d.data() as HiveData);
+    const allHives = snapshot.docs.map(d => ({ ...d.data(), id: d.id }) as HiveData);
     
-    console.log('[claimRandomHive] All hives:', allHives.map(h => ({ id: h.id, status: h.status })));
+    console.log('[claimRandomHive] Total hives:', allHives.length);
     
-    // Starter: can join any hive that isn't exclusively assigned to a Premium member
-    // Premium: gets an exclusive hive (status must be 'available')
-    const eligibleHives = tier === 'premium'
+    // 2. Filter eligible hives
+    // Premium: Only 'available' (0 users)
+    // Starter: 'available' OR 'shared' with < 3 users
+    let eligibleHives = tier === 'premium'
       ? allHives.filter(h => h.status === 'available')
-      : allHives.filter(h => h.status === 'available' || h.status === 'shared');
+      : allHives.filter(h => h.status === 'available' || (h.status === 'shared' && (h.currentSubscribers || 0) < 3));
 
-    console.log('[claimRandomHive] Eligible hives for tier', tier, ':', eligibleHives.length);
+    // Fallback for Starter: if no available/shared, and user wants to "assign more", 
+    // we could potentially allow joining an 'assigned' hive if the user really wants,
+    // but the rule "Premium its 1, Basic its 3" suggests strict limits.
+    // However, if we are completely out, we'll throw the same error as before.
+
+    console.log(`[claimRandomHive] Eligible hives for ${tier}:`, eligibleHives.length);
 
     if (eligibleHives.length === 0) {
-      throw new Error(`No available hives for ${tier} tier. Found ${allHives.length} total hives (statuses: ${allHives.map(h => h.status).join(', ')})`);
+      throw new Error(`No available hives for ${tier} tier. (Premium capacity: 1, Basic capacity: 3)`);
     }
 
-    // 2. Pick a random one
-    const randomHive = eligibleHives[Math.floor(Math.random() * eligibleHives.length)];
-    console.log('[claimRandomHive] Claiming hive:', randomHive.id);
+    // 3. Pick a random one
+    // Prioritize 'shared' hives for Starters to fill them up first
+    let selectedHive: HiveData;
+    if (tier === 'starter') {
+      const sharedWithSpace = eligibleHives.filter(h => h.status === 'shared');
+      selectedHive = sharedWithSpace.length > 0 
+        ? sharedWithSpace[Math.floor(Math.random() * sharedWithSpace.length)]
+        : eligibleHives[Math.floor(Math.random() * eligibleHives.length)];
+    } else {
+      selectedHive = eligibleHives[Math.floor(Math.random() * eligibleHives.length)];
+    }
+
+    console.log('[claimRandomHive] Selected hive:', selectedHive.id);
     
-    // 3. Update Hive Status
-    // Premium: mark as 'assigned' (exclusive — no one else can claim it)
-    // Starter: mark as 'shared' (others can still join)
-    if (tier === 'premium') {
-      await updateDoc(doc(db, 'hives', randomHive.id), { status: 'assigned' });
-    } else if (randomHive.status === 'available') {
-      await updateDoc(doc(db, 'hives', randomHive.id), { status: 'shared' });
-    }
-    console.log('[claimRandomHive] Hive status updated');
+    // 4. Update Hive Status & Count
+    const newCount = (selectedHive.currentSubscribers || 0) + 1;
+    let newStatus = selectedHive.status;
 
-    // 4. Update User Profile
+    if (tier === 'premium') {
+      newStatus = 'assigned';
+    } else {
+      // It's a Starter
+      newStatus = 'shared';
+      // If it reaches 3, it's effectively "full shared" but still status 'shared'
+    }
+
+    await updateDoc(doc(db, 'hives', selectedHive.id), { 
+      status: newStatus,
+      currentSubscribers: newCount
+    });
+    
+    console.log(`[claimRandomHive] Update: status=${newStatus}, count=${newCount}`);
+
+    // 5. Update User Profile
     const currentHives = profile.subscribedHives || [];
-    if (!currentHives.includes(randomHive.id)) {
+    if (!currentHives.includes(selectedHive.id)) {
       const isAlreadyAdmin = profile.role === 'admin';
       await updateDoc(doc(db, 'users', user.uid), {
-        subscribedHives: [...currentHives, randomHive.id],
+        subscribedHives: [...currentHives, selectedHive.id],
         role: isAlreadyAdmin ? 'admin' : 'subscriber',
         tier,
         subscriptionStartDate: new Date().toISOString()
@@ -183,7 +209,7 @@ export function useHiveData() {
       console.log('[claimRandomHive] User profile updated');
     }
 
-    return randomHive.id;
+    return selectedHive.id;
   };
 
   return { hives, loading, updateHive, addHive, removeHive, claimRandomHive };

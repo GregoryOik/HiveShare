@@ -348,6 +348,15 @@ export default function Dashboard() {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 pt-12 md:pt-16">
+        <div className="mb-12">
+          <OnboardingStepper steps={[
+            { label: 'Sign Up', completed: true, active: false },
+            { label: 'Choose Plan', completed: true, active: false },
+            { label: 'Payment', completed: true, active: false },
+            { label: 'Hive Assigned', completed: true, active: false },
+            { label: 'Dashboard', completed: true, active: false },
+          ]} />
+        </div>
         {/* Missing Address Alert */}
         {profile && !profile.shippingAddress && (
           <div className="mb-10 bg-[#FFB800]/5 border border-[#FFB800]/20 p-5 rounded-[2px] flex flex-col md:flex-row items-center justify-between gap-6 animate-in fade-in slide-in-from-top-4 duration-700">
