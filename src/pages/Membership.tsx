@@ -24,8 +24,8 @@ export default function Membership() {
       // 1. Map our internal IDs to Stripe Price IDs
       // IMPORTANT: User needs to update these with their actual Stripe Price IDs in Stripe Dashboard
       const priceId = cartPlan.id === 'premium' 
-        ? 'price_premium_id' // Placeholder: Replace with actual Stripe Price ID
-        : 'price_starter_id'; // Placeholder: Replace with actual Stripe Price ID
+        ? 'price_1TDafLEhPXKoQqYJa9nt3rEy' // Real Premium Price ID
+        : 'price_1TDaerEhPXKoQqYJKuvCxiBR'; // Real Starter Price ID
 
       // 2. Create the checkout session document
       const docRef = await addDoc(collection(db, 'users', user.uid, 'checkout_sessions'), {
