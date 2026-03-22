@@ -51,7 +51,7 @@ export default function Membership() {
         ? 'price_1TDafLEhPXKoQqYJa9nt3rEy' 
         : 'price_1TDaerEhPXKoQqYJKuvCxiBR';
       
-      const OIL_PRICE_ID = 'price_oil_placeholder'; // Waiting for user's Price ID
+      const OIL_PRICE_ID = 'price_1TDanWEhPXKoQqYJY2gq1Fj0'; // Real Olive Oil Price ID
 
       // 2. Build the line items
       const line_items = [
