@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { CheckCircle, ArrowRight, Loader2, Package } from 'lucide-react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { CheckCircle, ArrowRight, Loader2, Package, AlertTriangle, RefreshCw } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
@@ -10,27 +10,49 @@ export default function Success() {
   const { profile, loading } = useAuth();
   const [isFulfilling, setIsFulfilling] = useState(true);
   const [claimedId, setClaimedId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [hasAttempted, setHasAttempted] = useState(false);
 
-  useEffect(() => {
-    const fulfill = async () => {
-      const tier = (searchParams.get('tier') as 'starter' | 'premium') || 'starter';
-      const isNewHive = searchParams.get('new_hive') === 'true';
-      
-      // Claim a new hive if: no hives yet OR explicitly buying an additional hive
-      const hasNoHives = !profile?.subscribedHives || profile.subscribedHives.length === 0;
-      
-      if (profile && (hasNoHives || isNewHive)) {
+  const fulfill = useCallback(async () => {
+    if (!profile) return;
+    if (hasAttempted && claimedId) return;
+    
+    setIsFulfilling(true);
+    setError(null);
+    
+    const tier = (searchParams.get('tier') as 'starter' | 'premium') || 'starter';
+    const isNewHive = searchParams.get('new_hive') === 'true';
+    const hasNoHives = !profile.subscribedHives || profile.subscribedHives.length === 0;
+
+    console.log('[Success] Fulfillment starting:', { tier, isNewHive, hasNoHives, currentHives: profile.subscribedHives });
+
+    try {
+      if (hasNoHives || isNewHive) {
         await new Promise(resolve => setTimeout(resolve, 1500));
         const newId = await claimRandomHive(tier);
-        if (newId) setClaimedId(newId);
-      } else if (profile?.subscribedHives?.length > 0) {
-        // Already has hives and not a new purchase — just show existing
+        console.log('[Success] claimRandomHive result:', newId);
+        if (newId) {
+          setClaimedId(newId);
+        } else {
+          setError('No available hives found. Please contact support at gregory@oikonomakos.gr');
+        }
+      } else if (profile.subscribedHives.length > 0) {
         setClaimedId(profile.subscribedHives[profile.subscribedHives.length - 1]);
       }
+    } catch (err: any) {
+      console.error('[Success] Fulfillment error:', err);
+      setError(err.message || 'Failed to assign hive. Please try again.');
+    } finally {
       setIsFulfilling(false);
-    };
-    if (!loading) fulfill();
-  }, [loading]);
+      setHasAttempted(true);
+    }
+  }, [profile, hasAttempted, claimedId, searchParams, claimRandomHive]);
+
+  useEffect(() => {
+    if (!loading && profile && !hasAttempted) {
+      fulfill();
+    }
+  }, [loading, profile, hasAttempted, fulfill]);
 
   const isAdditional = (profile?.subscribedHives?.length || 0) > 1;
 
@@ -40,6 +62,8 @@ export default function Success() {
         <div className="w-20 h-20 mx-auto bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center">
           {isFulfilling ? (
             <Loader2 className="w-10 h-10 text-honey animate-spin" />
+          ) : error ? (
+            <AlertTriangle className="w-10 h-10 text-red-400" />
           ) : (
             <CheckCircle className="w-10 h-10 text-green-500" />
           )}
@@ -47,19 +71,36 @@ export default function Success() {
         
         <div className="space-y-4">
           <h1 className="font-display text-4xl text-white">
-            {isFulfilling ? "Assigning Your Hive..." : isAdditional ? "New Hive Added!" : "Welcome to the Hive!"}
+            {isFulfilling 
+              ? "Assigning Your Hive..." 
+              : error 
+                ? "Something Went Wrong"
+                : isAdditional 
+                  ? "New Hive Added!" 
+                  : "Welcome to the Hive!"}
           </h1>
           <p className="text-white/60 leading-relaxed font-light">
             {isFulfilling 
               ? "We are connecting your account to a specific apiary in Laconia, Greece..." 
-              : isAdditional
-                ? `Hive #${claimedId || 'Pending'} has been added to your collection! You now have ${profile?.subscribedHives?.length || 0} hives.`
-                : `Your membership is now active! You've been assigned Hive #${claimedId || 'Pending'}. Your Welcome Jar is being prepared.`
+              : error
+                ? error
+                : isAdditional
+                  ? `Hive #${claimedId} has been added to your collection! You now have ${profile?.subscribedHives?.length || 0} hives.`
+                  : `Your membership is now active! You've been assigned Hive #${claimedId}. Your Welcome Jar is being prepared.`
             }
           </p>
         </div>
 
-        {!isFulfilling && (
+        {error && (
+          <button 
+            onClick={() => { setHasAttempted(false); setError(null); }}
+            className="inline-flex items-center gap-2 bg-honey text-white px-8 py-3 text-xs uppercase tracking-widest rounded-sm hover:bg-honey/90 transition-colors"
+          >
+            <RefreshCw className="w-4 h-4" /> Try Again
+          </button>
+        )}
+
+        {!isFulfilling && !error && (
           <>
             <div className="bg-[#110C05] border border-honey/10 p-6 rounded-[2px] text-left space-y-3">
               <div className="flex items-center gap-2 mb-2">

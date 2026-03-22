@@ -127,24 +127,29 @@ service cloud.firestore {
         request.resource.data.role == 'subscriber' || isAdmin()
       ) && request.resource.data.uid == userId;
       
-      // Users can update their own profile, but cannot change their role or uid. Admins can update anything.
+      // Users can update their own profile. Role can only change TO 'subscriber' (for post-purchase).
+      // Admins can update anything.
       allow update: if (isOwner(userId) && isValidUser(request.resource.data) && 
-                       request.resource.data.role == resource.data.role &&
-                       request.resource.data.uid == resource.data.uid) || 
+                       request.resource.data.uid == resource.data.uid &&
+                       (request.resource.data.role == resource.data.role || request.resource.data.role == 'subscriber')) || 
                       (isAdmin() && isValidUser(request.resource.data) && request.resource.data.uid == resource.data.uid);
                       
       allow delete: if isAdmin();
     }
 
     match /hives/{hiveId} {
-      // Anyone authenticated can read hives for now (or we could restrict to subscribedHives)
-      // For MVP, let's allow all authenticated users to read hives so they can see the dashboard.
       allow read: if isAuthenticated();
       
-      // Only admins can create, update, or delete hives.
+      // Admins can fully manage hives.
       allow create: if isAdmin() && isValidHive(request.resource.data) && request.resource.data.id == hiveId;
-      allow update: if isAdmin() && isValidHive(request.resource.data) && request.resource.data.id == resource.data.id;
       allow delete: if isAdmin();
+      
+      // Admins can update anything. Authenticated users can ONLY claim a hive (change status from 'available' to 'assigned').
+      allow update: if isAdmin() && isValidHive(request.resource.data) && request.resource.data.id == resource.data.id ||
+                      (isAuthenticated() && 
+                       resource.data.status == 'available' && 
+                       request.resource.data.status == 'assigned' &&
+                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']));
     }
 
     match /harvests/{harvestId} {
