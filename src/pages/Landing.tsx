@@ -913,7 +913,7 @@ export default function Landing() {
 
             <div className="relative z-10">
               <div className="text-[10px] uppercase tracking-[0.3em] text-honey font-bold mb-4">
-                {user ? 'Welcome Back' : 'Your Journey Begins'}
+                {user ? 'Welcome Back' : selectedPlanForSignup.id === 'premium' ? 'The Royal Treatment' : 'Your Gateway to Sparta'}
               </div>
               <h3 className="font-display text-4xl text-white mb-6 leading-tight">
                 {user ? 'Proceed with' : 'Adopting your'} <br/>
@@ -924,7 +924,9 @@ export default function Landing() {
                 <p className="text-white/60 leading-relaxed text-sm font-light">
                   {user 
                     ? `You're logged in as ${user.email}. Excellent choice to continue your support of Laconian bees.`
-                    : "Excellent choice. You're just moments away from connecting with your own Laconian hive. To track your bees and manage your honey harvests, we'll guide you through a quick setup:"
+                    : selectedPlanForSignup.id === 'premium'
+                      ? "You've chosen the gold standard. From acoustic telemetry to your name on the jars, your bees are ready to welcome their new sponsor."
+                      : "A beautiful start to your connection with Greek nature. You'll soon be tracking your bees and receiving the purest honey from the Mani mountains."
                   }
                 </p>
                 
@@ -936,11 +938,11 @@ export default function Landing() {
                     </div>
                     <div className="flex items-center gap-4 text-white/20">
                       <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center text-[10px]">02</div>
-                      <div className="text-xs uppercase tracking-widest">Complete secure checkout</div>
+                      <div className="text-xs uppercase tracking-widest">{selectedPlanForSignup.id === 'premium' ? 'Secure your premium slot' : 'Complete secure checkout'}</div>
                     </div>
                     <div className="flex items-center gap-4 text-white/20">
                       <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center text-[10px]">03</div>
-                      <div className="text-xs uppercase tracking-widest">Assign your hive</div>
+                      <div className="text-xs uppercase tracking-widest">{selectedPlanForSignup.id === 'premium' ? 'Finalize hive naming' : 'Assign your hive'}</div>
                     </div>
                   </div>
                 )}
