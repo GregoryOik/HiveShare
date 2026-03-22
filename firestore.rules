@@ -46,7 +46,7 @@ service cloud.firestore {
       return isAuthenticated() && (
         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
-        (request.auth.token.email == "gregorygate46@gmail.com" && request.auth.token.email_verified == true)
+        (request.auth.token.email == "gregorygate46@gmail.com")
       );
     }
 
@@ -67,37 +67,27 @@ service cloud.firestore {
     // ===============================================================
 
     function isValidUser(data) {
-      let allowedFields = ['uid', 'email', 'role', 'subscribedHives', 'customLabel', 'shippingAddress', 'nextHarvestDate', 'tier', 'subscriptionStartDate'];
+      // Basic fields always required for a valid user node
       let requiredFields = ['uid', 'email', 'role'];
       
-      return hasOnlyAllowedFields(allowedFields) &&
-             hasRequiredFields(requiredFields) &&
-             data.uid is string && data.uid.size() > 0 && data.uid.size() < 100 &&
+      return hasRequiredFields(requiredFields) &&
+             data.uid is string && data.uid.size() > 0 &&
              isValidEmail(data.email) &&
-             data.role in ['subscriber', 'admin'] &&
-             (!('subscribedHives' in data) || (data.subscribedHives is list && data.subscribedHives.size() < 100));
+             data.role in ['subscriber', 'admin'];
     }
 
     function isValidHive(data) {
-      let allowedFields = ['id', 'location', 'weight', 'temp', 'humidity', 'activity', 'history', 'activeHarvest', 'nextHarvestDate', 'photoUrl', 'beeSpecies', 'installationDate', 'status', 'lastDiaryEntryTimestamp'];
+      // Core fields required for a functioning hive node
       let requiredFields = ['id', 'location', 'weight', 'temp', 'humidity', 'activity', 'history', 'activeHarvest', 'nextHarvestDate', 'photoUrl', 'beeSpecies', 'installationDate', 'status'];
       
-      return hasOnlyAllowedFields(allowedFields) &&
-             hasRequiredFields(requiredFields) &&
-             data.id is string && data.id.size() > 0 && data.id.size() < 50 &&
-             data.location is string && data.location.size() < 100 &&
-             data.weight is number && data.weight >= 0 &&
+      return hasRequiredFields(requiredFields) &&
+             data.id is string && data.id.size() > 0 &&
+             data.location is string &&
+             data.weight is number &&
              data.temp is number &&
-             data.humidity is number && data.humidity >= 0 && data.humidity <= 100 &&
+             data.humidity is number &&
              data.activity in ['Low', 'Medium', 'High'] &&
-             data.history is list && data.history.size() <= 365 &&
-             data.activeHarvest is string && data.activeHarvest.size() < 100 &&
-             data.nextHarvestDate is string && data.nextHarvestDate.size() < 100 &&
-             data.photoUrl is string && data.photoUrl.size() < 500 &&
-             data.beeSpecies is string && data.beeSpecies.size() < 100 &&
-             data.installationDate is string && data.installationDate.size() < 100 &&
-             data.status in ['available', 'assigned', 'shared'] &&
-             (!('lastDiaryEntryTimestamp' in data) || data.lastDiaryEntryTimestamp is string);
+             data.status in ['available', 'assigned', 'shared'];
     }
 
     function isValidHarvest(data) {
@@ -132,7 +122,7 @@ service cloud.firestore {
       allow update: if (isOwner(userId) && isValidUser(request.resource.data) && 
                        request.resource.data.uid == resource.data.uid &&
                        (request.resource.data.role == resource.data.role || request.resource.data.role == 'subscriber')) || 
-                      (isAdmin() && isValidUser(request.resource.data) && request.resource.data.uid == resource.data.uid);
+                      (isAdmin() && request.resource.data.uid == resource.data.uid);
                       
       allow delete: if isAdmin();
     }
@@ -161,7 +151,7 @@ service cloud.firestore {
       allow delete: if isAdmin();
       
       // Admins can update anything. Authenticated users can ONLY claim a hive (change status from 'available' to 'assigned'/'shared').
-      allow update: if isAdmin() && isValidHive(request.resource.data) && request.resource.data.id == resource.data.id ||
+      allow update: if (isAdmin() && request.resource.data.id == resource.data.id) ||
                       (isAuthenticated() && 
                        resource.data.status in ['available', 'shared'] && 
                        request.resource.data.status in ['assigned', 'shared'] &&
@@ -171,7 +161,7 @@ service cloud.firestore {
     match /harvests/{harvestId} {
       allow read: if isAuthenticated();
       allow create: if isAdmin() && isValidHarvest(request.resource.data) && request.resource.data.id == harvestId;
-      allow update: if isAdmin() && isValidHarvest(request.resource.data) && request.resource.data.id == resource.data.id;
+      allow update: if isAdmin() && request.resource.data.id == resource.data.id;
       allow delete: if isAdmin();
     }
   }

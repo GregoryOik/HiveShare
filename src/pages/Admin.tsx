@@ -270,21 +270,48 @@ export default function Admin() {
                   <div className="grid grid-cols-2 lg:grid-cols-3 gap-8">
                     <div className="space-y-6">
                       <div>
-                        <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Weight Adjustment</label>
+                        <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Weight Adjustment (kg)</label>
                         <input 
-                          type="range" min="0" max="100" step="0.1"
+                          type="number" step="0.1"
                           value={selectedHive.weight}
-                          onChange={(e) => updateHive(selectedHive.id, { weight: Number(e.target.value) })}
-                          className="w-full accent-honey"
+                          onChange={async (e) => {
+                            try {
+                              await updateHive(selectedHive.id, { weight: Number(e.target.value) });
+                            } catch (err: any) {
+                              alert(`Sensor Update Failed: ${err.message}`);
+                            }
+                          }}
+                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-sm outline-none focus:border-honey"
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Internal Temp</label>
+                        <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Internal Temp (°C)</label>
                         <input 
                           type="number" step="0.1"
                           value={selectedHive.temp}
-                          onChange={(e) => updateHive(selectedHive.id, { temp: Number(e.target.value) })}
-                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-sm"
+                          onChange={async (e) => {
+                            try {
+                              await updateHive(selectedHive.id, { temp: Number(e.target.value) });
+                            } catch (err: any) {
+                              alert(`Sensor Update Failed: ${err.message}`);
+                            }
+                          }}
+                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-sm outline-none focus:border-honey"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Relative Humidity (%)</label>
+                        <input 
+                          type="number" min="0" max="100"
+                          value={selectedHive.humidity}
+                          onChange={async (e) => {
+                            try {
+                              await updateHive(selectedHive.id, { humidity: Number(e.target.value) });
+                            } catch (err: any) {
+                              alert(`Sensor Update Failed: ${err.message}`);
+                            }
+                          }}
+                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-sm outline-none focus:border-honey"
                         />
                       </div>
                     </div>
@@ -295,8 +322,14 @@ export default function Admin() {
                         <input 
                           type="text"
                           value={selectedHive.beeSpecies || 'Apis mellifera macedonica'}
-                          onChange={(e) => updateHive(selectedHive.id, { beeSpecies: e.target.value })}
-                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-xs font-sans"
+                          onChange={async (e) => {
+                            try {
+                              await updateHive(selectedHive.id, { beeSpecies: e.target.value });
+                            } catch (err: any) {
+                              alert(`Metadata Update Failed: ${err.message}`);
+                            }
+                          }}
+                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-xs font-sans outline-none focus:border-honey"
                         />
                       </div>
                       <div>
@@ -304,9 +337,33 @@ export default function Admin() {
                         <input 
                           type="text"
                           value={selectedHive.location}
-                          onChange={(e) => updateHive(selectedHive.id, { location: e.target.value })}
-                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-xs font-sans"
+                          onChange={async (e) => {
+                            try {
+                              await updateHive(selectedHive.id, { location: e.target.value });
+                            } catch (err: any) {
+                              alert(`Geographic Update Failed: ${err.message}`);
+                            }
+                          }}
+                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-xs font-sans outline-none focus:border-honey"
                         />
+                      </div>
+                      <div>
+                        <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Colony Activity Level</label>
+                        <select 
+                          value={selectedHive.activity}
+                          onChange={async (e) => {
+                            try {
+                              await updateHive(selectedHive.id, { activity: e.target.value });
+                            } catch (err: any) {
+                              alert(`Biometric Update Failed: ${err.message}`);
+                            }
+                          }}
+                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-sm outline-none focus:border-honey cursor-pointer"
+                        >
+                          <option value="Low">Low Activity</option>
+                          <option value="Medium">Medium Activity</option>
+                          <option value="High">High Activity</option>
+                        </select>
                       </div>
                     </div>
 
@@ -315,30 +372,97 @@ export default function Admin() {
                         <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Current Harvest Focus</label>
                         <select 
                           value={selectedHive.activeHarvest}
-                          onChange={(e) => updateHive(selectedHive.id, { activeHarvest: e.target.value })}
-                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-sm appearance-none cursor-pointer"
+                          onChange={async (e) => {
+                            try {
+                              await updateHive(selectedHive.id, { activeHarvest: e.target.value });
+                            } catch (err: any) {
+                              alert(`Timeline Update Failed: ${err.message}`);
+                            }
+                          }}
+                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-sm appearance-none cursor-pointer outline-none focus:border-honey"
                         >
                           <option>Spring Wildflower</option>
                           <option>Summer Thyme</option>
                           <option>Autumn Pine</option>
+                          <option>Winter Fir</option>
                         </select>
                       </div>
-                      <div className="pt-2">
-                        <button 
-                          onClick={async () => {
-                            if (hives.length <= 1) return;
+                      <div>
+                        <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Next Predicted Harvest</label>
+                        <input 
+                          type="date"
+                          value={selectedHive.nextHarvestDate}
+                          onChange={async (e) => {
                             try {
-                              await removeHive(selectedHive.id);
-                              alert(`Unit #${selectedHive.id} successfully decommissioned from apiary grid.`);
+                              await updateHive(selectedHive.id, { nextHarvestDate: e.target.value });
                             } catch (err: any) {
-                              alert(`Decommissioning failed: ${err.message}`);
+                              alert(`Timeline Update Failed: ${err.message}`);
                             }
                           }}
-                          className="w-full py-3 border border-red-500/20 text-red-500/60 hover:bg-red-500 hover:text-white transition-all text-[10px] uppercase font-bold rounded-lg"
-                        >
-                          Decommission Hive
-                        </button>
+                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-xs outline-none focus:border-honey"
+                        />
                       </div>
+                      <div className="pt-2">
+                        <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Fleet Status</label>
+                        <select 
+                          value={selectedHive.status}
+                          onChange={async (e) => {
+                            try {
+                              await updateHive(selectedHive.id, { status: e.target.value });
+                            } catch (err: any) {
+                              alert(`Status Update Failed: ${err.message}`);
+                            }
+                          }}
+                          className={`w-full border rounded-md p-3 text-[10px] uppercase font-black outline-none transition-all cursor-pointer ${
+                            selectedHive.status === 'available' ? 'bg-green-500/10 border-green-500/40 text-green-400' :
+                            selectedHive.status === 'assigned' ? 'bg-honey/10 border-honey/40 text-honey' :
+                            'bg-blue-500/10 border-blue-500/40 text-blue-400'
+                          }`}
+                        >
+                          <option value="available">Available for Guardianship</option>
+                          <option value="assigned">Fully Assigned</option>
+                          <option value="shared">Shared Colony</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-8 mt-10 pt-10 border-t border-honey/10">
+                    <div className="space-y-4">
+                      <label className="text-[10px] uppercase tracking-widest text-honey font-black block">Satellite Video Stream Uplink</label>
+                      <div className="flex gap-2">
+                        <input 
+                          type="text"
+                          value={selectedHive.videoUrl || ''}
+                          onChange={async (e) => {
+                            try {
+                              await updateHive(selectedHive.id, { videoUrl: e.target.value });
+                            } catch (err: any) {
+                              alert(`Comm Link Failed: ${err.message}`);
+                            }
+                          }}
+                          placeholder="Assign RTMP/Stream URL..."
+                          className="flex-1 bg-black/40 border border-honey/20 rounded-md p-3 text-white text-[10px] font-mono outline-none focus:border-honey"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-end">
+                      <button 
+                        onClick={async () => {
+                          if (hives.length <= 1) return;
+                          try {
+                            if (confirm('CRITICAL: Decommissioning unit. This action is irreversible. Proceed?')) {
+                              await removeHive(selectedHive.id);
+                              alert(`Unit #${selectedHive.id} successfully decommissioned from apiary grid.`);
+                            }
+                          } catch (err: any) {
+                            alert(`Decommissioning failed: ${err.message}`);
+                          }
+                        }}
+                        className="w-full py-3 border border-red-500/20 text-red-500/60 hover:bg-red-500 hover:text-white transition-all text-[10px] uppercase font-bold rounded-lg"
+                      >
+                        Decommission Hive
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -582,7 +706,18 @@ export default function Admin() {
                         selectedUser.subscribedHives?.map(id => (
                           <div key={id} className="flex items-center justify-between p-3 bg-white/5 rounded-md">
                             <span className="text-xs font-bold font-mono">Unit #{id}</span>
-                            <button onClick={() => removeHiveFromUser(selectedUser.uid, id)} className="text-red-500/40 hover:text-red-500 transition-all"><UserMinus size={14}/></button>
+                            <button 
+                               onClick={async () => {
+                                 try {
+                                   await removeHiveFromUser(selectedUser.uid, id);
+                                 } catch (err: any) {
+                                   alert(`Link termination failed: ${err.message}`);
+                                 }
+                               }} 
+                               className="text-red-500/40 hover:text-red-500 transition-all"
+                             >
+                               <UserMinus size={14}/>
+                             </button>
                           </div>
                         ))
                       )}
@@ -590,10 +725,16 @@ export default function Admin() {
                     <div className="pt-4">
                        <label className="text-[9px] uppercase tracking-widest text-honey/40 block mb-2 font-black">Manual Linkage</label>
                        <select 
-                         onChange={(e) => {
-                           if (e.target.value) {
-                             assignHiveToUser(selectedUser.uid, e.target.value);
-                             e.target.value = '';
+                         value=""
+                         onChange={async (e) => {
+                           const val = e.target.value;
+                           if (val) {
+                             try {
+                               await assignHiveToUser(selectedUser.uid, val);
+                               alert(`Unit #${val} successfully linked to guardian ${selectedUser.email}.`);
+                             } catch (err: any) {
+                               alert(`Uplink failed: ${err.message}`);
+                             }
                            }
                          }}
                          className="w-full bg-black/60 border border-honey/20 rounded-md p-2 text-[10px] text-white outline-none"
@@ -653,17 +794,88 @@ export default function Admin() {
                   </div>
                 </div>
 
-                <div className="bg-[#120D08] border border-honey/10 rounded-lg p-10 flex flex-col items-center justify-center text-center space-y-6 min-h-[400px]">
-                  <Terminal size={48} className="text-honey animate-pulse" />
-                  <div className="space-y-2">
-                    <h2 className="text-3xl font-display text-white">Grid Core Active</h2>
-                    <p className="text-sm text-honey/40 max-w-md mx-auto">Monitoring sensor arrays across Laconia and Mani. System uptime: 99.98%.</p>
+                <div className="bg-[#120D08] border border-honey/10 rounded-lg p-8">
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center gap-3">
+                      <Terminal size={20} className="text-honey" />
+                      <h3 className="text-xl font-display text-white">Cluster Management & Regional Deployment</h3>
+                    </div>
+                    <div className="px-4 py-1 bg-honey/10 border border-honey/40 rounded-full text-[8px] uppercase font-black text-honey">
+                      Fleet Size: {hives.length} Units
+                    </div>
                   </div>
-                  <div className="flex gap-4">
-                    <div className="px-6 py-2 bg-green-500/10 border border-green-500/40 rounded-full text-[10px] uppercase font-black text-green-400">Firebase Operational</div>
-                    <div className="px-6 py-2 bg-honey/10 border border-honey/40 rounded-full text-[10px] uppercase font-black text-honey">Stripe API Online</div>
+
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="border-b border-honey/10">
+                          <th className="py-4 text-[9px] uppercase tracking-widest text-honey/40 font-black">Designation</th>
+                          <th className="py-4 text-[9px] uppercase tracking-widest text-honey/40 font-black">Deployment Zone</th>
+                          <th className="py-4 text-[9px] uppercase tracking-widest text-honey/40 font-black">Vital Signs</th>
+                          <th className="py-4 text-[9px] uppercase tracking-widest text-honey/40 font-black">Status</th>
+                          <th className="py-4 text-[9px] uppercase tracking-widest text-honey/40 font-black">Next Cycle</th>
+                          <th className="py-4 text-[10px] text-right"></th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-[11px] font-mono">
+                        {hives.map(hive => (
+                          <tr key={hive.id} className="border-b border-honey/5 hover:bg-white/[0.02] transition-colors group">
+                            <td className="py-4 font-bold text-white">#{hive.id}</td>
+                            <td className="py-4 text-white/60">{hive.location}</td>
+                            <td className="py-4">
+                              <span className="text-honey">{hive.weight}kg</span>
+                              <span className="mx-2 text-white/10">|</span>
+                              <span className="text-blue-400">{hive.temp}°C</span>
+                            </td>
+                            <td className="py-4">
+                              <span className={`px-2 py-0.5 rounded-full text-[8px] uppercase font-black ${
+                                hive.status === 'available' ? 'bg-green-500/10 text-green-400' :
+                                hive.status === 'assigned' ? 'bg-honey/10 text-honey' : 'bg-blue-500/10 text-blue-400'
+                              }`}>
+                                {hive.status}
+                              </span>
+                            </td>
+                            <td className="py-4 text-white/40">{hive.nextHarvestDate}</td>
+                            <td className="py-4 text-right">
+                              <button 
+                                onClick={() => {
+                                  setSelectedHiveId(hive.id);
+                                  setActiveTab('hives');
+                                }}
+                                className="opacity-0 group-hover:opacity-100 transition-opacity text-honey hover:underline text-[9px] uppercase font-black"
+                              >
+                                Command Unit
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
-               </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div className="bg-[#120D08] border border-honey/10 rounded-lg p-6 space-y-4">
+                    <div className="text-[9px] uppercase tracking-widest text-honey font-black">Global Projected Yield</div>
+                    <div className="text-3xl font-display text-white">{(hives.reduce((acc, h) => acc + h.weight, 0) * 0.4).toFixed(1)}kg</div>
+                    <p className="text-[10px] text-white/40 italic leading-relaxed">Composite data suggests a robust harvest across all active Mani sectors.</p>
+                  </div>
+                  <div className="bg-[#120D08] border border-honey/10 rounded-lg p-6 space-y-4">
+                    <div className="text-[9px] uppercase tracking-widest text-blue-400 font-black">Environmental Equilibrium</div>
+                    <div className="text-3xl font-display text-white">{(hives.reduce((acc, h) => acc + h.temp, 0) / hives.length).toFixed(1)}°C</div>
+                    <p className="text-[10px] text-white/40 italic leading-relaxed">Median internal cluster temperature across the apiary grid is optimal.</p>
+                  </div>
+                  <div className="bg-[#120D08] border border-honey/10 rounded-lg p-6 space-y-4 flex flex-col justify-between">
+                    <div>
+                      <div className="text-[9px] uppercase tracking-widest text-green-500 font-black">System Pulse</div>
+                      <div className="text-xs text-white font-mono mt-2 flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        CORE_OPERATIONAL
+                      </div>
+                    </div>
+                    <button className="w-full py-2 bg-honey/10 border border-honey/40 text-honey text-[9px] uppercase font-black hover:bg-honey hover:text-black transition-all">Download Audit Report</button>
+                  </div>
+                </div>
                
                <div className="grid grid-cols-2 gap-8">
                   <div className="bg-[#120D08] border border-honey/10 rounded-lg p-8">
