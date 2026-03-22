@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Menu, X, Scale, Camera, Thermometer, Package, FlaskConical, MapPin, ShoppingCart, Trash2, Star, ArrowRight } from 'lucide-react';
+import { Plus, Menu, X, Scale, Camera, Thermometer, Package, FlaskConical, MapPin, ShoppingCart, Trash2, Star, ArrowRight, Bug, Milk, Leaf, Hexagon, Compass } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
 import CookieConsent from '../components/CookieConsent';
@@ -363,179 +363,166 @@ const DashboardPreview = () => {
 
 const harvests = [
   { 
-    color: '#E8A030', 
+    color: '#CAA362', 
     name: 'Wildflower & Vanilla', 
-    season: 'Spring Harvest', 
-    location: 'Sparta, Laconia', 
-    character: 'Light, floral, sweet',
-    yield: '800g',
-    desc: 'Feb–Mar · Kato Asteri apiary. Notes of citrus and vanilla orchid.' 
+    season: 'Feb–Mar', 
+    location: 'Sparta / Kato Asteri, Laconia', 
+    character: 'Vanilla & Wildflower honey',
+    icon: 'Bug',
+    yield: '800g'
   },
   { 
-    color: '#F5C842', 
+    color: '#CAA362', 
     name: 'Thyme & Sage', 
-    season: 'Early Summer', 
+    season: 'Jun–Jul', 
     location: 'Lagia, Mani', 
-    character: 'Aromatic, intense',
-    yield: '800g',
-    desc: 'Jun–Jul · The rugged coast of Mani. Pure Thyme and mountain Sage.' 
+    character: 'Thyme & Sage honey',
+    icon: 'Milk',
+    yield: '800g'
   },
   { 
-    color: '#D4AF37', 
-    name: 'Fir Vanilla', 
-    season: 'Late Summer', 
+    color: '#CAA362', 
+    name: 'Fir honey', 
+    season: 'Jul–Aug', 
     location: 'Karyes, Arcadia', 
-    character: 'Creamy, pearlescent',
-    yield: '1.2kg',
-    desc: 'Jul–Aug · Mt. Parnon forests. Rare "Vanilla" fir honey, low sweetness.' 
+    character: 'Fir honey',
+    icon: 'Leaf',
+    yield: '1.2kg'
   },
   { 
-    color: '#5C3D1A', 
-    name: 'Mountain Pine', 
-    season: 'Autumn Harvest', 
-    location: 'Evia Island', 
-    character: 'Dark, mineral-rich',
-    yield: '1.2kg',
-    desc: 'Aug–Oct · Northern Evia. Rich in minerals, deep amber color.' 
+    color: '#CAA362', 
+    name: 'Pine honey', 
+    season: 'Aug–Oct', 
+    location: 'Evia island', 
+    character: 'Pine honey',
+    icon: 'Hexagon',
+    yield: '1.2kg'
   }
 ];
 
 const OriginsMap = ({ activeIndex }: { activeIndex: number | null }) => {
-  // Coordinates based on user request (0-500 scale)
-  const Sparta = { x: 200, y: 420 };
-  const Lagia = { x: 210, y: 480 };
-  const Karyes = { x: 170, y: 370 };
-  const Evia = { x: 380, y: 200 };
+  // Coordinates refined for the visual layout (0-500 scale)
+  const Sparta = { x: 235, y: 460 };
+  const Lagia = { x: 235, y: 410 };
+  const Karyes = { x: 170, y: 320 };
+  const Evia = { x: 380, y: 160 };
 
   const dots = [Sparta, Lagia, Karyes, Evia];
 
   return (
-    <div className="w-full aspect-[4/3] border border-honey/20 bg-hive-dark relative flex items-center justify-center overflow-hidden group rounded-[2px] shadow-2xl">
-      {/* Stylized Map Outline Overlay (Greece) */}
+    <div className="w-full aspect-[4/3] border border-honey/10 bg-[#0F0A05] relative flex items-center justify-center overflow-hidden group rounded-lg shadow-2xl">
+      {/* Stylized Map Outline Overlay (Greece) - Translucent Dark */}
       <div className="absolute inset-0 opacity-40 pointer-events-none">
-         <svg viewBox="0 0 500 500" className="w-full h-full fill-none stroke-honey/30 stroke-[1.5]">
-            {/* Peloponnese stylized outline */}
-            <path d="M110,330 Q130,310 170,320 T230,360 Q250,410 230,490 T150,500 T110,430 Z" />
-            {/* Attica/Central Greece section */}
-            <path d="M240,330 Q270,310 310,320 T370,260 Q390,190 360,160 T310,190 T270,250" />
-            {/* Evia Island specifically */}
-            <path d="M340,230 Q370,190 400,220 T380,270 Q350,290 330,260 Z" className="stroke-honey/60" />
+         <svg viewBox="0 0 500 500" className="w-full h-full fill-[#1A1208]/80 stroke-honey/20 stroke-[1.5]">
+            <path d="M120,330 Q140,300 180,310 T240,350 Q260,400 240,500 T160,510 T120,430 Z" />
+            <path d="M250,330 Q280,310 320,320 T380,260 Q400,190 370,160 T320,190 T280,250" />
+            <path d="M350,230 Q380,180 410,210 T390,260 Q360,280 340,250 Z" className="fill-honey/5 stroke-honey/40" />
          </svg>
       </div>
 
       <svg viewBox="0 0 500 500" className="absolute inset-0 w-full h-full">
         <defs>
-          <filter id="honey-glow">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
+          <radialGradient id="dot-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#C8860A" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="#C8860A" stopOpacity="0" />
+          </radialGradient>
         </defs>
 
-        {/* Routes */}
-        <g className="opacity-40">
-          {/* Sparta -> Lagia */}
-          <path d={`M${Sparta.x},${Sparta.y} L${Lagia.x},${Lagia.y}`} className={`stroke-honey transition-all duration-700 fill-none ${activeIndex === 1 ? 'stroke-2 opacity-100' : 'stroke-[0.5] opacity-30'} ${activeIndex === 1 ? 'stroke-dash-animate' : ''}`} />
-          {/* Lagia -> Karyes */}
-          <path d={`M${Lagia.x},${Lagia.y} L${Karyes.x},${Karyes.y}`} className={`stroke-honey transition-all duration-700 fill-none ${activeIndex === 2 ? 'stroke-2 opacity-100' : 'stroke-[0.5] opacity-30'} ${activeIndex === 2 ? 'stroke-dash-animate' : ''}`} />
-          {/* Karyes -> Evia */}
-          <path d={`M${Karyes.x},${Karyes.y} Q280,280 ${Evia.x},${Evia.y}`} className={`stroke-honey transition-all duration-700 fill-none ${activeIndex === 3 ? 'stroke-2 opacity-100' : 'stroke-[0.5] opacity-30'} ${activeIndex === 3 ? 'stroke-dash-animate' : ''}`} />
-          {/* Evia -> Sparta */}
-          <path d={`M${Evia.x},${Evia.y} Q300,450 ${Sparta.x},${Sparta.y}`} className={`stroke-honey transition-all duration-700 fill-none ${activeIndex === 0 ? 'stroke-2 opacity-100' : 'stroke-[0.5] opacity-30'} ${activeIndex === 0 ? 'stroke-dash-animate' : ''}`} />
-        </g>
+        {/* Unified Curved Route */}
+        <path 
+          d={`M${Sparta.x},${Sparta.y} Q200,430 ${Lagia.x},${Lagia.y} T${Karyes.x},${Karyes.y} Q250,230 ${Evia.x},${Evia.y} Q380,450 ${Sparta.x},${Sparta.y}`}
+          className="stroke-honey/40 stroke-[1] fill-none stroke-dasharray-[4,6] stroke-dashoffset-animate"
+        />
 
-        {/* Connection to Sparta (Initial state) */}
-        {!activeIndex && activeIndex !== 0 && (
-           <path d={`M${Sparta.x},${Sparta.y} L${Lagia.x},${Lagia.y}`} className="stroke-honey/20 stroke-[0.5] fill-none stroke-dasharray-[4,4]" />
-        )}
-
-        {/* Locations */}
-        {dots.map((dot, i) => (
-          <g key={i}>
+        {/* Dots with Glow */}
+        {dots.map((dot, idx) => (
+          <g key={idx}>
+            {activeIndex === idx && (
+              <circle cx={dot.x} cy={dot.y} r="25" fill="url(#dot-glow)" className="animate-pulse" />
+            )}
             <circle 
               cx={dot.x} 
               cy={dot.y} 
-              r={activeIndex === i ? "6" : "3"} 
-              fill="#C8860A" 
-              className={`transition-all duration-500 cursor-pointer ${activeIndex === i ? 'animate-pulse' : 'opacity-60'}`}
-              filter={activeIndex === i ? "url(#honey-glow)" : ""}
+              r={activeIndex === idx ? 6 : 4} 
+              fill={activeIndex === idx ? '#E8A030' : '#C8860A'} 
+              className="transition-all duration-500 shadow-2xl"
+              style={{ filter: activeIndex === idx ? 'drop-shadow(0 0 8px rgba(232, 160, 48, 0.8))' : 'none' }}
             />
-            {/* Subtle glow ring */}
-            {activeIndex === i && (
-              <circle 
-                cx={dot.x} 
-                cy={dot.y} 
-                r="12" 
-                className="stroke-honey/40 stroke-1 fill-none animate-ping"
-              />
-            )}
           </g>
         ))}
       </svg>
-      
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-center bg-black/60 backdrop-blur-md p-4 border border-honey/30 rounded-[2px] pointer-events-none min-w-[200px] shadow-2xl">
-        <div className="text-[9px] uppercase tracking-[0.3em] text-honey font-bold mb-1">
-          {activeIndex === null ? "Nomadic Journey" : "Seasonal Presence"}
-        </div>
-        <div className="font-display text-lg text-pale-honey italic">
-          {activeIndex === null ? "Laconia & Central Greece" : harvests[activeIndex].location}
-        </div>
+
+      {/* Region Label */}
+      <div className="absolute bottom-6 right-6 text-right pointer-events-none">
+         <div className="text-[10px] uppercase tracking-widest text-honey/40 font-bold mb-1">Nomadic Journey</div>
+         <div className="text-xl font-display text-honey/80 italic">
+           {activeIndex !== null ? harvests[activeIndex].location.split(',')[1] || 'Central Greece' : 'Laconia & Central Greece'}
+         </div>
       </div>
     </div>
   );
 };
 
 const Origins = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   return (
-    <section id="origins" className="py-32 px-6">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-20">
-        <div className="w-full md:w-[55%]">
-          <h2 className="font-display text-4xl font-light mb-6 text-[#2A1B0A] text-[#2A1B0A]">Immediate welcome. A nomadic journey.</h2>
-          <p className="text-sm text-[#2A1B0A]/60 mb-16 max-w-md leading-relaxed">
-            Your first jar ships within two weeks to welcome you to the hive. After that, our hives travel across Greece's most pristine landscapes. What arrives next depends on what bloomed this year — and when.
-          </p>
+    <section id="origins" className="py-32 bg-hive-bg">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           
-          <div className="flex flex-col border-t border-honey/20">
-            {harvests.map((h, i) => (
-              <div key={i} className="border-b border-honey/20 group">
-                <button 
-                  className="w-full py-6 flex items-center justify-between text-left focus:outline-none"
-                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                  onMouseEnter={() => setHoveredIndex(i)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                >
-                  <div className="flex items-center gap-6">
-                    <div className="w-3 h-3 rounded-full transition-transform duration-300 group-hover:scale-125" style={{ backgroundColor: h.color }}></div>
-                    <div>
-                      <div className="font-display text-2xl mb-1 group-hover:text-pale-honey transition-colors">{h.name}</div>
-                      <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40">
-                        {h.season} <span className="text-honey/50 mx-1">·</span> {h.location}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="font-display italic text-lg text-honey/80 text-right">{h.character}</div>
-                </button>
-                
-                <div 
-                  className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === i ? 'max-h-40 opacity-100 pb-6' : 'max-h-0 opacity-0'}`}
-                >
-                  <div className="pl-12 pr-4">
-                    <p className="text-sm text-[#2A1B0A]/50 leading-relaxed font-light italic">
-                      → {h.desc}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+          {/* Map on Left for Desktop */}
+          <div className="order-1 lg:order-1 relative">
+            <OriginsMap activeIndex={activeIndex} />
+            <div className="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-honey/20"></div>
           </div>
-        </div>
-        
-        <div className="w-full md:w-[45%] flex items-center justify-center">
-          <OriginsMap activeIndex={hoveredIndex !== null ? hoveredIndex : openIndex} />
+
+          {/* Sidebar on Right for Desktop */}
+          <div className="order-2 lg:order-2">
+            <div className="flex items-center justify-between mb-12 pb-6 border-b border-honey/10">
+               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#2A1B0A]/40">Seasonal Harvest Journey</span>
+               <div className="w-6 h-6 text-honey animate-pulse">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 8v9"/></svg>
+               </div>
+            </div>
+
+              {harvests.map((h, idx) => {
+                const Icon = h.icon === 'Bug' ? Bug : h.icon === 'Milk' ? Milk : h.icon === 'Leaf' ? Leaf : Hexagon;
+                return (
+                  <button
+                    key={idx}
+                    onMouseEnter={() => setActiveIndex(idx)}
+                    className={`w-full text-left p-6 rounded-xl transition-all duration-500 group border ${
+                      activeIndex === idx 
+                        ? 'bg-hive-dark border-honey/30 shadow-2xl relative' 
+                        : 'border-transparent hover:bg-honey/5'
+                    }`}
+                  >
+                    <div className="flex justify-between items-start mb-2">
+                       <h3 className={`text-xl transition-colors font-display ${activeIndex === idx ? 'text-honey' : 'text-[#2A1B0A]'}`}>
+                         {h.location}
+                       </h3>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                       <div className="flex items-center gap-3">
+                          <Icon className={`w-4 h-4 transition-colors ${activeIndex === idx ? 'text-honey' : 'text-[#2A1B0A]/30'}`} />
+                          <span className={`text-sm transition-colors ${activeIndex === idx ? 'text-honey/80 font-medium' : 'text-[#2A1B0A]/50'}`}>
+                            {h.character}
+                          </span>
+                       </div>
+                       <span className={`text-xs transition-colors ${activeIndex === idx ? 'text-honey/60 font-medium' : 'text-[#2A1B0A]/20'}`}>
+                          {h.season}
+                       </span>
+                    </div>
+
+                    {activeIndex === idx && (
+                      <div className="absolute inset-0 border border-honey/40 rounded-xl pointer-events-none shadow-[inset_0_0_20px_rgba(200,134,10,0.1)]"></div>
+                    )}
+                  </button>
+                );
+              })}
+          </div>
         </div>
       </div>
     </section>

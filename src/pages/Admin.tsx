@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
 import { useAdminUsers } from '../lib/useAdminUsers';
-import { Activity, Thermometer, Droplets, Scale, Calendar, Image as ImageIcon, Plus, Trash2, MapPin, LogOut, Users, UserPlus, UserMinus } from 'lucide-react';
+import { Activity, Thermometer, Droplets, Scale, Calendar, Image as ImageIcon, Video, Plus, Trash2, MapPin, LogOut, Users, UserPlus, UserMinus, Upload, StickyNote } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Admin() {
@@ -113,9 +113,19 @@ export default function Admin() {
                     </button>
                     {selectedHiveId === hive.id && hive.status !== 'available' && (
                       <button 
-                        onClick={(e) => {
+                        onClick={async (e) => {
                           e.stopPropagation();
-                          updateHive(hive.id, { status: 'available', currentSubscribers: 0 });
+                          // 1. Update hive data
+                          await updateHive(hive.id, { 
+                            status: 'available', 
+                            currentSubscribers: 0 
+                          });
+                          // 2. Clear from all users
+                          const members = users.filter(u => u.subscribedHives?.includes(hive.id));
+                          for (const member of members) {
+                            await removeHiveFromUser(member.uid, hive.id);
+                          }
+                          alert(`Hive #${hive.id} has been reset and all user associations cleared.`);
                         }}
                         className="mt-1 w-full text-[9px] uppercase tracking-widest text-center py-1 border border-green-500/30 text-green-400 hover:bg-green-500/20 transition-colors rounded-[2px]"
                       >
@@ -231,7 +241,7 @@ export default function Admin() {
                     type="text" 
                     value={data.beeSpecies || ''}
                     onChange={(e) => updateHive(data.id, { beeSpecies: e.target.value })}
-                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all font-sans"
                   />
                 </div>
 
@@ -254,7 +264,7 @@ export default function Admin() {
                   <select 
                     value={data.activeHarvest}
                     onChange={(e) => updateHive(data.id, { activeHarvest: e.target.value })}
-                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all appearance-none"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all appearance-none text-sm"
                   >
                     <option value="Spring Thyme">Spring Thyme</option>
                     <option value="Summer Wildflower">Summer Wildflower</option>
@@ -270,21 +280,86 @@ export default function Admin() {
                     type="text" 
                     value={data.nextHarvestDate}
                     onChange={(e) => updateHive(data.id, { nextHarvestDate: e.target.value })}
-                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all text-sm font-sans"
                   />
                 </div>
-                
-                <div className="sm:col-span-2">
+
+                <div>
                   <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
-                    <ImageIcon className="w-3 h-3 text-honey" /> Live Photo URL
+                    <Video className="w-3 h-3 text-honey" /> Video URL
                   </label>
                   <input 
                     type="text" 
-                    value={data.photoUrl}
-                    onChange={(e) => updateHive(data.id, { photoUrl: e.target.value })}
-                    placeholder="/beekeeper.jpg"
+                    value={data.videoUrl || ''}
+                    onChange={(e) => updateHive(data.id, { videoUrl: e.target.value })}
+                    placeholder="https://..."
                     className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all text-xs"
                   />
+                </div>
+
+                <div className="sm:col-span-2 lg:col-span-3">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
+                    <StickyNote className="w-3 h-3 text-honey" /> Admin Notes
+                  </label>
+                  <textarea 
+                    value={data.lastAdminNote || ''}
+                    onChange={(e) => updateHive(data.id, { lastAdminNote: e.target.value })}
+                    placeholder="Physical condition, medical treatments, specific apiary notes..."
+                    rows={3}
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all text-sm resize-none"
+                  />
+                </div>
+                
+                <div className="sm:col-span-3">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
+                    <ImageIcon className="w-3 h-3 text-honey" /> Hive Media Management
+                  </label>
+                  <div className="flex flex-col md:flex-row gap-6">
+                    {/* Image Preview & Upload Toggle */}
+                    <div className="w-full md:w-1/3 aspect-video bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg overflow-hidden relative group">
+                      <img 
+                        src={data.photoUrl || '/beekeeper.jpg'} 
+                        alt="Current Hive View"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <label className="cursor-pointer bg-white/20 hover:bg-white/40 p-3 rounded-full backdrop-blur-md transition-all">
+                          <Upload className="w-6 h-6 text-white" />
+                          <input 
+                            type="file" 
+                            className="hidden" 
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                  updateHive(data.id, { photoUrl: reader.result as string });
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            }}
+                          />
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="flex-1 space-y-4">
+                      <div>
+                        <span className="text-[9px] text-[#2A1B0A]/40 uppercase tracking-widest block mb-1 font-bold italic">Manual Photo URL Fallback</span>
+                        <input 
+                          type="text" 
+                          value={data.photoUrl}
+                          onChange={(e) => updateHive(data.id, { photoUrl: e.target.value })}
+                          placeholder="/beekeeper.jpg"
+                          className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all text-[10px]"
+                        />
+                      </div>
+                      <p className="text-[10px] text-[#2A1B0A]/40 leading-relaxed italic">
+                        Tip: Hover the preview to direct-upload a new image from your device. Large images will be compressed to Base64 in real-time.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
