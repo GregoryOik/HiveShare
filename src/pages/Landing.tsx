@@ -177,7 +177,7 @@ const Hero = () => {
           </div>
           <div className="w-[1px] h-10 bg-border-amber"></div>
           <div>
-            <div className="font-display text-3xl mb-1">8–9t</div>
+            <div className="font-display text-3xl mb-1">6t</div>
             <div className="text-[9px] uppercase tracking-widest text-text-muted">Annual yield</div>
           </div>
           <div className="w-[1px] h-10 bg-border-amber"></div>
@@ -880,7 +880,7 @@ export default function Landing() {
                   </button>
                 )}
                 <p className="text-[10px] text-text-muted text-center mt-3">
-                  {hasOliveOil && cartPlan ? "Note: Add-ons will be processed together with your subscription." : ""}
+                  {hasOliveOil && cartPlan ? "Note: Olive oil (€18) will be invoiced separately via email after your membership is confirmed." : ""}
                   {!cartPlan && hasOliveOil ? "Please select a membership plan to checkout with add-ons." : ""}
                 </p>
               </div>

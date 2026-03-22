@@ -232,7 +232,7 @@ export default function Membership() {
                   </button>
                 )}
                 <p className="text-[10px] text-white/30 text-center mt-4 uppercase tracking-widest leading-relaxed">
-                  {hasOliveOil && cartPlan ? "Add-ons will be processed together with your subscription." : ""}
+                  {hasOliveOil && cartPlan ? "Note: Olive oil (€18) will be invoiced separately via email after your membership is confirmed." : ""}
                   {!cartPlan && hasOliveOil ? "Please select a membership plan to checkout with add-ons." : ""}
                 </p>
               </div>
