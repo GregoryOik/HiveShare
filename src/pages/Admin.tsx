@@ -32,7 +32,8 @@ import {
   CheckCircle,
   AlertCircle,
   ArrowLeft,
-  Lock
+  Lock,
+  RefreshCw
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
@@ -449,33 +450,53 @@ export default function Admin() {
                     <div className="space-y-6">
                       <div>
                         <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Bee Species Management</label>
-                        <input 
-                          type="text"
-                          value={selectedHive.beeSpecies || 'Apis mellifera macedonica'}
-                          onChange={async (e) => {
-                            try {
-                              await updateHive(selectedHive.id, { beeSpecies: e.target.value });
-                            } catch (err: any) {
-                              alert(`Metadata Update Failed: ${err.message}`);
-                            }
-                          }}
-                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-xs font-sans outline-none focus:border-honey"
-                        />
+                        <div className="flex gap-2">
+                          <input 
+                            type="text"
+                            value={selectedHive.beeSpecies || 'Apis mellifera macedonica'}
+                            onChange={async (e) => {
+                              try {
+                                await updateHive(selectedHive.id, { beeSpecies: e.target.value });
+                              } catch (err: any) {
+                                alert(`Metadata Update Failed: ${err.message}`);
+                              }
+                            }}
+                            className="flex-1 bg-black/40 border border-honey/20 rounded-md p-3 text-white text-xs font-sans outline-none focus:border-honey"
+                          />
+                          {selectedHive.beeSpecies && (
+                            <button 
+                              onClick={() => updateHive(selectedHive.id, { beeSpecies: null })}
+                              className="px-3 bg-honey/10 border border-honey/20 rounded-md text-honey hover:bg-honey/20 transition-all"
+                              title="Reset to Species Default"
+                            >
+                              <RefreshCw size={14} />
+                            </button>
+                          )}
+                        </div>
                       </div>
                       <div>
                         <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Deployment Zone</label>
-                        <input 
-                          type="text"
-                          value={selectedHive.location}
-                          onChange={async (e) => {
-                            try {
-                              await updateHive(selectedHive.id, { location: e.target.value });
-                            } catch (err: any) {
-                              alert(`Geographic Update Failed: ${err.message}`);
-                            }
-                          }}
-                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-xs font-sans outline-none focus:border-honey"
-                        />
+                        <div className="flex gap-2">
+                          <input 
+                            type="text"
+                            value={selectedHive.location}
+                            onChange={async (e) => {
+                              try {
+                                await updateHive(selectedHive.id, { location: e.target.value });
+                              } catch (err: any) {
+                                alert(`Geographic Update Failed: ${err.message}`);
+                              }
+                            }}
+                            className="flex-1 bg-black/40 border border-honey/20 rounded-md p-3 text-white text-xs font-sans outline-none focus:border-honey"
+                          />
+                          <button 
+                            onClick={() => updateHive(selectedHive.id, { location: 'Mani, Greece' })}
+                            className="px-3 bg-honey/10 border border-honey/20 rounded-md text-honey hover:bg-honey/20 transition-all"
+                            title="Reset to Base Location"
+                          >
+                            <RefreshCw size={14} />
+                          </button>
+                        </div>
                       </div>
                       <div>
                         <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Colony Activity Level</label>
@@ -519,18 +540,29 @@ export default function Admin() {
                       </div>
                       <div>
                         <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Next Predicted Harvest</label>
-                        <input 
-                          type="date"
-                          value={selectedHive.nextHarvestDate}
-                          onChange={async (e) => {
-                            try {
-                              await updateHive(selectedHive.id, { nextHarvestDate: e.target.value });
-                            } catch (err: any) {
-                              alert(`Timeline Update Failed: ${err.message}`);
-                            }
-                          }}
-                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-xs outline-none focus:border-honey"
-                        />
+                        <div className="flex gap-2">
+                          <input 
+                            type="date"
+                            value={selectedHive.nextHarvestDate}
+                            onChange={async (e) => {
+                              try {
+                                await updateHive(selectedHive.id, { nextHarvestDate: e.target.value });
+                              } catch (err: any) {
+                                alert(`Timeline Update Failed: ${err.message}`);
+                              }
+                            }}
+                            className="flex-1 bg-black/40 border border-honey/20 rounded-md p-3 text-white text-xs outline-none focus:border-honey"
+                          />
+                          {selectedHive.nextHarvestDate && (
+                            <button 
+                              onClick={() => updateHive(selectedHive.id, { nextHarvestDate: null })}
+                              className="px-3 bg-honey/10 border border-honey/20 rounded-md text-honey hover:bg-honey/20 transition-all"
+                              title="Reset to Global Timing"
+                            >
+                              <RefreshCw size={14} />
+                            </button>
+                          )}
+                        </div>
                       </div>
                       <div className="pt-2">
                         <label className="text-[10px] uppercase tracking-widest text-honey font-black block mb-2">Fleet Status</label>
@@ -829,13 +861,23 @@ export default function Admin() {
                     <label className="text-[10px] uppercase tracking-widest text-honey font-black block underline decoration-honey/30 underline-offset-4">Personalized Branding (User Override)</label>
                     <div className="bg-honey/5 border border-honey/10 p-4 rounded-md space-y-3">
                       <p className="text-[9px] text-white/30 italic">"Override the global honey name for this specific guardian's dashboard."</p>
-                      <input 
-                        type="text"
-                        value={selectedUser.customHoneyName || ''}
-                        onChange={(e) => updateUser(selectedUser.uid, { customHoneyName: e.target.value })}
-                        placeholder="e.g. Gregory's Golden Nectar..."
-                        className="w-full bg-black/60 border border-honey/20 rounded-md p-3 text-[10px] text-white focus:border-honey outline-none font-sans"
-                      />
+                      <div className="flex gap-2">
+                        <input 
+                          type="text"
+                          value={selectedUser.customHoneyName || ''}
+                          onChange={(e) => updateUser(selectedUser.uid, { customHoneyName: e.target.value })}
+                          placeholder="e.g. Gregory's Golden Nectar..."
+                          className="flex-1 bg-black/60 border border-honey/20 rounded-md p-3 text-[10px] text-white focus:border-honey outline-none font-sans"
+                        />
+                        {selectedUser.customHoneyName && (
+                          <button 
+                            onClick={() => updateUser(selectedUser.uid, { customHoneyName: null })}
+                            className="px-3 bg-honey/10 border border-honey/20 rounded-md text-honey hover:bg-honey/20 transition-all title='Reset to Global'"
+                          >
+                            <RefreshCw size={14} />
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
 
@@ -843,13 +885,23 @@ export default function Admin() {
                     <label className="text-[10px] uppercase tracking-widest text-[#C8860A] font-black block underline decoration-honey/30 underline-offset-4">Guardian Intelligence (Unique Status)</label>
                     <div className="bg-honey/5 border border-honey/10 p-4 rounded-md space-y-3">
                       <p className="text-[9px] text-white/30 italic">"Define a custom harvest phase or special status for this user."</p>
-                      <input 
-                        type="text"
-                        value={selectedUser.userHarvestStatus || ''}
-                        onChange={(e) => updateUser(selectedUser.uid, { userHarvestStatus: e.target.value })}
-                        placeholder="e.g. Final Maturation Phase..."
-                        className="w-full bg-black/60 border border-honey/20 rounded-md p-3 text-[10px] text-white focus:border-honey outline-none font-sans"
-                      />
+                      <div className="flex gap-2">
+                        <input 
+                          type="text"
+                          value={selectedUser.userHarvestStatus || ''}
+                          onChange={(e) => updateUser(selectedUser.uid, { userHarvestStatus: e.target.value })}
+                          placeholder="e.g. Final Maturation Phase..."
+                          className="flex-1 bg-black/60 border border-honey/20 rounded-md p-3 text-[10px] text-white focus:border-honey outline-none font-sans"
+                        />
+                        {selectedUser.userHarvestStatus && (
+                          <button 
+                            onClick={() => updateUser(selectedUser.uid, { userHarvestStatus: null })}
+                            className="px-3 bg-honey/10 border border-honey/20 rounded-md text-honey hover:bg-honey/20 transition-all title='Reset to Global'"
+                          >
+                            <RefreshCw size={14} />
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
 
@@ -1038,20 +1090,57 @@ export default function Admin() {
                           value={config.availableRegions.join('\n')}
                           onChange={(e) => updateConfig({ availableRegions: e.target.value.split('\n').filter(r => r.trim()) })}
                           placeholder="One region per line..."
-                          rows={4}
-                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-[10px] font-mono outline-none focus:border-honey"
+                          rows={3}
+                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-[10px] outline-none focus:border-honey font-mono resize-none"
                         />
-                        <p className="text-[8px] text-white/20 mt-1 italic">Enter one deployment zone per line to populate the global registry.</p>
                       </div>
-                      <div className="pt-2">
-                        <label className="text-[9px] uppercase tracking-widest text-honey/60 font-black block mb-2">Site-Wide Intelligence Broadcast</label>
-                        <input 
-                          type="text"
-                          value={config.systemAnnouncement || ''}
-                          onChange={(e) => updateConfig({ systemAnnouncement: e.target.value })}
-                          placeholder="Optional global announcement..."
-                          className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-[10px] outline-none focus:border-honey"
-                        />
+                    </div>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2 text-[#C8860A]">
+                        <Settings size={16} />
+                        <h3 className="text-[10px] uppercase tracking-widest font-black">Extended Branding Payload</h3>
+                      </div>
+                      <div className="space-y-4 pt-4">
+                         <div>
+                           <label className="text-[9px] uppercase tracking-widest text-honey/60 font-black block mb-2">Harvest Season Title</label>
+                           <input 
+                            type="text"
+                            value={config.harvestSeason || ''}
+                            onChange={(e) => updateConfig({ harvestSeason: e.target.value })}
+                            placeholder="e.g. Spring Bloom"
+                            className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-[10px] outline-none focus:border-honey"
+                           />
+                         </div>
+                         <div>
+                           <label className="text-[9px] uppercase tracking-widest text-honey/60 font-black block mb-2">Dashboard Greeting</label>
+                           <input 
+                            type="text"
+                            value={config.dashboardGreeting || ''}
+                            onChange={(e) => updateConfig({ dashboardGreeting: e.target.value })}
+                            placeholder="e.g. Greetings, Guardian"
+                            className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-[10px] outline-none focus:border-honey"
+                           />
+                         </div>
+                         <div>
+                           <label className="text-[9px] uppercase tracking-widest text-honey/60 font-black block mb-2">Site-Wide Harvest Description</label>
+                           <textarea 
+                            value={config.siteWideHarvestDescription || ''}
+                            onChange={(e) => updateConfig({ siteWideHarvestDescription: e.target.value })}
+                            placeholder="Global narrative for the harvest timeline..."
+                            rows={4}
+                            className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-[10px] outline-none focus:border-honey font-sans resize-none"
+                           />
+                         </div>
+                         <div className="pt-2">
+                           <label className="text-[9px] uppercase tracking-widest text-honey/60 font-black block mb-2">Site-Wide Intelligence Broadcast</label>
+                           <input 
+                             type="text"
+                             value={config.systemAnnouncement || ''}
+                             onChange={(e) => updateConfig({ systemAnnouncement: e.target.value })}
+                             placeholder="Optional global announcement..."
+                             className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-[10px] outline-none focus:border-honey"
+                           />
+                         </div>
                       </div>
                     </div>
                   </div>

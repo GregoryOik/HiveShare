@@ -106,9 +106,9 @@ export default function Harvest() {
 
       <main className="max-w-5xl mx-auto px-6 py-16 relative z-10 w-full flex-1">
         <div className="mb-16 text-center space-y-4">
-          <h1 className="font-display text-5xl text-[#2A1B0A]">Harvest <span className="italic text-pale-honey">Timeline</span></h1>
-          <p className="text-sm text-[#2A1B0A]/60 max-w-lg mx-auto leading-relaxed">
-            Your nomadic journey follows the ancient bloom cycles of Greece. Here is the schedule for your seasonal honey yields.
+          <h1 className="font-display text-5xl text-[#2A1B0A]">Harvest <span className="italic text-pale-honey">{config?.harvestSeason || 'Timeline'}</span></h1>
+          <p className="text-sm text-[#2A1B0A]/60 max-w-lg mx-auto leading-relaxed font-sans">
+            {config?.siteWideHarvestDescription || 'Your nomadic journey follows the ancient bloom cycles of Greece. Here is the schedule for your seasonal honey yields.'}
           </p>
         </div>
 

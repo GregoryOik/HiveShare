@@ -144,7 +144,7 @@ export default function Dashboard() {
                   <Package className="w-8 h-8 text-honey" />
                 </div>
                 <div className="space-y-4">
-                  <h1 className="font-display text-4xl text-[#2A1B0A]">Your Hive is Being Assigned</h1>
+                  <h1 className="font-display text-4xl text-[#2A1B0A]">{config?.dashboardGreeting || 'Greetings, Guardian'}</h1>
                   <p className="text-sm text-[#2A1B0A]/60 max-w-md mx-auto">We're connecting your account to a specific apiary in Laconia. Please wait a moment.</p>
                 </div>
               </>

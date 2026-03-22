@@ -31,6 +31,9 @@ export interface SiteConfig {
   systemAnnouncement?: string;
   maintenanceMode?: boolean;
   lastUpdated?: string;
+  siteWideHarvestDescription?: string;
+  harvestSeason?: string;
+  dashboardGreeting?: string;
 }
 
 const DEFAULT_HIVES: HiveData[] = [
@@ -275,7 +278,10 @@ export const useSiteConfig = () => {
         setConfig({
           globalHarvestName: 'Spring Wildflower',
           globalHarvestDate: '2026-05-15',
-          availableRegions: ['Muni, Laconia', 'Githio, Mani', 'Aeropoli, Mani']
+          availableRegions: ['Muni, Laconia', 'Githio, Mani', 'Aeropoli, Mani'],
+          siteWideHarvestDescription: 'Your nomadic journey follows the ancient bloom cycles of Greece. Here is the schedule for your seasonal honey yields.',
+          harvestSeason: 'Spring Bloom',
+          dashboardGreeting: 'Greetings, Guardian'
         });
       }
       setLoading(false);
