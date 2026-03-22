@@ -80,7 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             
             // STRIPE EXTENSION SYNC
             // Listen to subscriptions subcollection for the latest status
-            const subCollectionRef = collection(db, 'users', currentUser.uid, 'subscriptions');
+            const subCollectionRef = collection(db, 'customers', currentUser.uid, 'subscriptions');
             onFirestoreSnapshot(subCollectionRef, (subSnap) => {
               const activeSub = subSnap.docs.find(d => ['active', 'trialing'].includes(d.data().status));
               if (activeSub) {
