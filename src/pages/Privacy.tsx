@@ -4,10 +4,10 @@ import { ArrowLeft } from 'lucide-react';
 
 export default function Privacy() {
   return (
-    <div className="min-h-screen bg-hive-bg text-white/80 font-body selection:bg-honey selection:text-white pb-20">
+    <div className="min-h-screen bg-hive-bg text-[#2A1B0A]/80 font-body selection:bg-honey selection:text-[#2A1B0A] pb-20">
       <header className="border-b border-honey/20 bg-hive-bg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center">
-          <Link to="/" className="flex items-center gap-2 text-honey hover:text-white transition-colors">
+          <Link to="/" className="flex items-center gap-2 text-honey hover:text-[#2A1B0A] transition-colors">
             <ArrowLeft className="w-5 h-5" />
             <span className="text-sm uppercase tracking-widest font-medium">Back to Home</span>
           </Link>
@@ -17,13 +17,13 @@ export default function Privacy() {
       <main className="max-w-3xl mx-auto px-6 pt-16">
         <h1 className="font-display text-4xl md:text-5xl text-honey mb-8">Privacy Policy</h1>
         
-        <div className="space-y-8 text-sm leading-relaxed text-white/70">
+        <div className="space-y-8 text-sm leading-relaxed text-[#2A1B0A]/70">
           <p className="mb-4">
             This Privacy Policy explains how HiveShare (operated by Petros Oikonomakos, sole proprietor) collects, uses, stores, and protects your personal information. We are committed to ensuring your privacy is protected in full compliance with the <strong>General Data Protection Regulation (EU) 2016/679 (GDPR)</strong> and Greek Law 4624/2019.
           </p>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">1. Data Controller</h2>
+            <h2 className="text-xl font-display text-[#2A1B0A] mb-4">1. Data Controller</h2>
             <p className="mb-2">The data controller responsible for your personal data is:</p>
             <p>
               <strong>Petros Oikonomakos</strong> (trading as HiveShare)<br/>
@@ -34,7 +34,7 @@ export default function Privacy() {
           </section>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">2. Information We Collect</h2>
+            <h2 className="text-xl font-display text-[#2A1B0A] mb-4">2. Information We Collect</h2>
             <p className="mb-2">We collect the following categories of personal data:</p>
             <ul className="list-disc pl-5 space-y-2">
               <li><strong>Identity Data:</strong> Full name, display name, custom jar label.</li>
@@ -47,7 +47,7 @@ export default function Privacy() {
           </section>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">3. Legal Basis for Processing (Article 6 GDPR)</h2>
+            <h2 className="text-xl font-display text-[#2A1B0A] mb-4">3. Legal Basis for Processing (Article 6 GDPR)</h2>
             <p className="mb-2">We process your personal data on the following legal grounds:</p>
             <ul className="list-disc pl-5 space-y-2">
               <li><strong>Contract Performance (Art. 6(1)(b)):</strong> To fulfil your subscription, assign your hive, deliver honey, and provide apiary journal access.</li>
@@ -58,7 +58,7 @@ export default function Privacy() {
           </section>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">4. How We Use Your Information</h2>
+            <h2 className="text-xl font-display text-[#2A1B0A] mb-4">4. How We Use Your Information</h2>
             <ul className="list-disc pl-5 space-y-2">
               <li>To create and manage your HiveShare account.</li>
               <li>To assign you a hive and provide real-time apiary journal data.</li>
@@ -70,7 +70,7 @@ export default function Privacy() {
           </section>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">5. Third-Party Processors</h2>
+            <h2 className="text-xl font-display text-[#2A1B0A] mb-4">5. Third-Party Processors</h2>
             <p className="mb-2">We share your data only with trusted third parties necessary to operate our service, each bound by data processing agreements:</p>
             <ul className="list-disc pl-5 space-y-2">
               <li><strong>Google / Firebase (USA):</strong> Authentication, database hosting, and cloud functions. Data transfers to the USA are covered by EU-US Data Privacy Framework.</li>
@@ -80,7 +80,7 @@ export default function Privacy() {
           </section>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">6. Data Retention</h2>
+            <h2 className="text-xl font-display text-[#2A1B0A] mb-4">6. Data Retention</h2>
             <p className="mb-2">We retain your personal data only as long as necessary:</p>
             <ul className="list-disc pl-5 space-y-2">
               <li><strong>Account data:</strong> Retained for the duration of your account. Deleted within 30 days of account deletion request.</li>
@@ -91,7 +91,7 @@ export default function Privacy() {
           </section>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">7. Cookies</h2>
+            <h2 className="text-xl font-display text-[#2A1B0A] mb-4">7. Cookies</h2>
             <p className="mb-2">We use the following types of cookies:</p>
             <ul className="list-disc pl-5 space-y-2">
               <li><strong>Essential Cookies:</strong> Required for authentication and remembering your session. These cannot be disabled.</li>
@@ -102,7 +102,7 @@ export default function Privacy() {
           </section>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">8. Your Rights Under GDPR</h2>
+            <h2 className="text-xl font-display text-[#2A1B0A] mb-4">8. Your Rights Under GDPR</h2>
             <p className="mb-2">As a data subject in the EU, you have the following rights:</p>
             <ul className="list-disc pl-5 space-y-2">
               <li><strong>Right of Access (Art. 15):</strong> Request a copy of the personal data we hold about you.</li>
@@ -119,14 +119,14 @@ export default function Privacy() {
           </section>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">9. Children's Privacy</h2>
+            <h2 className="text-xl font-display text-[#2A1B0A] mb-4">9. Children's Privacy</h2>
             <p className="mb-2">
               Our service is not directed at children under 16 years of age. We do not knowingly collect personal data from minors. If we become aware that we have collected data from a child under 16 without parental consent, we will promptly delete it.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">10. Supervisory Authority</h2>
+            <h2 className="text-xl font-display text-[#2A1B0A] mb-4">10. Supervisory Authority</h2>
             <p className="mb-2">
               If you believe your data protection rights have been violated, you have the right to lodge a complaint with the <strong>Hellenic Data Protection Authority (HDPA)</strong>:
             </p>
@@ -139,7 +139,7 @@ export default function Privacy() {
           </section>
 
           <section>
-            <h2 className="text-xl font-display text-white mb-4">11. Contact</h2>
+            <h2 className="text-xl font-display text-[#2A1B0A] mb-4">11. Contact</h2>
             <p>
               For any questions about this Privacy Policy or to exercise your data rights:<br/><br/>
               HiveShare (Petros Oikonomakos)<br/>
@@ -148,7 +148,7 @@ export default function Privacy() {
             </p>
           </section>
 
-          <div className="pt-8 border-t border-honey/20 text-xs text-white/40">
+          <div className="pt-8 border-t border-honey/20 text-xs text-[#2A1B0A]/40">
             Last updated: March 2026
           </div>
         </div>

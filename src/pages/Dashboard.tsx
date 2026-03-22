@@ -82,20 +82,20 @@ export default function Dashboard() {
     }
   }, [hives, selectedHiveId]);
 
-  if (loading) return <div className="min-h-screen bg-hive-bg text-white p-12 flex items-center justify-center font-display text-xl tracking-widest animate-pulse">Connecting to your hive in Laconia...</div>;
+  if (loading) return <div className="min-h-screen bg-hive-bg text-[#2A1B0A] p-12 flex items-center justify-center font-display text-xl tracking-widest animate-pulse">Connecting to your hive in Laconia...</div>;
   
   const data = hives.find(h => h.id === selectedHiveId) || hives[0];
 
   if (!data) {
     return (
-      <div className="min-h-screen bg-hive-bg text-white/80 font-body selection:bg-honey selection:text-white flex flex-col relative overflow-hidden">
+      <div className="min-h-screen bg-hive-bg text-[#2A1B0A]/80 font-body selection:bg-honey selection:text-[#2A1B0A] flex flex-col relative overflow-hidden">
         {/* Cinematic Background Glows */}
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-honey/5 blur-[120px] rounded-full pointer-events-none"></div>
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-honey/5 blur-[120px] rounded-full pointer-events-none"></div>
 
         <header className="border-b border-honey/10 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between w-full relative">
-            <Link to="/" className="font-display text-2xl tracking-wide text-white hover:text-honey transition-colors duration-300">
+            <Link to="/" className="font-display text-2xl tracking-wide text-[#2A1B0A] hover:text-honey transition-colors duration-300">
               Hive<span className="text-honey">Share</span>
             </Link>
           </div>
@@ -116,13 +116,13 @@ export default function Dashboard() {
             </div>
             
             <div className="space-y-4">
-              <h1 className="font-display text-3xl md:text-4xl text-white">Your Hive is Being Set Up</h1>
-              <p className="text-sm text-white/60 leading-relaxed max-w-md mx-auto">
+              <h1 className="font-display text-3xl md:text-4xl text-[#2A1B0A]">Your Hive is Being Set Up</h1>
+              <p className="text-sm text-[#2A1B0A]/60 leading-relaxed max-w-md mx-auto">
                 We're connecting your account to your assigned hive. This usually takes a few moments. Try refreshing the page.
               </p>
               <button 
                 onClick={() => window.location.reload()} 
-                className="mt-4 px-8 py-3 bg-honey text-white text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-sm"
+                className="mt-4 px-8 py-3 bg-honey text-[#2A1B0A] text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-sm"
               >
                 Refresh
               </button>
@@ -134,7 +134,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-hive-bg text-white/80 font-body selection:bg-honey selection:text-white flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-hive-bg text-[#2A1B0A]/80 font-body selection:bg-honey selection:text-[#2A1B0A] flex flex-col relative overflow-hidden">
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-honey/5 blur-[120px] rounded-full"></div>
@@ -144,13 +144,13 @@ export default function Dashboard() {
 
       <header className="border-b border-honey/10 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50 relative">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between w-full">
-          <Link to="/" className="font-display text-2xl tracking-wide text-white hover:text-honey transition-colors duration-300">
+          <Link to="/" className="font-display text-2xl tracking-wide text-[#2A1B0A] hover:text-honey transition-colors duration-300">
             Hive<span className="text-honey">Share</span>
           </Link>
           
           <div className="flex items-center gap-6">
             <div className="hidden md:flex flex-col items-end">
-              <span className="text-[9px] uppercase tracking-[0.2em] text-white/30 font-bold">Authenticated</span>
+              <span className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/30 font-bold">Authenticated</span>
               <span className="text-[10px] text-honey font-medium">{profile?.email}</span>
             </div>
             
@@ -158,7 +158,7 @@ export default function Dashboard() {
 
             <button 
               onClick={logout} 
-              className="group flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] font-bold text-white/40 hover:text-white transition-all duration-300 bg-white/5 hover:bg-honey/10 px-4 py-2 rounded-full border border-white/5 hover:border-honey/20"
+              className="group flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] font-bold text-[#2A1B0A]/40 hover:text-[#2A1B0A] transition-all duration-300 bg-white/5 hover:bg-honey/10 px-4 py-2 rounded-full border border-white/5 hover:border-honey/20"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Logout</span>
@@ -176,13 +176,13 @@ export default function Dashboard() {
                 <AlertTriangle className="text-honey w-6 h-6" />
               </div>
               <div className="space-y-1 text-left">
-                <p className="text-sm font-medium text-white tracking-wide uppercase">Shipping Address Required</p>
-                <p className="text-xs text-white/50 leading-relaxed font-light">Your membership is active, but we don't know where to ship your honey!</p>
+                <p className="text-sm font-medium text-[#2A1B0A] tracking-wide uppercase">Shipping Address Required</p>
+                <p className="text-xs text-[#2A1B0A]/50 leading-relaxed font-light">Your membership is active, but we don't know where to ship your honey!</p>
               </div>
             </div>
             <Link 
               to="/settings" 
-              className="px-8 py-3 bg-honey text-white text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-sm flex items-center gap-2"
+              className="px-8 py-3 bg-honey text-[#2A1B0A] text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-sm flex items-center gap-2"
             >
               Update Settings <ArrowRight className="w-3 h-3" />
             </Link>
@@ -207,12 +207,12 @@ export default function Dashboard() {
                     }`}
                   >
                     <div className="flex justify-between items-center mb-1">
-                      <span className={`text-xs font-bold tracking-widest uppercase ${selectedHiveId === hive.id ? 'text-white' : 'text-white/40'}`}>
+                      <span className={`text-xs font-bold tracking-widest uppercase ${selectedHiveId === hive.id ? 'text-[#2A1B0A]' : 'text-[#2A1B0A]/40'}`}>
                         Hive #{hive.id}
                       </span>
                       {selectedHiveId === hive.id && <div className="w-1.5 h-1.5 rounded-full bg-honey animate-pulse"></div>}
                     </div>
-                    <div className="text-[10px] text-white/30 group-hover:text-white/50 transition-colors uppercase tracking-widest">{hive.location}</div>
+                    <div className="text-[10px] text-[#2A1B0A]/30 group-hover:text-[#2A1B0A]/50 transition-colors uppercase tracking-widest">{hive.location}</div>
                   </button>
                 ))}
               </div>
@@ -223,10 +223,10 @@ export default function Dashboard() {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   {profile?.tier === 'premium' ? <Crown className="text-honey w-4 h-4" /> : <Star className="text-honey w-4 h-4" />}
-                  <div className="text-xs uppercase tracking-widest text-white/80 font-bold">{profile?.tier} Account</div>
+                  <div className="text-xs uppercase tracking-widest text-[#2A1B0A]/80 font-bold">{profile?.tier} Account</div>
                 </div>
                 <div className="h-[1px] bg-honey/5"></div>
-                <Link to="/settings" className="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors">
+                <Link to="/settings" className="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] text-[#2A1B0A]/40 hover:text-[#2A1B0A] transition-colors">
                   <SettingsIcon className="w-3.5 h-3.5" />
                   Manage Settings
                 </Link>
@@ -246,26 +246,26 @@ export default function Dashboard() {
                   <div className="px-2 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-[8px] uppercase tracking-widest font-bold">Live Link Active</div>
                 </div>
                 
-                <h2 className="font-display italic text-8xl md:text-9xl text-white mb-6 drop-shadow-[0_0_20px_rgba(200,134,10,0.2)]">
+                <h2 className="font-display italic text-8xl md:text-9xl text-[#2A1B0A] mb-6 drop-shadow-[0_0_20px_rgba(200,134,10,0.2)]">
                   {data.weight.toFixed(1)}<span className="text-3xl md:text-4xl ml-2 not-italic text-honey/60">kg</span>
                 </h2>
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-honey/10">
                   <div className="space-y-1">
-                    <div className="text-[9px] uppercase tracking-[0.2em] text-white/30 font-bold">Internal Temp</div>
-                    <div className="text-sm text-white font-display uppercase tracking-widest">{data.temp}°C</div>
+                    <div className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/30 font-bold">Internal Temp</div>
+                    <div className="text-sm text-[#2A1B0A] font-display uppercase tracking-widest">{data.temp}°C</div>
                   </div>
                   <div className="space-y-1">
-                    <div className="text-[9px] uppercase tracking-[0.2em] text-white/30 font-bold">Humidity</div>
-                    <div className="text-sm text-white font-display uppercase tracking-widest">{data.humidity}%</div>
+                    <div className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/30 font-bold">Humidity</div>
+                    <div className="text-sm text-[#2A1B0A] font-display uppercase tracking-widest">{data.humidity}%</div>
                   </div>
                   <div className="space-y-1">
-                    <div className="text-[9px] uppercase tracking-[0.2em] text-white/30 font-bold">Acoustics</div>
-                    <div className="text-sm text-white font-display uppercase tracking-widest">{data.activity}</div>
+                    <div className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/30 font-bold">Acoustics</div>
+                    <div className="text-sm text-[#2A1B0A] font-display uppercase tracking-widest">{data.activity}</div>
                   </div>
                   <div className="space-y-1">
-                    <div className="text-[9px] uppercase tracking-[0.2em] text-white/30 font-bold">Species</div>
-                    <div className="text-sm text-white font-display uppercase tracking-widest">Macedonica</div>
+                    <div className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/30 font-bold">Species</div>
+                    <div className="text-sm text-[#2A1B0A] font-display uppercase tracking-widest">Macedonica</div>
                   </div>
                 </div>
               </div>
@@ -303,15 +303,15 @@ export default function Dashboard() {
                   <div className="relative pl-6 border-l border-honey/20 pb-4">
                     <div className="absolute left-[-4.5px] top-0 w-2 h-2 rounded-full bg-honey shadow-[0_0_8px_rgba(200,134,10,0.5)]"></div>
                     <div className="text-[10px] uppercase tracking-widest text-honey mb-1">Active Flow</div>
-                    <div className="text-sm text-white font-medium mb-1">{data.activeHarvest}</div>
+                    <div className="text-sm text-[#2A1B0A] font-medium mb-1">{data.activeHarvest}</div>
                     <div className="w-full h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
                       <div className="h-full bg-honey w-[65%]"></div>
                     </div>
                   </div>
-                  <div className="relative pl-6 border-l border-white/10 opacity-30">
+                  <div className="relative pl-6 border-l border-honey/20 opacity-30">
                     <div className="absolute left-[-4.5px] top-0 w-2 h-2 rounded-full bg-white/20"></div>
-                    <div className="text-[10px] uppercase tracking-widest text-white mb-1">Next: August</div>
-                    <div className="text-sm text-white font-medium">Autumn Pine Blend</div>
+                    <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A] mb-1">Next: August</div>
+                    <div className="text-sm text-[#2A1B0A] font-medium">Autumn Pine Blend</div>
                   </div>
                 </div>
                 <div className="mt-10 pt-6 border-t border-white/5">

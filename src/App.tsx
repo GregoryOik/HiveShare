@@ -22,10 +22,10 @@ function ProtectedRoute({ children, requireAdmin = false }: { children: React.Re
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-hive-bg text-white flex items-center justify-center">
+      <div className="min-h-screen bg-hive-bg text-[#2A1B0A] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-honey border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-xs uppercase tracking-widest text-white/50">Loading...</span>
+          <span className="text-xs uppercase tracking-widest text-[#2A1B0A]/50">Loading...</span>
         </div>
       </div>
     );

@@ -68,16 +68,16 @@ export default function Settings() {
   const hasSubscription = profile?.tier && profile.subscribedHives?.length > 0;
 
   return (
-    <div className="min-h-screen bg-hive-bg text-white/80 font-body selection:bg-honey selection:text-white pb-20">
+    <div className="min-h-screen bg-hive-bg text-[#2A1B0A]/80 font-body selection:bg-honey selection:text-[#2A1B0A] pb-20">
       <header className="border-b border-honey/10 bg-hive-bg/90 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link to="/dashboard" className="flex items-center gap-2 text-white hover:text-honey transition-colors">
+          <Link to="/dashboard" className="flex items-center gap-2 text-[#2A1B0A] hover:text-honey transition-colors">
             <ArrowLeft className="w-4 h-4" />
             <span className="font-display text-2xl tracking-wide">
               Hive<span className="text-honey">Share</span>
             </span>
           </Link>
-          <div className="text-[10px] uppercase tracking-widest text-white/30 hidden md:block">
+          <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30 hidden md:block">
             Account Settings
           </div>
         </div>
@@ -87,8 +87,8 @@ export default function Settings() {
         <div className="space-y-12">
           {/* Section Header */}
           <div className="space-y-2">
-            <h1 className="font-display text-4xl text-white">Your Profile</h1>
-            <p className="text-sm text-white/50">Manage your account, subscription, and shipping preferences.</p>
+            <h1 className="font-display text-4xl text-[#2A1B0A]">Your Profile</h1>
+            <p className="text-sm text-[#2A1B0A]/50">Manage your account, subscription, and shipping preferences.</p>
           </div>
 
           {/* Account Info (Read Only) */}
@@ -99,20 +99,20 @@ export default function Settings() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Display Name</p>
-                <p className="text-white font-medium">{user?.displayName || profile?.customLabel || 'Not set'}</p>
+                <p className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30 mb-1">Display Name</p>
+                <p className="text-[#2A1B0A] font-medium">{user?.displayName || profile?.customLabel || 'Not set'}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Email</p>
-                <p className="text-white font-medium">{user?.email || 'N/A'}</p>
+                <p className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30 mb-1">Email</p>
+                <p className="text-[#2A1B0A] font-medium">{user?.email || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Member Since</p>
-                <p className="text-white font-medium">{user?.metadata?.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Unknown'}</p>
+                <p className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30 mb-1">Member Since</p>
+                <p className="text-[#2A1B0A] font-medium">{user?.metadata?.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Unknown'}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Auth Provider</p>
-                <p className="text-white font-medium capitalize">{user?.providerData?.[0]?.providerId === 'google.com' ? 'Google' : 'Email & Password'}</p>
+                <p className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30 mb-1">Auth Provider</p>
+                <p className="text-[#2A1B0A] font-medium capitalize">{user?.providerData?.[0]?.providerId === 'google.com' ? 'Google' : 'Email & Password'}</p>
               </div>
             </div>
           </div>
@@ -158,7 +158,7 @@ export default function Settings() {
                   placeholder="New password" 
                   required
                   minLength={6}
-                  className="w-full bg-transparent border border-honey/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/20"
+                  className="w-full bg-transparent border border-honey/10 px-4 py-3 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
                 />
                 <input 
                   type="password" 
@@ -166,11 +166,11 @@ export default function Settings() {
                   placeholder="Confirm new password" 
                   required
                   minLength={6}
-                  className="w-full bg-transparent border border-honey/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/20"
+                  className="w-full bg-transparent border border-honey/10 px-4 py-3 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
                 />
                 <button 
                   type="submit"
-                  className="w-fit px-6 py-2 bg-honey/10 text-honey border border-honey/20 text-[10px] uppercase tracking-widest font-medium hover:bg-honey hover:text-white transition-colors rounded-[2px]"
+                  className="w-fit px-6 py-2 bg-honey/10 text-honey border border-honey/20 text-[10px] uppercase tracking-widest font-medium hover:bg-honey hover:text-[#2A1B0A] transition-colors rounded-[2px]"
                 >
                   Update Password
                 </button>
@@ -189,25 +189,25 @@ export default function Settings() {
                 {profile?.tier === 'premium' ? (
                   <Crown size={12} className="text-honey" />
                 ) : (
-                  <Star size={12} className="text-white/40" />
+                  <Star size={12} className="text-[#2A1B0A]/40" />
                 )}
-                <span className="text-[10px] uppercase tracking-widest font-bold text-white/70">{tierLabel}</span>
+                <span className="text-[10px] uppercase tracking-widest font-bold text-[#2A1B0A]/70">{tierLabel}</span>
               </div>
             </div>
 
             {/* Subscription Details Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Status</p>
-                <p className="text-white font-medium capitalize">{hasSubscription ? 'Active' : 'Inactive'}</p>
+                <p className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30 mb-1">Status</p>
+                <p className="text-[#2A1B0A] font-medium capitalize">{hasSubscription ? 'Active' : 'Inactive'}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Hives Adopted</p>
-                <p className="text-white font-medium">{profile?.subscribedHives?.length || 0}</p>
+                <p className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30 mb-1">Hives Adopted</p>
+                <p className="text-[#2A1B0A] font-medium">{profile?.subscribedHives?.length || 0}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Next Harvest</p>
-                <p className="text-white font-medium">{profile?.nextHarvestDate || 'TBD (Seasonal)'}</p>
+                <p className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30 mb-1">Next Harvest</p>
+                <p className="text-[#2A1B0A] font-medium">{profile?.nextHarvestDate || 'TBD (Seasonal)'}</p>
               </div>
             </div>
 
@@ -227,10 +227,10 @@ export default function Settings() {
                   {/* Duration Bar */}
                   <div>
                     <div className="flex justify-between items-center mb-2">
-                      <p className="text-[10px] uppercase tracking-widest text-white/30">Subscription Duration</p>
-                      <p className="text-xs text-white/60">
+                      <p className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30">Subscription Duration</p>
+                      <p className="text-xs text-[#2A1B0A]/60">
                         {daysLeft !== null ? (
-                          <><strong className="text-white">{daysLeft}</strong> days remaining</>
+                          <><strong className="text-[#2A1B0A]">{daysLeft}</strong> days remaining</>
                         ) : (
                           'Started recently'
                         )}
@@ -243,10 +243,10 @@ export default function Settings() {
                       ></div>
                     </div>
                     <div className="flex justify-between mt-1.5">
-                      <p className="text-[9px] text-white/20">
+                      <p className="text-[9px] text-[#2A1B0A]/20">
                         {startDate ? startDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}
                       </p>
-                      <p className="text-[9px] text-white/20">
+                      <p className="text-[9px] text-[#2A1B0A]/20">
                         {endDate ? endDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'}
                       </p>
                     </div>
@@ -259,8 +259,8 @@ export default function Settings() {
                         <ShieldCheck className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" />
                         <div>
                           <p className="text-xs text-blue-400 font-medium">EU 14-Day Right of Withdrawal</p>
-                          <p className="text-[11px] text-white/40 mt-1 leading-relaxed">
-                            You have <strong className="text-white/70">{coolingOffDaysLeft} day{coolingOffDaysLeft !== 1 ? 's' : ''}</strong> left to cancel under EU consumer protection law. 
+                          <p className="text-[11px] text-[#2A1B0A]/40 mt-1 leading-relaxed">
+                            You have <strong className="text-[#2A1B0A]/70">{coolingOffDaysLeft} day{coolingOffDaysLeft !== 1 ? 's' : ''}</strong> left to cancel under EU consumer protection law. 
                             If your Welcome Jar has already been shipped, the cost of the honey and shipping (approx. €25) will be deducted from your refund.
                           </p>
                         </div>
@@ -287,7 +287,7 @@ export default function Settings() {
                       <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
                       <div>
                         <p className="text-sm text-red-400 font-medium">Are you sure?</p>
-                        <p className="text-xs text-white/40 mt-1">
+                        <p className="text-xs text-[#2A1B0A]/40 mt-1">
                           {(() => {
                             const startDate = profile?.subscriptionStartDate ? new Date(profile.subscriptionStartDate) : null;
                             const daysSince = startDate ? Math.floor((new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) : null;
@@ -312,7 +312,7 @@ export default function Settings() {
                       </button>
                       <button 
                         onClick={() => setShowCancelConfirm(false)}
-                        className="text-xs text-white/50 hover:text-white transition-colors uppercase tracking-widest px-4 py-2"
+                        className="text-xs text-[#2A1B0A]/50 hover:text-[#2A1B0A] transition-colors uppercase tracking-widest px-4 py-2"
                       >
                         Keep Subscription
                       </button>
@@ -330,7 +330,7 @@ export default function Settings() {
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-white/50 font-bold ml-1">
+                <label className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#2A1B0A]/50 font-bold ml-1">
                   <User className="w-3 h-3" />
                   Named Jar Label
                 </label>
@@ -339,13 +339,13 @@ export default function Settings() {
                   value={formData.customLabel}
                   onChange={(e) => setFormData({ ...formData, customLabel: e.target.value })}
                   placeholder="e.g. The Smith Family"
-                  className="w-full bg-hive-bg border border-honey/20 px-4 py-4 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/10"
+                  className="w-full bg-hive-bg border border-honey/20 px-4 py-4 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/10"
                 />
-                <p className="text-[10px] text-white/30 ml-1 italic">This name will appear on your personalized honey jar labels.</p>
+                <p className="text-[10px] text-[#2A1B0A]/30 ml-1 italic">This name will appear on your personalized honey jar labels.</p>
               </div>
 
               <div className="space-y-2">
-                <label className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-white/50 font-bold ml-1">
+                <label className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#2A1B0A]/50 font-bold ml-1">
                   <MapPin className="w-3 h-3" />
                   Shipping Address
                 </label>
@@ -354,7 +354,7 @@ export default function Settings() {
                   onChange={(e) => setFormData({ ...formData, shippingAddress: e.target.value })}
                   placeholder="Line 1, City, Postcode, Country" 
                   rows={4}
-                  className="w-full bg-hive-bg border border-honey/20 px-4 py-4 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/10 resize-none"
+                  className="w-full bg-hive-bg border border-honey/20 px-4 py-4 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/10 resize-none"
                 />
                 {profile?.shippingAddress && (
                   <div className="flex items-center gap-1.5 text-[9px] text-green-500/70 uppercase tracking-widest font-bold mt-2 ml-1">
@@ -370,7 +370,7 @@ export default function Settings() {
               <button 
                 type="submit" 
                 disabled={isSaving}
-                className="inline-flex items-center gap-2 bg-honey text-white px-10 py-4 text-xs uppercase tracking-widest font-medium hover:bg-honey/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed rounded-sm"
+                className="inline-flex items-center gap-2 bg-honey text-[#2A1B0A] px-10 py-4 text-xs uppercase tracking-widest font-medium hover:bg-honey/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed rounded-sm"
               >
                 {isSaving ? (
                   <Loader2 className="w-4 h-4 animate-spin" />

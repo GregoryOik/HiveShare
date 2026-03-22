@@ -18,11 +18,11 @@ export default function Admin() {
     }
   }, [hives, selectedHiveId]);
 
-  if (hivesLoading || usersLoading) return <div className="min-h-screen bg-cream p-12 text-[#1A1208] flex items-center justify-center">Loading...</div>;
+  if (hivesLoading || usersLoading) return <div className="min-h-screen bg-hive-bg p-12 text-[#2A1B0A] flex items-center justify-center">Loading...</div>;
 
   const data = hives.find(h => h.id === selectedHiveId) || hives[0];
 
-  if (!data) return <div className="min-h-screen bg-cream p-12 text-[#1A1208] flex items-center justify-center">No hives found.</div>;
+  if (!data) return <div className="min-h-screen bg-hive-bg p-12 text-[#2A1B0A] flex items-center justify-center">No hives found.</div>;
 
   const assignedUsers = users.filter(u => u.subscribedHives?.includes(data.id));
   const unassignedUsers = users.filter(u => !u.subscribedHives?.includes(data.id));
@@ -36,22 +36,22 @@ export default function Admin() {
   };
 
   return (
-    <div className="min-h-screen bg-cream text-[#1A1208] p-6 md:p-12 font-sans">
+    <div className="min-h-screen bg-hive-bg text-[#2A1B0A] p-6 md:p-12 font-sans">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 border-b border-[#1A1208]/10 pb-8 gap-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 border-b border-[#2A1B0A]/10 pb-8 gap-6">
           <div>
-            <h1 className="text-4xl font-display text-[#1A1208] mb-2">Central Station</h1>
-            <p className="text-[#1A1208]/50 text-sm italic">Managing the vitality of Laconia's apiaries</p>
+            <h1 className="text-4xl font-display text-[#2A1B0A] mb-2">Central Station</h1>
+            <p className="text-[#2A1B0A]/50 text-sm italic">Managing the vitality of Laconia's apiaries</p>
           </div>
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2 text-[10px] text-[#C8860A] font-bold uppercase tracking-widest bg-[#C8860A]/5 px-3 py-1.5 rounded-full border border-[#C8860A]/10">
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8860A] animate-pulse"></span>
               Live Connection
             </div>
-            <Link to="/dashboard" className="text-xs text-[#1A1208]/40 hover:text-[#C8860A] transition-colors font-bold uppercase tracking-widest">
+            <Link to="/dashboard" className="text-xs text-[#2A1B0A]/40 hover:text-[#C8860A] transition-colors font-bold uppercase tracking-widest">
               Journal
             </Link>
-            <button onClick={logout} className="text-[#1A1208]/40 hover:text-red-500 transition-colors" title="Sign Out">
+            <button onClick={logout} className="text-[#2A1B0A]/40 hover:text-red-500 transition-colors" title="Sign Out">
               <LogOut className="w-4 h-4" />
             </button>
           </div>
@@ -61,9 +61,9 @@ export default function Admin() {
           
           {/* Sidebar: Hive Selection */}
           <div className="lg:col-span-1 space-y-6">
-            <div className="bg-white border border-[#1A1208]/10 p-6 rounded-xl shadow-sm">
+            <div className="bg-white border border-[#2A1B0A]/10 p-6 rounded-xl shadow-sm">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xs font-bold text-[#1A1208]/40 uppercase tracking-widest">Your Hives</h2>
+                <h2 className="text-xs font-bold text-[#2A1B0A]/40 uppercase tracking-widest">Your Hives</h2>
                 <button 
                   onClick={async () => {
                     const newId = await addHive();
@@ -83,7 +83,7 @@ export default function Admin() {
                     className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-all duration-300 ${
                       selectedHiveId === hive.id 
                         ? 'bg-[#C8860A] text-white shadow-lg shadow-[#C8860A]/20 transform scale-[1.02]' 
-                        : 'text-[#1A1208]/60 hover:bg-[#1A1208]/5'
+                        : 'text-[#2A1B0A]/60 hover:bg-[#2A1B0A]/5'
                     }`}
                   >
                     <button 
@@ -130,9 +130,9 @@ export default function Admin() {
 
           {/* Main Content: Manual Overrides */}
           <div className="lg:col-span-3 space-y-10">
-            <div className="bg-white border border-[#1A1208]/10 p-8 rounded-xl shadow-sm">
+            <div className="bg-white border border-[#2A1B0A]/10 p-8 rounded-xl shadow-sm">
               <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
-                <h2 className="text-2xl font-display text-[#1A1208]">Hive #{data.id} Vitality</h2>
+                <h2 className="text-2xl font-display text-[#2A1B0A]">Hive #{data.id} Vitality</h2>
                 <button 
                   onClick={() => {
                     const newWeight = data.weight + (Math.random() * 0.4 - 0.1); // Slight growth
@@ -152,19 +152,19 @@ export default function Admin() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-[#1A1208]/40 mb-3 font-bold flex items-center gap-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
                     <MapPin className="w-3 h-3 text-honey" /> Location
                   </label>
                   <input 
                     type="text" 
                     value={data.location}
                     onChange={(e) => updateHive(data.id, { location: e.target.value })}
-                    className="w-full bg-[#1A1208]/5 border border-[#1A1208]/10 rounded-lg px-4 py-2.5 text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-all"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-[#1A1208]/40 mb-3 font-bold flex items-center gap-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
                     <Scale className="w-3 h-3 text-honey" /> Weight (kg)
                   </label>
                   <input 
@@ -172,18 +172,18 @@ export default function Admin() {
                     step="0.1"
                     value={data.weight}
                     onChange={(e) => updateHive(data.id, { weight: Number(e.target.value) })}
-                    className="w-full bg-[#1A1208]/5 border border-[#1A1208]/10 rounded-lg px-4 py-2.5 text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-all"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-[#1A1208]/40 mb-3 font-bold flex items-center gap-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
                     <Activity className="w-3 h-3 text-honey" /> Activity
                   </label>
                   <select 
                     value={data.activity}
                     onChange={(e) => updateHive(data.id, { activity: e.target.value as any })}
-                    className="w-full bg-[#1A1208]/5 border border-[#1A1208]/10 rounded-lg px-4 py-2.5 text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-all appearance-none"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all appearance-none"
                   >
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
@@ -192,7 +192,7 @@ export default function Admin() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-[#1A1208]/40 mb-3 font-bold flex items-center gap-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
                     <Thermometer className="w-3 h-3 text-honey" /> Temp (°C)
                   </label>
                   <input 
@@ -200,61 +200,61 @@ export default function Admin() {
                     step="0.1"
                     value={data.temp}
                     onChange={(e) => updateHive(data.id, { temp: Number(e.target.value) })}
-                    className="w-full bg-[#1A1208]/5 border border-[#1A1208]/10 rounded-lg px-4 py-2.5 text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-all"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all"
                   />
                 </div>
 
                 <div className="sm:col-span-2 lg:col-span-1">
-                  <label className="block text-[10px] uppercase tracking-widest text-[#1A1208]/40 mb-3 font-bold flex items-center gap-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
                     <Droplets className="w-3 h-3 text-honey" /> Humidity (%)
                   </label>
                   <input 
                     type="number" 
                     value={data.humidity}
                     onChange={(e) => updateHive(data.id, { humidity: Number(e.target.value) })}
-                    className="w-full bg-[#1A1208]/5 border border-[#1A1208]/10 rounded-lg px-4 py-2.5 text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-all"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all"
                   />
                 </div>
               </div>
             </div>
 
             {/* Content Management */}
-            <div className="bg-white border border-[#1A1208]/10 p-8 rounded-xl shadow-sm">
-              <h2 className="text-2xl font-display text-[#1A1208] mb-8">Details & Content</h2>
+            <div className="bg-white border border-[#2A1B0A]/10 p-8 rounded-xl shadow-sm">
+              <h2 className="text-2xl font-display text-[#2A1B0A] mb-8">Details & Content</h2>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-[#1A1208]/40 mb-3 font-bold flex items-center gap-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
                     <ImageIcon className="w-3 h-3 text-honey" /> Bee Species
                   </label>
                   <input 
                     type="text" 
                     value={data.beeSpecies || ''}
                     onChange={(e) => updateHive(data.id, { beeSpecies: e.target.value })}
-                    className="w-full bg-[#1A1208]/5 border border-[#1A1208]/10 rounded-lg px-4 py-2.5 text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-all"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-[#1A1208]/40 mb-3 font-bold flex items-center gap-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
                     <Calendar className="w-3 h-3 text-honey" /> Installed
                   </label>
                   <input 
                     type="date" 
                     value={data.installationDate || ''}
                     onChange={(e) => updateHive(data.id, { installationDate: e.target.value })}
-                    className="w-full bg-[#1A1208]/5 border border-[#1A1208]/10 rounded-lg px-4 py-2.5 text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-all font-sans"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all font-sans"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-[#1A1208]/40 mb-3 font-bold flex items-center gap-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
                     <Calendar className="w-3 h-3 text-honey" /> Season
                   </label>
                   <select 
                     value={data.activeHarvest}
                     onChange={(e) => updateHive(data.id, { activeHarvest: e.target.value })}
-                    className="w-full bg-[#1A1208]/5 border border-[#1A1208]/10 rounded-lg px-4 py-2.5 text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-all appearance-none"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all appearance-none"
                   >
                     <option value="Spring Thyme">Spring Thyme</option>
                     <option value="Summer Wildflower">Summer Wildflower</option>
@@ -263,19 +263,19 @@ export default function Admin() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-[#1A1208]/40 mb-3 font-bold flex items-center gap-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
                     <Calendar className="w-3 h-3 text-honey" /> Next Harvest
                   </label>
                   <input 
                     type="text" 
                     value={data.nextHarvestDate}
                     onChange={(e) => updateHive(data.id, { nextHarvestDate: e.target.value })}
-                    className="w-full bg-[#1A1208]/5 border border-[#1A1208]/10 rounded-lg px-4 py-2.5 text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-all"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all"
                   />
                 </div>
                 
                 <div className="sm:col-span-2">
-                  <label className="block text-[10px] uppercase tracking-widest text-[#1A1208]/40 mb-3 font-bold flex items-center gap-2">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
                     <ImageIcon className="w-3 h-3 text-honey" /> Live Photo URL
                   </label>
                   <input 
@@ -283,16 +283,16 @@ export default function Admin() {
                     value={data.photoUrl}
                     onChange={(e) => updateHive(data.id, { photoUrl: e.target.value })}
                     placeholder="/beekeeper.jpg"
-                    className="w-full bg-[#1A1208]/5 border border-[#1A1208]/10 rounded-lg px-4 py-2.5 text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-all text-xs"
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all text-xs"
                   />
                 </div>
               </div>
             </div>
 
             {/* Subscriber Management */}
-            <div className="bg-white border border-[#1A1208]/10 p-8 rounded-xl shadow-sm">
+            <div className="bg-white border border-[#2A1B0A]/10 p-8 rounded-xl shadow-sm">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
-                <h2 className="text-2xl font-display text-[#1A1208] flex items-center gap-3">
+                <h2 className="text-2xl font-display text-[#2A1B0A] flex items-center gap-3">
                   <Users className="w-6 h-6 text-honey" /> Subscribers
                 </h2>
                 <span className="text-[10px] uppercase tracking-widest text-[#C8860A] bg-[#C8860A]/5 px-4 py-1.5 rounded-full border border-[#C8860A]/10 font-bold">
@@ -302,13 +302,13 @@ export default function Admin() {
               
               <div className="space-y-6">
                 {/* Assign New User */}
-                <div className="flex flex-col sm:flex-row items-end gap-6 bg-[#1A1208]/5 p-6 rounded-xl border border-[#1A1208]/5">
+                <div className="flex flex-col sm:flex-row items-end gap-6 bg-[#2A1B0A]/5 p-6 rounded-xl border border-[#2A1B0A]/5">
                   <div className="w-full flex-1">
-                    <label className="block text-[10px] uppercase tracking-widest text-[#1A1208]/40 mb-3 font-bold">Assign Hive to User</label>
+                    <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold">Assign Hive to User</label>
                     <select 
                       value={selectedUserEmail}
                       onChange={(e) => setSelectedUserEmail(e.target.value)}
-                      className="w-full bg-white border border-[#1A1208]/10 rounded-lg px-4 py-2.5 text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-all appearance-none text-sm"
+                      className="w-full bg-white border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all appearance-none text-sm"
                     >
                       <option value="">Select email...</option>
                       {unassignedUsers.map(u => (
@@ -348,11 +348,11 @@ export default function Admin() {
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
                             <div className="space-y-2">
-                              <label className="text-[10px] text-[#1A1208]/40 uppercase tracking-widest block mb-2 font-bold">Role</label>
+                              <label className="text-[10px] text-[#2A1B0A]/40 uppercase tracking-widest block mb-2 font-bold">Role</label>
                               <select 
                                 value={user.role}
                                 onChange={(e) => updateUser(user.uid, { role: e.target.value as any })}
-                                className="w-full bg-white border border-[#1A1208]/10 rounded-lg px-3 py-2 text-xs text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50"
+                                className="w-full bg-white border border-[#2A1B0A]/10 rounded-lg px-3 py-2 text-xs text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50"
                               >
                                 <option value="user">User (Prospect)</option>
                                 <option value="subscriber">Subscriber</option>
@@ -360,34 +360,34 @@ export default function Admin() {
                               </select>
                             </div>
                             <div className="space-y-2">
-                              <label className="text-[10px] text-[#1A1208]/40 uppercase tracking-widest block mb-2 font-bold">Tier</label>
+                              <label className="text-[10px] text-[#2A1B0A]/40 uppercase tracking-widest block mb-2 font-bold">Tier</label>
                               <select 
                                 value={user.tier || 'starter'}
                                 onChange={(e) => updateUser(user.uid, { tier: e.target.value as any })}
-                                className="w-full bg-white border border-[#1A1208]/10 rounded-lg px-3 py-2 text-xs text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 font-sans"
+                                className="w-full bg-white border border-[#2A1B0A]/10 rounded-lg px-3 py-2 text-xs text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 font-sans"
                               >
                                 <option value="starter">Starter (€80/yr)</option>
                                 <option value="premium">Premium (€200/yr)</option>
                               </select>
                             </div>
                             <div className="space-y-2">
-                              <label className="text-[10px] text-[#1A1208]/40 uppercase tracking-widest block mb-2 font-bold">Label</label>
+                              <label className="text-[10px] text-[#2A1B0A]/40 uppercase tracking-widest block mb-2 font-bold">Label</label>
                               <input 
                                 type="text" 
                                 value={user.customLabel || ''}
                                 onChange={(e) => updateUser(user.uid, { customLabel: e.target.value })}
                                 placeholder="e.g. The Smith Family"
-                                className="w-full bg-white border border-[#1A1208]/10 rounded-lg px-3 py-2 text-xs text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-colors"
+                                className="w-full bg-white border border-[#2A1B0A]/10 rounded-lg px-3 py-2 text-xs text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-colors"
                               />
                             </div>
                             <div className="sm:col-span-2 space-y-2">
-                              <label className="text-[10px] text-[#1A1208]/40 uppercase tracking-widest block mb-2 font-bold">Address</label>
+                              <label className="text-[10px] text-[#2A1B0A]/40 uppercase tracking-widest block mb-2 font-bold">Address</label>
                               <textarea 
                                 value={user.shippingAddress || ''}
                                 onChange={(e) => updateUser(user.uid, { shippingAddress: e.target.value })}
                                 placeholder="No address provided yet."
                                 rows={2}
-                                className="w-full bg-white border border-[#1A1208]/10 rounded-lg px-3 py-2 text-xs text-[#1A1208] focus:outline-none focus:border-[#C8860A]/50 transition-colors resize-none ml-0"
+                                className="w-full bg-white border border-[#2A1B0A]/10 rounded-lg px-3 py-2 text-xs text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-colors resize-none ml-0"
                               />
                             </div>
                           </div>
@@ -403,7 +403,7 @@ export default function Admin() {
         </div>
         
         <div className="mt-16 text-center">
-          <p className="text-xs text-[#1A1208]/30">
+          <p className="text-xs text-[#2A1B0A]/30">
             Professional dashboard for master beekeepers. Changes sync in real-time to the <a href="/dashboard" target="_blank" className="text-[#C8860A] hover:underline font-bold">Apiary Journal</a>.
           </p>
         </div>

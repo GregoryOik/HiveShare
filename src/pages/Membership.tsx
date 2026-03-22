@@ -152,7 +152,7 @@ export default function Membership() {
   );
 
   return (
-    <div className="min-h-screen bg-hive-bg text-white/80 font-body selection:bg-honey selection:text-white flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-hive-bg text-[#2A1B0A]/80 font-body selection:bg-honey selection:text-[#2A1B0A] flex flex-col relative overflow-hidden">
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-honey/5 blur-[150px] rounded-full opacity-50"></div>
@@ -163,14 +163,14 @@ export default function Membership() {
       <header className="border-b border-honey/10 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link to="/" className="font-display text-2xl tracking-wide group flex items-center gap-2">
-            <span className="text-white group-hover:text-honey transition-colors">Hive</span><span className="text-honey">Share</span>
+            <span className="text-[#2A1B0A] group-hover:text-honey transition-colors">Hive</span><span className="text-honey">Share</span>
           </Link>
           <div className="flex items-center gap-6">
             <div className="flex flex-col items-end mr-4 hidden sm:flex">
-              <span className="text-[9px] uppercase tracking-[0.2em] text-white/30 font-bold">Secure Checkout</span>
+              <span className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/30 font-bold">Secure Checkout</span>
               <span className="text-[10px] text-honey font-medium">{user?.email}</span>
             </div>
-            <button onClick={logout} className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/40 hover:text-white transition-all duration-300 group flex items-center gap-2">
+            <button onClick={logout} className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#2A1B0A]/40 hover:text-[#2A1B0A] transition-all duration-300 group flex items-center gap-2">
               <LogOut className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               Logout
             </button>
@@ -188,8 +188,8 @@ export default function Membership() {
                 <div className="w-6 h-6 rounded-full border border-honey/30 flex items-center justify-center text-[10px] font-bold group-hover:border-honey transition-colors">02</div>
                 <span className="text-[10px] uppercase tracking-[0.3em] font-bold">Select Your Membership Level</span>
               </div>
-              <h1 className="font-display text-5xl text-white">Choose your connection</h1>
-              <p className="text-white/40 max-w-lg leading-relaxed font-light">
+              <h1 className="font-display text-5xl text-[#2A1B0A]">Choose your connection</h1>
+              <p className="text-[#2A1B0A]/40 max-w-lg leading-relaxed font-light">
                 Select the tier that best matches your commitment to Laconia's bees. Both plans include pure harvests and real-time tracking.
               </p>
             </div>
@@ -212,18 +212,18 @@ export default function Membership() {
                   <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/natural-paper.png")'}}></div>
                   
                   <div className="flex justify-between items-start mb-8 relative z-10">
-                    <div className={`p-3 rounded-sm ${cartPlan?.id === plan.id ? 'bg-honey/20 text-honey' : 'bg-white/5 text-white/30 group-hover:text-honey/60 transition-colors'}`}>
+                    <div className={`p-3 rounded-sm ${cartPlan?.id === plan.id ? 'bg-honey/20 text-honey' : 'bg-white/5 text-[#2A1B0A]/30 group-hover:text-honey/60 transition-colors'}`}>
                       <plan.icon size={20} />
                     </div>
                     <div className="text-right">
-                      <div className="text-[10px] uppercase tracking-widest text-white/30 mb-1">Yearly</div>
-                      <div className="text-2xl font-display text-white">€{plan.price}</div>
+                      <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30 mb-1">Yearly</div>
+                      <div className="text-2xl font-display text-[#2A1B0A]">€{plan.price}</div>
                     </div>
                   </div>
 
                   <div className="relative z-10">
-                    <h3 className="text-xl font-display text-white mb-2">{plan.name}</h3>
-                    <p className="text-xs text-white/40 leading-relaxed group-hover:text-white/60 transition-colors">
+                    <h3 className="text-xl font-display text-[#2A1B0A] mb-2">{plan.name}</h3>
+                    <p className="text-xs text-[#2A1B0A]/40 leading-relaxed group-hover:text-[#2A1B0A]/60 transition-colors">
                       {plan.desc}
                     </p>
                   </div>
@@ -237,7 +237,7 @@ export default function Membership() {
 
             {/* Optional Ad-ons */}
             <div className="pt-8 border-t border-honey/10">
-              <div className="text-[10px] uppercase tracking-[0.3em] text-white/30 font-bold mb-6">Optional Add-ons</div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-[#2A1B0A]/30 font-bold mb-6">Optional Add-ons</div>
               <button 
                 onClick={() => setHasOliveOil(!hasOliveOil)}
                 className={`w-full flex items-center justify-between p-6 rounded-[2px] border transition-all duration-300 group ${
@@ -246,16 +246,16 @@ export default function Membership() {
               >
                 <div className="flex items-center gap-4">
                   <div className={`w-6 h-6 rounded flex items-center justify-center border transition-all ${
-                    hasOliveOil ? 'bg-honey border-honey text-white' : 'border-white/20 text-transparent'
+                    hasOliveOil ? 'bg-honey border-honey text-[#2A1B0A]' : 'border-white/20 text-transparent'
                   }`}>
                     <Check size={14} />
                   </div>
                   <div className="text-left">
-                    <p className="text-sm text-white font-medium">Laconian Olive Oil (500ml)</p>
+                    <p className="text-sm text-[#2A1B0A] font-medium">Laconian Olive Oil (500ml)</p>
                     <p className="text-[10px] uppercase tracking-widest text-honey/60">+ €18.00</p>
                   </div>
                 </div>
-                <div className="text-[10px] uppercase tracking-widest text-white/20 group-hover:text-white/40 transition-colors">Pure harvest from our groves</div>
+                <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/20 group-hover:text-[#2A1B0A]/40 transition-colors">Pure harvest from our groves</div>
               </button>
             </div>
 
@@ -267,7 +267,7 @@ export default function Membership() {
                   <span className="text-[10px] uppercase tracking-[0.3em] font-bold">Personalize Your Certificate</span>
                 </div>
                 <div className="bg-white/5 border border-white/10 p-6 rounded-[2px] space-y-4">
-                  <p className="text-xs text-white/50 leading-relaxed">
+                  <p className="text-xs text-[#2A1B0A]/50 leading-relaxed">
                     As a Premium member, your name will be hand-inscribed on your digital Certificate of Adoption and printed on your honey jar labels.
                   </p>
                   <div className="relative">
@@ -276,7 +276,7 @@ export default function Membership() {
                       value={certName}
                       onChange={(e) => setCertName(e.target.value)}
                       placeholder="Full name for certificate"
-                      className="w-full bg-hive-bg border border-white/10 rounded-[2px] px-4 py-3 text-sm text-white focus:outline-none focus:border-honey/50 transition-colors pt-6"
+                      className="w-full bg-hive-bg border border-white/10 rounded-[2px] px-4 py-3 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey/50 transition-colors pt-6"
                     />
                     <label className="absolute top-2 left-4 text-[8px] uppercase tracking-widest text-honey font-bold">Name on Certificate</label>
                   </div>
@@ -290,7 +290,7 @@ export default function Membership() {
             {/* Live Certificate Preview (Premium Only) */}
             {cartPlan?.id === 'premium' && (
               <div className="animate-in fade-in zoom-in duration-700">
-                <div className="text-[10px] uppercase tracking-[0.3em] text-white/30 font-bold mb-4 flex items-center gap-2">
+                <div className="text-[10px] uppercase tracking-[0.3em] text-[#2A1B0A]/30 font-bold mb-4 flex items-center gap-2">
                   <Award size={12} />
                   Live Preview: Your Certificate
                 </div>
@@ -311,27 +311,27 @@ export default function Membership() {
                 <div className="space-y-6 mb-10">
                   {!cartPlan ? (
                     <div className="py-10 text-center border border-dashed border-white/10 rounded-[2px]">
-                      <p className="text-xs text-white/30 italic">No plan selected</p>
+                      <p className="text-xs text-[#2A1B0A]/30 italic">No plan selected</p>
                     </div>
                   ) : (
                     <>
                       <div className="flex justify-between text-sm group">
                         <div className="flex flex-col gap-1">
-                          <span className="text-white font-medium">{cartPlan.name}</span>
-                          <span className="text-[10px] uppercase tracking-widest text-white/30">Annual Subscription</span>
+                          <span className="text-[#2A1B0A] font-medium">{cartPlan.name}</span>
+                          <span className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30">Annual Subscription</span>
                         </div>
-                        <span className="text-white">€{cartPlan.price}.00</span>
+                        <span className="text-[#2A1B0A]">€{cartPlan.price}.00</span>
                       </div>
 
                       {hasOliveOil && (
                         <div className="flex justify-between text-sm animate-in fade-in slide-in-from-left-4 duration-300">
                           <div className="flex flex-col gap-1">
-                            <span className="text-white font-medium group">Extra Olive Oil</span>
-                            <span className="text-[10px] uppercase tracking-widest text-white/30">One-time addition</span>
+                            <span className="text-[#2A1B0A] font-medium group">Extra Olive Oil</span>
+                            <span className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30">One-time addition</span>
                           </div>
                           <div className="flex items-center gap-3">
-                            <span className="text-white">€18.00</span>
-                            <button onClick={() => setHasOliveOil(false)} className="text-white/20 hover:text-red-400 transition-colors"><Trash2 size={14}/></button>
+                            <span className="text-[#2A1B0A]">€18.00</span>
+                            <button onClick={() => setHasOliveOil(false)} className="text-[#2A1B0A]/20 hover:text-red-400 transition-colors"><Trash2 size={14}/></button>
                           </div>
                         </div>
                       )}
@@ -350,8 +350,8 @@ export default function Membership() {
                 <div className="h-[1px] bg-honey/10 mb-8"></div>
 
                 <div className="flex justify-between items-end mb-10">
-                  <div className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-bold">Total (Inclusive of VAT)</div>
-                  <div className="text-4xl font-display text-white italic">€{cartTotal.toFixed(2)}</div>
+                  <div className="text-[10px] uppercase tracking-[0.3em] text-[#2A1B0A]/40 font-bold">Total (Inclusive of VAT)</div>
+                  <div className="text-4xl font-display text-[#2A1B0A] italic">€{cartTotal.toFixed(2)}</div>
                 </div>
 
                 {errorStatus && (
@@ -369,8 +369,8 @@ export default function Membership() {
                   disabled={!cartPlan || isRedirecting}
                   className={`w-full py-5 rounded-[2px] text-xs uppercase tracking-[0.3em] font-bold transition-all flex items-center justify-center gap-3 group overflow-hidden relative ${
                     cartPlan && !isRedirecting 
-                      ? 'bg-honey text-white hover:bg-honey/90 hover:shadow-[0_10px_30px_rgba(200,134,10,0.3)] shadow-xl' 
-                      : 'bg-white/5 text-white/20 border border-white/5 cursor-not-allowed'
+                      ? 'bg-honey text-[#2A1B0A] hover:bg-honey/90 hover:shadow-[0_10px_30px_rgba(200,134,10,0.3)] shadow-xl' 
+                      : 'bg-white/5 text-[#2A1B0A]/20 border border-white/5 cursor-not-allowed'
                   }`}
                 >
                   {isRedirecting ? (
@@ -393,7 +393,7 @@ export default function Membership() {
                        <span className="text-[9px] uppercase tracking-widest text-honey font-bold">System Status</span>
                     </div>
                     {debugLog.map((log, i) => (
-                      <div key={i} className="text-[9px] text-white/30 font-mono tracking-tight animate-in fade-in slide-in-from-left-2 duration-300">
+                      <div key={i} className="text-[9px] text-[#2A1B0A]/30 font-mono tracking-tight animate-in fade-in slide-in-from-left-2 duration-300">
                         {`[${new Date().toLocaleTimeString('en-GB')}] > `}{log}
                       </div>
                     ))}
@@ -402,8 +402,8 @@ export default function Membership() {
               </div>
             </div>
             
-            <p className="mt-8 text-[10px] text-white/20 text-center uppercase tracking-[0.2em] leading-loose max-w-xs mx-auto">
-              Secure payments handled by <span className="text-white/40">Stripe</span>.<br/>
+            <p className="mt-8 text-[10px] text-[#2A1B0A]/20 text-center uppercase tracking-[0.2em] leading-loose max-w-xs mx-auto">
+              Secure payments handled by <span className="text-[#2A1B0A]/40">Stripe</span>.<br/>
               By proceeding, you agree to our <Link to="/terms" className="text-honey/60 hover:text-honey underline">Terms of Service</Link>.
             </p>
           </div>

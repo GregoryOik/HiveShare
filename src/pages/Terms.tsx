@@ -4,10 +4,10 @@ import { ArrowLeft } from 'lucide-react';
 
 export default function Terms() {
   return (
-    <div className="min-h-screen bg-hive-bg text-white/80 font-body selection:bg-honey selection:text-white pb-20">
+    <div className="min-h-screen bg-hive-bg text-[#2A1B0A]/80 font-body selection:bg-honey selection:text-[#2A1B0A] pb-20">
       <header className="border-b border-honey/20 bg-hive-bg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center">
-          <Link to="/" className="flex items-center gap-2 text-honey hover:text-white transition-colors">
+          <Link to="/" className="flex items-center gap-2 text-honey hover:text-[#2A1B0A] transition-colors">
             <ArrowLeft className="w-5 h-5" />
             <span className="text-sm uppercase tracking-widest font-medium">Back to Home</span>
           </Link>
@@ -17,34 +17,34 @@ export default function Terms() {
       <main className="max-w-3xl mx-auto px-6 pt-16">
         <h1 className="font-display text-4xl md:text-5xl text-honey mb-8">Terms and Conditions</h1>
         
-        <div className="space-y-12 text-sm leading-relaxed text-white/70">
+        <div className="space-y-12 text-sm leading-relaxed text-[#2A1B0A]/70">
           
           <section>
-            <h2 className="text-2xl font-display text-white mb-6 border-b border-honey/20 pb-2">HIVESHARE SUBSCRIPTION AGREEMENT</h2>
+            <h2 className="text-2xl font-display text-[#2A1B0A] mb-6 border-b border-honey/20 pb-2">HIVESHARE SUBSCRIPTION AGREEMENT</h2>
             <p className="mb-4">
               <strong>Between:</strong> HiveShare (Petros Oikonomakos, sole proprietor), Sparta, Laconia, 23100, Greece<br/>
               <strong>VAT:</strong> [To be added upon registration]<br/>
               <strong>And:</strong> The Subscriber (as identified at registration)
             </p>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">1. SUBSCRIPTION PERIOD</h3>
+            <h3 className="text-lg font-display text-[#2A1B0A] mt-6 mb-2">1. SUBSCRIPTION PERIOD</h3>
             <p className="mb-4">
               This agreement commences on the date of payment and runs for 12 consecutive months. The subscription covers one full agricultural season including all scheduled harvests within that period.
             </p>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">2. PRICING & PLANS</h3>
+            <h3 className="text-lg font-display text-[#2A1B0A] mt-6 mb-2">2. PRICING & PLANS</h3>
             <p className="mb-4">
               <strong>Starter Membership:</strong> €80/year — Includes shared hive adoption, live apiary journal access, 2.5kg annual honey allocation (3 seasonal harvests).<br/>
               <strong>Premium Membership:</strong> €200/year — Everything in Starter plus exclusive hive, named jar labels, Digital Certificate of Adoption, detailed live vitality reports (temperature, acoustic data), a handwritten note from the beekeeper, and 5kg annual honey allocation (1kg welcome jar + 3 seasonal harvests).<br/><br/>
               All prices include VAT where applicable. Free EU shipping is included in every membership. Non-EU shipping may incur additional fees communicated before purchase.
             </p>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">3. AUTOMATIC RENEWAL</h3>
+            <h3 className="text-lg font-display text-[#2A1B0A] mt-6 mb-2">3. AUTOMATIC RENEWAL</h3>
             <p className="mb-4">
               The subscription renews automatically for a further 12-month period unless the Subscriber cancels at least 14 days before the renewal date. The Subscriber will receive a renewal reminder by email 30 days before the renewal date. Renewal pricing may be updated with 30 days' notice.
             </p>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">4. RIGHT OF CANCELLATION (EU Consumer Rights Directive 2011/83/EU)</h3>
+            <h3 className="text-lg font-display text-[#2A1B0A] mt-6 mb-2">4. RIGHT OF CANCELLATION (EU Consumer Rights Directive 2011/83/EU)</h3>
             <p className="mb-4">
               The Subscriber has the right to withdraw from this contract within <strong>14 calendar days</strong> of purchase without giving any reason, in accordance with Articles 9–16 of EU Directive 2011/83/EU.
             </p>
@@ -55,12 +55,12 @@ export default function Terms() {
               After 14 days, the subscription is non-refundable as the hive assignment and agricultural cycle require upfront commitment. To cancel renewal, the Subscriber may do so at any time via email to <a href="mailto:gregory@oikonomakos.gr" className="text-honey hover:underline">gregory@oikonomakos.gr</a> or through their apiary journal under Settings.
             </p>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">5. MODEL WITHDRAWAL FORM</h3>
+            <h3 className="text-lg font-display text-[#2A1B0A] mt-6 mb-2">5. MODEL WITHDRAWAL FORM</h3>
             <div className="bg-[#0D0903] border border-honey/10 p-4 rounded-[2px] mb-4">
-              <p className="mb-2 text-white/50 text-xs italic">
+              <p className="mb-2 text-[#2A1B0A]/50 text-xs italic">
                 (Complete and return this form only if you wish to withdraw from the contract)
               </p>
-              <p className="text-white/60 text-xs leading-relaxed">
+              <p className="text-[#2A1B0A]/60 text-xs leading-relaxed">
                 To: HiveShare (Petros Oikonomakos), Sparta, Laconia, 23100, Greece — <a href="mailto:gregory@oikonomakos.gr" className="text-honey hover:underline">gregory@oikonomakos.gr</a><br/><br/>
                 I/We (*) hereby give notice that I/We (*) withdraw from my/our (*) contract for the provision of the following service: HiveShare Subscription<br/><br/>
                 Ordered on (*) / received on (*):<br/>
@@ -72,7 +72,7 @@ export default function Terms() {
               </p>
             </div>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">6. HONEY DELIVERY</h3>
+            <h3 className="text-lg font-display text-[#2A1B0A] mt-6 mb-2">6. HONEY DELIVERY</h3>
             <p className="mb-4">
               HiveShare commits to three seasonal harvests per 12-month subscription period. Starter members receive approximately 800g per harvest (2.5kg total). Premium members receive approximately 1.3kg per harvest (5kg total), plus a 1kg Welcome Jar shipped upon subscription.
             </p>
@@ -81,27 +81,27 @@ export default function Terms() {
               Shipping is included for EU countries. Delivery typically takes 5–10 business days. The Subscriber will be notified by email before each shipment.
             </p>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">7. HIVE ASSIGNMENT</h3>
+            <h3 className="text-lg font-display text-[#2A1B0A] mt-6 mb-2">7. HIVE ASSIGNMENT</h3>
             <p className="mb-4">
               Each subscriber is assigned a specific numbered hive within the HiveShare apiary in Laconia, Greece. The subscriber does not acquire ownership of the physical hive, bees, or land. The subscription grants access to hive monitoring data and honey yield from the assigned hive for the duration of the agreement.
             </p>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">8. APIARY JOURNAL ACCESS</h3>
+            <h3 className="text-lg font-display text-[#2A1B0A] mt-6 mb-2">8. APIARY JOURNAL ACCESS</h3>
             <p className="mb-4">
               Subscribers receive access to the HiveShare member portal throughout their subscription period, including live sensor data, apiary snapshots, and harvest notifications. Access terminates upon expiry or cancellation of the subscription. The Subscriber acknowledges that sensor data is provided "as is" and may contain inaccuracies due to hardware limitations.
             </p>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">9. FORCE MAJEURE</h3>
+            <h3 className="text-lg font-display text-[#2A1B0A] mt-6 mb-2">9. FORCE MAJEURE</h3>
             <p className="mb-4">
               HiveShare is not liable for yield reduction or delivery delays caused by extreme weather, colony disease, natural disasters, pandemics, or circumstances beyond reasonable control. In such cases, HiveShare will communicate transparently and offer credit or partial refund at its discretion.
             </p>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">10. LIABILITY LIMITATION</h3>
+            <h3 className="text-lg font-display text-[#2A1B0A] mt-6 mb-2">10. LIABILITY LIMITATION</h3>
             <p className="mb-4">
               HiveShare's total liability under this agreement shall not exceed the total subscription fee paid by the Subscriber in the relevant year. This limitation does not affect statutory consumer rights that cannot be excluded under EU or Greek law.
             </p>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">11. GOVERNING LAW & DISPUTE RESOLUTION</h3>
+            <h3 className="text-lg font-display text-[#2A1B0A] mt-6 mb-2">11. GOVERNING LAW & DISPUTE RESOLUTION</h3>
             <p className="mb-4">
               This agreement is governed by <strong>Greek law</strong> and subject to <strong>EU consumer protection regulations</strong>. Any disputes shall be submitted to the competent courts of Sparta, Greece, without prejudice to mandatory consumer protection provisions that may grant jurisdiction to the courts of the Subscriber's place of residence.
             </p>
@@ -112,7 +112,7 @@ export default function Terms() {
               </a>
             </p>
 
-            <h3 className="text-lg font-display text-white mt-6 mb-2">12. CONTACT</h3>
+            <h3 className="text-lg font-display text-[#2A1B0A] mt-6 mb-2">12. CONTACT</h3>
             <p className="mb-4">
               HiveShare (Petros Oikonomakos)<br/>
               Sparta, Laconia, 23100, Greece<br/>
@@ -122,7 +122,7 @@ export default function Terms() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-display text-white mb-6 border-b border-honey/20 pb-2">WEBSITE TERMS OF USE</h2>
+            <h2 className="text-2xl font-display text-[#2A1B0A] mb-6 border-b border-honey/20 pb-2">WEBSITE TERMS OF USE</h2>
             <p className="mb-4">
               By accessing and using the HiveShare website and apiary journal, you agree to comply with these general rules of use. The platform is provided for personal, non-commercial use to monitor your assigned hive.
             </p>
@@ -135,7 +135,7 @@ export default function Terms() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-display text-white mb-6 border-b border-honey/20 pb-2">RETURN & REFUND POLICY</h2>
+            <h2 className="text-2xl font-display text-[#2A1B0A] mb-6 border-b border-honey/20 pb-2">RETURN & REFUND POLICY</h2>
             <p className="mb-4">
               <strong>14-Day Cooling-Off Period:</strong> You may cancel your subscription within 14 days of purchase for a full refund, minus the cost of any honey already shipped (approx. €25). See Section 4 above.
             </p>
@@ -148,13 +148,13 @@ export default function Terms() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-display text-white mb-6 border-b border-honey/20 pb-2">DATA PROTECTION</h2>
+            <h2 className="text-2xl font-display text-[#2A1B0A] mb-6 border-b border-honey/20 pb-2">DATA PROTECTION</h2>
             <p className="mb-4">
               Your personal data is processed in accordance with our <Link to="/privacy" className="text-honey hover:underline">Privacy Policy</Link>, which complies with the General Data Protection Regulation (EU) 2016/679. By using our services, you acknowledge that you have read and understood our Privacy Policy.
             </p>
           </section>
 
-          <div className="pt-8 border-t border-honey/20 text-xs text-white/40">
+          <div className="pt-8 border-t border-honey/20 text-xs text-[#2A1B0A]/40">
             Last updated: March 2026
           </div>
         </div>

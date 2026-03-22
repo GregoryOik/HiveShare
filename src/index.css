@@ -3,14 +3,14 @@
 
 @theme {
   --color-honey: #C8860A;
-  --color-hive-bg: #201813; /* Significantly lighter, but still rich and warm */
-  --color-hive-panel: #2C2119; /* Distinct contrast against the new background */
-  --color-hive-dark: #382B21;
-  --color-cream: #FDF9F0;
-  --color-pale-honey: #FFFBF2;
-  --color-text-dark: #3D2B0E;
-  --color-text-muted: #7A5C2E;
-  --color-border-amber: rgba(200, 134, 10, 0.2);
+  --color-hive-bg: #FFFDF5; /* Warm, light beige background */
+  --color-hive-panel: #FEF7E6; /* Slightly deeper honey-tinted panel */
+  --color-hive-dark: #FDF0D5; /* "Bee yellow" soft accent */
+  --color-cream: #FFFDF9;
+  --color-pale-honey: #FEF9EB;
+  --color-text-dark: #2A1B0A; /* Deep mahogany brown for high contrast */
+  --color-text-muted: #8B6B3F;
+  --color-border-amber: rgba(200, 134, 10, 0.15);
 
   --font-display: "Cormorant", serif;
   --font-body: "DM Sans", sans-serif;

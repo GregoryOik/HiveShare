@@ -61,7 +61,7 @@ export default function Success() {
   const isAdditional = (profile?.subscribedHives?.length || 0) > 1;
 
   return (
-    <div className="min-h-screen bg-hive-bg text-white flex items-center justify-center p-6 text-center">
+    <div className="min-h-screen bg-hive-bg text-[#2A1B0A] flex items-center justify-center p-6 text-center">
       <div className="max-w-2xl w-full text-center space-y-8 animate-in fade-in zoom-in duration-500">
         {/* Onboarding Stepper */}
         <OnboardingStepper steps={[
@@ -83,7 +83,7 @@ export default function Success() {
         </div>
         
         <div className="space-y-4">
-          <h1 className="font-display text-4xl text-white">
+          <h1 className="font-display text-4xl text-[#2A1B0A]">
             {isFulfilling 
               ? "Assigning Your Hive..." 
               : error 
@@ -92,7 +92,7 @@ export default function Success() {
                   ? "New Hive Added!" 
                   : "Welcome to the Hive!"}
           </h1>
-          <p className="text-white/60 leading-relaxed font-light">
+          <p className="text-[#2A1B0A]/60 leading-relaxed font-light">
             {isFulfilling 
               ? "We are connecting your account to a specific apiary in Laconia, Greece..." 
               : error
@@ -107,7 +107,7 @@ export default function Success() {
         {error && (
           <button 
             onClick={() => { setHasAttempted(false); setError(null); }}
-            className="inline-flex items-center gap-2 bg-honey text-white px-8 py-3 text-xs uppercase tracking-widest rounded-sm hover:bg-honey/90 transition-colors"
+            className="inline-flex items-center gap-2 bg-honey text-[#2A1B0A] px-8 py-3 text-xs uppercase tracking-widest rounded-sm hover:bg-honey/90 transition-colors"
           >
             <RefreshCw className="w-4 h-4" /> Try Again
           </button>
@@ -120,7 +120,7 @@ export default function Success() {
                 <Package className="w-4 h-4 text-honey" />
                 <p className="text-[10px] uppercase tracking-widest text-honey font-bold">What happens next?</p>
               </div>
-              <ul className="text-sm text-white/70 space-y-2 font-light">
+              <ul className="text-sm text-[#2A1B0A]/70 space-y-2 font-light">
                 <li>• Your Welcome Jar ships within 2 weeks.</li>
                 <li>• Download your Adoption Certificate in the journal.</li>
                 <li>• Live vitality is now streaming to your journal.</li>
@@ -130,7 +130,7 @@ export default function Success() {
             <div className="pt-6">
               <Link 
                 to="/dashboard" 
-                className="inline-flex items-center gap-2 bg-honey text-white px-10 py-4 text-xs uppercase tracking-widest font-medium hover:bg-honey/90 transition-all hover:shadow-[0_0_20px_rgba(200,134,10,0.3)] rounded-sm group"
+                className="inline-flex items-center gap-2 bg-honey text-[#2A1B0A] px-10 py-4 text-xs uppercase tracking-widest font-medium hover:bg-honey/90 transition-all hover:shadow-[0_0_20px_rgba(200,134,10,0.3)] rounded-sm group"
               >
                 Go to My Apiary Journal
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

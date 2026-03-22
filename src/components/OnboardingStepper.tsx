@@ -16,7 +16,7 @@ export default function OnboardingStepper({ steps }: OnboardingStepperProps) {
     <div className="w-full max-w-3xl mx-auto">
       <div className="flex items-center justify-between relative">
         {/* Connecting line (background) */}
-        <div className="absolute top-4 left-8 right-8 h-[2px] bg-white/10"></div>
+        <div className="absolute top-4 left-8 right-8 h-[2px] bg-[#2A1B0A]/10"></div>
         
         {/* Connecting line (progress fill) */}
         {(() => {
@@ -43,10 +43,10 @@ export default function OnboardingStepper({ steps }: OnboardingStepperProps) {
             <div 
               className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
                 step.completed 
-                  ? 'bg-honey text-white shadow-[0_0_12px_rgba(200,134,10,0.4)]' 
+                  ? 'bg-honey text-[#2A1B0A] shadow-[0_0_12px_rgba(200,134,10,0.4)]' 
                   : step.active 
                     ? 'bg-honey/20 text-honey border-2 border-honey animate-pulse' 
-                    : 'bg-white/5 text-white/30 border border-white/10'
+                    : 'bg-[#2A1B0A]/5 text-[#2A1B0A]/30 border border-white/10'
               }`}
             >
               {step.completed ? <Check className="w-4 h-4" /> : i + 1}
@@ -55,8 +55,8 @@ export default function OnboardingStepper({ steps }: OnboardingStepperProps) {
               step.completed 
                 ? 'text-honey' 
                 : step.active 
-                  ? 'text-white font-medium' 
-                  : 'text-white/30'
+                  ? 'text-[#2A1B0A] font-medium' 
+                  : 'text-[#2A1B0A]/30'
             }`}>
               {step.label}
             </span>

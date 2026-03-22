@@ -123,14 +123,14 @@ export default function Login() {
             </div>
           )}
 
-          <div className="text-[10px] uppercase tracking-[0.2em] text-white/40">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-[#2A1B0A]/40">
             {mode === 'login' ? 'Member Portal' : 'New Member Registration'}
           </div>
 
           {selectedTier && mode === 'signup' && (
             <div className="mt-8 p-4 bg-honey/10 border border-honey/20 rounded-[2px] text-left">
               <p className="text-[9px] text-honey font-bold uppercase tracking-[0.2em] mb-1">Plan Selected</p>
-              <p className="text-sm text-white/90 leading-relaxed">
+              <p className="text-sm text-[#2A1B0A]/90 leading-relaxed">
                 Ready to adopt your <span className="text-honey font-bold capitalize">{selectedTier}</span> hive? Create your account below to continue.
               </p>
             </div>
@@ -138,7 +138,7 @@ export default function Login() {
         </div>
 
         <div className="bg-hive-panel border border-honey/20 p-8 rounded-[2px] shadow-[0_0_50px_rgba(200,134,10,0.05)]">
-          <h2 className="text-xl font-display text-white mb-6 text-center">
+          <h2 className="text-xl font-display text-[#2A1B0A] mb-6 text-center">
             {mode === 'login' ? 'Welcome Back' : mode === 'signup' ? 'Create Account' : 'Reset Password'}
           </h2>
           
@@ -157,30 +157,30 @@ export default function Login() {
           {/* Email/Password Form */}
           <form onSubmit={handleEmailSubmit} className="space-y-4 mb-6">
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#2A1B0A]/30" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/20"
+                className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
               />
             </div>
 
             {mode !== 'reset' && (
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#2A1B0A]/30" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full bg-hive-bg border border-honey/20 pl-10 pr-10 py-3.5 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/20"
+                  className="w-full bg-hive-bg border border-honey/20 pl-10 pr-10 py-3.5 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#2A1B0A]/30 hover:text-[#2A1B0A]/60 transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -197,11 +197,11 @@ export default function Login() {
                       checked={acceptedTerms}
                       onChange={(e) => setAcceptedTerms(e.target.checked)}
                     />
-                    <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="absolute w-3 h-3 text-[#2A1B0A] opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                   </div>
-                  <span className="text-xs text-white/70 group-hover:text-white/90 transition-colors leading-relaxed">
+                  <span className="text-xs text-[#2A1B0A]/70 group-hover:text-[#2A1B0A]/90 transition-colors leading-relaxed">
                     I accept the <Link to="/terms" className="text-honey hover:underline">Terms & Conditions</Link> and <Link to="/privacy" className="text-honey hover:underline">Privacy Policy</Link>. *
                   </span>
                 </label>
@@ -214,11 +214,11 @@ export default function Login() {
                       checked={acceptedMarketing}
                       onChange={(e) => setAcceptedMarketing(e.target.checked)}
                     />
-                    <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="absolute w-3 h-3 text-[#2A1B0A] opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                   </div>
-                  <span className="text-xs text-white/70 group-hover:text-white/90 transition-colors leading-relaxed">
+                  <span className="text-xs text-[#2A1B0A]/70 group-hover:text-[#2A1B0A]/90 transition-colors leading-relaxed">
                     Keep me updated about my hive and honey harvests + promotional offers.
                   </span>
                 </label>
@@ -228,7 +228,7 @@ export default function Login() {
             <button 
               type="submit"
               disabled={isLoading || (!acceptedTerms && mode !== 'reset')}
-              className="w-full bg-honey text-white py-3.5 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+              className="w-full bg-honey text-[#2A1B0A] py-3.5 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
             >
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -243,21 +243,21 @@ export default function Login() {
           <div className="text-center space-y-2 mb-6">
             {mode === 'login' && (
               <>
-                <button onClick={() => { setMode('signup'); setLocalError(''); }} className="text-xs text-white/50 hover:text-honey transition-colors block w-full">
+                <button onClick={() => { setMode('signup'); setLocalError(''); }} className="text-xs text-[#2A1B0A]/50 hover:text-honey transition-colors block w-full">
                   Don't have an account? <span className="text-honey">Sign up</span>
                 </button>
-                <button onClick={() => { setMode('reset'); setLocalError(''); setResetSent(false); }} className="text-xs text-white/50 hover:text-honey transition-colors block w-full">
+                <button onClick={() => { setMode('reset'); setLocalError(''); setResetSent(false); }} className="text-xs text-[#2A1B0A]/50 hover:text-honey transition-colors block w-full">
                   Forgot your password?
                 </button>
               </>
             )}
             {mode === 'signup' && (
-              <button onClick={() => { setMode('login'); setLocalError(''); }} className="text-xs text-white/50 hover:text-honey transition-colors block w-full">
+              <button onClick={() => { setMode('login'); setLocalError(''); }} className="text-xs text-[#2A1B0A]/50 hover:text-honey transition-colors block w-full">
                 Already have an account? <span className="text-honey">Sign in</span>
               </button>
             )}
             {mode === 'reset' && (
-              <button onClick={() => { setMode('login'); setLocalError(''); setResetSent(false); }} className="text-xs text-white/50 hover:text-honey transition-colors block w-full">
+              <button onClick={() => { setMode('login'); setLocalError(''); setResetSent(false); }} className="text-xs text-[#2A1B0A]/50 hover:text-honey transition-colors block w-full">
                 ← Back to sign in
               </button>
             )}
@@ -268,7 +268,7 @@ export default function Login() {
             <>
               <div className="flex items-center gap-4 mb-6">
                 <div className="flex-1 h-px bg-white/10"></div>
-                <span className="text-[10px] uppercase tracking-widest text-white/30">or</span>
+                <span className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30">or</span>
                 <div className="flex-1 h-px bg-white/10"></div>
               </div>
 
@@ -276,7 +276,7 @@ export default function Login() {
               <button 
                 onClick={handleGoogleLogin}
                 disabled={isLoading || !acceptedTerms}
-                className="w-full bg-white/5 border border-white/10 text-white py-3.5 text-xs uppercase tracking-wider font-medium hover:bg-white/10 transition-colors rounded-[2px] flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-white/5 border border-white/10 text-[#2A1B0A] py-3.5 text-xs uppercase tracking-wider font-medium hover:bg-white/10 transition-colors rounded-[2px] flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -290,7 +290,7 @@ export default function Login() {
           )}
         </div>
         
-        <div className="mt-8 text-center text-xs text-white/30">
+        <div className="mt-8 text-center text-xs text-[#2A1B0A]/30">
           <a href={window.location.hostname.startsWith('dashboard.') ? 'https://oikonomakos.gr/' : '/'} className="hover:text-honey transition-colors">← Back to home</a>
         </div>
       </div>
