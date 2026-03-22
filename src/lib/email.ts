@@ -1,43 +1,33 @@
-const FORMSPREE_ID = 'xbdzbpyn'; // From previous hero form
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from './firebase';
 
 export interface EmailData {
   to: string;
   subject: string;
-  message: string;
+  html: string;
   type: 'welcome' | 'assignment' | 'marketing';
-  customerName?: string;
-  hiveId?: string;
 }
 
 export async function sendEmail(data: EmailData) {
-  console.log(`[EmailService] Sending ${data.type} email to ${data.to}...`);
+  console.log(`[EmailService] Queueing ${data.type} email to ${data.to} via Firestore...`);
   
   try {
-    const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+    // This assumes the "Trigger Email" Firebase Extension is installed
+    // and configured to listen to the 'mail' collection.
+    await addDoc(collection(db, 'mail'), {
+      to: data.to,
+      message: {
+        subject: data.subject,
+        html: data.html,
       },
-      body: JSON.stringify({
-        email: data.to,
-        _subject: data.subject,
-        message: data.message,
-        type: data.type,
-        customerName: data.customerName || 'Explorer',
-        hiveId: data.hiveId || 'Pending',
-        timestamp: new Date().toISOString()
-      })
+      type: data.type,
+      timestamp: new Date()
     });
 
-    if (!response.ok) {
-      throw new Error('Failed to send email through Formspree');
-    }
-
-    console.log(`[EmailService] ${data.type} email sent successfully.`);
+    console.log(`[EmailService] ${data.type} email queued successfully.`);
     return true;
   } catch (error) {
-    console.error(`[EmailService] Error sending ${data.type} email:`, error);
+    console.error(`[EmailService] Error queueing ${data.type} email:`, error);
     return false;
   }
 }
@@ -47,13 +37,32 @@ export const emailTemplates = {
     to: email,
     subject: 'Welcome to the Hive! 🐝',
     type: 'welcome' as const,
-    message: `Welcome to HiveShare! We're so glad you've joined our mission to protect bees in Laconia, Greece.\n\nNext Steps:\n1. Choose your membership tier.\n2. We'll assign you a specific hive.\n3. Track your bees live from your dashboard.\n\nHappy sharing!`
+    html: `
+      <div style="font-family: sans-serif; color: #1a1208; line-height: 1.6;">
+        <h1 style="color: #c8860a;">Welcome to HiveShare!</h1>
+        <p>We're so glad you've joined our mission to protect bees in Laconia, Greece.</p>
+        <p><strong>What's next?</strong></p>
+        <ul>
+          <li>Choose your membership tier</li>
+          <li>We'll assign you a specific hive</li>
+          <li>Track your bees live from your dashboard</li>
+        </ul>
+        <p>Happy sharing!<br>— The HiveShare Team</p>
+      </div>
+    `
   }),
   assignment: (email: string, hiveId: string) => ({
     to: email,
     subject: `Hive Assigned: Meet Hive #${hiveId}! 🍯`,
     type: 'assignment' as const,
-    hiveId,
-    message: `Great news! You have been officially assigned to Hive #${hiveId}.\n\nYour bees are hard at work, and you can now see their live weight and temperature data in your dashboard. Your Welcome Jar will be prepared and shipped within the next 2 weeks.\n\nView Your Hive: https://oikonomakos.gr/dashboard`
+    html: `
+      <div style="font-family: sans-serif; color: #1a1208; line-height: 1.6;">
+        <h1 style="color: #c8860a;">You've Been Assigned!</h1>
+        <p>Great news! You have been officially assigned to <strong>Hive #${hiveId}</strong>.</p>
+        <p>Your bees are hard at work, and you can now see their live weight and temperature data in your dashboard. Your Welcome Jar will be prepared and shipped within the next 2 weeks.</p>
+        <a href="https://oikonomakos.gr/dashboard" style="display: inline-block; background: #c8860a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; margin-top: 10px;">Visit My Dashboard</a>
+        <p>Thank you for supporting sustainable beekeeping!</p>
+      </div>
+    `
   })
 };
