@@ -400,138 +400,78 @@ const harvests = [
   }
 ];
 
-const OriginsMap = ({ activeIndex }: { activeIndex: number | null }) => {
-  // Coordinates refined for the visual layout (0-500 scale)
-  const Sparta = { x: 175, y: 360 };
-  const Lagia = { x: 185, y: 405 };
-  const Karyes = { x: 140, y: 295 };
-  const Evia = { x: 360, y: 140 };
-
-  const dots = [Sparta, Lagia, Karyes, Evia];
-
-  return (
-    <div className="w-full aspect-[4/3] border border-honey/20 bg-[#0F0A05] relative flex items-center justify-center overflow-hidden group rounded-lg shadow-2xl">
-      {/* Cinematic Map Image Base */}
-      <img 
-        src="/greece-map.png" 
-        alt="Map of Greece" 
-        className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-screen"
-      />
-      
-      {/* Gradient Overlay for Cinematic Depth */}
-      <div className="absolute inset-0 bg-gradient-to-t from-hive-dark via-transparent to-hive-dark opacity-80 pointer-events-none"></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-hive-dark via-transparent to-hive-dark opacity-60 pointer-events-none"></div>
-
-      <svg viewBox="0 0 500 500" className="absolute inset-0 w-full h-full">
-        <defs>
-          <radialGradient id="dot-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#C8860A" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#C8860A" stopOpacity="0" />
-          </radialGradient>
-          <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#C8860A" />
-            <stop offset="100%" stopColor="#E8A030" />
-          </linearGradient>
-        </defs>
-
-        {/* Unified Curved Route */}
-        <path 
-          d={`M ${Sparta.x} ${Sparta.y} Q 180 380 ${Lagia.x} ${Lagia.y} Q 150 350 ${Karyes.x} ${Karyes.y} Q 250 220 ${Evia.x} ${Evia.y} Q 280 250 ${Sparta.x} ${Sparta.y}`}
-          fill="none" 
-          stroke="url(#routeGradient)" 
-          strokeWidth="1.5"
-          className="stroke-dash-animate opacity-60"
-        />
-
-        {/* Dots with Glow */}
-        {dots.map((dot, idx) => (
-          <g key={idx}>
-            {activeIndex === idx && (
-              <circle cx={dot.x} cy={dot.y} r="25" fill="url(#dot-glow)" className="animate-pulse" />
-            )}
-            <circle 
-              cx={dot.x} 
-              cy={dot.y} 
-              r={activeIndex === idx ? 6 : 4} 
-              fill={activeIndex === idx ? '#E8A030' : '#C8860A'} 
-              className="transition-all duration-500 shadow-2xl"
-              style={{ filter: activeIndex === idx ? 'drop-shadow(0 0 8px rgba(232, 160, 48, 0.8))' : 'none' }}
-            />
-          </g>
-        ))}
-      </svg>
-
-      {/* Region Label */}
-      <div className="absolute bottom-6 right-6 text-right pointer-events-none">
-         <div className="text-[10px] uppercase tracking-widest text-[#E8A030] font-bold mb-1">Nomadic Journey</div>
-         <div className="text-xl font-display text-honey italic drop-shadow-sm">
-           {activeIndex !== null ? harvests[activeIndex].location.split(',')[1] || 'Central Greece' : 'Laconia & Central Greece'}
-         </div>
-      </div>
-    </div>
-  );
-};
-
 const Origins = () => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(0);
-
   return (
-    <section id="origins" className="py-32 bg-hive-bg">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          
-          {/* Map on Left for Desktop */}
-          <div className="order-1 lg:order-1 relative">
-            <OriginsMap activeIndex={activeIndex} />
-            <div className="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-honey/20"></div>
+    <section id="origins" className="py-32 bg-hive-bg relative overflow-hidden">
+      {/* Subtle Background Elements */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-honey/5 blur-[120px] rounded-full"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-honey/5 blur-[120px] rounded-full"></div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center mb-20 space-y-6">
+          <div className="flex items-center justify-center gap-4 text-honey mb-4">
+            <div className="h-[1px] w-12 bg-honey/30"></div>
+            <span className="text-[10px] uppercase tracking-[0.4em] font-bold">The Nomadic Cycle</span>
+            <div className="h-[1px] w-12 bg-honey/30"></div>
           </div>
+          <h2 className="font-display text-5xl md:text-6xl text-[#2A1B0A]">Seasonal Signature Harvests</h2>
+          <p className="text-[#2A1B0A]/60 max-w-2xl mx-auto leading-relaxed font-light">
+            Our apiaries follow the bloom across Greece, capturing the unique botanical essence of each region. Every jar tells a story of mountain air and wild flora.
+          </p>
+        </div>
 
-          {/* Sidebar on Right for Desktop */}
-          <div className="order-2 lg:order-2">
-            <div className="flex items-center justify-between mb-12 pb-6 border-b border-honey/20">
-               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#2A1B0A]/70">Seasonal Harvest Journey</span>
-               <div className="w-6 h-6 text-honey">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 8v9"/></svg>
-               </div>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {harvests.map((h, idx) => {
+            const Icon = h.icon === 'Bug' ? Bug : h.icon === 'Milk' ? Milk : h.icon === 'Leaf' ? Leaf : Hexagon;
+            return (
+              <div 
+                key={idx}
+                className="group relative bg-hive-panel/40 border border-honey/10 p-10 rounded-[2px] backdrop-blur-sm hover:border-honey/30 transition-all duration-500 overflow-hidden"
+              >
+                {/* Decorative Jar Background Offset */}
+                <div className="absolute -top-10 -right-10 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-500 group-hover:rotate-12 transform">
+                  <Package size={180} strokeWidth={1} />
+                </div>
 
-              {harvests.map((h, idx) => {
-                const Icon = h.icon === 'Bug' ? Bug : h.icon === 'Milk' ? Milk : h.icon === 'Leaf' ? Leaf : Hexagon;
-                return (
-                  <button
-                    key={idx}
-                    onMouseEnter={() => setActiveIndex(idx)}
-                    className={`w-full text-left p-6 rounded-xl transition-all duration-500 group border ${
-                      activeIndex === idx 
-                        ? 'bg-hive-dark border-honey/30 shadow-2xl relative' 
-                        : 'border-transparent hover:bg-honey/5'
-                    }`}
-                  >
-                    <div className="flex justify-between items-start mb-2">
-                       <h3 className={`text-xl transition-colors font-display ${activeIndex === idx ? 'text-honey' : 'text-[#2A1B0A]'}`}>
-                         {h.location}
-                       </h3>
+                <div className="relative z-10 space-y-8">
+                  <div className="flex justify-between items-start">
+                    <div className="p-3 bg-honey/10 text-honey rounded-sm">
+                      <Icon size={24} strokeWidth={1.5} />
                     </div>
-                    
-                    <div className="flex items-center justify-between">
-                       <div className="flex items-center gap-3">
-                          <Icon className={`w-4 h-4 transition-colors ${activeIndex === idx ? 'text-honey' : 'text-honey/60'}`} />
-                          <span className={`text-sm transition-colors ${activeIndex === idx ? 'text-honey/90 font-medium' : 'text-[#2A1B0A]/80'}`}>
-                            {h.character}
-                          </span>
-                       </div>
-                       <span className={`text-xs transition-colors ${activeIndex === idx ? 'text-honey/70 font-medium' : 'text-[#2A1B0A]/60'}`}>
-                          {h.season}
-                       </span>
+                    <div className="text-right">
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-honey mb-1">{h.season}</div>
+                      <div className="text-[8px] uppercase tracking-widest text-[#2A1B0A]/40 font-bold">Season Bloom</div>
                     </div>
+                  </div>
 
-                    {activeIndex === idx && (
-                      <div className="absolute inset-0 border border-honey/40 rounded-xl pointer-events-none shadow-[inset_0_0_20px_rgba(200,134,10,0.1)]"></div>
-                    )}
-                  </button>
-                );
-              })}
-          </div>
+                  <div>
+                    <h3 className="text-2xl font-display text-[#2A1B0A] mb-2">{h.name}</h3>
+                    <div className="flex items-center gap-2 text-honey/80 mb-4">
+                      <MapPin size={12} />
+                      <span className="text-[10px] uppercase tracking-widest font-bold">{h.location.split(',')[0]}</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 pt-6 border-t border-honey/5">
+                    <div className="flex justify-between items-center text-[10px] uppercase tracking-widest">
+                      <span className="text-[#2A1B0A]/40 font-bold">Botanical Source</span>
+                      <span className="text-[#2A1B0A] font-bold text-right max-w-[100px]">{h.character.split(' ')[0]}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-[10px] uppercase tracking-widest">
+                      <span className="text-[#2A1B0A]/40 font-bold">Est. Yield</span>
+                      <span className="text-honey font-bold">{h.yield} / jar</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        
+        <div className="mt-20 text-center animate-in fade-in duration-1000">
+           <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#2A1B0A]/30">
+             Certified Organic · Unfiltered · Raw Greek Honey
+           </p>
         </div>
       </div>
     </section>

@@ -108,6 +108,9 @@ export default function Dashboard() {
   const data = hives.find(h => h.id === selectedHiveId) || hives[0];
 
   if (!data) {
+    // Determine if the user is a non-subscriber/cancelled or just waiting for a hive
+    const isSubscriber = !!profile?.tier;
+
     return (
       <div className="min-h-screen bg-hive-bg text-[#2A1B0A]/80 font-body selection:bg-honey selection:text-[#2A1B0A] flex flex-col relative overflow-hidden">
         {/* Cinematic Background Glows */}
@@ -119,42 +122,85 @@ export default function Dashboard() {
             <Link to="/" className="font-display text-2xl tracking-wide text-[#2A1B0A] hover:text-honey transition-colors duration-300">
               Hive<span className="text-honey">Share</span>
             </Link>
+            <button onClick={logout} className="text-[#2A1B0A]/40 hover:text-red-500 transition-colors" title="Sign Out">
+              <LogOut className="w-4 h-4" />
+            </button>
           </div>
         </header>
 
         <main className="flex-1 flex items-center justify-center p-6 bg-hive-bg">
           <div className="max-w-2xl w-full text-center space-y-10 relative">
-            <OnboardingStepper steps={[
-              { label: 'Sign Up', completed: true, active: false },
-              { label: 'Choose Plan', completed: !!profile?.tier || (profile?.subscribedHives && profile.subscribedHives.length > 0), active: !profile?.tier && (!profile?.subscribedHives || profile.subscribedHives.length === 0) },
-              { label: 'Payment', completed: !!profile?.subscribedHives && profile.subscribedHives.length > 0, active: !!profile?.tier && (!profile?.subscribedHives || profile.subscribedHives.length === 0) },
-              { label: 'Hive Assigned', completed: false, active: !!profile?.subscribedHives && profile.subscribedHives.length > 0 },
-              { label: 'Apiary Journal', completed: false, active: false },
-            ]} />
+            {isSubscriber ? (
+              <>
+                <OnboardingStepper steps={[
+                  { label: 'Sign Up', completed: true, active: false },
+                  { label: 'Choose Plan', completed: true, active: false },
+                  { label: 'Payment', completed: true, active: false },
+                  { label: 'Hive Assigned', completed: false, active: true },
+                  { label: 'Apiary Journal', completed: false, active: false },
+                ]} />
 
-            <div className="w-24 h-24 mx-auto border border-honey/20 rounded-full flex items-center justify-center bg-hive-bg shadow-[0_0_30px_rgba(200,134,10,0.2)]">
-              <Package className="w-8 h-8 text-honey" />
-            </div>
-            
-            <div className="space-y-4">
-              <h1 className="font-display text-3xl md:text-4xl text-[#2A1B0A]">
-                {isAutoAssigning ? "Finalizing Your Hive Selection..." : "Your Hive is Being Set Up"}
-              </h1>
-              <p className="text-sm text-[#2A1B0A]/60 leading-relaxed max-w-md mx-auto">
-                {isAutoAssigning 
-                  ? "We're connecting your account to a specific apiary in Laconia, Greece. This only happens once."
-                  : "We're connecting your account to your assigned hive. This usually takes a few moments. Try refreshing the page."
-                }
-              </p>
-              {!isAutoAssigning && (
-                <button 
-                  onClick={() => window.location.reload()} 
-                  className="mt-4 px-8 py-3 bg-honey text-[#2A1B0A] text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-sm"
-                >
-                  Refresh
-                </button>
-              )}
-            </div>
+                <div className="w-24 h-24 mx-auto border border-honey/20 rounded-full flex items-center justify-center bg-hive-bg shadow-[0_0_30px_rgba(200,134,10,0.2)]">
+                  <Package className="w-8 h-8 text-honey" />
+                </div>
+                
+                <div className="space-y-4">
+                  <h1 className="font-display text-3xl md:text-4xl text-[#2A1B0A]">
+                    {isAutoAssigning ? "Finalizing Your Hive Selection..." : "Your Hive is Being Set Up"}
+                  </h1>
+                  <p className="text-sm text-[#2A1B0A]/60 leading-relaxed max-w-md mx-auto">
+                    {isAutoAssigning 
+                      ? "We're connecting your account to a specific apiary in Laconia, Greece. This only happens once."
+                      : "We're connecting your account to your assigned hive. This usually takes a few moments. Try refreshing the page."
+                    }
+                  </p>
+                  {!isAutoAssigning && (
+                    <button 
+                      onClick={() => window.location.reload()}
+                      className="inline-flex items-center gap-2 text-honey hover:text-honey/80 font-bold uppercase tracking-widest text-[10px] mt-4"
+                    >
+                      <Clock className="w-3 h-3" /> Refresh Status
+                    </button>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div className="space-y-12 animate-in fade-in duration-1000">
+                 <div className="w-32 h-32 mx-auto relative">
+                    <div className="absolute inset-0 bg-honey/10 blur-[40px] rounded-full"></div>
+                    <div className="relative w-full h-full border border-honey/20 rounded-full flex items-center justify-center bg-hive-bg shadow-2xl">
+                      <Lock className="w-10 h-10 text-honey opacity-40" />
+                    </div>
+                 </div>
+
+                 <div className="space-y-6">
+                    <div className="inline-block px-4 py-1 border border-honey/20 rounded-full text-[10px] uppercase tracking-[0.3em] text-honey font-bold mb-2">
+                       Membership Inactive
+                    </div>
+                    <h1 className="font-display text-5xl text-[#2A1B0A] leading-tight">
+                       Your nomadic journey <br/>is currently <span className="italic text-pale-honey">on pause.</span>
+                    </h1>
+                    <p className="text-[#2A1B0A]/60 max-w-lg mx-auto leading-relaxed">
+                       You don't have an active beehive subscription. To begin tracking your own colony in the mountains of Mani and receiving seasonal harvests, please select a plan.
+                    </p>
+                 </div>
+
+                 <div className="flex flex-col md:flex-row items-center justify-center gap-6 pt-6">
+                    <Link 
+                       to="/membership" 
+                       className="px-10 py-5 bg-honey text-[#2A1B0A] font-bold uppercase tracking-widest text-xs hover:bg-honey/90 transition-all rounded-[2px] shadow-xl group"
+                    >
+                       View Membership Plans <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                    <Link 
+                       to="/" 
+                       className="px-10 py-5 border border-honey/20 text-[#2A1B0A]/80 font-bold uppercase tracking-widest text-xs hover:bg-honey/5 transition-all rounded-[2px]"
+                    >
+                       Back to Home
+                    </Link>
+                 </div>
+              </div>
+            )}
           </div>
         </main>
       </div>

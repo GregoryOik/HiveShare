@@ -85,9 +85,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               const activeSub = subSnap.docs.find(d => ['active', 'trialing'].includes(d.data().status));
               if (activeSub) {
                 const subData = activeSub.data();
-                // Map Stripe metadata or product ID back to our tier
-                // This assumes you set 'tier' in Stripe Product metadata or we can derive it from Price/Product ID
-                const tier = subData.metadata?.tier || (subData.items?.[0]?.price?.product?.id?.includes('premium') ? 'premium' : 'starter');
+                const productId = subData.items?.[0]?.price?.product?.id || '';
+                const tier = subData.metadata?.tier || 
+                             (productId === 'prod_UBycQzivtGZfSb' ? 'premium' : 
+                              productId === 'prod_UBycB7qVGfTjy2' ? 'starter' : 
+                              (productId.toLowerCase().includes('premium') ? 'premium' : 'starter'));
                 setProfile(prev => prev ? { ...prev, tier, role: 'subscriber' } : null);
               }
             });

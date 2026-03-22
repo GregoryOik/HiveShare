@@ -12,7 +12,9 @@ interface CartPlan {
   link?: string;
 }
 
-const OIL_PRICE_ID = 'price_1TDanWEhPXKoQqYJY2gq1Fj0'; // Replace with live ID if different
+const STARTER_PRICE_ID = 'price_1TDaerEhPXKoQqYJKuvCxiBR';
+const PREMIUM_PRICE_ID = 'price_1TDafLEhPXKoQqYJa9nt3rEy';
+const OIL_PRICE_ID = 'price_1TDanWEhPXKoQqYJY2gq1Fj0';
 
 export default function Membership() {
   const navigate = useNavigate();
@@ -53,9 +55,7 @@ export default function Membership() {
     
     try {
       // 1. Determine the correct price ID for the plan
-      const priceId = cartPlan.id === 'premium' 
-        ? 'price_1TC94lEhPXKoQqYJiXGzWfP1' // Premium (Matches your Stripe logs)
-        : 'price_1TDan6EhPXKoQqYJw5mBf8s7'; // Starter (Matches matching plan link)
+      const priceId = cartPlan.id === 'premium' ? PREMIUM_PRICE_ID : STARTER_PRICE_ID;
 
       // 2. Build the checkout session doc
       const line_items = [{ price: priceId, quantity: 1 }];
