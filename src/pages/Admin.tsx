@@ -77,28 +77,52 @@ export default function Admin() {
               </div>
               
               <div className="space-y-2">
-                {hives.map(hive => (
-                  <button
+              {hives.map(hive => (
+                  <div
                     key={hive.id}
-                    onClick={() => setSelectedHiveId(hive.id)}
-                    className={`w-full text-left px-3 py-2 rounded-[2px] text-sm transition-colors flex items-center justify-between ${
+                    className={`w-full text-left px-3 py-2 rounded-[2px] text-sm transition-colors ${
                       selectedHiveId === hive.id 
                         ? 'bg-honey text-[#110C05] font-medium' 
                         : 'text-white/60 hover:bg-white/5'
                     }`}
                   >
-                    <span>Hive #{hive.id}</span>
-                    {hives.length > 1 && selectedHiveId === hive.id && (
-                      <Trash2 
-                        className="w-3 h-3 opacity-50 hover:opacity-100" 
+                    <button 
+                      onClick={() => setSelectedHiveId(hive.id)}
+                      className="w-full flex items-center justify-between"
+                    >
+                      <span>Hive #{hive.id}</span>
+                      <div className="flex items-center gap-2">
+                        <span className={`text-[8px] uppercase tracking-widest px-1.5 py-0.5 rounded-sm border ${
+                          hive.status === 'available' ? 'border-green-500/30 text-green-400 bg-green-500/10' :
+                          hive.status === 'shared' ? 'border-blue-500/30 text-blue-400 bg-blue-500/10' :
+                          'border-red-500/30 text-red-400 bg-red-500/10'
+                        }`}>
+                          {hive.status}
+                        </span>
+                        {hives.length > 1 && selectedHiveId === hive.id && (
+                          <Trash2 
+                            className="w-3 h-3 opacity-50 hover:opacity-100" 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeHive(hive.id);
+                              setSelectedHiveId(hives[0].id);
+                            }}
+                          />
+                        )}
+                      </div>
+                    </button>
+                    {selectedHiveId === hive.id && hive.status !== 'available' && (
+                      <button 
                         onClick={(e) => {
                           e.stopPropagation();
-                          removeHive(hive.id);
-                          setSelectedHiveId(hives[0].id);
+                          updateHive(hive.id, { status: 'available' });
                         }}
-                      />
+                        className="mt-1 w-full text-[9px] uppercase tracking-widest text-center py-1 border border-green-500/30 text-green-400 hover:bg-green-500/20 transition-colors rounded-[2px]"
+                      >
+                        Reset to Available
+                      </button>
                     )}
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>

@@ -117,6 +117,67 @@ export default function Settings() {
             </div>
           </div>
 
+          {/* Change Password — only for email/password users */}
+          {user?.providerData?.[0]?.providerId !== 'google.com' && (
+            <div className="bg-[#110C05] border border-honey/10 p-6 rounded-[2px] space-y-4">
+              <div className="flex items-center gap-3 text-honey">
+                <ShieldCheck className="w-4 h-4" />
+                <span className="text-[10px] uppercase tracking-widest font-bold">Change Password</span>
+              </div>
+              <form onSubmit={async (e) => {
+                e.preventDefault();
+                const form = e.target as HTMLFormElement;
+                const newPassword = (form.elements.namedItem('newPassword') as HTMLInputElement).value;
+                const confirmPassword = (form.elements.namedItem('confirmPassword') as HTMLInputElement).value;
+                
+                if (newPassword.length < 6) {
+                  alert('Password must be at least 6 characters.');
+                  return;
+                }
+                if (newPassword !== confirmPassword) {
+                  alert('Passwords do not match.');
+                  return;
+                }
+                
+                try {
+                  const { updatePassword } = await import('firebase/auth');
+                  await updatePassword(user!, newPassword);
+                  alert('Password updated successfully!');
+                  form.reset();
+                } catch (err: any) {
+                  if (err.code === 'auth/requires-recent-login') {
+                    alert('For security, please log out and log back in before changing your password.');
+                  } else {
+                    alert('Failed to update password: ' + err.message);
+                  }
+                }
+              }} className="flex flex-col gap-3">
+                <input 
+                  type="password" 
+                  name="newPassword" 
+                  placeholder="New password" 
+                  required
+                  minLength={6}
+                  className="w-full bg-transparent border border-honey/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/20"
+                />
+                <input 
+                  type="password" 
+                  name="confirmPassword" 
+                  placeholder="Confirm new password" 
+                  required
+                  minLength={6}
+                  className="w-full bg-transparent border border-honey/10 px-4 py-3 text-sm text-white focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-white/20"
+                />
+                <button 
+                  type="submit"
+                  className="w-fit px-6 py-2 bg-honey/10 text-honey border border-honey/20 text-[10px] uppercase tracking-widest font-medium hover:bg-honey hover:text-white transition-colors rounded-[2px]"
+                >
+                  Update Password
+                </button>
+              </form>
+            </div>
+          )}
+
           {/* Subscription Status */}
           <div className="bg-[#110C05] border border-honey/10 p-6 rounded-[2px] space-y-4">
             <div className="flex items-center justify-between">

@@ -12,8 +12,15 @@ const BeeCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
+    // Detect touch devices
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      setIsTouchDevice(true);
+      return;
+    }
+
     let lastX = -100;
     let lastY = -100;
 
@@ -60,7 +67,7 @@ const BeeCursor = () => {
     };
   }, []);
 
-  if (!isVisible) return null;
+  if (isTouchDevice || !isVisible) return null;
 
   return (
     <>
@@ -199,10 +206,27 @@ export default function Dashboard() {
             </div>
             
             <div className="space-y-4">
-              <h1 className="font-display text-3xl md:text-4xl text-white">Ready for Your Own Honey?</h1>
-              <p className="text-sm text-white/60 leading-relaxed max-w-md mx-auto">
-                HiveShare by oikonomakos.gr lets you sponsor a real beehive and track its health, weight, and honey harvests in real time — turning your honey subscription into a living, data-driven experience.
-              </p>
+              {profile?.subscribedHives && profile.subscribedHives.length > 0 ? (
+                <>
+                  <h1 className="font-display text-3xl md:text-4xl text-white">Your Hive is Being Set Up</h1>
+                  <p className="text-sm text-white/60 leading-relaxed max-w-md mx-auto">
+                    We're connecting your account to your assigned hive. This usually takes a few moments. Try refreshing the page.
+                  </p>
+                  <button 
+                    onClick={() => window.location.reload()} 
+                    className="mt-4 inline-block bg-honey text-white px-8 py-3 text-xs uppercase tracking-widest font-medium hover:bg-honey/90 transition-colors rounded-sm"
+                  >
+                    Refresh
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h1 className="font-display text-3xl md:text-4xl text-white">Ready for Your Own Honey?</h1>
+                  <p className="text-sm text-white/60 leading-relaxed max-w-md mx-auto">
+                    HiveShare by oikonomakos.gr lets you sponsor a real beehive and track its health, weight, and honey harvests in real time — turning your honey subscription into a living, data-driven experience.
+                  </p>
+                </>
+              )}
             </div>
 
             <div className="bg-[#110C05] border border-honey/10 rounded-2xl p-6 text-left space-y-4 max-w-sm mx-auto">

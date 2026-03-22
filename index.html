@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <title>HiveShare — Own a Greek Beehive</title>
-    <meta name="description" content="Co-own a real beehive in Laconia, Greece. Track it live via IoT sensors and receive premium honey every harvest season. From €60/year.">
+    <meta name="description" content="Adopt a real beehive in Laconia, Greece. Track it live via IoT sensors and receive premium honey every harvest season. From €80/year.">
     <meta name="keywords" content="greek honey subscription, adopt a beehive, premium honey europe, laconia honey, beehive co-ownership">
 
     <!-- Favicon -->
@@ -31,7 +31,33 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "HiveShare — Beehive Adoption",
+      "description": "Adopt a real beehive in Laconia, Greece. Track it live and receive premium honey every harvest season.",
+      "brand": { "@type": "Brand", "name": "HiveShare" },
+      "offers": [{
+        "@type": "Offer",
+        "name": "Starter Membership",
+        "price": "80.00",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://oikonomakos.gr/#pricing"
+      }, {
+        "@type": "Offer",
+        "name": "Premium Membership",
+        "price": "160.00",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://oikonomakos.gr/#pricing"
+      }],
+      "url": "https://oikonomakos.gr"
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

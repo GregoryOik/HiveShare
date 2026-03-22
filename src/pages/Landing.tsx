@@ -150,48 +150,24 @@ const Hero = () => {
           €80/year — less than €7 a month. Your own named hive in Laconia, live data, and three harvests of raw Greek honey delivered to your door. Your first jar ships within two weeks. After that, your hive decides the rest.
         </p>
         
-        <div className="mb-8 max-w-md">
-          {!submitted ? (
-            <form 
-              onSubmit={async (e) => { 
-                e.preventDefault(); 
-                const form = e.target as HTMLFormElement;
-                const data = new FormData(form);
-                try {
-                  await fetch("https://formspree.io/f/xbdzbpyn", {
-                    method: "POST",
-                    body: data,
-                    headers: { 'Accept': 'application/json' }
-                  });
-                } catch (err) {
-                  console.error(err);
-                }
-                setSubmitted(true); 
-              }} 
-              className="flex flex-col gap-3"
+        <div className="mb-8 max-w-md flex flex-col gap-4">
+          <div className="flex flex-wrap gap-3">
+            <a 
+              href="#pricing"
+              className="bg-honey text-white px-8 py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px] inline-block"
             >
-              <input 
-                type="email" 
-                name="email"
-                placeholder="Your email" 
-                required
-                className="w-full bg-transparent border border-border-amber px-4 py-3 text-sm focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-text-muted/50"
-              />
-              <textarea 
-                name="message"
-                placeholder="Your message (optional)" 
-                rows={3}
-                className="w-full bg-transparent border border-border-amber px-4 py-3 text-sm focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-text-muted/50 resize-none"
-              ></textarea>
-              <button type="submit" className="bg-honey text-white px-8 py-3 text-sm font-medium hover:bg-honey/90 transition-colors rounded-[2px] w-fit">
-                Send Request
-              </button>
-            </form>
-          ) : (
-            <div className="py-3 text-sm italic text-text-muted animate-fade-in">
-              Message received. We'll be in touch.
-            </div>
-          )}
+              Adopt Your Hive — From €80/yr
+            </a>
+            <a 
+              href="#how-it-works"
+              className="border border-border-amber text-text-dark px-6 py-4 text-xs uppercase tracking-wider font-medium hover:bg-white transition-colors rounded-[2px] inline-block"
+            >
+              How It Works
+            </a>
+          </div>
+          <p className="text-xs text-text-muted">
+            Questions? <a href="mailto:info@oikonomakos.gr" className="text-honey hover:underline">info@oikonomakos.gr</a>
+          </p>
         </div>
         
         <div className="flex items-center space-x-8 mt-6">
@@ -537,6 +513,7 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
         
         {/* Premium */}
         <div className="border-2 border-honey p-12 bg-hive-dark text-cream relative z-10 shadow-2xl md:-my-3 rounded-[2px]">
+          <div className="absolute top-0 right-0 bg-honey text-[#1A1208] text-[9px] uppercase tracking-widest px-3 py-1 font-bold rounded-bl-sm">Recommended</div>
           <div className="text-[10px] uppercase tracking-widest text-white/50 mb-6">Premium</div>
           <div className="mb-2 text-pale-honey flex items-start">
             <span className="font-display text-[3rem] leading-none">160</span>
