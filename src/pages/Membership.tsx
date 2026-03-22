@@ -61,7 +61,8 @@ export default function Membership() {
       addDebug('Adding document to Firestore...');
       
       const docRef = await addDoc(collection(db, 'users', user.uid, 'checkout_sessions'), {
-        line_items,
+        line_items, // For newer versions
+        prices: line_items, // For older versions (they use the same structure)
         success_url: `${window.location.origin}/success?tier=${cartPlan.id}&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: window.location.origin + '/membership',
         allow_promotion_codes: true,
