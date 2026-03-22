@@ -912,31 +912,38 @@ export default function Landing() {
             </button>
 
             <div className="relative z-10">
-              <div className="text-[10px] uppercase tracking-[0.3em] text-honey font-bold mb-4">Your Journey Begins</div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-honey font-bold mb-4">
+                {user ? 'Welcome Back' : 'Your Journey Begins'}
+              </div>
               <h3 className="font-display text-4xl text-white mb-6 leading-tight">
-                Adopting your <br/>
+                {user ? 'Proceed with' : 'Adopting your'} <br/>
                 <span className="italic text-pale-honey">{selectedPlanForSignup.name}</span>
               </h3>
               
               <div className="space-y-6 mb-10">
                 <p className="text-white/60 leading-relaxed text-sm font-light">
-                  Excellent choice. You're just moments away from connecting with your own Laconian hive. To track your bees and manage your honey harvests, we'll guide you through a quick setup:
+                  {user 
+                    ? `You're logged in as ${user.email}. Excellent choice to continue your support of Laconian bees.`
+                    : "Excellent choice. You're just moments away from connecting with your own Laconian hive. To track your bees and manage your honey harvests, we'll guide you through a quick setup:"
+                  }
                 </p>
                 
-                <div className="grid grid-cols-1 gap-4 pt-4">
-                  <div className="flex items-center gap-4 text-white/40 group">
-                    <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-[10px] group-hover:border-honey/50 group-hover:text-honey transition-colors">01</div>
-                    <div className="text-xs uppercase tracking-widest">Create secure account</div>
+                {!user && (
+                  <div className="grid grid-cols-1 gap-4 pt-4">
+                    <div className="flex items-center gap-4 text-white/40 group">
+                      <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-[10px] group-hover:border-honey/50 group-hover:text-honey transition-colors">01</div>
+                      <div className="text-xs uppercase tracking-widest">Create secure account</div>
+                    </div>
+                    <div className="flex items-center gap-4 text-white/20">
+                      <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center text-[10px]">02</div>
+                      <div className="text-xs uppercase tracking-widest">Complete secure checkout</div>
+                    </div>
+                    <div className="flex items-center gap-4 text-white/20">
+                      <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center text-[10px]">03</div>
+                      <div className="text-xs uppercase tracking-widest">Assign your hive</div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-4 text-white/20">
-                    <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center text-[10px]">02</div>
-                    <div className="text-xs uppercase tracking-widest">Complete secure checkout</div>
-                  </div>
-                  <div className="flex items-center gap-4 text-white/20">
-                    <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center text-[10px]">03</div>
-                    <div className="text-xs uppercase tracking-widest">Assign your hive</div>
-                  </div>
-                </div>
+                )}
               </div>
               
               <div className="flex flex-col gap-4">
@@ -945,7 +952,7 @@ export default function Landing() {
                   state={{ from: '/', tier: selectedPlanForSignup.id }}
                   className="w-full bg-honey text-white py-5 text-xs uppercase tracking-[0.2em] font-bold hover:bg-honey/90 transition-all rounded-[2px] flex items-center justify-center gap-3 group shadow-xl"
                 >
-                  Continue to Step 01
+                  {user ? 'Continue to Checkout' : 'Continue to Step 01'}
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <button 

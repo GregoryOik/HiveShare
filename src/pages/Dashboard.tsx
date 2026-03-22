@@ -349,13 +349,7 @@ export default function Dashboard() {
 
       <main className="max-w-7xl mx-auto px-6 pt-12 md:pt-16">
         <div className="mb-12">
-          <OnboardingStepper steps={[
-            { label: 'Sign Up', completed: true, active: false },
-            { label: 'Choose Plan', completed: true, active: false },
-            { label: 'Payment', completed: true, active: false },
-            { label: 'Hive Assigned', completed: true, active: false },
-            { label: 'Dashboard', completed: true, active: false },
-          ]} />
+          {/* Onboarding stepper removed here for active members */}
         </div>
         {/* Missing Address Alert */}
         {profile && !profile.shippingAddress && (
