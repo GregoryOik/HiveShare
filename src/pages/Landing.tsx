@@ -23,7 +23,7 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
           <div className="font-display text-2xl tracking-wide z-50 relative text-[#2A1B0A]">
             Hive<span className="text-honey">Share</span>
           </div>
-          <div className="hidden md:flex items-center space-x-12 text-[10px] uppercase tracking-[0.2em] font-medium text-[#2A1B0A]/50">
+          <div className="hidden md:flex items-center space-x-12 text-[10px] uppercase tracking-[0.2em] font-bold text-[#2A1B0A]/80">
             <a href="#how-it-works" className="hover:text-honey transition-colors duration-200">How it works</a>
             <a href="#features" className="hover:text-honey transition-colors duration-200">Features</a>
             <a href="#origins" className="hover:text-honey transition-colors duration-200">Origins</a>
@@ -31,11 +31,11 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
           </div>
           <div className="hidden md:flex items-center space-x-6">
             {user ? (
-              <Link to="/dashboard" className="text-[10px] uppercase tracking-[0.2em] font-medium text-[#2A1B0A]/50 hover:text-honey transition-colors duration-200">
+              <Link to="/dashboard" className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#2A1B0A]/80 hover:text-honey transition-colors duration-200">
                 Apiary Journal
               </Link>
             ) : (
-              <Link to="/login" className="text-[10px] uppercase tracking-[0.2em] font-medium text-[#2A1B0A]/50 hover:text-honey transition-colors duration-200">
+              <Link to="/login" className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#2A1B0A]/80 hover:text-honey transition-colors duration-200">
                 Log In
               </Link>
             )}
@@ -139,7 +139,7 @@ const Hero = () => {
       {/* Left Column */}
       <div className="w-full md:w-[45%] flex flex-col justify-center px-6 md:pl-24 lg:pl-32 py-12 md:py-20 text-[#2A1B0A]">
         <div className="w-12 h-[1px] bg-honey mb-6"></div>
-        <div className="text-[10px] uppercase tracking-[0.2em] text-[#2A1B0A]/50 mb-6">
+        <div className="text-[10px] uppercase tracking-[0.2em] text-[#2A1B0A]/80 mb-6 font-bold">
           Laconia, Greece · Est. 2026
         </div>
         
@@ -149,7 +149,7 @@ const Hero = () => {
           Taste it home.
         </h1>
         
-        <p className="text-[#2A1B0A]/60 text-sm md:text-base max-w-sm mb-8 leading-relaxed font-light">
+        <p className="text-[#2A1B0A]/90 text-sm md:text-base max-w-sm mb-8 leading-relaxed font-normal">
           From €80/year (Approx. €7/month) — Free EU Shipping included. Your own named hive in Laconia, live vitality reports, and three harvests of raw Greek honey delivered to your door. Your first jar ships within two weeks. After that, your hive decides the rest.
         </p>
         
@@ -168,25 +168,25 @@ const Hero = () => {
               How It Works
             </a>
           </div>
-          <p className="text-xs text-[#2A1B0A]/40">
-            Questions? <a href="mailto:info@oikonomakos.gr" className="text-honey hover:underline">info@oikonomakos.gr</a>
+          <p className="text-xs text-[#2A1B0A]/70 font-medium">
+            Questions? <a href="mailto:info@oikonomakos.gr" className="text-[#C8860A] font-bold hover:underline">info@oikonomakos.gr</a>
           </p>
         </div>
         
         <div className="flex items-center space-x-8 mt-6">
           <div>
             <div className="font-display text-3xl mb-1 text-[#2A1B0A]">600</div>
-            <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/40">Active hives</div>
+            <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">Active hives</div>
           </div>
-          <div className="w-[1px] h-10 bg-white/10"></div>
+          <div className="w-[1px] h-10 bg-[#2A1B0A]/10"></div>
           <div>
             <div className="font-display text-3xl mb-1 text-[#2A1B0A]">6t</div>
-            <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/40">Annual yield</div>
+            <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">Annual yield</div>
           </div>
-          <div className="w-[1px] h-10 bg-white/10"></div>
+          <div className="w-[1px] h-10 bg-[#2A1B0A]/10"></div>
           <div>
             <div className="font-display text-3xl mb-1 text-[#2A1B0A]">3</div>
-            <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/40">Harvests/year</div>
+            <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">Harvests/year</div>
           </div>
         </div>
       </div>
@@ -202,12 +202,12 @@ const Hero = () => {
         <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-honey/20 to-transparent"></div>
 
         {/* TOP - Hive ID */}
-        <div className="absolute top-6 left-6 md:top-12 md:left-12 border-l-2 border-honey/40 pl-3 md:pl-4 z-10">
-          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/60 mb-1">
+        <div className="absolute top-6 left-6 md:top-12 md:left-12 border-l-2 border-honey pl-3 md:pl-4 z-10">
+          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#E8A030] mb-1 font-bold">
             Your hive
           </div>
-          <div className="font-display italic text-2xl md:text-3xl text-pale-honey">#247</div>
-          <div className="text-[8px] md:text-[9px] text-white/20 mt-1">Lagia, Mani</div>
+          <div className="font-display italic text-2xl md:text-3xl text-pale-honey drop-shadow-md">#247</div>
+          <div className="text-[8px] md:text-[9px] text-white/70 mt-1 font-bold">Lagia, Mani</div>
         </div>
 
         {/* Hive ID Counter Base Layer */}
@@ -230,13 +230,13 @@ const Hero = () => {
         </div>
         
         {/* Live Data Card */}
-        <div className="absolute bottom-4 right-4 md:bottom-12 md:right-12 bg-black/60 backdrop-blur-xl border border-honey/40 p-3 md:p-5 rounded-[2px] shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-10 scale-[0.9] md:scale-100 origin-bottom-right">
+        <div className="absolute bottom-4 right-4 md:bottom-12 md:right-12 bg-black/80 backdrop-blur-xl border border-honey/60 p-3 md:p-5 rounded-[2px] shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-10 scale-[0.9] md:scale-100 origin-bottom-right">
           <div className="flex items-center space-x-2 mb-2 md:mb-3">
             <div className="w-1 md:w-2 h-1 md:h-2 rounded-full bg-green-500 animate-blink shadow-[0_0_10px_#22c55e]"></div>
             <div className="text-[8px] md:text-[10px] uppercase tracking-widest text-honey font-bold">Live · Hive #247</div>
           </div>
-          <div className="font-display italic text-2xl md:text-4xl text-pale-honey mb-0.5">38.2 kg</div>
-          <div className="text-[8px] md:text-[10px] text-white/40">Updated 4 min ago</div>
+          <div className="font-display italic text-2xl md:text-4xl text-pale-honey mb-0.5 drop-shadow-sm">38.2 kg</div>
+          <div className="text-[8px] md:text-[10px] text-white/80 font-medium">Updated 4 min ago</div>
         </div>
       </div>
     </section>
@@ -258,13 +258,13 @@ const HowItWorks = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 border border-honey/20 rounded-[2px] overflow-hidden">
         {steps.map((step, i) => (
           <div key={i} className="group relative p-8 border-b md:border-b-0 md:border-r border-honey/20 last:border-0 transition-colors duration-500 hover:bg-hive-panel min-h-[320px] flex flex-col overflow-hidden">
-            <span className="absolute top-0 right-0 font-display text-[8rem] leading-none text-honey/5 select-none -translate-y-2 translate-x-2 group-hover:text-honey/10 transition-colors duration-500">
+            <span className="absolute top-0 right-0 font-display text-[8rem] leading-none text-honey/[0.08] select-none -translate-y-2 translate-x-2 group-hover:text-honey/15 transition-colors duration-500">
               {step.num}
             </span>
             <div className="mt-auto relative z-10">
               <div className={`h-[1px] bg-honey mb-6 transition-all duration-700 group-hover:w-full ${['w-8','w-16','w-24','w-full'][i]}`}></div>
-              <h3 className="font-display text-[1.4rem] mb-4 text-[#2A1B0A]/90">{step.title}</h3>
-              <p className="text-sm text-[#2A1B0A]/50 leading-relaxed font-light">{step.desc}</p>
+              <h3 className="font-display text-[1.4rem] mb-4 text-[#2A1B0A]">{step.title}</h3>
+              <p className="text-sm text-[#2A1B0A]/80 leading-relaxed font-normal">{step.desc}</p>
             </div>
           </div>
         ))}
@@ -289,11 +289,11 @@ const WhatYouGet = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 border border-honey/20 rounded-[2px] overflow-hidden">
           {features.map((f, i) => (
             <div key={i} className="p-10 border-b md:border-b-0 md:border-r md:[&:nth-child(n+4)]:border-b-0 [&:nth-child(1)]:border-b [&:nth-child(2)]:border-b [&:nth-child(3)]:border-b border-honey/20 hover:bg-hive-panel transition-colors duration-500">
-              <div className="w-10 h-10 border border-honey/40 flex items-center justify-center mb-8 rounded-[2px] bg-honey/5">
+              <div className="w-10 h-10 border border-honey/60 flex items-center justify-center mb-8 rounded-[2px] bg-honey/10">
                 {f.icon}
               </div>
-              <h3 className="font-display text-[1.3rem] mb-3 text-[#2A1B0A]/90">{f.title}</h3>
-              <p className="text-xs text-[#2A1B0A]/50 leading-relaxed font-light">{f.desc}</p>
+              <h3 className="font-display text-[1.3rem] mb-3 text-[#2A1B0A]">{f.title}</h3>
+              <p className="text-xs text-[#2A1B0A]/80 leading-relaxed font-normal">{f.desc}</p>
             </div>
           ))}
         </div>
@@ -307,7 +307,7 @@ const DashboardPreview = () => {
     <section className="py-32 px-6 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-20 overflow-hidden">
       <div className="w-full md:w-[40%]">
         <h2 className="font-display text-4xl font-light mb-10 text-[#2A1B0A]">Watch your honey being made.</h2>
-        <ul className="space-y-6 text-sm text-[#2A1B0A]/50">
+        <ul className="space-y-6 text-sm text-[#2A1B0A]/85 font-medium">
           <li className="flex gap-4"><span className="text-honey">—</span> Real-time weight metrics show exactly when the nectar flow begins.</li>
           <li className="flex gap-4"><span className="text-honey">—</span> Internal climate sensors ensure the colony is healthy and regulating temperature.</li>
           <li className="flex gap-4"><span className="text-honey">—</span> Regular snapshots from the apiary connect you to the landscape.</li>
@@ -328,9 +328,9 @@ const DashboardPreview = () => {
           
           {/* Metrics */}
           <div className="grid grid-cols-3 gap-4 mb-8">
-            <div className="bg-white/5 p-4 border border-honey/10 rounded-[2px]">
-              <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-2">Weight</div>
-              <div className="font-display text-2xl text-honey">38.2 kg</div>
+            <div className="bg-white/10 p-4 border border-honey/30 rounded-[2px]">
+              <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/70 mb-2 font-bold">Weight</div>
+              <div className="font-display text-2xl text-honey drop-shadow-sm">38.2 kg</div>
             </div>
             <div className="bg-white/5 p-4 border border-honey/10 rounded-[2px]">
               <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-2">Temp</div>
@@ -352,8 +352,8 @@ const DashboardPreview = () => {
           
           {/* Footer */}
           <div className="flex justify-between items-center pt-2">
-            <div className="text-[11px] text-[#2A1B0A]/50">Next harvest est. 14 Jul</div>
-            <div className="text-[10px] uppercase tracking-widest text-green-400/80 border border-green-400/20 px-2 py-1 bg-green-400/5 rounded-[2px]">Thyme flow active</div>
+            <div className="text-[11px] text-[#2A1B0A]/80">Next harvest est. 14 Jul</div>
+            <div className="text-[10px] uppercase tracking-widest text-green-600 font-bold border border-green-600/20 px-2 py-1 bg-green-50 rounded-[2px]">Thyme flow active</div>
           </div>
         </div>
       </div>
@@ -402,23 +402,25 @@ const harvests = [
 
 const OriginsMap = ({ activeIndex }: { activeIndex: number | null }) => {
   // Coordinates refined for the visual layout (0-500 scale)
-  const Sparta = { x: 235, y: 460 };
-  const Lagia = { x: 235, y: 410 };
-  const Karyes = { x: 170, y: 320 };
-  const Evia = { x: 380, y: 160 };
+  const Sparta = { x: 232, y: 435 };
+  const Lagia = { x: 232, y: 485 };
+  const Karyes = { x: 175, y: 375 };
+  const Evia = { x: 380, y: 210 };
 
   const dots = [Sparta, Lagia, Karyes, Evia];
 
   return (
-    <div className="w-full aspect-[4/3] border border-honey/10 bg-[#0F0A05] relative flex items-center justify-center overflow-hidden group rounded-lg shadow-2xl">
-      {/* Stylized Map Outline Overlay (Greece) - Translucent Dark */}
-      <div className="absolute inset-0 opacity-40 pointer-events-none">
-         <svg viewBox="0 0 500 500" className="w-full h-full fill-[#1A1208]/80 stroke-honey/20 stroke-[1.5]">
-            <path d="M120,330 Q140,300 180,310 T240,350 Q260,400 240,500 T160,510 T120,430 Z" />
-            <path d="M250,330 Q280,310 320,320 T380,260 Q400,190 370,160 T320,190 T280,250" />
-            <path d="M350,230 Q380,180 410,210 T390,260 Q360,280 340,250 Z" className="fill-honey/5 stroke-honey/40" />
-         </svg>
-      </div>
+    <div className="w-full aspect-[4/3] border border-honey/20 bg-[#0F0A05] relative flex items-center justify-center overflow-hidden group rounded-lg shadow-2xl">
+      {/* Cinematic Map Image Base */}
+      <img 
+        src="/greece-map.png" 
+        alt="Map of Greece" 
+        className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-screen"
+      />
+      
+      {/* Gradient Overlay for Cinematic Depth */}
+      <div className="absolute inset-0 bg-gradient-to-t from-hive-dark via-transparent to-hive-dark opacity-80 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-hive-dark via-transparent to-hive-dark opacity-60 pointer-events-none"></div>
 
       <svg viewBox="0 0 500 500" className="absolute inset-0 w-full h-full">
         <defs>
@@ -454,8 +456,8 @@ const OriginsMap = ({ activeIndex }: { activeIndex: number | null }) => {
 
       {/* Region Label */}
       <div className="absolute bottom-6 right-6 text-right pointer-events-none">
-         <div className="text-[10px] uppercase tracking-widest text-honey/40 font-bold mb-1">Nomadic Journey</div>
-         <div className="text-xl font-display text-honey/80 italic">
+         <div className="text-[10px] uppercase tracking-widest text-[#E8A030] font-bold mb-1">Nomadic Journey</div>
+         <div className="text-xl font-display text-honey italic drop-shadow-sm">
            {activeIndex !== null ? harvests[activeIndex].location.split(',')[1] || 'Central Greece' : 'Laconia & Central Greece'}
          </div>
       </div>
@@ -479,10 +481,10 @@ const Origins = () => {
 
           {/* Sidebar on Right for Desktop */}
           <div className="order-2 lg:order-2">
-            <div className="flex items-center justify-between mb-12 pb-6 border-b border-honey/10">
-               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#2A1B0A]/40">Seasonal Harvest Journey</span>
-               <div className="w-6 h-6 text-honey animate-pulse">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 8v9"/></svg>
+            <div className="flex items-center justify-between mb-12 pb-6 border-b border-honey/20">
+               <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#2A1B0A]/70">Seasonal Harvest Journey</span>
+               <div className="w-6 h-6 text-honey">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 8v9"/></svg>
                </div>
             </div>
 
@@ -506,12 +508,12 @@ const Origins = () => {
                     
                     <div className="flex items-center justify-between">
                        <div className="flex items-center gap-3">
-                          <Icon className={`w-4 h-4 transition-colors ${activeIndex === idx ? 'text-honey' : 'text-[#2A1B0A]/30'}`} />
-                          <span className={`text-sm transition-colors ${activeIndex === idx ? 'text-honey/80 font-medium' : 'text-[#2A1B0A]/50'}`}>
+                          <Icon className={`w-4 h-4 transition-colors ${activeIndex === idx ? 'text-honey' : 'text-honey/60'}`} />
+                          <span className={`text-sm transition-colors ${activeIndex === idx ? 'text-honey/90 font-medium' : 'text-[#2A1B0A]/80'}`}>
                             {h.character}
                           </span>
                        </div>
-                       <span className={`text-xs transition-colors ${activeIndex === idx ? 'text-honey/60 font-medium' : 'text-[#2A1B0A]/20'}`}>
+                       <span className={`text-xs transition-colors ${activeIndex === idx ? 'text-honey/70 font-medium' : 'text-[#2A1B0A]/60'}`}>
                           {h.season}
                        </span>
                     </div>
@@ -546,7 +548,7 @@ const Beekeeper = () => {
         <p className="font-display text-3xl md:text-4xl leading-[1.4] font-light text-[#2A1B0A]/90 italic mb-10">
           "I manage 600 hives. I know when the thyme will bloom in Mani two weeks before it happens. My grandfather followed the same blooms across these mountains."
         </p>
-        <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40">
+        <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">
           Petros Oikonomakos · Master Beekeeper
         </div>
       </div>
@@ -562,13 +564,13 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
       <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-6 md:gap-0">
         {/* Starter */}
         <div className="border border-honey/20 p-8 md:p-12 text-[#2A1B0A] bg-hive-panel/60 backdrop-blur-sm rounded-[2px] md:border-r-0">
-          <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/60 mb-6 font-bold">Starter</div>
+          <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/90 mb-6 font-bold">Starter</div>
           <div className="mb-2 flex items-start">
               <div className="flex items-baseline gap-2 mb-2">
                 <span className="font-display text-5xl text-honey">€80</span>
                 <span className="text-honey uppercase tracking-widest text-[10px] font-bold">/year</span>
               </div>
-              <div className="text-[#2A1B0A]/80 text-[10px] uppercase tracking-widest mb-6 font-bold">Approx. €7/month</div>
+              <div className="text-[#2A1B0A] text-[10px] uppercase tracking-widest mb-6 font-bold">Approx. €7/month</div>
           </div>
           <div className="text-[10px] text-honey font-bold uppercase tracking-widest mb-10">Free EU Shipping included</div>
           
@@ -596,14 +598,14 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
                 <span className="font-display text-7xl text-honey">€200</span>
                 <span className="text-honey uppercase tracking-widest text-xs font-bold">/year</span>
               </div>
-              <div className="text-[#2A1B0A]/80 text-[11px] uppercase tracking-widest mb-8 font-bold">Approx. €17/month</div>
+              <div className="text-[#2A1B0A] text-[11px] uppercase tracking-widest mb-8 font-bold">Approx. €17/month</div>
           </div>
           <div className="text-[10px] text-honey font-bold uppercase tracking-widest mb-10">Free EU Shipping included</div>
           
-          <ul className="space-y-4 text-sm text-[#2A1B0A]/90 mb-12">
+          <ul className="space-y-4 text-sm text-[#2A1B0A] mb-12">
             <li className="flex gap-3"><span className="text-honey">—</span> Welcome jar (1kg) shipped immediately</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Apiary Journal access (full live vitality reports)</li>
-                <li className="flex gap-3"><span className="text-honey">—</span> 3 seasonal harvests (~1.3kg each, 5kg total)</li>
+            <li className="flex gap-3"><span className="text-honey">—</span> 3 seasonal harvests (~1.3kg each, 5kg total)</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Named jar (your name on the label)</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Digital Certificate of Adoption</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Handwritten note from Petros with each harvest</li>
@@ -620,14 +622,14 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
         
         {/* Corporate */}
         <div className="border border-honey/20 p-10 bg-hive-panel md:border-l-0 rounded-[2px]">
-          <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-6">Corporate</div>
+          <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/80 mb-6 font-bold">Corporate</div>
           <div className="mb-2 flex items-start text-[#2A1B0A]">
             <span className="font-display text-[3rem] leading-none">1,800</span>
             <span className="text-xl font-medium mt-1 ml-1">€</span>
           </div>
-          <div className="text-xs text-[#2A1B0A]/40 mb-10">per year</div>
+          <div className="text-xs text-[#2A1B0A]/70 mb-10 font-bold">per year</div>
           
-          <ul className="space-y-4 text-sm text-[#2A1B0A]/80 mb-12">
+          <ul className="space-y-4 text-sm text-[#2A1B0A] mb-12">
             <li className="flex gap-3"><span className="text-honey">—</span> Block of 15 dedicated hives</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Custom branded apiary journal</li>
             <li className="flex gap-3"><span className="text-honey">—</span> Custom branded honey jars</li>
@@ -636,7 +638,7 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
           
           <button 
             onClick={() => document.getElementById('join')?.scrollIntoView({ behavior: 'smooth' })}
-            className="w-full border border-honey/30 text-[#2A1B0A]/90 py-3 text-xs uppercase tracking-wider font-medium hover:bg-white/5 transition-colors rounded-[2px]"
+            className="w-full border border-honey/40 text-[#2A1B0A] py-3 text-xs uppercase tracking-wider font-bold hover:bg-white/5 transition-colors rounded-[2px]"
           >
             Contact Us
           </button>
@@ -649,8 +651,8 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
         <div className="relative z-10">
           <div className="text-[10px] uppercase tracking-widest text-honey font-bold mb-2">Annual Add-on</div>
           <h3 className="font-display text-2xl mb-2 text-[#2A1B0A]">+ Laconian Olive Oil · 500ml</h3>
-          <p className="text-sm text-[#2A1B0A]/50 mb-1">Single-estate, cold-pressed, harvest 2026</p>
-          <p className="text-sm text-[#2A1B0A]/50">Added to your autumn shipment</p>
+          <p className="text-sm text-[#2A1B0A]/80 mb-1 font-medium">Single-estate, cold-pressed, harvest 2026</p>
+          <p className="text-sm text-[#2A1B0A]/80 font-medium">Added to your autumn shipment</p>
         </div>
         <div className="text-center md:text-right flex flex-col items-center md:items-end relative z-10">
           <div className="font-display text-3xl text-[#2A1B0A] mb-2">18 €</div>
@@ -686,8 +688,8 @@ const AboutOurHoney = () => {
           <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4">Quality & Compliance</div>
           <h2 className="font-display text-4xl font-light mb-8 text-[#2A1B0A]/90">About Our Honey</h2>
           
-          <div className="space-y-6 text-sm text-[#2A1B0A]/50 leading-relaxed">
-            <p className="text-[#2A1B0A]/70">
+          <div className="space-y-6 text-sm text-[#2A1B0A]/90 leading-relaxed font-medium">
+            <p className="text-[#2A1B0A]">
               Every jar of honey you receive is produced exclusively by master beekeeper Petros Oikonomakos. Our hives travel across Greece's most pristine landscapes to capture distinct seasonal flavors: Wildflower from Sparta, Thyme from Lagia (Mani), Fir Vanilla from Arachova (Arcadia), and Pine from Evia.
             </p>
             
@@ -706,7 +708,7 @@ const AboutOurHoney = () => {
               </li>
             </ul>
             
-            <p className="pt-4 border-t border-honey/10 italic text-[#2A1B0A]/40">
+            <p className="pt-4 border-t border-honey/20 italic text-[#2A1B0A]/70 font-semibold">
               When you adopt a hive, you're not just getting a digital experience; you're securing a seasonal supply of authentic, artisanal Greek honey delivered straight to your door.
             </p>
           </div>
@@ -738,13 +740,13 @@ const FAQ = () => {
               className="w-full py-6 flex justify-between items-center text-left focus:outline-none group"
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
             >
-              <span className="font-display text-[1.2rem] group-hover:text-honey transition-colors text-[#2A1B0A]/90">{faq.q}</span>
-              <Plus className={`w-5 h-5 text-[#2A1B0A]/40 group-hover:text-honey transition-all duration-500 ${openIndex === i ? 'rotate-45' : ''}`} strokeWidth={1} />
+              <span className="font-display text-[1.2rem] group-hover:text-honey transition-colors text-[#2A1B0A]">{faq.q}</span>
+              <Plus className={`w-5 h-5 text-[#2A1B0A]/70 group-hover:text-honey transition-all duration-500 ${openIndex === i ? 'rotate-45' : ''}`} strokeWidth={2} />
             </button>
             <div 
               className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === i ? 'max-h-40 opacity-100 pb-6' : 'max-h-0 opacity-0'}`}
             >
-              <p className="text-sm text-[#2A1B0A]/50 leading-relaxed font-light">{faq.a}</p>
+              <p className="text-sm text-[#2A1B0A]/85 leading-relaxed font-medium">{faq.a}</p>
             </div>
           </div>
         ))}
@@ -761,8 +763,8 @@ const FinalCTA = () => {
       <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(200,134,10,0.08)_0%,_transparent_70%)]"></div>
       
       <div className="max-w-2xl mx-auto text-center relative z-10">
-        <h2 className="font-display text-5xl font-light mb-6 text-[#2A1B0A]/95">Be first to own a Greek beehive</h2>
-        <p className="text-[#2A1B0A]/60 text-base mb-12">
+        <h2 className="font-display text-5xl font-light mb-6 text-[#2A1B0A]">Be first to own a Greek beehive</h2>
+        <p className="text-[#2A1B0A]/90 text-base mb-12 font-medium">
           Founding members get early access, locked pricing, and a named hive in our first batch of 50.
         </p>
         
@@ -791,13 +793,13 @@ const FinalCTA = () => {
                 name="email"
                 placeholder="Your email" 
                 required
-                className="w-full bg-transparent border border-honey/30 px-4 py-3 text-sm focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/30 text-[#2A1B0A]"
+                className="w-full bg-transparent border border-honey/40 px-4 py-3 text-sm focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/60 text-[#2A1B0A] font-medium"
               />
               <textarea 
                 name="message"
                 placeholder="Your message (optional)" 
                 rows={3}
-                className="w-full bg-transparent border border-honey/30 px-4 py-3 text-sm focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/30 text-[#2A1B0A] resize-none"
+                className="w-full bg-transparent border border-honey/40 px-4 py-3 text-sm focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/60 text-[#2A1B0A] resize-none font-medium"
               ></textarea>
               <button type="submit" className="bg-honey text-[#2A1B0A] px-8 py-3 text-sm font-medium hover:bg-honey/90 transition-colors rounded-[2px] active:scale-95 w-full">
                 Send Request
@@ -810,11 +812,11 @@ const FinalCTA = () => {
           )}
         </div>
         
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-[10px] uppercase tracking-widest text-[#2A1B0A]/40">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-[10px] uppercase tracking-widest text-[#2A1B0A]/80 font-bold">
           <div>No payment required now</div>
-          <div className="hidden md:block w-[1px] h-3 bg-honey/30"></div>
+          <div className="hidden md:block w-[1px] h-3 bg-honey/50"></div>
           <div>Founding member pricing locked</div>
-          <div className="hidden md:block w-[1px] h-3 bg-honey/30"></div>
+          <div className="hidden md:block w-[1px] h-3 bg-honey/50"></div>
           <div>Cancel anytime</div>
         </div>
       </div>
@@ -824,21 +826,21 @@ const FinalCTA = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-[#050302] text-[#2A1B0A]/40 py-10 px-6 border-t border-honey/5">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0 text-[10px] uppercase tracking-widest">
-        <div className="font-display text-lg tracking-wide text-[#2A1B0A]/80 normal-case">
+    <footer className="bg-[#050302] text-[#2A1B0A]/70 py-10 px-6 border-t border-honey/10">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0 text-[10px] uppercase tracking-widest font-bold">
+        <div className="font-display text-lg tracking-wide text-[#2A1B0A] normal-case">
           Hive<span className="text-honey">Share</span>
         </div>
         
         <div className="flex items-center gap-6">
           <Link to="/privacy" className="hover:text-honey transition-colors">Privacy Policy</Link>
-          <span className="text-[#2A1B0A]/10">·</span>
+          <span className="text-[#2A1B0A]/20">·</span>
           <Link to="/terms" className="hover:text-honey transition-colors">Terms</Link>
-          <span className="text-[#2A1B0A]/10">·</span>
+          <span className="text-[#2A1B0A]/20">·</span>
           <a href="#" className="hover:text-honey transition-colors">Contact</a>
         </div>
         
-        <div>© 2026 HiveShare · Sparta, Laconia, Greece</div>
+        <div className="text-[#2A1B0A]/60">© 2026 HiveShare · Sparta, Laconia, Greece</div>
       </div>
     </footer>
   );
@@ -891,10 +893,10 @@ export default function Landing() {
               ) : (
                 <>
                   {cartPlan && (
-                    <div className="flex justify-between items-center border-b border-honey/10 pb-4">
+                    <div className="flex justify-between items-center border-b border-honey/20 pb-4">
                       <div>
-                        <div className="font-medium text-[#2A1B0A]/90">{cartPlan.name}</div>
-                        <div className="text-xs text-[#2A1B0A]/50">Annual Subscription</div>
+                        <div className="font-bold text-[#2A1B0A]">{cartPlan.name}</div>
+                        <div className="text-xs text-[#2A1B0A]/70 font-medium">Annual Subscription</div>
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="font-display text-xl text-honey">{cartPlan.price} €</div>
@@ -1004,7 +1006,7 @@ export default function Landing() {
               </h3>
               
               <div className="space-y-6 mb-10">
-                <p className="text-[#2A1B0A]/60 leading-relaxed text-sm font-light">
+                <p className="text-[#2A1B0A]/90 leading-relaxed text-sm font-medium">
                   {user 
                     ? `You're logged in as ${user.email}. Excellent choice to continue your support of Laconian bees.`
                     : selectedPlanForSignup.id === 'premium'
@@ -1015,17 +1017,17 @@ export default function Landing() {
                 
                 {!user && (
                   <div className="grid grid-cols-1 gap-4 pt-4">
-                    <div className="flex items-center gap-4 text-[#2A1B0A]/40 group">
-                      <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-[10px] group-hover:border-honey/50 group-hover:text-honey transition-colors">01</div>
+                    <div className="flex items-center gap-4 text-[#2A1B0A]/80 group font-bold">
+                      <div className="w-8 h-8 rounded-full border border-[#2A1B0A]/20 flex items-center justify-center text-[10px] group-hover:border-honey group-hover:text-honey transition-colors">01</div>
                       <div className="text-xs uppercase tracking-widest">Create secure account</div>
                     </div>
-                    <div className="flex items-center gap-4 text-[#2A1B0A]/20">
-                      <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center text-[10px]">02</div>
-                      <div className="text-xs uppercase tracking-widest">{selectedPlanForSignup.id === 'premium' ? 'Secure your premium slot' : 'Complete secure checkout'}</div>
+                    <div className="flex items-center gap-4 text-[#2A1B0A]/40">
+                      <div className="w-8 h-8 rounded-full border border-[#2A1B0A]/10 flex items-center justify-center text-[10px]">02</div>
+                      <div className="text-xs uppercase tracking-widest font-bold">{selectedPlanForSignup.id === 'premium' ? 'Secure your premium slot' : 'Complete secure checkout'}</div>
                     </div>
-                    <div className="flex items-center gap-4 text-[#2A1B0A]/20">
-                      <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center text-[10px]">03</div>
-                      <div className="text-xs uppercase tracking-widest">{selectedPlanForSignup.id === 'premium' ? 'Finalize hive naming' : 'Assign your hive'}</div>
+                    <div className="flex items-center gap-4 text-[#2A1B0A]/40">
+                      <div className="w-8 h-8 rounded-full border border-[#2A1B0A]/10 flex items-center justify-center text-[10px]">03</div>
+                      <div className="text-xs uppercase tracking-widest font-bold">{selectedPlanForSignup.id === 'premium' ? 'Finalize hive naming' : 'Assign your hive'}</div>
                     </div>
                   </div>
                 )}
