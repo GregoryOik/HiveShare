@@ -893,44 +893,66 @@ export default function Landing() {
       )}
       <CookieConsent />
 
-      {/* Plan Confirmation Modal */}
+      {/* Plan Confirmation (Premium Upgrade) */}
       {selectedPlanForSignup && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
           <div 
-            className="absolute inset-0 bg-[#0A0704]/80 backdrop-blur-md"
+            className="absolute inset-0 bg-black/40 backdrop-blur-xl"
             onClick={() => setSelectedPlanForSignup(null)}
           ></div>
-          <div className="bg-[#1A1208] border border-honey/20 p-8 rounded-[2px] w-full max-w-md relative z-10 shadow-2xl animate-in fade-in zoom-in duration-300">
+          <div className="bg-[#110C05]/95 border border-honey/30 p-10 rounded-[2px] w-full max-w-lg relative z-10 shadow-[0_0_50px_rgba(200,134,10,0.15)] animate-in fade-in zoom-in duration-500 overflow-hidden">
+            {/* Subtle Golden Glow */}
+            <div className="absolute -top-24 -left-24 w-48 h-48 bg-honey/10 blur-[80px] rounded-full pointer-events-none"></div>
+            
             <button 
               onClick={() => setSelectedPlanForSignup(null)}
-              className="absolute top-4 right-4 text-white/30 hover:text-white transition-colors"
+              className="absolute top-6 right-6 text-white/20 hover:text-honey transition-colors"
             >
               <X size={20} />
             </button>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-honey/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-honey/20">
-                <Star className="w-8 h-8 text-honey" />
-              </div>
-              <h3 className="font-display text-2xl text-white mb-2">Excellent Choice!</h3>
-              <p className="text-sm text-white/60 mb-8 leading-relaxed">
-                You're about to adopt a <span className="text-honey font-bold">{selectedPlanForSignup.name}</span>. 
-                Next, let's create your account to securely track your bees and manage your shipments.
-              </p>
+
+            <div className="relative z-10">
+              <div className="text-[10px] uppercase tracking-[0.3em] text-honey font-bold mb-4">Your Journey Begins</div>
+              <h3 className="font-display text-4xl text-white mb-6 leading-tight">
+                Adopting your <br/>
+                <span className="italic text-pale-honey">{selectedPlanForSignup.name}</span>
+              </h3>
               
-              <div className="space-y-3">
+              <div className="space-y-6 mb-10">
+                <p className="text-white/60 leading-relaxed text-sm font-light">
+                  Excellent choice. You're just moments away from connecting with your own Laconian hive. To track your bees and manage your honey harvests, we'll guide you through a quick setup:
+                </p>
+                
+                <div className="grid grid-cols-1 gap-4 pt-4">
+                  <div className="flex items-center gap-4 text-white/40 group">
+                    <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-[10px] group-hover:border-honey/50 group-hover:text-honey transition-colors">01</div>
+                    <div className="text-xs uppercase tracking-widest">Create secure account</div>
+                  </div>
+                  <div className="flex items-center gap-4 text-white/20">
+                    <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center text-[10px]">02</div>
+                    <div className="text-xs uppercase tracking-widest">Complete secure checkout</div>
+                  </div>
+                  <div className="flex items-center gap-4 text-white/20">
+                    <div className="w-8 h-8 rounded-full border border-white/5 flex items-center justify-center text-[10px]">03</div>
+                    <div className="text-xs uppercase tracking-widest">Assign your hive</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex flex-col gap-4">
                 <Link
                   to="/membership"
                   state={{ from: '/', tier: selectedPlanForSignup.id }}
-                  className="w-full bg-honey text-white py-4 text-xs uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-[2px] flex items-center justify-center gap-2 group"
+                  className="w-full bg-honey text-white py-5 text-xs uppercase tracking-[0.2em] font-bold hover:bg-honey/90 transition-all rounded-[2px] flex items-center justify-center gap-3 group shadow-xl"
                 >
-                  Continue to Sign Up
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  Continue to Step 01
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <button 
                   onClick={() => setSelectedPlanForSignup(null)}
-                  className="w-full py-3 text-[10px] uppercase tracking-widest text-white/30 hover:text-white transition-colors"
+                  className="text-[10px] uppercase tracking-widest text-white/30 hover:text-white transition-colors py-2"
                 >
-                  Go Back
+                  Change selection
                 </button>
               </div>
             </div>
