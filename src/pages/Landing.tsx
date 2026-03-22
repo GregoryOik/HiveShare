@@ -771,27 +771,7 @@ const FinalCTA = () => {
   );
 };
 
-const Footer = () => {
-  return (
-    <footer className="bg-[#050302] text-[#2A1B0A]/70 py-10 px-6 border-t border-honey/10">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0 text-[10px] uppercase tracking-widest font-bold">
-        <div className="font-display text-lg tracking-wide text-[#2A1B0A] normal-case">
-          Hive<span className="text-honey">Share</span>
-        </div>
-        
-        <div className="flex items-center gap-6">
-          <Link to="/privacy" className="hover:text-honey transition-colors">Privacy Policy</Link>
-          <span className="text-[#2A1B0A]/20">·</span>
-          <Link to="/terms" className="hover:text-honey transition-colors">Terms</Link>
-          <span className="text-[#2A1B0A]/20">·</span>
-          <a href="#" className="hover:text-honey transition-colors">Contact</a>
-        </div>
-        
-        <div className="text-[#2A1B0A]/60">© 2026 HiveShare · Sparta, Laconia, Greece</div>
-      </div>
-    </footer>
-  );
-};
+import Footer from '../components/Footer';
 
 export default function Landing() {
   const [isCartOpen, setIsCartOpen] = useState(false);
