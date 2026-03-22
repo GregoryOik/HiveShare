@@ -499,25 +499,58 @@ export default function Admin() {
                       className="w-full bg-black border border-honey/20 rounded-md p-4 text-sm text-white focus:border-honey outline-none font-sans resize-none"
                     />
                   </div>
+
+                  <div className="space-y-4">
+                    <label className="text-[10px] uppercase tracking-widest text-[#C8860A] font-black block">Internal Dossier (Private Notes)</label>
+                    <textarea 
+                      value={selectedUser.adminNotes || ''}
+                      onChange={(e) => updateUser(selectedUser.uid, { adminNotes: e.target.value })}
+                      placeholder="Add private observations for this guardian..."
+                      rows={4}
+                      className="w-full bg-[#0A0704] border border-honey/20 rounded-md p-4 text-[11px] text-white focus:border-honey outline-none font-sans resize-none italic"
+                    />
+                  </div>
                 </div>
 
                 <div className="col-span-12 lg:col-span-4 space-y-8">
+                  <div className="p-6 bg-black/40 border border-honey/10 rounded-lg space-y-6">
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-black">Subscription Intelligence</div>
+                    <div className="space-y-4">
+                      <div>
+                        <div className="text-[9px] uppercase tracking-widest text-white/30 mb-1">Join Date</div>
+                        <div className="text-xs text-white font-mono">
+                          {selectedUser.subscriptionStartDate 
+                            ? new Date(selectedUser.subscriptionStartDate).toLocaleDateString() 
+                            : 'N/A'}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-[9px] uppercase tracking-widest text-white/30 mb-1">Renewal Cycle</div>
+                        <div className="text-xs text-honey font-mono">
+                          {selectedUser.subscriptionStartDate 
+                            ? new Date(new Date(selectedUser.subscriptionStartDate).setFullYear(new Date(selectedUser.subscriptionStartDate).getFullYear() + 1)).toLocaleDateString()
+                            : 'Next Season'}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="p-6 bg-black/40 border border-honey/10 rounded-lg space-y-4">
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-black">Associations</div>
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-black">Apiary Associations</div>
                     <div className="space-y-3">
                       {selectedUser.subscribedHives?.length === 0 ? (
                         <p className="text-[10px] text-white/20 italic">No hives linked to this profile.</p>
                       ) : (
                         selectedUser.subscribedHives?.map(id => (
                           <div key={id} className="flex items-center justify-between p-3 bg-white/5 rounded-md">
-                            <span className="text-xs font-bold">Hive #{id}</span>
+                            <span className="text-xs font-bold font-mono">Unit #{id}</span>
                             <button onClick={() => removeHiveFromUser(selectedUser.uid, id)} className="text-red-500/40 hover:text-red-500 transition-all"><UserMinus size={14}/></button>
                           </div>
                         ))
                       )}
                     </div>
                     <div className="pt-4">
-                       <label className="text-[9px] uppercase tracking-widest text-honey/40 block mb-2 font-black">Quick Assign</label>
+                       <label className="text-[9px] uppercase tracking-widest text-honey/40 block mb-2 font-black">Manual Linkage</label>
                        <select 
                          onChange={(e) => {
                            if (e.target.value) {
@@ -527,9 +560,9 @@ export default function Admin() {
                          }}
                          className="w-full bg-black/60 border border-honey/20 rounded-md p-2 text-[10px] text-white outline-none"
                        >
-                         <option value="">Choose hive to link...</option>
+                         <option value="">Assign New Hive...</option>
                          {hives.filter(h => !selectedUser.subscribedHives?.includes(h.id)).map(h => (
-                           <option key={h.id} value={h.id}>Hive #{h.id} ({h.status})</option>
+                           <option key={h.id} value={h.id}>Hive #{h.id} ({h.location})</option>
                          ))}
                        </select>
                     </div>
@@ -555,11 +588,16 @@ export default function Admin() {
                
                <div className="grid grid-cols-2 gap-8">
                   <div className="bg-[#120D08] border border-honey/10 rounded-lg p-8">
-                    <div className="text-[10px] uppercase tracking-widest text-honey font-black mb-6">Recent Security Events</div>
-                      <div className="space-y-4 font-mono text-[9px] text-white/30">
-                        <div>{"[23:42:15] > ACCESS_GRANTED :: User admin@hive.local"}</div>
-                        <div>{"[23:41:02] > PRICE_SYNC :: Stripe products integrated (2)"}</div>
-                        <div>{"[22:15:55] > HIVE_HEARTBEAT :: 124 sensors transmitting normally"}</div>
+                    <div className="text-[10px] uppercase tracking-widest text-honey font-black mb-6">Omni-Vault Audit Trail</div>
+                      <div className="space-y-4 font-mono text-[9px] text-white/30 max-h-[200px] overflow-y-auto custom-scrollbar">
+                        <div>{"[23:58:12] > DB_COMMIT :: Updated configuration for Unit #247"}</div>
+                        <div>{"[23:55:04] > AUTH_VALIDATION :: Superuser Gregory session refreshed"}</div>
+                        <div>{"[23:42:15] > ACCESS_GRANTED :: User system.root@hive.station"}</div>
+                        <div>{"[23:41:02] > STRIPE_WEBHOOK :: Subscription cycle verified for 42 nodes"}</div>
+                        <div>{"[22:15:55] > SENSOR_TX :: Uplink stable - All 124 units transmitting"}</div>
+                        <div>{"[20:10:05] > GEO_TRACKING :: Nomadic migration path updated for Mani apiary"}</div>
+                        <div>{"[19:44:12] > BACKUP_SEQ :: Cloud Firestore snapshot completed (342MB)"}</div>
+                        <div>{"[18:30:00] > HARVEST_PREDICT :: ML Model suggests high yield for Summer Thyme"}</div>
                       </div>
                   </div>
                   <div className="bg-[#120D08] border border-honey/10 rounded-lg p-8">

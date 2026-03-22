@@ -10,6 +10,9 @@ export interface UserProfile {
   customLabel?: string;
   shippingAddress?: string;
   tier?: 'starter' | 'premium';
+  subscriptionStartDate?: string;
+  nextHarvestDate?: string;
+  adminNotes?: string;
 }
 
 export function useAdminUsers() {
