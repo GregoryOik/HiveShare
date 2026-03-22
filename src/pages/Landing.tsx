@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Menu, X, Scale, Camera, Thermometer, Package, FlaskConical, MapPin, ShoppingCart, Trash2 } from 'lucide-react';
+import { Plus, Menu, X, Scale, Camera, Thermometer, Package, FlaskConical, MapPin, ShoppingCart, Trash2, Star, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
+import CookieConsent from '../components/CookieConsent';
 
 const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
   const [scrolled, setScrolled] = useState(false);
@@ -478,7 +479,7 @@ const Beekeeper = () => {
   );
 };
 
-const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliveOil }: any) => {
+const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliveOil, setSelectedPlanForSignup }: any) => {
   return (
     <section id="pricing" className="py-32 px-6 max-w-7xl mx-auto">
       <h2 className="font-display text-4xl font-light mb-20 text-center">Membership Tiers</h2>
@@ -500,13 +501,12 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
             <li className="flex gap-3"><span className="text-honey">—</span> Standard label</li>
           </ul>
           
-          <Link 
-            to="/membership" 
-            state={{ from: '/', tier: 'starter' }}
+          <button 
+            onClick={() => setSelectedPlanForSignup({ id: 'starter', name: 'Starter Membership' })}
             className="block text-center w-full border border-border-amber py-3 text-xs uppercase tracking-wider font-medium hover:bg-cream transition-colors rounded-[2px]"
           >
             Select Starter
-          </Link>
+          </button>
         </div>
         
         {/* Premium */}
@@ -529,13 +529,12 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
             <li className="flex gap-3"><span className="text-honey">—</span> Priority shipping & exclusive variety access</li>
           </ul>
           
-          <Link 
-            to="/membership" 
-            state={{ from: '/', tier: 'premium' }}
+          <button 
+            onClick={() => setSelectedPlanForSignup({ id: 'premium', name: 'Premium Membership' })}
             className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"
           >
             Select Premium
-          </Link>
+          </button>
         </div>
         
         {/* Corporate */}
@@ -766,6 +765,7 @@ export default function Landing() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartPlan, setCartPlan] = useState<{id: string, name: string, price: number, link: string} | null>(null);
   const [hasOliveOil, setHasOliveOil] = useState(false);
+  const [selectedPlanForSignup, setSelectedPlanForSignup] = useState<{id: string, name: string} | null>(null);
   const { user } = useAuth();
 
   const cartItemsCount = (cartPlan ? 1 : 0) + (hasOliveOil ? 1 : 0);
@@ -780,7 +780,14 @@ export default function Landing() {
       <DashboardPreview />
       <Origins />
       <Beekeeper />
-      <Pricing cartPlan={cartPlan} setCartPlan={setCartPlan} setIsCartOpen={setIsCartOpen} hasOliveOil={hasOliveOil} setHasOliveOil={setHasOliveOil} />
+      <Pricing 
+        cartPlan={cartPlan} 
+        setCartPlan={setCartPlan} 
+        setIsCartOpen={setIsCartOpen} 
+        hasOliveOil={hasOliveOil} 
+        setHasOliveOil={setHasOliveOil} 
+        setSelectedPlanForSignup={setSelectedPlanForSignup} 
+      />
       <AboutOurHoney />
       <FAQ />
       <FinalCTA />
@@ -808,7 +815,7 @@ export default function Landing() {
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="font-display text-xl">{cartPlan.price} €</div>
-                        <button onClick={() => setCartPlan(null)} className="text-text-muted hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
+                        <button onClick={() => setCartPlan(null)} className="text-text-muted hover:text-red-500 transition-colors"><X size={16} /></button>
                       </div>
                     </div>
                   )}
@@ -820,7 +827,7 @@ export default function Landing() {
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="font-display text-xl">18 €</div>
-                        <button onClick={() => setHasOliveOil(false)} className="text-text-muted hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
+                        <button onClick={() => setHasOliveOil(false)} className="text-text-muted hover:text-red-500 transition-colors"><X size={16} /></button>
                       </div>
                     </div>
                   )}
@@ -881,6 +888,52 @@ export default function Landing() {
                 </p>
               </div>
             )}
+          </div>
+        </div>
+      )}
+      <CookieConsent />
+
+      {/* Plan Confirmation Modal */}
+      {selectedPlanForSignup && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+          <div 
+            className="absolute inset-0 bg-[#0A0704]/80 backdrop-blur-md"
+            onClick={() => setSelectedPlanForSignup(null)}
+          ></div>
+          <div className="bg-[#1A1208] border border-honey/20 p-8 rounded-[2px] w-full max-w-md relative z-10 shadow-2xl animate-in fade-in zoom-in duration-300">
+            <button 
+              onClick={() => setSelectedPlanForSignup(null)}
+              className="absolute top-4 right-4 text-white/30 hover:text-white transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-honey/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-honey/20">
+                <Star className="w-8 h-8 text-honey" />
+              </div>
+              <h3 className="font-display text-2xl text-white mb-2">Excellent Choice!</h3>
+              <p className="text-sm text-white/60 mb-8 leading-relaxed">
+                You're about to adopt a <span className="text-honey font-bold">{selectedPlanForSignup.name}</span>. 
+                Next, let's create your account to securely track your bees and manage your shipments.
+              </p>
+              
+              <div className="space-y-3">
+                <Link
+                  to="/membership"
+                  state={{ from: '/', tier: selectedPlanForSignup.id }}
+                  className="w-full bg-honey text-white py-4 text-xs uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-[2px] flex items-center justify-center gap-2 group"
+                >
+                  Continue to Sign Up
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <button 
+                  onClick={() => setSelectedPlanForSignup(null)}
+                  className="w-full py-3 text-[10px] uppercase tracking-widest text-white/30 hover:text-white transition-colors"
+                >
+                  Go Back
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
