@@ -149,7 +149,7 @@ const Hero = () => {
           Taste it home.
         </h1>
         
-        <p className="text-white/60 text-base max-w-sm mb-8 leading-relaxed font-light">
+        <p className="text-white/60 text-sm md:text-base max-w-sm mb-8 leading-relaxed font-light">
           €80/year — Free EU Shipping included. Your own named hive in Laconia, live vitality reports, and three harvests of raw Greek honey delivered to your door. Your first jar ships within two weeks. After that, your hive decides the rest.
         </p>
         
@@ -218,25 +218,25 @@ const Hero = () => {
         </div>
 
         {/* MIDDLE - Temp */}
-        <div className="absolute top-[45%] md:top-1/2 left-1/3 md:left-1/2 -translate-x-1/2 -translate-y-1/2 bg-hive-bg/70 backdrop-blur-md border border-honey/20 p-3 md:p-5 rounded-[2px] z-10">
+        <div className="absolute top-[45%] md:top-1/2 left-1/4 md:left-1/2 -translate-x-1/2 -translate-y-1/2 bg-hive-bg/70 backdrop-blur-md border border-honey/20 p-3 md:p-5 rounded-[2px] z-10 scale-[0.85] md:scale-100">
           <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-white/40 mb-1 md:mb-2">Temp</div>
-          <div className="font-display text-2xl md:text-3xl text-pale-honey">34.5°C</div>
+          <div className="font-display text-xl md:text-3xl text-pale-honey">34.5°C</div>
         </div>
 
         {/* RIGHT MIDDLE - Activity */}
-        <div className="absolute top-1/4 right-6 md:top-1/3 md:right-12 bg-hive-bg/70 backdrop-blur-md border border-honey/20 p-3 md:p-4 rounded-[2px] z-10">
+        <div className="absolute top-[15%] right-4 md:top-1/3 md:right-12 bg-hive-bg/70 backdrop-blur-md border border-honey/20 p-3 md:p-4 rounded-[2px] z-10 scale-[0.85] md:scale-100">
           <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-white/40 mb-1 md:mb-2">Activity</div>
-          <div className="font-display text-xl md:text-2xl text-green-400">High</div>
+          <div className="font-display text-lg md:text-2xl text-green-400">High</div>
         </div>
         
         {/* Live Data Card */}
-        <div className="absolute bottom-6 right-6 md:bottom-12 md:right-12 bg-hive-bg/60 backdrop-blur-md border border-honey/30 p-4 md:p-5 rounded-[2px] shadow-2xl z-10">
+        <div className="absolute bottom-4 right-4 md:bottom-12 md:right-12 bg-hive-bg/60 backdrop-blur-md border border-honey/30 p-3 md:p-5 rounded-[2px] shadow-2xl z-10 scale-[0.9] md:scale-100 origin-bottom-right">
           <div className="flex items-center space-x-2 mb-2 md:mb-3">
-            <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-green-500 animate-blink"></div>
-            <div className="text-[9px] md:text-[10px] uppercase tracking-widest text-white/70 font-medium">Live · Hive #247</div>
+            <div className="w-1 md:w-2 h-1 md:h-2 rounded-full bg-green-500 animate-blink"></div>
+            <div className="text-[8px] md:text-[10px] uppercase tracking-widest text-white/70 font-medium font-bold">Live · Hive #247</div>
           </div>
-          <div className="font-display italic text-3xl md:text-4xl text-pale-honey mb-1">38.2 kg</div>
-          <div className="text-[9px] md:text-[10px] text-white/40">Updated 4 min ago</div>
+          <div className="font-display italic text-2xl md:text-4xl text-pale-honey mb-0.5">38.2 kg</div>
+          <div className="text-[8px] md:text-[10px] text-white/40">Updated 4 min ago</div>
         </div>
       </div>
     </section>
@@ -549,13 +549,14 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
       
       <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-6 md:gap-0">
         {/* Starter */}
-        <div className="border border-honey/20 p-10 bg-hive-panel md:border-r-0 rounded-[2px]">
+        <div className="border border-white/10 p-8 md:p-12 text-white bg-hive-panel/40 backdrop-blur-sm rounded-[2px] md:border-r-0">
           <div className="text-[10px] uppercase tracking-widest text-white/40 mb-6">Starter</div>
-          <div className="mb-2 flex items-start text-white">
-            <span className="font-display text-[3rem] leading-none">80</span>
-            <span className="text-xl font-medium mt-1 ml-1">€</span>
+          <div className="mb-2 text-pale-honey flex items-start">
+            <span className="text-xl mt-1 mr-1">€</span>
+            <span className="text-5xl md:text-6xl font-display">80</span>
+            <span className="text-white/40 ml-2 mt-auto mb-2 text-sm">/year</span>
           </div>
-          <div className="text-xs text-white/40 mb-10">per year <span className="text-honey font-medium ml-1">· Free EU Shipping included</span></div>
+          <div className="text-[10px] text-honey font-bold uppercase tracking-widest mb-10">Free EU Shipping included</div>
           
           <ul className="space-y-4 text-sm text-white/80 mb-12">
             <li className="flex gap-3"><span className="text-honey">—</span> Welcome jar (250g)</li>
@@ -573,14 +574,15 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
         </div>
         
         {/* Premium */}
-        <div className="border-2 border-honey p-12 bg-hive-bg text-white relative z-10 shadow-[0_0_30px_rgba(200,134,10,0.15)] md:-my-3 rounded-[2px]">
-          <div className="absolute top-0 right-0 bg-honey text-[#1A1208] text-[9px] uppercase tracking-widest px-3 py-1 font-bold rounded-bl-sm">Recommended</div>
+        <div className="border-2 border-honey p-8 md:p-12 bg-hive-bg text-white relative z-10 shadow-[0_0_30px_rgba(200,134,10,0.15)] md:-my-3 rounded-[2px]">
+          <div className="absolute top-0 right-0 bg-honey text-hive-bg text-[9px] uppercase tracking-widest px-3 py-1 font-bold rounded-bl-sm">Recommended</div>
           <div className="text-[10px] uppercase tracking-widest text-honey/80 mb-6">Premium</div>
           <div className="mb-2 text-pale-honey flex items-start">
-            <span className="font-display text-[3rem] leading-none">200</span>
-            <span className="text-xl font-medium mt-1 ml-1">€</span>
+            <span className="text-xl mt-1 mr-1">€</span>
+            <span className="text-5xl md:text-6xl font-display">200</span>
+            <span className="text-white/40 ml-2 mt-auto mb-2 text-sm">/year</span>
           </div>
-          <div className="text-xs text-white/50 mb-10">per year <span className="text-honey font-medium ml-1">· Free EU Shipping included</span></div>
+          <div className="text-[10px] text-honey font-bold uppercase tracking-widest mb-10">Free EU Shipping included</div>
           
           <ul className="space-y-4 text-sm text-white/90 mb-12">
             <li className="flex gap-3"><span className="text-honey">—</span> Welcome jar (1kg) shipped immediately</li>

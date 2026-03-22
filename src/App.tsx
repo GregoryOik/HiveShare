@@ -14,7 +14,6 @@ import NotFound from './pages/NotFound';
 import { AuthProvider, useAuth } from './lib/useAuth';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import CookieConsent from './components/CookieConsent';
-import ApiaryAudio from './components/ApiaryAudio';
 
 function ProtectedRoute({ children, requireAdmin = false }: { children: React.ReactNode, requireAdmin?: boolean }) {
   const { user, profile, loading } = useAuth();
@@ -79,7 +78,6 @@ export default function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
           <CookieConsent />
-          <ApiaryAudio />
         </Router>
       </AuthProvider>
     </ErrorBoundary>

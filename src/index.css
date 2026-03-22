@@ -3,11 +3,11 @@
 
 @theme {
   --color-honey: #C8860A;
-  --color-hive-bg: #1A120D; /* Lighter, warmer dark base */
-  --color-hive-panel: #261B14; /* Lighter panel base */
-  --color-hive-dark: #32251B;
-  --color-cream: #FAF4E8;
-  --color-pale-honey: #FDF6E3;
+  --color-hive-bg: #201813; /* Significantly lighter, but still rich and warm */
+  --color-hive-panel: #2C2119; /* Distinct contrast against the new background */
+  --color-hive-dark: #382B21;
+  --color-cream: #FDF9F0;
+  --color-pale-honey: #FFFBF2;
   --color-text-dark: #3D2B0E;
   --color-text-muted: #7A5C2E;
   --color-border-amber: rgba(200, 134, 10, 0.2);

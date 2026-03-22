@@ -82,18 +82,18 @@ export default function Dashboard() {
     }
   }, [hives, selectedHiveId]);
 
-  if (loading) return <div className="min-h-screen bg-[#140E0A] text-white p-12 flex items-center justify-center font-display text-xl tracking-widest animate-pulse">Connecting to your hive in Laconia...</div>;
+  if (loading) return <div className="min-h-screen bg-hive-bg text-white p-12 flex items-center justify-center font-display text-xl tracking-widest animate-pulse">Connecting to your hive in Laconia...</div>;
   
   const data = hives.find(h => h.id === selectedHiveId) || hives[0];
 
   if (!data) {
     return (
-      <div className="min-h-screen bg-[#0A0704] text-white/80 font-body selection:bg-honey selection:text-white flex flex-col relative overflow-hidden">
+      <div className="min-h-screen bg-hive-bg text-white/80 font-body selection:bg-honey selection:text-white flex flex-col relative overflow-hidden">
         {/* Cinematic Background Glows */}
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-honey/5 blur-[120px] rounded-full pointer-events-none"></div>
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-honey/5 blur-[120px] rounded-full pointer-events-none"></div>
 
-        <header className="border-b border-honey/10 bg-[#0A0704]/80 backdrop-blur-md sticky top-0 z-50">
+        <header className="border-b border-honey/10 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between w-full relative">
             <Link to="/" className="font-display text-2xl tracking-wide text-white hover:text-honey transition-colors duration-300">
               Hive<span className="text-honey">Share</span>
@@ -101,7 +101,7 @@ export default function Dashboard() {
           </div>
         </header>
 
-        <main className="flex-1 flex items-center justify-center p-6 bg-[#0A0704]">
+        <main className="flex-1 flex items-center justify-center p-6 bg-hive-bg">
           <div className="max-w-2xl w-full text-center space-y-10 relative">
             <OnboardingStepper steps={[
               { label: 'Sign Up', completed: true, active: false },
@@ -111,7 +111,7 @@ export default function Dashboard() {
               { label: 'Apiary Journal', completed: false, active: false },
             ]} />
 
-            <div className="w-24 h-24 mx-auto border border-honey/20 rounded-full flex items-center justify-center bg-[#110C05] shadow-[0_0_30px_rgba(200,134,10,0.2)]">
+            <div className="w-24 h-24 mx-auto border border-honey/20 rounded-full flex items-center justify-center bg-hive-bg shadow-[0_0_30px_rgba(200,134,10,0.2)]">
               <Package className="w-8 h-8 text-honey" />
             </div>
             
@@ -134,7 +134,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0704] text-white/80 font-body selection:bg-honey selection:text-white flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-hive-bg text-white/80 font-body selection:bg-honey selection:text-white flex flex-col relative overflow-hidden">
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-honey/5 blur-[120px] rounded-full"></div>
@@ -142,7 +142,7 @@ export default function Dashboard() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(200,134,10,0.03)_0%,_transparent_70%)]"></div>
       </div>
 
-      <header className="border-b border-honey/10 bg-[#0A0704]/80 backdrop-blur-md sticky top-0 z-50 relative">
+      <header className="border-b border-honey/10 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50 relative">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between w-full">
           <Link to="/" className="font-display text-2xl tracking-wide text-white hover:text-honey transition-colors duration-300">
             Hive<span className="text-honey">Share</span>

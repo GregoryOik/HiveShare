@@ -179,10 +179,10 @@ export default function Membership() {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 pt-12 md:pt-20 pb-20 flex-1 w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
           
           {/* Left Column: Plan Selection */}
-          <div className="lg:col-span-7 space-y-12">
+          <div className="md:col-span-12 lg:col-span-7 space-y-12">
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-honey mb-2 group">
                 <div className="w-6 h-6 rounded-full border border-honey/30 flex items-center justify-center text-[10px] font-bold group-hover:border-honey transition-colors">02</div>
@@ -205,7 +205,7 @@ export default function Membership() {
                   className={`relative p-8 rounded-[2px] text-left border transition-all duration-500 group overflow-hidden ${
                     cartPlan?.id === plan.id 
                       ? 'bg-honey/10 border-honey/40 shadow-[0_20px_40px_rgba(200,134,10,0.1)]' 
-                      : 'bg-hive-panel/40 border-white/5 hover:border-honey/30 hover:bg-[#110C05]/60 hover:shadow-xl'
+                      : 'bg-hive-panel/40 border-white/5 hover:border-honey/30 hover:bg-hive-bg/60 hover:shadow-xl'
                   }`}
                 >
                   {/* Subtle Grain Texture */}
@@ -286,7 +286,7 @@ export default function Membership() {
           </div>
 
           {/* Right Column: Order Summary */}
-          <div className="lg:col-span-5 space-y-8">
+          <div className="md:col-span-12 lg:col-span-5 space-y-8">
             {/* Live Certificate Preview (Premium Only) */}
             {cartPlan?.id === 'premium' && (
               <div className="animate-in fade-in zoom-in duration-700">
