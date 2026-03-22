@@ -191,8 +191,8 @@ const Hero = () => {
         </div>
       </div>
       
-      {/* Right Column */}
-      <div className="w-full md:w-[55%] bg-hive-panel/50 relative overflow-hidden min-h-[60vh] md:min-h-screen flex items-center justify-center border-l border-honey/10">
+      {/* Right Column - Dusk Honey */}
+      <div className="w-full md:w-[55%] bg-hive-dark relative overflow-hidden min-h-[60vh] md:min-h-screen flex items-center justify-center border-l border-honey/10">
         <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_center,_var(--color-honey)_0%,_transparent_70%)]"></div>
         
         {/* Hexagon Grid */}
@@ -203,11 +203,11 @@ const Hero = () => {
 
         {/* TOP - Hive ID */}
         <div className="absolute top-6 left-6 md:top-12 md:left-12 border-l-2 border-honey/40 pl-3 md:pl-4 z-10">
-          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#2A1B0A]/30 mb-1">
+          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/60 mb-1">
             Your hive
           </div>
           <div className="font-display italic text-2xl md:text-3xl text-pale-honey">#247</div>
-          <div className="text-[8px] md:text-[9px] text-[#2A1B0A]/20 mt-1">Lagia, Mani</div>
+          <div className="text-[8px] md:text-[9px] text-white/20 mt-1">Lagia, Mani</div>
         </div>
 
         {/* Hive ID Counter Base Layer */}
@@ -218,25 +218,25 @@ const Hero = () => {
         </div>
 
         {/* MIDDLE - Temp */}
-        <div className="absolute top-[45%] md:top-1/2 left-1/4 md:left-1/2 -translate-x-1/2 -translate-y-1/2 bg-hive-bg/70 backdrop-blur-md border border-honey/20 p-3 md:p-5 rounded-[2px] z-10 scale-[0.85] md:scale-100">
-          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#2A1B0A]/40 mb-1 md:mb-2">Temp</div>
+        <div className="absolute top-[45%] md:top-1/2 left-1/4 md:left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md border border-honey/30 p-3 md:p-5 rounded-[2px] z-10 scale-[0.85] md:scale-100 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/80 mb-1 md:mb-2">Temp</div>
           <div className="font-display text-xl md:text-3xl text-pale-honey">34.5°C</div>
         </div>
 
         {/* RIGHT MIDDLE - Activity */}
-        <div className="absolute top-[15%] right-4 md:top-1/3 md:right-12 bg-hive-bg/70 backdrop-blur-md border border-honey/20 p-3 md:p-4 rounded-[2px] z-10 scale-[0.85] md:scale-100">
-          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#2A1B0A]/40 mb-1 md:mb-2">Activity</div>
+        <div className="absolute top-[15%] right-4 md:top-1/3 md:right-12 bg-black/40 backdrop-blur-md border border-honey/30 p-3 md:p-4 rounded-[2px] z-10 scale-[0.85] md:scale-100 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/80 mb-1 md:mb-2">Activity</div>
           <div className="font-display text-lg md:text-2xl text-green-400">High</div>
         </div>
         
         {/* Live Data Card */}
-        <div className="absolute bottom-4 right-4 md:bottom-12 md:right-12 bg-hive-bg/60 backdrop-blur-md border border-honey/30 p-3 md:p-5 rounded-[2px] shadow-2xl z-10 scale-[0.9] md:scale-100 origin-bottom-right">
+        <div className="absolute bottom-4 right-4 md:bottom-12 md:right-12 bg-black/60 backdrop-blur-xl border border-honey/40 p-3 md:p-5 rounded-[2px] shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-10 scale-[0.9] md:scale-100 origin-bottom-right">
           <div className="flex items-center space-x-2 mb-2 md:mb-3">
-            <div className="w-1 md:w-2 h-1 md:h-2 rounded-full bg-green-500 animate-blink"></div>
-            <div className="text-[8px] md:text-[10px] uppercase tracking-widest text-[#2A1B0A]/70 font-medium font-bold">Live · Hive #247</div>
+            <div className="w-1 md:w-2 h-1 md:h-2 rounded-full bg-green-500 animate-blink shadow-[0_0_10px_#22c55e]"></div>
+            <div className="text-[8px] md:text-[10px] uppercase tracking-widest text-honey font-bold">Live · Hive #247</div>
           </div>
           <div className="font-display italic text-2xl md:text-4xl text-pale-honey mb-0.5">38.2 kg</div>
-          <div className="text-[8px] md:text-[10px] text-[#2A1B0A]/40">Updated 4 min ago</div>
+          <div className="text-[8px] md:text-[10px] text-white/40">Updated 4 min ago</div>
         </div>
       </div>
     </section>
@@ -549,14 +549,14 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
       
       <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-6 md:gap-0">
         {/* Starter */}
-        <div className="border border-white/10 p-8 md:p-12 text-[#2A1B0A] bg-hive-panel/40 backdrop-blur-sm rounded-[2px] md:border-r-0">
-          <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-6">Starter</div>
-          <div className="mb-2 text-pale-honey flex items-start">
+        <div className="border border-honey/20 p-8 md:p-12 text-[#2A1B0A] bg-hive-panel/60 backdrop-blur-sm rounded-[2px] md:border-r-0">
+          <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/60 mb-6 font-bold">Starter</div>
+          <div className="mb-2 flex items-start">
               <div className="flex items-baseline gap-2 mb-2">
                 <span className="font-display text-5xl text-honey">€80</span>
-                <span className="text-[#2A1B0A]/40 uppercase tracking-widest text-[10px]">/year</span>
+                <span className="text-honey uppercase tracking-widest text-[10px] font-bold">/year</span>
               </div>
-              <div className="text-[#2A1B0A]/30 text-[9px] uppercase tracking-widest mb-6">Approx. €7/month</div>
+              <div className="text-[#2A1B0A]/80 text-[10px] uppercase tracking-widest mb-6 font-bold">Approx. €7/month</div>
           </div>
           <div className="text-[10px] text-honey font-bold uppercase tracking-widest mb-10">Free EU Shipping included</div>
           
@@ -576,15 +576,15 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
         </div>
         
         {/* Premium */}
-        <div className="border-2 border-honey p-8 md:p-12 bg-hive-bg text-[#2A1B0A] relative z-10 shadow-[0_0_30px_rgba(200,134,10,0.15)] md:-my-3 rounded-[2px]">
+        <div className="border-2 border-honey p-8 md:p-12 bg-hive-bg text-[#2A1B0A] relative z-10 shadow-[0_20px_50px_rgba(200,134,10,0.2)] md:-my-3 rounded-[2px]">
           <div className="absolute top-0 right-0 bg-honey text-hive-bg text-[9px] uppercase tracking-widest px-3 py-1 font-bold rounded-bl-sm">Recommended</div>
-          <div className="text-[10px] uppercase tracking-widest text-honey/80 mb-6">Premium</div>
-          <div className="mb-2 text-pale-honey flex items-start">
+          <div className="text-[10px] uppercase tracking-widest text-honey mb-6 font-bold">Premium</div>
+          <div className="mb-2 flex items-start">
               <div className="flex items-baseline gap-2 mb-2">
                 <span className="font-display text-7xl text-honey">€200</span>
-                <span className="text-[#2A1B0A]/40 uppercase tracking-widest text-xs">/year</span>
+                <span className="text-honey uppercase tracking-widest text-xs font-bold">/year</span>
               </div>
-              <div className="text-[#2A1B0A]/30 text-[10px] uppercase tracking-widest mb-8">Approx. €17/month</div>
+              <div className="text-[#2A1B0A]/80 text-[11px] uppercase tracking-widest mb-8 font-bold">Approx. €17/month</div>
           </div>
           <div className="text-[10px] text-honey font-bold uppercase tracking-widest mb-10">Free EU Shipping included</div>
           

@@ -5,12 +5,13 @@
   --color-honey: #C8860A;
   --color-hive-bg: #FFFDF5; /* Warm, light beige background */
   --color-hive-panel: #FEF7E6; /* Slightly deeper honey-tinted panel */
-  --color-hive-dark: #FDF0D5; /* "Bee yellow" soft accent */
+  --color-hive-dark: #1A1208; /* Deep Mahogany for dark contrast sections */
   --color-cream: #FFFDF9;
-  --color-pale-honey: #FEF9EB;
+  --color-pale-honey: #FFD700; /* Rebranded to a vibrant gold for dark backgrounds only */
   --color-text-dark: #2A1B0A; /* Deep mahogany brown for high contrast */
+  --color-text-body: #3D2B1F; /* Slightly softer mahogany for body text */
   --color-text-muted: #8B6B3F;
-  --color-border-amber: rgba(200, 134, 10, 0.15);
+  --color-border-amber: rgba(200, 134, 10, 0.25);
 
   --font-display: "Cormorant", serif;
   --font-body: "DM Sans", sans-serif;

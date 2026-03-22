@@ -93,7 +93,7 @@ export default function Dashboard() {
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-honey/5 blur-[120px] rounded-full pointer-events-none"></div>
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-honey/5 blur-[120px] rounded-full pointer-events-none"></div>
 
-        <header className="border-b border-honey/10 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50">
+        <header className="border-b border-honey/20 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between w-full relative">
             <Link to="/" className="font-display text-2xl tracking-wide text-[#2A1B0A] hover:text-honey transition-colors duration-300">
               Hive<span className="text-honey">Share</span>
@@ -137,9 +137,9 @@ export default function Dashboard() {
     <div className="min-h-screen bg-hive-bg text-[#2A1B0A]/80 font-body selection:bg-honey selection:text-[#2A1B0A] flex flex-col relative overflow-hidden">
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-honey/5 blur-[120px] rounded-full"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-honey/5 blur-[120px] rounded-full"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(200,134,10,0.03)_0%,_transparent_70%)]"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-honey/10 blur-[120px] rounded-full"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-honey/10 blur-[120px] rounded-full"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(200,134,10,0.06)_0%,_transparent_70%)]"></div>
       </div>
 
       <header className="border-b border-honey/10 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50 relative">
@@ -150,15 +150,15 @@ export default function Dashboard() {
           
           <div className="flex items-center gap-6">
             <div className="hidden md:flex flex-col items-end">
-              <span className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/30 font-bold">Authenticated</span>
-              <span className="text-[10px] text-honey font-medium">{profile?.email}</span>
+              <span className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/60 font-bold">Authenticated</span>
+              <span className="text-[10px] text-honey font-bold">{profile?.email}</span>
             </div>
             
             <div className="h-8 w-[1px] bg-honey/10 mx-2 hidden md:block"></div>
 
             <button 
               onClick={logout} 
-              className="group flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] font-bold text-[#2A1B0A]/40 hover:text-[#2A1B0A] transition-all duration-300 bg-white/5 hover:bg-honey/10 px-4 py-2 rounded-full border border-white/5 hover:border-honey/20"
+              className="group flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] font-bold text-[#2A1B0A]/60 hover:text-[#2A1B0A] transition-all duration-300 bg-white/10 hover:bg-honey/10 px-4 py-2 rounded-full border border-honey/10 hover:border-honey/30"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Logout</span>
@@ -176,8 +176,8 @@ export default function Dashboard() {
                 <AlertTriangle className="text-honey w-6 h-6" />
               </div>
               <div className="space-y-1 text-left">
-                <p className="text-sm font-medium text-[#2A1B0A] tracking-wide uppercase">Shipping Address Required</p>
-                <p className="text-xs text-[#2A1B0A]/50 leading-relaxed font-light">Your membership is active, but we don't know where to ship your honey!</p>
+                <p className="text-sm font-bold text-[#2A1B0A] tracking-wide uppercase font-display">Shipping Address Required</p>
+                <p className="text-xs text-[#2A1B0A]/70 leading-relaxed font-medium">Your membership is active, but we don't know where to ship your honey!</p>
               </div>
             </div>
             <Link 
@@ -207,12 +207,12 @@ export default function Dashboard() {
                     }`}
                   >
                     <div className="flex justify-between items-center mb-1">
-                      <span className={`text-xs font-bold tracking-widest uppercase ${selectedHiveId === hive.id ? 'text-[#2A1B0A]' : 'text-[#2A1B0A]/40'}`}>
+                      <span className={`text-xs font-bold tracking-widest uppercase ${selectedHiveId === hive.id ? 'text-[#2A1B0A]' : 'text-[#2A1B0A]/60'}`}>
                         Hive #{hive.id}
                       </span>
                       {selectedHiveId === hive.id && <div className="w-1.5 h-1.5 rounded-full bg-honey animate-pulse"></div>}
                     </div>
-                    <div className="text-[10px] text-[#2A1B0A]/30 group-hover:text-[#2A1B0A]/50 transition-colors uppercase tracking-widest">{hive.location}</div>
+                    <div className={`text-[10px] uppercase tracking-widest ${selectedHiveId === hive.id ? 'text-[#2A1B0A]/60' : 'text-[#2A1B0A]/40'}`}>{hive.location}</div>
                   </button>
                 ))}
               </div>
@@ -252,20 +252,20 @@ export default function Dashboard() {
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-honey/10">
                   <div className="space-y-1">
-                    <div className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/30 font-bold">Internal Temp</div>
-                    <div className="text-sm text-[#2A1B0A] font-display uppercase tracking-widest">{data.temp}°C</div>
+                    <div className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/60 font-bold">Internal Temp</div>
+                    <div className="text-sm text-[#2A1B0A] font-bold uppercase tracking-widest">{data.temp}°C</div>
                   </div>
                   <div className="space-y-1">
-                    <div className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/30 font-bold">Humidity</div>
-                    <div className="text-sm text-[#2A1B0A] font-display uppercase tracking-widest">{data.humidity}%</div>
+                    <div className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/60 font-bold">Humidity</div>
+                    <div className="text-sm text-[#2A1B0A] font-bold uppercase tracking-widest">{data.humidity}%</div>
                   </div>
                   <div className="space-y-1">
-                    <div className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/30 font-bold">Acoustics</div>
-                    <div className="text-sm text-[#2A1B0A] font-display uppercase tracking-widest">{data.activity}</div>
+                    <div className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/60 font-bold">Acoustics</div>
+                    <div className="text-sm text-[#2A1B0A] font-bold uppercase tracking-widest">{data.activity}</div>
                   </div>
                   <div className="space-y-1">
-                    <div className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/30 font-bold">Species</div>
-                    <div className="text-sm text-[#2A1B0A] font-display uppercase tracking-widest">Macedonica</div>
+                    <div className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/60 font-bold">Species</div>
+                    <div className="text-sm text-[#2A1B0A] font-bold uppercase tracking-widest">Macedonica</div>
                   </div>
                 </div>
               </div>

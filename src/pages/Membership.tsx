@@ -155,9 +155,9 @@ export default function Membership() {
     <div className="min-h-screen bg-hive-bg text-[#2A1B0A]/80 font-body selection:bg-honey selection:text-[#2A1B0A] flex flex-col relative overflow-hidden">
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-honey/5 blur-[150px] rounded-full opacity-50"></div>
-        <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-honey/5 blur-[150px] rounded-full opacity-50"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(200,134,10,0.02)_0%,_transparent_70%)]"></div>
+        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-honey/10 blur-[150px] rounded-full opacity-50"></div>
+        <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-honey/10 blur-[150px] rounded-full opacity-50"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(200,134,10,0.05)_0%,_transparent_70%)]"></div>
       </div>
 
       <header className="border-b border-honey/10 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
@@ -189,7 +189,7 @@ export default function Membership() {
                 <span className="text-[10px] uppercase tracking-[0.3em] font-bold">Select Your Membership Level</span>
               </div>
               <h1 className="font-display text-5xl text-[#2A1B0A]">Choose your connection</h1>
-              <p className="text-[#2A1B0A]/40 max-w-lg leading-relaxed font-light">
+              <p className="text-[#2A1B0A]/60 max-w-lg leading-relaxed font-light">
                 Select the tier that best matches your commitment to Laconia's bees. Both plans include pure harvests and real-time tracking.
               </p>
             </div>
@@ -216,15 +216,15 @@ export default function Membership() {
                       <plan.icon size={20} />
                     </div>
                     <div className="text-right">
-                      <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30 mb-1">Yearly</div>
-                      <div className="text-2xl font-display text-[#2A1B0A]">€{plan.price}</div>
-                      <div className="text-[8px] uppercase tracking-widest text-[#2A1B0A]/30">Approx. €{plan.id === 'starter' ? '7' : '17'}/mo</div>
+                      <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/80 font-bold mb-1">Yearly</div>
+                      <div className="text-3xl font-display text-honey">€{plan.price}</div>
+                      <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/80 font-bold">Approx. €{plan.id === 'starter' ? '7' : '17'}/mo</div>
                     </div>
                   </div>
 
                   <div className="relative z-10">
                     <h3 className="text-xl font-display text-[#2A1B0A] mb-2">{plan.name}</h3>
-                    <p className="text-xs text-[#2A1B0A]/40 leading-relaxed group-hover:text-[#2A1B0A]/60 transition-colors">
+                    <p className="text-xs text-[#2A1B0A]/60 leading-relaxed group-hover:text-[#2A1B0A]/80 transition-colors">
                       {plan.desc}
                     </p>
                   </div>
