@@ -4,6 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight, Award, Crown, Star, Lock, Plus } from 'lucide-react';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
+import OnboardingStepper from '../components/OnboardingStepper';
 import { jsPDF } from 'jspdf';
 
 const BeeCursor = () => {
@@ -200,7 +201,16 @@ export default function Dashboard() {
           </div>
         </header>
         <main className="flex-1 flex items-center justify-center p-6">
-          <div className="max-w-lg w-full text-center space-y-8">
+          <div className="max-w-2xl w-full text-center space-y-10">
+            {/* Onboarding Stepper */}
+            <OnboardingStepper steps={[
+              { label: 'Sign Up', completed: true, active: false },
+              { label: 'Choose Plan', completed: !!profile?.tier || (profile?.subscribedHives && profile.subscribedHives.length > 0), active: !profile?.tier && (!profile?.subscribedHives || profile.subscribedHives.length === 0) },
+              { label: 'Payment', completed: !!profile?.subscribedHives && profile.subscribedHives.length > 0, active: !!profile?.tier && (!profile?.subscribedHives || profile.subscribedHives.length === 0) },
+              { label: 'Hive Assigned', completed: false, active: !!profile?.subscribedHives && profile.subscribedHives.length > 0 },
+              { label: 'Dashboard', completed: false, active: false },
+            ]} />
+
             <div className="w-24 h-24 mx-auto border border-honey/20 rounded-full flex items-center justify-center bg-[#110C05] shadow-[0_0_30px_rgba(200,134,10,0.15)]">
               <Package className="w-8 h-8 text-honey" />
             </div>

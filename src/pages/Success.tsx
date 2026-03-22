@@ -3,6 +3,7 @@ import { CheckCircle, ArrowRight, Loader2, Package, AlertTriangle, RefreshCw } f
 import { Link, useSearchParams } from 'react-router-dom';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
+import OnboardingStepper from '../components/OnboardingStepper';
 
 export default function Success() {
   const [searchParams] = useSearchParams();
@@ -58,7 +59,16 @@ export default function Success() {
 
   return (
     <div className="min-h-screen bg-[#1A1208] text-white flex items-center justify-center p-6">
-      <div className="max-w-md w-full text-center space-y-8 animate-in fade-in zoom-in duration-500">
+      <div className="max-w-2xl w-full text-center space-y-8 animate-in fade-in zoom-in duration-500">
+        {/* Onboarding Stepper */}
+        <OnboardingStepper steps={[
+          { label: 'Sign Up', completed: true, active: false },
+          { label: 'Choose Plan', completed: true, active: false },
+          { label: 'Payment', completed: true, active: false },
+          { label: 'Hive Assigned', completed: !isFulfilling && !error && !!claimedId, active: isFulfilling },
+          { label: 'Dashboard', completed: false, active: !isFulfilling && !error && !!claimedId },
+        ]} />
+
         <div className="w-20 h-20 mx-auto bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center">
           {isFulfilling ? (
             <Loader2 className="w-10 h-10 text-honey animate-spin" />
