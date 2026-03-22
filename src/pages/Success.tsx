@@ -34,6 +34,9 @@ export default function Success() {
         console.log('[Success] claimRandomHive result:', newId);
         if (newId) {
           setClaimedId(newId);
+          // Trigger assignment email
+          const { sendEmail, emailTemplates } = await import('../lib/email');
+          sendEmail(emailTemplates.assignment(profile.email, newId)).catch(console.error);
         } else {
           setError('No available hives found. Please contact support at gregory@oikonomakos.gr');
         }

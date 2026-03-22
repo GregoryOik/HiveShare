@@ -11,7 +11,7 @@ export default function Login() {
   const [acceptedMarketing, setAcceptedMarketing] = useState(false);
   
   // Email/password state
-  const [mode, setMode] = useState<'login' | 'signup' | 'reset'>('login');
+  const [mode, setMode] = useState<'login' | 'signup' | 'reset'>('signup');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -76,7 +76,7 @@ export default function Login() {
           setIsLoading(false);
           return;
         }
-        await signUp(email, password);
+        await signUp(email, password, acceptedMarketing);
       } else {
         await signInWithEmail(email, password);
       }
