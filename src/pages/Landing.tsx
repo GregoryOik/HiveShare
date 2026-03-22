@@ -502,6 +502,7 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
           
           <Link 
             to="/membership" 
+            state={{ from: '/', tier: 'starter' }}
             className="block text-center w-full border border-border-amber py-3 text-xs uppercase tracking-wider font-medium hover:bg-cream transition-colors rounded-[2px]"
           >
             Select Starter
@@ -530,6 +531,7 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
           
           <Link 
             to="/membership" 
+            state={{ from: '/', tier: 'premium' }}
             className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"
           >
             Select Premium

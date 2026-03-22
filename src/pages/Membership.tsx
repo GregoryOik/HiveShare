@@ -1,17 +1,42 @@
 import React, { useState } from 'react';
 import { X, Trash2, LogOut } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
 import { db } from '../lib/firebase';
 import { collection, addDoc, onSnapshot, doc } from 'firebase/firestore';
 import { Loader2 } from 'lucide-react';
 
+interface CartPlan {
+  id: 'starter' | 'premium' | 'corporate';
+  name: string;
+  price: number;
+  link?: string;
+}
+
 export default function Membership() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartPlan, setCartPlan] = useState<{id: string, name: string, price: number, link: string} | null>(null);
-  const [hasOliveOil, setHasOliveOil] = useState(false);
-  const [isRedirecting, setIsRedirecting] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation() as { state?: { tier?: string } };
   const { user, profile, logout } = useAuth();
+  
+  const [cartPlan, setCartPlan] = useState<CartPlan | null>(null);
+  const [hasOliveOil, setHasOliveOil] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  // Pre-select plan if passed from landing/login
+  React.useEffect(() => {
+    if (location.state?.tier && !cartPlan) {
+      const tierId = location.state.tier;
+      if (tierId === 'starter') {
+        setCartPlan({ id: 'starter', name: 'Starter Membership', price: 80 });
+      } else if (tierId === 'premium') {
+        setCartPlan({ id: 'premium', name: 'Premium Membership', price: 200 });
+      }
+      setIsCartOpen(true);
+      // Clear the state so it doesn't re-trigger
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state, cartPlan]);
 
   const cartItemsCount = (cartPlan ? 1 : 0) + (hasOliveOil ? 1 : 0);
   const cartTotal = (cartPlan?.price || 0) + (hasOliveOil ? 18 : 0);

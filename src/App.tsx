@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -18,6 +18,8 @@ import CookieConsent from './components/CookieConsent';
 function ProtectedRoute({ children, requireAdmin = false }: { children: React.ReactNode, requireAdmin?: boolean }) {
   const { user, profile, loading } = useAuth();
 
+  const location = useLocation();
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#1A1208] text-white flex items-center justify-center">
@@ -30,7 +32,7 @@ function ProtectedRoute({ children, requireAdmin = false }: { children: React.Re
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   if (requireAdmin && profile?.role !== 'admin') {

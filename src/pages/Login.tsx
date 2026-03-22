@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Navigate, Link } from 'react-router-dom';
+import { useNavigate, Navigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff } from 'lucide-react';
 import OnboardingStepper from '../components/OnboardingStepper';
@@ -18,7 +18,10 @@ export default function Login() {
   const [resetSent, setResetSent] = useState(false);
   
   const navigate = useNavigate();
+  const location = useLocation() as { state: { from?: { pathname: string }, tier?: string } };
   const { signInWithGoogle, signUp, signInWithEmail, resetPassword, user, profile, error: authError } = useAuth();
+  
+  const selectedTier = location.state?.tier;
 
   React.useEffect(() => {
     if (authError) {
@@ -28,10 +31,11 @@ export default function Login() {
   }, [authError]);
 
   if (user && profile) {
-    if (profile.role === 'admin') {
+    const from = location.state?.from?.pathname || '/dashboard';
+    if (profile.role === 'admin' && from === '/dashboard') {
       return <Navigate to="/admin" replace />;
     }
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to={from} replace />;
   }
 
   const handleGoogleLogin = async () => {
@@ -122,6 +126,15 @@ export default function Login() {
           <div className="text-[10px] uppercase tracking-[0.2em] text-white/40">
             {mode === 'login' ? 'Member Portal' : 'New Member Registration'}
           </div>
+
+          {selectedTier && mode === 'signup' && (
+            <div className="mt-8 p-4 bg-honey/10 border border-honey/20 rounded-[2px] text-left">
+              <p className="text-[9px] text-honey font-bold uppercase tracking-[0.2em] mb-1">Plan Selected</p>
+              <p className="text-sm text-white/90 leading-relaxed">
+                Ready to adopt your <span className="text-honey font-bold capitalize">{selectedTier}</span> hive? Create your account below to continue.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="bg-[#110C05] border border-honey/20 p-8 rounded-[2px] shadow-2xl">

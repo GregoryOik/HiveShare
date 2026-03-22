@@ -19,7 +19,8 @@ async function resetHives() {
     console.log(`Resetting hive ${document.id} to available...`);
     await updateDoc(doc(db, "hives", document.id), {
       status: "available",
-      assignedTo: null
+      assignedTo: null,
+      currentSubscribers: 0
     });
   }
   console.log("Done!");
