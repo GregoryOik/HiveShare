@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { CheckCircle, ArrowRight, Loader2, Package, AlertTriangle, RefreshCw } from 'lucide-react';
+import { CheckCircle, ArrowRight, Loader2, Package, AlertTriangle, RefreshCw, Star, ShieldCheck } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
@@ -13,6 +13,8 @@ export default function Success() {
   const [claimedId, setClaimedId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [hasAttempted, setHasAttempted] = useState(false);
+  const [giftSaved, setGiftSaved] = useState(false);
+  const [giftData, setGiftData] = useState({ recipientName: '', customMessage: '' });
 
   const fulfill = useCallback(async () => {
     if (!profile) return;
@@ -59,6 +61,22 @@ export default function Success() {
   }, [loading, profile, hasAttempted, fulfill]);
 
   const isAdditional = (profile?.subscribedHives?.length || 0) > 1;
+  const isGift = searchParams.get('is_gift') === 'true';
+
+  const handleSaveGift = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!profile) return;
+    try {
+      const { updateDoc, doc } = await import('firebase/firestore');
+      const { db } = await import('../lib/firebase');
+      await updateDoc(doc(db, 'users', profile.uid), {
+        giftDetails: giftData
+      });
+      setGiftSaved(true);
+    } catch (err) {
+      console.error('Failed to save gift details:', err);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-hive-bg text-[#2A1B0A] flex items-center justify-center p-6 text-center">
@@ -88,21 +106,69 @@ export default function Success() {
               ? "Assigning Your Hive..." 
               : error 
                 ? "Something Went Wrong"
-                : isAdditional 
-                  ? "New Hive Added!" 
-                  : "Welcome to the Hive!"}
+                : isGift
+                  ? "Your Gift is Ready!"
+                  : isAdditional 
+                    ? "New Hive Added!" 
+                    : "Welcome to the Hive!"}
           </h1>
           <p className="text-[#2A1B0A]/60 leading-relaxed font-light">
             {isFulfilling 
               ? "We are connecting your account to a specific apiary in Laconia, Greece..." 
               : error
                 ? error
-                : isAdditional
-                  ? `Hive #${claimedId} has been added to your collection! You now have ${profile?.subscribedHives?.length || 0} hives.`
-                  : `Your membership is now active! You've been assigned Hive #${claimedId}. Your Welcome Jar is being prepared.`
+                : isGift
+                  ? "You've successfully adopted a hive as a gift. Tell us who it's for, and we'll prepare their digital card."
+                  : isAdditional
+                    ? `Hive #${claimedId} has been added to your collection! You now have ${profile?.subscribedHives?.length || 0} hives.`
+                    : `Your membership is now active! You've been assigned Hive #${claimedId}. Your Welcome Jar is being prepared.`
             }
           </p>
         </div>
+
+        {isGift && !isFulfilling && !error && (
+          <div className="bg-hive-panel/50 border border-honey/20 p-8 rounded-[2px] text-left space-y-6 animate-in slide-in-from-bottom-4 duration-700">
+            <div className="flex items-center gap-3 text-honey">
+              <Star className="w-5 h-5" />
+              <span className="text-[10px] uppercase tracking-[0.3em] font-bold">Personalize the Gift</span>
+            </div>
+            {!giftSaved ? (
+              <form onSubmit={handleSaveGift} className="space-y-4">
+                <div className="space-y-2">
+                  <input 
+                    type="text" 
+                    placeholder="Recipient's Name" 
+                    required
+                    value={giftData.recipientName}
+                    onChange={(e) => setGiftData({ ...giftData, recipientName: e.target.value })}
+                    className="w-full bg-hive-bg border border-honey/20 px-4 py-3 text-sm rounded-[2px] focus:outline-none focus:border-honey transition-colors"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <textarea 
+                    placeholder="Message for the digital card (optional)" 
+                    rows={3}
+                    value={giftData.customMessage}
+                    onChange={(e) => setGiftData({ ...giftData, customMessage: e.target.value })}
+                    className="w-full bg-hive-bg border border-honey/20 px-4 py-3 text-sm rounded-[2px] focus:outline-none focus:border-honey transition-colors resize-none"
+                  />
+                </div>
+                <button 
+                  type="submit"
+                  className="w-full py-3 bg-honey text-[#2A1B0A] text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-[2px]"
+                >
+                  Save Gift Details
+                </button>
+              </form>
+            ) : (
+              <div className="py-4 text-center">
+                <CheckCircle className="w-8 h-8 text-green-500 mx-auto mb-3" />
+                <p className="text-sm text-[#2A1B0A] font-bold">Gift Details Saved!</p>
+                <p className="text-[10px] text-[#2A1B0A]/40 uppercase tracking-widest mt-1">We'll include this on their adoption certificate.</p>
+              </div>
+            )}
+          </div>
+        )}
 
         {error && (
           <button 

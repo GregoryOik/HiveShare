@@ -27,6 +27,7 @@ export default function Membership() {
   const [errorStatus, setErrorStatus] = useState<string | null>(null);
   const [debugLog, setDebugLog] = useState<string[]>([]);
   const [certName, setCertName] = useState('');
+  const [isGift, setIsGift] = useState(false);
 
   const addDebug = (msg: string) => setDebugLog(prev => [...prev.slice(-4), msg]);
 
@@ -66,12 +67,13 @@ export default function Membership() {
       const docRef = await addDoc(collection(db, 'customers', user.uid, 'checkout_sessions'), {
         line_items, // For newer versions
         prices: line_items, // For older versions (they use the same structure)
-        success_url: `${window.location.origin}/success?tier=${cartPlan.id}&session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${window.location.origin}/success?tier=${cartPlan.id}&is_gift=${isGift}&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: window.location.origin + '/membership',
         allow_promotion_codes: true,
         metadata: {
           tier: cartPlan.id,
-          hasOliveOil: hasOliveOil.toString()
+          hasOliveOil: hasOliveOil.toString(),
+          isGift: isGift.toString()
         }
       });
 
@@ -236,9 +238,11 @@ export default function Membership() {
               ))}
             </div>
 
-            {/* Optional Ad-ons */}
-            <div className="pt-8 border-t border-honey/10">
-              <div className="text-[10px] uppercase tracking-[0.3em] text-[#2A1B0A]/30 font-bold mb-6">Optional Add-ons</div>
+            {/* Optional Ad-ons & Gifting */}
+            <div className="pt-8 border-t border-honey/10 space-y-4">
+              <div className="text-[10px] uppercase tracking-[0.3em] text-[#2A1B0A]/30 font-bold mb-4">Enhance Your Membership</div>
+              
+              {/* Olive Oil Add-on */}
               <button 
                 onClick={() => setHasOliveOil(!hasOliveOil)}
                 className={`w-full flex items-center justify-between p-6 rounded-[2px] border transition-all duration-300 group ${
@@ -257,6 +261,27 @@ export default function Membership() {
                   </div>
                 </div>
                 <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/20 group-hover:text-[#2A1B0A]/40 transition-colors">Pure harvest from our groves</div>
+              </button>
+
+              {/* Gifting Toggle */}
+              <button 
+                onClick={() => setIsGift(!isGift)}
+                className={`w-full flex items-center justify-between p-6 rounded-[2px] border transition-all duration-300 group ${
+                  isGift ? 'bg-honey/5 border-honey/30' : 'bg-white/5 border-white/10 hover:border-honey/20'
+                }`}
+              >
+                <div className="flex items-center gap-4">
+                  <div className={`w-6 h-6 rounded flex items-center justify-center border transition-all ${
+                    isGift ? 'bg-honey border-honey text-[#2A1B0A]' : 'border-white/20 text-transparent'
+                  }`}>
+                    <Check size={14} />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm text-[#2A1B0A] font-medium">Purchase as a Gift</p>
+                    <p className="text-[10px] uppercase tracking-widest text-honey/60">Digital Adoption Card Included</p>
+                  </div>
+                </div>
+                <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/20 group-hover:text-[#2A1B0A]/40 transition-colors">Surprise a loved one with a hive</div>
               </button>
             </div>
 

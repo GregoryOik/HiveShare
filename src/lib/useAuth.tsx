@@ -36,6 +36,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   updateProfile: (newData: Partial<UserProfile>) => Promise<void>;
   cancelSubscription: () => Promise<void>;
+  manageBilling: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -216,8 +217,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const manageBilling = async () => {
+    if (!user) return;
+    try {
+      const { addDoc, collection, onSnapshot, doc } = await import('firebase/firestore');
+      const docRef = await addDoc(collection(db, 'customers', user.uid, 'portal_sessions'), {
+        return_url: window.location.origin + '/settings',
+      });
+
+      // Listen for the portal URL
+      const unsubscribe = onSnapshot(doc(db, 'customers', user.uid, 'portal_sessions', docRef.id), (snap) => {
+        const data = snap.data();
+        if (data?.url) {
+          unsubscribe();
+          window.location.assign(data.url);
+        }
+      });
+    } catch (error) {
+      console.error('Error creating portal session', error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, error, signInWithGoogle, signUp, signInWithEmail, resetPassword, logout, updateProfile, cancelSubscription }}>
+    <AuthContext.Provider value={{ user, profile, loading, error, signInWithGoogle, signUp, signInWithEmail, resetPassword, logout, updateProfile, cancelSubscription, manageBilling }}>
       {children}
     </AuthContext.Provider>
   );

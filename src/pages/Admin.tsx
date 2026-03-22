@@ -11,6 +11,8 @@ export default function Admin() {
   const { logout } = useAuth();
   const [selectedHiveId, setSelectedHiveId] = useState<string>('');
   const [selectedUserEmail, setSelectedUserEmail] = useState<string>('');
+  const [newJournalEntry, setNewJournalEntry] = useState('');
+  const [isPostingNote, setIsPostingNote] = useState(false);
 
   useEffect(() => {
     if (hives.length > 0 && !selectedHiveId) {
@@ -306,14 +308,50 @@ export default function Admin() {
 
                 <div className="sm:col-span-2 lg:col-span-3">
                   <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold flex items-center gap-2">
-                    <StickyNote className="w-3 h-3 text-honey" /> Admin Notes
+                    <StickyNote className="w-3 h-3 text-honey" /> Post Journal Entry (Visible to Sponsors)
                   </label>
+                  <div className="space-y-3">
+                    <textarea 
+                      value={newJournalEntry}
+                      onChange={(e) => setNewJournalEntry(e.target.value)}
+                      placeholder="e.g. The Spring Thyme bloom is peak this week! Bees are highly active and healthy."
+                      rows={3}
+                      className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-3 text-[#2A1B0A] focus:outline-none focus:border-honey transition-all text-sm resize-none"
+                    />
+                    <button 
+                      onClick={async () => {
+                        if (!newJournalEntry.trim()) return;
+                        setIsPostingNote(true);
+                        const entry = {
+                          id: Date.now().toString(),
+                          date: new Date().toISOString(),
+                          content: newJournalEntry,
+                          type: 'Note'
+                        };
+                        const updatedJournal = [entry, ...(data.journal || [])];
+                        await updateHive(data.id, { 
+                          journal: updatedJournal,
+                          lastAdminNote: newJournalEntry // Sync to last note for quick view
+                        });
+                        setNewJournalEntry('');
+                        setIsPostingNote(false);
+                      }}
+                      disabled={isPostingNote || !newJournalEntry.trim()}
+                      className="bg-honey text-[#2A1B0A] px-6 py-2 rounded-lg text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-all disabled:opacity-50"
+                    >
+                      {isPostingNote ? 'Posting...' : 'Post to Apiary Journal'}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="sm:col-span-2 lg:col-span-3 pt-6 border-t border-[#2A1B0A]/5">
+                  <label className="block text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-3 font-bold">Internal Admin Notes (Private)</label>
                   <textarea 
                     value={data.lastAdminNote || ''}
                     onChange={(e) => updateHive(data.id, { lastAdminNote: e.target.value })}
                     placeholder="Physical condition, medical treatments, specific apiary notes..."
-                    rows={3}
-                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all text-sm resize-none"
+                    rows={2}
+                    className="w-full bg-[#2A1B0A]/5 border border-[#2A1B0A]/10 rounded-lg px-4 py-2.5 text-[#2A1B0A] focus:outline-none focus:border-[#C8860A]/50 transition-all text-xs resize-none"
                   />
                 </div>
                 

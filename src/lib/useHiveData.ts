@@ -21,6 +21,7 @@ export interface HiveData {
   lastDiaryEntryTimestamp?: string;
   videoUrl?: string;
   lastAdminNote?: string;
+  journal?: { id: string; date: string; content: string; type: string }[];
 }
 
 const DEFAULT_HIVES: HiveData[] = [
@@ -47,7 +48,10 @@ const DEFAULT_HIVES: HiveData[] = [
     installationDate: '2025-04-12',
     status: 'available',
     videoUrl: '',
-    lastAdminNote: 'Initial setup'
+    lastAdminNote: 'Initial setup',
+    journal: [
+      { id: 'init', date: '2025-05-20T10:00:00Z', content: 'Hive established in Lagia. Queen is healthy and colony is building out frames.', type: 'Note' }
+    ]
   }
 ];
 
@@ -114,7 +118,8 @@ export function useHiveData() {
         { day: 'Fri', weight: 19.9 },
         { day: 'Sat', weight: 20.0 },
         { day: 'Sun', weight: 20.0 },
-      ]
+      ],
+      journal: []
     };
     
     try {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight, Award, Crown, Star, Lock, Plus, Image as ImageIcon } from 'lucide-react';
+import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight, Award, Crown, Star, Lock, Plus, Image as ImageIcon, StickyNote } from 'lucide-react';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
 import OnboardingStepper from '../components/OnboardingStepper';

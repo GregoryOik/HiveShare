@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
 
 export default function Settings() {
-  const { user, profile, updateProfile, cancelSubscription } = useAuth();
+  const { user, profile, updateProfile, cancelSubscription, manageBilling } = useAuth();
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
+  const [isRedirectingPortal, setIsRedirectingPortal] = useState(false);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [cancelSuccess, setCancelSuccess] = useState(false);
   
@@ -271,57 +272,82 @@ export default function Settings() {
               );
             })()}
 
-            {/* Cancel Subscription */}
-            {hasSubscription && profile?.role !== 'admin' && (
-              <div className="pt-4 border-t border-honey/10">
-                {!showCancelConfirm ? (
-                  <button 
-                    onClick={() => setShowCancelConfirm(true)}
-                    className="text-xs text-red-400/60 hover:text-red-400 transition-colors uppercase tracking-widest"
-                  >
-                    Cancel Subscription
-                  </button>
-                ) : (
-                  <div className="bg-red-500/5 border border-red-500/20 p-4 rounded-[2px] space-y-3">
-                    <div className="flex items-start gap-2">
-                      <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
-                      <div>
-                        <p className="text-sm text-red-400 font-medium">Are you sure?</p>
-                        <p className="text-xs text-[#2A1B0A]/40 mt-1">
-                          {(() => {
-                            const startDate = profile?.subscriptionStartDate ? new Date(profile.subscriptionStartDate) : null;
-                            const daysSince = startDate ? Math.floor((new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) : null;
-                            const inCooling = daysSince !== null && daysSince <= 14;
-                            
-                            if (inCooling) {
-                              return 'Under EU law, you may cancel within 14 days. If your Welcome Jar has already shipped, the cost of honey & shipping (approx. €25) may be deducted from your refund.';
-                            }
-                            return 'Your hive access will be revoked and you will lose your apiary journal data. As the 14-day cooling-off period has passed, refunds are no longer available under EU law.';
-                          })()}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <button 
-                        onClick={handleCancelSubscription}
-                        disabled={isCancelling}
-                        className="inline-flex items-center gap-2 bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-2 text-xs uppercase tracking-widest rounded-[2px] hover:bg-red-500/30 transition-colors disabled:opacity-50"
-                      >
-                        {isCancelling ? <Loader2 className="w-3 h-3 animate-spin" /> : <XCircle className="w-3 h-3" />}
-                        Yes, Cancel
-                      </button>
-                      <button 
-                        onClick={() => setShowCancelConfirm(false)}
-                        className="text-xs text-[#2A1B0A]/50 hover:text-[#2A1B0A] transition-colors uppercase tracking-widest px-4 py-2"
-                      >
-                        Keep Subscription
-                      </button>
+            {/* Action Buttons: Billing & Cancellation */}
+            <div className="pt-4 border-t border-honey/10 flex flex-wrap gap-4">
+              {hasSubscription && (
+                <button
+                  onClick={async () => {
+                    setIsRedirectingPortal(true);
+                    try {
+                      await manageBilling();
+                    } catch (err) {
+                      console.error(err);
+                      setIsRedirectingPortal(false);
+                    }
+                  }}
+                  disabled={isRedirectingPortal}
+                  className="inline-flex items-center gap-2 bg-honey/10 text-honey border border-honey/20 px-6 py-2.5 text-[10px] uppercase tracking-widest font-bold hover:bg-honey hover:text-[#2A1B0A] transition-all rounded-[2px] disabled:opacity-50"
+                >
+                  {isRedirectingPortal ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ShieldCheck className="w-3.5 h-3.5" />}
+                  {isRedirectingPortal ? 'Connecting...' : 'Manage Billing & Invoices'}
+                </button>
+              )}
+
+              {hasSubscription && profile?.role !== 'admin' && !showCancelConfirm && (
+                <button 
+                  onClick={() => setShowCancelConfirm(true)}
+                  className="text-xs text-red-400/60 hover:text-red-400 transition-colors uppercase tracking-widest px-4 py-2.5"
+                >
+                  Cancel Subscription
+                </button>
+              )}
+            </div>
+
+            {/* Cancellation Confirmation */}
+            {hasSubscription && profile?.role !== 'admin' && showCancelConfirm && (
+              <div className="pt-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="bg-red-500/5 border border-red-500/20 p-4 rounded-[2px] space-y-3">
+                  <div className="flex items-start gap-2">
+                    <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
+                    <div>
+                      <p className="text-sm text-red-400 font-medium">Are you sure?</p>
+                      <p className="text-xs text-[#2A1B0A]/40 mt-1">
+                        {(() => {
+                          const startDate = profile?.subscriptionStartDate ? new Date(profile.subscriptionStartDate) : null;
+                          const daysSince = startDate ? Math.floor((new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) : null;
+                          const inCooling = daysSince !== null && daysSince <= 14;
+                          
+                          if (inCooling) {
+                            return 'Under EU law, you may cancel within 14 days. If your Welcome Jar has already shipped, the cost of honey & shipping (approx. €25) will be deducted from your refund.';
+                          }
+                          return 'Your hive access will be revoked and you will lose your apiary journal data. As the 14-day cooling-off period has passed, refunds are no longer available under EU law.';
+                        })()}
+                      </p>
                     </div>
                   </div>
-                )}
-                {cancelSuccess && (
-                  <p className="text-xs text-green-500 mt-3 uppercase tracking-widest">Subscription cancelled successfully.</p>
-                )}
+                  <div className="flex gap-3">
+                    <button 
+                      onClick={handleCancelSubscription}
+                      disabled={isCancelling}
+                      className="inline-flex items-center gap-2 bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-2 text-xs uppercase tracking-widest rounded-[2px] hover:bg-red-500/30 transition-colors disabled:opacity-50"
+                    >
+                      {isCancelling ? <Loader2 className="w-3 h-3 animate-spin" /> : <XCircle className="w-3 h-3" />}
+                      Yes, Cancel
+                    </button>
+                    <button 
+                      onClick={() => setShowCancelConfirm(false)}
+                      className="text-xs text-[#2A1B0A]/50 hover:text-[#2A1B0A] transition-colors uppercase tracking-widest px-4 py-2"
+                    >
+                      Keep Subscription
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {cancelSuccess && (
+              <div className="pt-4">
+                <p className="text-xs text-green-500 uppercase tracking-widest">Subscription cancelled successfully.</p>
               </div>
             )}
           </div>
