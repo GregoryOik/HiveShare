@@ -8,7 +8,7 @@ import BeeCursor from '../components/BeeCursor';
 const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -30,6 +30,11 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
             <a href="#pricing" className="hover:text-honey transition-colors duration-200">Pricing</a>
           </div>
           <div className="hidden md:flex items-center space-x-6">
+            {profile?.role === 'admin' && (
+              <Link to="/admin" className="text-[10px] uppercase tracking-[0.2em] font-black text-honey hover:text-[#2A1B0A] hover:bg-honey px-3 py-1.5 rounded-full border border-honey/30 transition-all">
+                Admin Station
+              </Link>
+            )}
             {user ? (
               <Link to="/dashboard" className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#2A1B0A]/80 hover:text-honey transition-colors duration-200">
                 Apiary Journal
@@ -74,6 +79,9 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
           <a href="#features" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Features</a>
           <a href="#origins" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Origins</a>
           <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Pricing</a>
+          {profile?.role === 'admin' && (
+            <Link to="/admin" onClick={() => setMobileMenuOpen(false)} className="text-honey font-black animate-pulse">ADMIN STATION</Link>
+          )}
           {user ? (
             <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Apiary Journal</Link>
           ) : (

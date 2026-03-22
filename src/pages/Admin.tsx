@@ -47,11 +47,32 @@ export default function Admin() {
   const [isPostingNote, setIsPostingNote] = useState(false);
   const [newJournalEntry, setNewJournalEntry] = useState('');
 
+  const [isAddingHive, setIsAddingHive] = useState(false);
+
+  // Selection logic for new hives
   useEffect(() => {
     if (hives.length > 0 && !selectedHiveId) {
       setSelectedHiveId(hives[0].id);
     }
   }, [hives, selectedHiveId]);
+
+  const handleAddHive = async () => {
+    setIsAddingHive(true);
+    try {
+      const newId = await addHive();
+      if (newId) {
+        setSelectedHiveId(newId);
+        alert(`New unit #${newId} initialized successfully.`);
+      } else {
+        alert('Initialization failed. You may not have administrative permissions, or the system is offline.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('A critical error occurred while attempting to commission a new unit.');
+    } finally {
+      setIsAddingHive(false);
+    }
+  };
 
   if (hivesLoading || usersLoading) return (
     <div className="min-h-screen bg-[#0A0704] flex items-center justify-center">
@@ -109,6 +130,12 @@ export default function Admin() {
         </div>
 
         <div className="flex items-center gap-6">
+          <Link 
+            to="/dashboard" 
+            className="hidden md:flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] uppercase tracking-widest font-black text-honey hover:bg-white/10 transition-all"
+          >
+            Project Journal
+          </Link>
           <div className="flex flex-col items-end mr-4">
             <span className="text-[9px] uppercase tracking-[0.2em] text-honey font-black">Master Operator</span>
             <span className="text-[10px] text-white/40">{authUser?.email}</span>
@@ -181,10 +208,12 @@ export default function Admin() {
 
             {activeTab === 'hives' && (
               <button 
-                onClick={addHive}
-                className="mt-6 w-full py-4 bg-honey text-[#0A0704] text-[10px] uppercase font-black tracking-[0.2em] rounded-lg hover:bg-white transition-all flex items-center justify-center gap-2 group"
+                onClick={handleAddHive}
+                disabled={isAddingHive}
+                className="mt-6 w-full py-4 bg-honey text-[#0A0704] text-[10px] uppercase font-black tracking-[0.2em] rounded-lg hover:bg-white disabled:bg-honey/50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 group"
               >
-                <Plus size={14} className="group-hover:rotate-90 transition-transform" /> Initialize New Hive
+                <Plus size={14} className={`transition-transform ${isAddingHive ? 'animate-spin' : 'group-hover:rotate-90'}`} /> 
+                {isAddingHive ? 'Commissioning Unit...' : 'Initialize New Hive'}
               </button>
             )}
           </div>
@@ -192,6 +221,24 @@ export default function Admin() {
 
         {/* Content Area */}
         <div className="flex-1 space-y-8">
+          {activeTab === 'hives' && !selectedHive && (
+            <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
+              <ShieldAlert className="w-16 h-16 text-honey/20" />
+              <div className="space-y-1">
+                <h2 className="text-xl font-display text-white">No Hives Commissioned</h2>
+                <p className="text-sm text-honey/40">The fleet is currently offline. Initialize your first unit.</p>
+              </div>
+              <button 
+                onClick={handleAddHive}
+                disabled={isAddingHive}
+                className="mt-6 px-12 py-4 bg-honey text-[#0A0704] text-[10px] uppercase font-black tracking-[0.2em] rounded-lg hover:bg-white disabled:bg-honey/50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 group"
+              >
+                <Plus size={14} className={`transition-transform ${isAddingHive ? 'animate-spin' : 'group-hover:rotate-90'}`} /> 
+                {isAddingHive ? 'COMMISSIONING...' : 'Initialize Unit #001'}
+              </button>
+            </div>
+          )}
+
           {activeTab === 'hives' && selectedHive && (
             <div className="space-y-8 animate-in fade-in duration-500">
               {/* Stat Grid */}

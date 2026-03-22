@@ -61,7 +61,7 @@ export function useHiveData() {
   const { user, profile } = useAuth();
 
   useEffect(() => {
-    if (!user || !profile) {
+    if (!user || !profile || !db) {
       setHives([]);
       setLoading(false);
       return;
@@ -102,7 +102,11 @@ export function useHiveData() {
   };
 
   const addHive = async () => {
-    if (profile?.role !== 'admin') return '';
+    console.log('[useHiveData] addHive called, profile role:', profile?.role);
+    if (profile?.role !== 'admin') {
+      console.warn('[useHiveData] addHive blocked: not admin');
+      return '';
+    }
     
     const newId = Math.floor(Math.random() * 900 + 100).toString();
     const newHive: HiveData = {
@@ -110,6 +114,8 @@ export function useHiveData() {
       id: newId,
       location: 'New Location',
       weight: 20.0,
+      status: 'available',
+      currentSubscribers: 0,
       history: [
         { day: 'Mon', weight: 19.5 },
         { day: 'Tue', weight: 19.6 },
@@ -123,10 +129,12 @@ export function useHiveData() {
     };
     
     try {
+      console.log('[useHiveData] Attempting setDoc for hive:', newId);
       await setDoc(doc(db, 'hives', newId), newHive);
+      console.log('[useHiveData] setDoc success');
       return newId;
     } catch (error) {
-      console.error('Error adding hive:', error);
+      console.error('[useHiveData] Error adding hive:', error);
       return '';
     }
   };
