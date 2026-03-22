@@ -364,97 +364,122 @@ const DashboardPreview = () => {
 const harvests = [
   { 
     color: '#E8A030', 
-    name: 'Welcome Jar', 
-    season: 'Immediate Delivery', 
-    location: 'Within 2 weeks', 
-    character: 'Our latest available harvest',
-    yield: '250g',
-    desc: 'A taste of the apiary to welcome you to the hive.' 
+    name: 'Wildflower & Vanilla', 
+    season: 'Spring Harvest', 
+    location: 'Sparta, Laconia', 
+    character: 'Light, floral, sweet',
+    yield: '800g',
+    desc: 'Feb–Mar · Kato Asteri apiary. Notes of citrus and vanilla orchid.' 
   },
   { 
     color: '#F5C842', 
-    name: 'Spring Bloom', 
-    season: 'Spring Harvest', 
-    location: 'April–May', 
-    character: 'Light amber, aromatic',
+    name: 'Thyme & Sage', 
+    season: 'Early Summer', 
+    location: 'Lagia, Mani', 
+    character: 'Aromatic, intense',
     yield: '800g',
-    desc: 'Thyme, vanilla orchid, sage' 
+    desc: 'Jun–Jul · The rugged coast of Mani. Pure Thyme and mountain Sage.' 
+  },
+  { 
+    color: '#D4AF37', 
+    name: 'Fir Vanilla', 
+    season: 'Late Summer', 
+    location: 'Karyes, Arcadia', 
+    character: 'Creamy, pearlescent',
+    yield: '1.2kg',
+    desc: 'Jul–Aug · Mt. Parnon forests. Rare "Vanilla" fir honey, low sweetness.' 
   },
   { 
     color: '#5C3D1A', 
-    name: 'Pine & Earth', 
+    name: 'Mountain Pine', 
     season: 'Autumn Harvest', 
-    location: 'September–October', 
-    character: 'Dark, mineral, rich',
-    yield: '800g',
-    desc: 'Pine, chestnut' 
+    location: 'Evia Island', 
+    character: 'Dark, mineral-rich',
+    yield: '1.2kg',
+    desc: 'Aug–Oct · Northern Evia. Rich in minerals, deep amber color.' 
   }
 ];
 
 const OriginsMap = ({ activeIndex }: { activeIndex: number | null }) => {
-  // Coordinates (relative to 100x100 SVG viewbox)
-  const Mani = { x: 55, y: 85 };
-  const Taygetos = { x: 50, y: 65 };
-  const Arcadia = { x: 52, y: 40 };
+  // Coordinates based on user request (0-500 scale)
+  const Sparta = { x: 200, y: 420 };
+  const Lagia = { x: 210, y: 480 };
+  const Karyes = { x: 170, y: 370 };
+  const Evia = { x: 380, y: 200 };
+
+  const dots = [Sparta, Lagia, Karyes, Evia];
 
   return (
-    <div className="w-full aspect-square border border-honey/20 bg-hive-panel relative flex items-center justify-center overflow-hidden group rounded-[2px]">
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-         <svg viewBox="0 0 100 100" className="w-full h-full fill-none stroke-honey/20 stroke-[0.5]">
-            {/* Minimal Peloponnese Outline (Stylized) */}
-            <path d="M40,20 Q60,10 80,30 T70,70 Q60,95 45,85 T20,60 Q10,40 40,20" />
+    <div className="w-full aspect-[4/3] border border-honey/20 bg-hive-dark relative flex items-center justify-center overflow-hidden group rounded-[2px] shadow-2xl">
+      {/* Stylized Map Outline Overlay (Greece) */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+         <svg viewBox="0 0 500 500" className="w-full h-full fill-none stroke-honey/20 stroke-[0.8]">
+            {/* Peloponnese stylized outline */}
+            <path d="M120,320 Q140,300 180,310 T240,350 Q260,400 240,480 T160,490 T120,420 Z" />
+            {/* Attica/Evia section */}
+            <path d="M250,320 Q280,300 320,310 T380,250 Q400,180 370,150 T320,180 T280,240" />
+            {/* Evia Island specifically */}
+            <path d="M350,220 Q380,180 410,210 T390,260 Q360,280 340,250 Z" className="stroke-honey/40" />
          </svg>
       </div>
 
-      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
-        {/* Animated Routes */}
+      <svg viewBox="0 0 500 500" className="absolute inset-0 w-full h-full">
         <defs>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+          <filter id="honey-glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
             <feMerge>
               <feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
         </defs>
 
-        {/* Route to Spring Bloom (Taygetos) */}
-        <path 
-          d={`M${Mani.x},${Mani.y} Q${Mani.x - 5},${(Mani.y + Taygetos.y)/2} ${Taygetos.x},${Taygetos.y}`}
-          className={`stroke-honey transition-all duration-1000 fill-none ${activeIndex === 1 ? 'stroke-[0.8] opacity-100' : 'stroke-[0.2] opacity-20'}`}
-          strokeDasharray={activeIndex === 1 ? "0" : "2,2"}
-          filter={activeIndex === 1 ? "url(#glow)" : ""}
-        />
+        {/* Routes */}
+        <g className="opacity-40">
+          {/* Sparta -> Lagia */}
+          <path d={`M${Sparta.x},${Sparta.y} L${Lagia.x},${Lagia.y}`} className={`stroke-honey transition-all duration-700 fill-none ${activeIndex === 1 ? 'stroke-2 opacity-100' : 'stroke-[0.5] opacity-30'} ${activeIndex === 1 ? 'stroke-dash-animate' : ''}`} />
+          {/* Lagia -> Karyes */}
+          <path d={`M${Lagia.x},${Lagia.y} L${Karyes.x},${Karyes.y}`} className={`stroke-honey transition-all duration-700 fill-none ${activeIndex === 2 ? 'stroke-2 opacity-100' : 'stroke-[0.5] opacity-30'} ${activeIndex === 2 ? 'stroke-dash-animate' : ''}`} />
+          {/* Karyes -> Evia */}
+          <path d={`M${Karyes.x},${Karyes.y} Q280,280 ${Evia.x},${Evia.y}`} className={`stroke-honey transition-all duration-700 fill-none ${activeIndex === 3 ? 'stroke-2 opacity-100' : 'stroke-[0.5] opacity-30'} ${activeIndex === 3 ? 'stroke-dash-animate' : ''}`} />
+          {/* Evia -> Sparta */}
+          <path d={`M${Evia.x},${Evia.y} Q300,450 ${Sparta.x},${Sparta.y}`} className={`stroke-honey transition-all duration-700 fill-none ${activeIndex === 0 ? 'stroke-2 opacity-100' : 'stroke-[0.5] opacity-30'} ${activeIndex === 0 ? 'stroke-dash-animate' : ''}`} />
+        </g>
 
-        {/* Route to Pine & Earth (Arcadia) */}
-        <path 
-          d={`M${Mani.x},${Mani.y} Q${Mani.x + 10},${(Mani.y + Arcadia.y)/2} ${Arcadia.x},${Arcadia.y}`}
-          className={`stroke-honey transition-all duration-1000 fill-none ${activeIndex === 2 ? 'stroke-[0.8] opacity-100' : 'stroke-[0.2] opacity-20'}`}
-          strokeDasharray={activeIndex === 2 ? "0" : "2,2"}
-          filter={activeIndex === 2 ? "url(#glow)" : ""}
-        />
+        {/* Connection to Sparta (Initial state) */}
+        {!activeIndex && activeIndex !== 0 && (
+           <path d={`M${Sparta.x},${Sparta.y} L${Lagia.x},${Lagia.y}`} className="stroke-honey/20 stroke-[0.5] fill-none stroke-dasharray-[4,4]" />
+        )}
 
         {/* Locations */}
-        <g>
-          {/* Mani */}
-          <circle cx={Mani.x} cy={Mani.y} r="1.5" fill="#C8860A" className="animate-pulse" />
-          <text x={Mani.x + 3} y={Mani.y + 1} className="fill-white/40 text-[3px] font-display uppercase tracking-widest">Base: Mani</text>
-          
-          {/* Taygetos */}
-          <circle cx={Taygetos.x} cy={Taygetos.y} r="1" fill={activeIndex === 1 ? "#C8860A" : "#333"} className="transition-colors duration-500" />
-          <text x={Taygetos.x - 15} y={Taygetos.y - 2} className={`text-[3px] font-display uppercase tracking-widest transition-colors ${activeIndex === 1 ? 'fill-honey' : 'fill-white/20'}`}>Spring: Taygetos</text>
-          
-          {/* Arcadia */}
-          <circle cx={Arcadia.x} cy={Arcadia.y} r="1" fill={activeIndex === 2 ? "#C8860A" : "#333"} className="transition-colors duration-500" />
-          <text x={Arcadia.x + 3} y={Arcadia.y + 1} className={`text-[3px] font-display uppercase tracking-widest transition-colors ${activeIndex === 2 ? 'fill-honey' : 'fill-white/20'}`}>Autumn: Arcadia</text>
-        </g>
+        {dots.map((dot, i) => (
+          <g key={i}>
+            <circle 
+              cx={dot.x} 
+              cy={dot.y} 
+              r={activeIndex === i ? "6" : "3"} 
+              fill="#C8860A" 
+              className={`transition-all duration-500 cursor-pointer ${activeIndex === i ? 'animate-pulse' : 'opacity-60'}`}
+              filter={activeIndex === i ? "url(#honey-glow)" : ""}
+            />
+            {/* Subtle glow ring */}
+            {activeIndex === i && (
+              <circle 
+                cx={dot.x} 
+                cy={dot.y} 
+                r="12" 
+                className="stroke-honey/40 stroke-1 fill-none animate-ping"
+              />
+            )}
+          </g>
+        ))}
       </svg>
       
-      <div className="z-10 text-center bg-hive-panel/80 backdrop-blur-sm p-6 border border-honey/20 rounded-[2px] pointer-events-none">
-        <div className="text-[10px] uppercase tracking-widest text-honey mb-1 font-bold">
-          {activeIndex === 0 ? "Initial Assignment" : activeIndex === 1 ? "Spring Migration" : activeIndex === 2 ? "Autumn Migration" : "Nomadic Roots"}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-center bg-black/60 backdrop-blur-md p-4 border border-honey/30 rounded-[2px] pointer-events-none min-w-[200px] shadow-2xl">
+        <div className="text-[9px] uppercase tracking-[0.3em] text-honey font-bold mb-1">
+          {activeIndex === null ? "Nomadic Journey" : "Seasonal Presence"}
         </div>
-        <div className="font-display text-lg text-[#2A1B0A]">
-          {activeIndex === null ? "Laconia, Greece" : harvests[activeIndex].location}
+        <div className="font-display text-lg text-pale-honey italic">
+          {activeIndex === null ? "Laconia & Central Greece" : harvests[activeIndex].location}
         </div>
       </div>
     </div>

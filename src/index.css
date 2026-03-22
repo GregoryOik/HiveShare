@@ -29,6 +29,20 @@ h1, h2, h3, h4, h5, h6, .font-display {
   font-family: var(--font-display);
 }
 
+@keyframes stroke-dash-animate {
+  from {
+    stroke-dashoffset: 20;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.stroke-dash-animate {
+  stroke-dasharray: 4 4;
+  animation: stroke-dash-animate 1s linear infinite;
+}
+
 /* Blinking dot */
 @keyframes blink {
   0%, 100% { opacity: 1; }
