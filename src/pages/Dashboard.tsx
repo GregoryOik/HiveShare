@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight, Award, Crown, Star, Lock, Plus } from 'lucide-react';
+import { Check, Clock, Package, ChevronDown, LogOut, Share2, Settings as SettingsIcon, AlertTriangle, ArrowRight, Award, Crown, Star, Lock, Plus, Image as ImageIcon } from 'lucide-react';
 import { useHiveData } from '../lib/useHiveData';
 import { useAuth } from '../lib/useAuth';
 import OnboardingStepper from '../components/OnboardingStepper';
@@ -12,6 +12,8 @@ export default function Dashboard() {
   const { user, profile, logout } = useAuth();
   const [selectedHiveId, setSelectedHiveId] = useState<string>('');
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [isAutoAssigning, setIsAutoAssigning] = useState(false);
+  const { claimRandomHive } = useHiveData();
 
   const downloadCertificate = (hiveId: string) => {
     setIsGeneratingPDF(true);
@@ -82,6 +84,25 @@ export default function Dashboard() {
     }
   }, [hives, selectedHiveId]);
 
+  // Auto-assignment failsafe: If user has a tier but no hives, assign one automatically
+  useEffect(() => {
+    const attemptAutoAssign = async () => {
+      if (!loading && profile?.tier && (!profile.subscribedHives || profile.subscribedHives.length === 0) && !isAutoAssigning) {
+        setIsAutoAssigning(true);
+        try {
+          console.log('[Dashboard] Auto-assigning hive for tier:', profile.tier);
+          await claimRandomHive(profile.tier);
+          // The useHiveData hook will pick up the change through onSnapshot
+        } catch (err) {
+          console.error('[Dashboard] Auto-assignment failed:', err);
+        } finally {
+          setIsAutoAssigning(false);
+        }
+      }
+    };
+    attemptAutoAssign();
+  }, [loading, profile, claimRandomHive, isAutoAssigning]);
+
   if (loading) return <div className="min-h-screen bg-hive-bg text-[#2A1B0A] p-12 flex items-center justify-center font-display text-xl tracking-widest animate-pulse">Connecting to your hive in Laconia...</div>;
   
   const data = hives.find(h => h.id === selectedHiveId) || hives[0];
@@ -116,16 +137,23 @@ export default function Dashboard() {
             </div>
             
             <div className="space-y-4">
-              <h1 className="font-display text-3xl md:text-4xl text-[#2A1B0A]">Your Hive is Being Set Up</h1>
+              <h1 className="font-display text-3xl md:text-4xl text-[#2A1B0A]">
+                {isAutoAssigning ? "Finalizing Your Hive Selection..." : "Your Hive is Being Set Up"}
+              </h1>
               <p className="text-sm text-[#2A1B0A]/60 leading-relaxed max-w-md mx-auto">
-                We're connecting your account to your assigned hive. This usually takes a few moments. Try refreshing the page.
+                {isAutoAssigning 
+                  ? "We're connecting your account to a specific apiary in Laconia, Greece. This only happens once."
+                  : "We're connecting your account to your assigned hive. This usually takes a few moments. Try refreshing the page."
+                }
               </p>
-              <button 
-                onClick={() => window.location.reload()} 
-                className="mt-4 px-8 py-3 bg-honey text-[#2A1B0A] text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-sm"
-              >
-                Refresh
-              </button>
+              {!isAutoAssigning && (
+                <button 
+                  onClick={() => window.location.reload()} 
+                  className="mt-4 px-8 py-3 bg-honey text-[#2A1B0A] text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-sm"
+                >
+                  Refresh
+                </button>
+              )}
             </div>
           </div>
         </main>
@@ -274,11 +302,11 @@ export default function Dashboard() {
             {/* Analysis Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Chart */}
-              <div className="p-8 border border-honey/10 bg-hive-panel/40 rounded-[2px] backdrop-blur-md">
+              <div className="p-8 border border-honey/10 bg-hive-panel/40 rounded-[2px] backdrop-blur-md flex flex-col">
                 <div className="flex justify-between items-center mb-10">
                   <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold">7-Day Growth Curve</div>
                 </div>
-                <div className="h-64">
+                <div className="h-64 mt-auto">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data.history}>
                       <Bar dataKey="weight" radius={[2, 2, 0, 0]}>
@@ -294,6 +322,29 @@ export default function Dashboard() {
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
+              </div>
+
+              {/* Hive Photo Gallery */}
+              <div className="p-8 border border-honey/10 bg-hive-panel/40 rounded-[2px] backdrop-blur-md group">
+                <div className="flex justify-between items-center mb-10">
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold">Live Apiary View</div>
+                  <div className="text-[8px] uppercase tracking-widest text-[#2A1B0A]/40 font-bold">Last Updated: Today</div>
+                </div>
+                <div className="relative aspect-video rounded-sm overflow-hidden border border-honey/10 shadow-lg">
+                  <img 
+                    src={data.photoUrl || '/beekeeper.jpg'} 
+                    alt="Latest hive photo" 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 flex items-center gap-2">
+                    <ImageIcon className="w-3 h-3 text-honey" />
+                    <span className="text-[10px] text-white/90 uppercase tracking-widest font-medium">Hive #{data.id} Observation</span>
+                  </div>
+                </div>
+                <p className="mt-4 text-[10px] text-[#2A1B0A]/50 italic leading-relaxed">
+                  Real-time photo from the Laconia apiary. Our team updates these views weekly to show colony health and floral surroundings.
+                </p>
               </div>
 
               {/* Harvest Timeline */}

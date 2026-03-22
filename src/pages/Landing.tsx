@@ -402,10 +402,10 @@ const harvests = [
 
 const OriginsMap = ({ activeIndex }: { activeIndex: number | null }) => {
   // Coordinates refined for the visual layout (0-500 scale)
-  const Sparta = { x: 232, y: 435 };
-  const Lagia = { x: 232, y: 485 };
-  const Karyes = { x: 175, y: 375 };
-  const Evia = { x: 380, y: 210 };
+  const Sparta = { x: 175, y: 360 };
+  const Lagia = { x: 185, y: 405 };
+  const Karyes = { x: 140, y: 295 };
+  const Evia = { x: 360, y: 140 };
 
   const dots = [Sparta, Lagia, Karyes, Evia];
 
@@ -428,12 +428,19 @@ const OriginsMap = ({ activeIndex }: { activeIndex: number | null }) => {
             <stop offset="0%" stopColor="#C8860A" stopOpacity="0.8" />
             <stop offset="100%" stopColor="#C8860A" stopOpacity="0" />
           </radialGradient>
+          <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#C8860A" />
+            <stop offset="100%" stopColor="#E8A030" />
+          </linearGradient>
         </defs>
 
         {/* Unified Curved Route */}
         <path 
-          d={`M${Sparta.x},${Sparta.y} Q200,430 ${Lagia.x},${Lagia.y} T${Karyes.x},${Karyes.y} Q250,230 ${Evia.x},${Evia.y} Q380,450 ${Sparta.x},${Sparta.y}`}
-          className="stroke-honey/40 stroke-[1] fill-none stroke-dasharray-[4,6] stroke-dashoffset-animate"
+          d={`M ${Sparta.x} ${Sparta.y} Q 180 380 ${Lagia.x} ${Lagia.y} Q 150 350 ${Karyes.x} ${Karyes.y} Q 250 220 ${Evia.x} ${Evia.y} Q 280 250 ${Sparta.x} ${Sparta.y}`}
+          fill="none" 
+          stroke="url(#routeGradient)" 
+          strokeWidth="1.5"
+          className="stroke-dash-animate opacity-60"
         />
 
         {/* Dots with Glow */}

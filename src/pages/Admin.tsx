@@ -115,17 +115,24 @@ export default function Admin() {
                       <button 
                         onClick={async (e) => {
                           e.stopPropagation();
+                          if (!confirm(`Are you sure you want to completely reset Hive #${hive.id}? This will remove all assigned members.`)) return;
+                          
                           // 1. Update hive data
                           await updateHive(hive.id, { 
                             status: 'available', 
-                            currentSubscribers: 0 
+                            currentSubscribers: 0,
+                            lastDiaryEntryTimestamp: new Date().toISOString(),
+                            lastAdminNote: 'Hive reset to available'
                           });
+                          
                           // 2. Clear from all users
                           const members = users.filter(u => u.subscribedHives?.includes(hive.id));
                           for (const member of members) {
-                            await removeHiveFromUser(member.uid, hive.id);
+                            const newSubscribed = (member.subscribedHives || []).filter(id => id !== hive.id);
+                            await updateUser(member.uid, { subscribedHives: newSubscribed });
                           }
-                          alert(`Hive #${hive.id} has been reset and all user associations cleared.`);
+                          
+                          alert(`Hive #${hive.id} has been reset. ${members.length} member associations removed.`);
                         }}
                         className="mt-1 w-full text-[9px] uppercase tracking-widest text-center py-1 border border-green-500/30 text-green-400 hover:bg-green-500/20 transition-colors rounded-[2px]"
                       >
