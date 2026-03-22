@@ -12,6 +12,7 @@ const Terms = lazy(() => import('./pages/Terms'));
 const Privacy = lazy(() => import('./pages/Privacy'));
 const Success = lazy(() => import('./pages/Success'));
 const Cancel = lazy(() => import('./pages/Cancel'));
+const Harvest = lazy(() => import('./pages/Harvest'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 import { AuthProvider, useAuth } from './lib/useAuth';
@@ -81,6 +82,7 @@ export default function App() {
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/success" element={<ProtectedRoute><Success /></ProtectedRoute>} />
               <Route path="/cancel" element={<ProtectedRoute><Cancel /></ProtectedRoute>} />
+              <Route path="/harvest" element={<ProtectedRoute><Harvest /></ProtectedRoute>} />
               <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>

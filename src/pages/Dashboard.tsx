@@ -47,7 +47,7 @@ export default function Dashboard() {
   // Initial hive selection
   useEffect(() => {
     if (hives.length > 0 && !selectedHiveId) {
-      const activeId = profile?.currentHiveId || hives[0].id;
+      const activeId = profile?.subscribedHives?.[0] || hives[0].id;
       setSelectedHiveId(activeId);
     }
   }, [hives, selectedHiveId, profile]);
@@ -72,7 +72,7 @@ export default function Dashboard() {
   const downloadCertificate = (hiveId: string) => {
     setIsGeneratingPDF(true);
     const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-    const userName = profile?.displayName || user?.email || 'Valued Member';
+    const userName = profile?.customLabel || user?.email || 'Valued Member';
     const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
     doc.setFillColor(26, 18, 8); // #1A1208
@@ -140,9 +140,17 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link to="/" className="font-display text-2xl tracking-wide text-[#2A1B0A]">Hive<span className="text-honey">Share</span></Link>
           <div className="flex items-center gap-6">
+            {profile?.role === 'admin' && (
+              <Link 
+                to="/admin" 
+                className="hidden lg:flex items-center gap-2 px-4 py-1.5 bg-[#C8860A]/10 border border-[#C8860A]/30 rounded-full text-[9px] uppercase tracking-[0.2em] text-[#C8860A] font-black hover:bg-[#C8860A] hover:text-[#2A1B0A] transition-all animate-pulse"
+              >
+                <Lock className="w-3 h-3" /> Central Station (God Mode)
+              </Link>
+            )}
             <div className="hidden md:flex flex-col items-end">
               <span className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 font-bold">Laconia Apiary ID</span>
-              <span className="text-xs text-honey font-medium">{profile?.currentHiveId || 'ASSIGNING...'}</span>
+              <span className="text-xs text-honey font-medium">{profile?.subscribedHives?.[0] || 'ASSIGNING...'}</span>
             </div>
             <button onClick={logout} className="text-[#2A1B0A]/40 hover:text-red-500 transition-colors"><LogOut className="w-4 h-4" /></button>
           </div>
@@ -176,9 +184,16 @@ export default function Dashboard() {
             </div>
             <div className="p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px]">
               <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4">Membership</div>
-              <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-[#2A1B0A] font-bold">
-                {profile?.tier === 'premium' ? <Crown className="text-honey w-4 h-4" /> : <Star className="text-honey w-4 h-4" />}
-                {profile?.tier || 'Standard'}
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-[#2A1B0A] font-bold">
+                  {profile?.tier === 'premium' ? <Crown className="text-honey w-4 h-4" /> : <Star className="text-honey w-4 h-4" />}
+                  {profile?.tier || 'Standard'}
+                </div>
+                <div className="h-[1px] bg-honey/10"></div>
+                <Link to="/harvest" className="flex items-center gap-3 text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 hover:text-honey transition-all group">
+                  <Package size={14} className="group-hover:scale-110 transition-transform" />
+                  <span>Harvest Tracker</span>
+                </Link>
               </div>
             </div>
           </aside>
@@ -217,7 +232,7 @@ export default function Dashboard() {
                   <div className="space-y-4">
                     {activeHive.journal?.map((entry, i) => (
                       <div key={i} className="pl-4 border-l-2 border-honey/20">
-                        <div className="text-[9px] uppercase tracking-widest text-honey font-bold mb-1">{entry.type} · {new Date(entry.timestamp).toLocaleDateString()}</div>
+                        <div className="text-[9px] uppercase tracking-widest text-honey font-bold mb-1">{entry.type} · {new Date(entry.date).toLocaleDateString()}</div>
                         <p className="text-xs text-[#2A1B0A]/70 italic leading-relaxed">"{entry.content}"</p>
                       </div>
                     )) || <p className="text-xs text-[#2A1B0A]/40">No entries yet.</p>}
