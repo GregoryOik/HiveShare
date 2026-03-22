@@ -120,7 +120,7 @@ export default function Membership() {
               <div className="absolute top-0 right-0 bg-honey text-[#1A1208] text-[9px] uppercase tracking-widest px-3 py-1 font-bold rounded-bl-sm">Recommended</div>
               <div className="text-[10px] uppercase tracking-widest text-honey mb-6">Premium</div>
               <div className="mb-2 text-pale-honey flex items-start">
-                <span className="font-display text-[3rem] leading-none text-honey">160</span>
+                <span className="font-display text-[3rem] leading-none text-honey">200</span>
                 <span className="text-xl font-medium mt-1 ml-1 text-honey">€</span>
               </div>
               <div className="text-xs text-white/50 mb-10">per year <span className="text-honey font-medium ml-1">· less than €14/mo</span></div>
@@ -137,7 +137,7 @@ export default function Membership() {
               
               <button 
                 onClick={() => {
-                  setCartPlan({ id: 'premium', name: 'Premium Membership', price: 160, link: 'https://buy.stripe.com/test_9B6dR9azZdw79Io0I8dwc01' });
+                  setCartPlan({ id: 'premium', name: 'Premium Membership', price: 200, link: '' });
                   setIsCartOpen(true);
                 }}
                 className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"

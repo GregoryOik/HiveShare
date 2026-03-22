@@ -513,7 +513,7 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
           <div className="absolute top-0 right-0 bg-honey text-[#1A1208] text-[9px] uppercase tracking-widest px-3 py-1 font-bold rounded-bl-sm">Recommended</div>
           <div className="text-[10px] uppercase tracking-widest text-white/50 mb-6">Premium</div>
           <div className="mb-2 text-pale-honey flex items-start">
-            <span className="font-display text-[3rem] leading-none">160</span>
+            <span className="font-display text-[3rem] leading-none">200</span>
             <span className="text-xl font-medium mt-1 ml-1">€</span>
           </div>
           <div className="text-xs text-white/50 mb-10">per year <span className="text-honey font-medium ml-1">· less than €14/mo</span></div>
