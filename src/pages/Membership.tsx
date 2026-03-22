@@ -74,20 +74,27 @@ export default function Membership() {
       });
 
       // 3. Wait for the extension to create the checkout URL
+      const timeout = setTimeout(() => {
+        setIsRedirecting(false);
+        alert('Checkout is taking longer than usual. Please check if the Stripe Extension is installed in your Firebase Console and your API keys are correct.');
+      }, 15000);
+
       onSnapshot(doc(db, 'users', user.uid, 'checkout_sessions', docRef.id), (snap) => {
         const data = snap.data();
         if (data?.url) {
+          clearTimeout(timeout);
           window.location.assign(data.url);
         } else if (data?.error) {
+          clearTimeout(timeout);
           console.error('Stripe Extension Error:', data.error);
-          alert('Something went wrong with the checkout. Please make sure the Extension is configured and Price IDs are correct.');
+          alert(`Stripe Extension Error: ${data.error.message || 'Unknown error'}. Please check your Firebase logs.`);
           setIsRedirecting(false);
         }
       });
 
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error starting checkout:', err);
-      alert('Failed to initiate checkout.');
+      alert(`Failed to initiate checkout: ${err.message || 'Permission denied'}. Make sure you deployed the new firestore.rules!`);
       setIsRedirecting(false);
     }
   };
