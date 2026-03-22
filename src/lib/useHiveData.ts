@@ -133,53 +133,57 @@ export function useHiveData() {
   };
 
   const claimRandomHive = async (tier: 'starter' | 'premium' = 'starter') => {
-    if (!user || !profile) return null;
-    
-    try {
-      // 1. Fetch current available hives
-      const snapshot = await getDocs(collection(db, 'hives'));
-      const allHives = snapshot.docs.map(doc => doc.data() as HiveData);
-      
-      // Starter: can join any hive that isn't exclusively assigned to a Premium member
-      // Premium: gets an exclusive hive (status must be 'available')
-      const eligibleHives = tier === 'premium'
-        ? allHives.filter(h => h.status === 'available')
-        : allHives.filter(h => h.status === 'available' || h.status === 'shared');
-
-      if (eligibleHives.length === 0) {
-        console.error('No eligible hives to claim');
-        return null;
-      }
-
-      // 2. Pick a random one
-      const randomHive = eligibleHives[Math.floor(Math.random() * eligibleHives.length)];
-      
-      // 3. Update Hive Status
-      // Premium: mark as 'assigned' (exclusive — no one else can claim it)
-      // Starter: mark as 'shared' (others can still join)
-      if (tier === 'premium') {
-        await updateDoc(doc(db, 'hives', randomHive.id), { status: 'assigned' });
-      } else if (randomHive.status === 'available') {
-        await updateDoc(doc(db, 'hives', randomHive.id), { status: 'shared' });
-      }
-
-      // 4. Update User Profile
-      const currentHives = profile.subscribedHives || [];
-      if (!currentHives.includes(randomHive.id)) {
-        const isAlreadyAdmin = profile.role === 'admin';
-        await updateDoc(doc(db, 'users', user.uid), {
-          subscribedHives: [...currentHives, randomHive.id],
-          role: isAlreadyAdmin ? 'admin' : 'subscriber',
-          tier,
-          subscriptionStartDate: new Date().toISOString()
-        });
-      }
-
-      return randomHive.id;
-    } catch (error) {
-      console.error('Error claiming random hive:', error);
-      return null;
+    if (!user || !profile) {
+      console.error('[claimRandomHive] No user or profile');
+      throw new Error('You must be logged in to claim a hive.');
     }
+    
+    // 1. Fetch current available hives
+    const snapshot = await getDocs(collection(db, 'hives'));
+    const allHives = snapshot.docs.map(d => d.data() as HiveData);
+    
+    console.log('[claimRandomHive] All hives:', allHives.map(h => ({ id: h.id, status: h.status })));
+    
+    // Starter: can join any hive that isn't exclusively assigned to a Premium member
+    // Premium: gets an exclusive hive (status must be 'available')
+    const eligibleHives = tier === 'premium'
+      ? allHives.filter(h => h.status === 'available')
+      : allHives.filter(h => h.status === 'available' || h.status === 'shared');
+
+    console.log('[claimRandomHive] Eligible hives for tier', tier, ':', eligibleHives.length);
+
+    if (eligibleHives.length === 0) {
+      throw new Error(`No available hives for ${tier} tier. Found ${allHives.length} total hives (statuses: ${allHives.map(h => h.status).join(', ')})`);
+    }
+
+    // 2. Pick a random one
+    const randomHive = eligibleHives[Math.floor(Math.random() * eligibleHives.length)];
+    console.log('[claimRandomHive] Claiming hive:', randomHive.id);
+    
+    // 3. Update Hive Status
+    // Premium: mark as 'assigned' (exclusive — no one else can claim it)
+    // Starter: mark as 'shared' (others can still join)
+    if (tier === 'premium') {
+      await updateDoc(doc(db, 'hives', randomHive.id), { status: 'assigned' });
+    } else if (randomHive.status === 'available') {
+      await updateDoc(doc(db, 'hives', randomHive.id), { status: 'shared' });
+    }
+    console.log('[claimRandomHive] Hive status updated');
+
+    // 4. Update User Profile
+    const currentHives = profile.subscribedHives || [];
+    if (!currentHives.includes(randomHive.id)) {
+      const isAlreadyAdmin = profile.role === 'admin';
+      await updateDoc(doc(db, 'users', user.uid), {
+        subscribedHives: [...currentHives, randomHive.id],
+        role: isAlreadyAdmin ? 'admin' : 'subscriber',
+        tier,
+        subscriptionStartDate: new Date().toISOString()
+      });
+      console.log('[claimRandomHive] User profile updated');
+    }
+
+    return randomHive.id;
   };
 
   return { hives, loading, updateHive, addHive, removeHive, claimRandomHive };
