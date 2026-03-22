@@ -96,7 +96,7 @@ service cloud.firestore {
              data.photoUrl is string && data.photoUrl.size() < 500 &&
              data.beeSpecies is string && data.beeSpecies.size() < 100 &&
              data.installationDate is string && data.installationDate.size() < 100 &&
-             data.status in ['available', 'assigned'] &&
+             data.status in ['available', 'assigned', 'shared'] &&
              (!('lastDiaryEntryTimestamp' in data) || data.lastDiaryEntryTimestamp is string);
     }
 
@@ -144,11 +144,11 @@ service cloud.firestore {
       allow create: if isAdmin() && isValidHive(request.resource.data) && request.resource.data.id == hiveId;
       allow delete: if isAdmin();
       
-      // Admins can update anything. Authenticated users can ONLY claim a hive (change status from 'available' to 'assigned').
+      // Admins can update anything. Authenticated users can ONLY claim a hive (change status from 'available' to 'assigned'/'shared').
       allow update: if isAdmin() && isValidHive(request.resource.data) && request.resource.data.id == resource.data.id ||
                       (isAuthenticated() && 
-                       resource.data.status == 'available' && 
-                       request.resource.data.status == 'assigned' &&
+                       resource.data.status in ['available', 'shared'] && 
+                       request.resource.data.status in ['assigned', 'shared'] &&
                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']));
     }
 

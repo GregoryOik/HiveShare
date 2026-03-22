@@ -138,22 +138,30 @@ export function useHiveData() {
     try {
       // 1. Fetch current available hives
       const snapshot = await getDocs(collection(db, 'hives'));
-      const availableHives = snapshot.docs
-        .map(doc => doc.data() as HiveData)
-        .filter(h => h.status === 'available');
+      const allHives = snapshot.docs.map(doc => doc.data() as HiveData);
+      
+      // Starter: can join any hive that isn't exclusively assigned to a Premium member
+      // Premium: gets an exclusive hive (status must be 'available')
+      const eligibleHives = tier === 'premium'
+        ? allHives.filter(h => h.status === 'available')
+        : allHives.filter(h => h.status === 'available' || h.status === 'shared');
 
-      if (availableHives.length === 0) {
-        console.error('No available hives to claim');
+      if (eligibleHives.length === 0) {
+        console.error('No eligible hives to claim');
         return null;
       }
 
       // 2. Pick a random one
-      const randomHive = availableHives[Math.floor(Math.random() * availableHives.length)];
+      const randomHive = eligibleHives[Math.floor(Math.random() * eligibleHives.length)];
       
       // 3. Update Hive Status
-      await updateDoc(doc(db, 'hives', randomHive.id), {
-        status: 'assigned'
-      });
+      // Premium: mark as 'assigned' (exclusive — no one else can claim it)
+      // Starter: mark as 'shared' (others can still join)
+      if (tier === 'premium') {
+        await updateDoc(doc(db, 'hives', randomHive.id), { status: 'assigned' });
+      } else if (randomHive.status === 'available') {
+        await updateDoc(doc(db, 'hives', randomHive.id), { status: 'shared' });
+      }
 
       // 4. Update User Profile
       const currentHives = profile.subscribedHives || [];
