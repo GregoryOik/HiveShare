@@ -91,7 +91,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                              (productId === 'prod_UBycQzivtGZfSb' ? 'premium' : 
                               productId === 'prod_UBycB7qVGfTjy2' ? 'starter' : 
                               (productId.toLowerCase().includes('premium') ? 'premium' : 'starter'));
-                setProfile(prev => prev ? { ...prev, tier, role: 'subscriber' } : null);
+                
+                // IMPORTANT: Don't downgrade admin to subscriber
+                setProfile(prev => {
+                  if (!prev) return null;
+                  const newRole = prev.role === 'admin' ? 'admin' : 'subscriber';
+                  return { ...prev, tier, role: newRole };
+                });
               }
             });
 

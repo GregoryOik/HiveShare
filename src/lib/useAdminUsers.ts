@@ -20,6 +20,11 @@ export function useAdminUsers() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!db) {
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onSnapshot(collection(db, 'users'), (snapshot) => {
       const usersData = snapshot.docs.map(doc => doc.data() as UserProfile);
       setUsers(usersData);

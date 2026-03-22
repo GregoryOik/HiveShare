@@ -93,11 +93,31 @@ export function useHiveData() {
   }, [user, profile]);
 
   const updateHive = async (id: string, newData: Partial<HiveData>) => {
-    if (profile?.role !== 'admin') return;
+    if (!db || profile?.role !== 'admin') return;
     try {
       await updateDoc(doc(db, 'hives', id), newData);
     } catch (error) {
       console.error('Error updating hive:', error);
+    }
+  };
+
+  const addJournalEntry = async (hiveId: string, content: string, type: string = 'Observation') => {
+    if (!db || profile?.role !== 'admin') return;
+    try {
+      const { arrayUnion } = await import('firebase/firestore');
+      const entry = { 
+        id: Math.random().toString(36).substr(2, 9), 
+        date: new Date().toISOString(), 
+        content, 
+        type 
+      };
+      await updateDoc(doc(db, 'hives', hiveId), {
+        journal: arrayUnion(entry)
+      });
+      return true;
+    } catch (error) {
+      console.error('Error adding journal entry:', error);
+      return false;
     }
   };
 
@@ -229,5 +249,5 @@ export function useHiveData() {
     return selectedHive.id;
   };
 
-  return { hives, loading, updateHive, addHive, removeHive, claimRandomHive };
+  return { hives, loading, updateHive, addJournalEntry, addHive, removeHive, claimRandomHive };
 }

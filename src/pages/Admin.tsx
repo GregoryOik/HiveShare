@@ -36,7 +36,7 @@ import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 
 export default function Admin() {
-  const { hives, loading: hivesLoading, updateHive, addHive, removeHive } = useHiveData();
+  const { hives, loading: hivesLoading, updateHive, addJournalEntry, addHive, removeHive } = useHiveData();
   const { users, loading: usersLoading, assignHiveToUser, removeHiveFromUser, updateUser } = useAdminUsers();
   const { user: authUser, logout } = useAuth();
   
@@ -366,10 +366,12 @@ export default function Admin() {
                       onClick={async () => {
                         if (!newJournalEntry.trim()) return;
                         setIsPostingNote(true);
-                        const entry = { id: Date.now().toString(), date: new Date().toISOString(), content: newJournalEntry, type: 'Observation' };
-                        const updatedJournal = [entry, ...(selectedHive.journal || [])];
-                        await updateHive(selectedHive.id, { journal: updatedJournal });
-                        setNewJournalEntry('');
+                        const success = await addJournalEntry(selectedHive.id, newJournalEntry);
+                        if (success) {
+                          setNewJournalEntry('');
+                        } else {
+                          alert('Transmission failed. Audit server connectivity.');
+                        }
                         setIsPostingNote(false);
                       }}
                       disabled={isPostingNote}
@@ -457,7 +459,15 @@ export default function Admin() {
                       <label className="text-[10px] uppercase tracking-widest text-honey font-black block">Access Hierarchy</label>
                       <select 
                         value={selectedUser.role} 
-                        onChange={(e) => updateUser(selectedUser.uid, { role: e.target.value as any })}
+                        onChange={async (e) => {
+                          const newRole = e.target.value as any;
+                          try {
+                            await updateUser(selectedUser.uid, { role: newRole });
+                            alert(`Access hierarchy for ${selectedUser.email} elevated to ${newRole.toUpperCase()}.`);
+                          } catch (err) {
+                            alert('Failed to reconfigure access hierarchy. Verify security clearance.');
+                          }
+                        }}
                         className="w-full bg-black border border-honey/20 rounded-md p-4 text-sm text-white focus:border-honey outline-none"
                       >
                         <option value="user">Candidate</option>
@@ -469,7 +479,15 @@ export default function Admin() {
                       <label className="text-[10px] uppercase tracking-widest text-honey font-black block">Membership Tier</label>
                       <select 
                         value={selectedUser.tier || 'starter'} 
-                        onChange={(e) => updateUser(selectedUser.uid, { tier: e.target.value as any })}
+                        onChange={async (e) => {
+                          const newTier = e.target.value as any;
+                          try {
+                            await updateUser(selectedUser.uid, { tier: newTier });
+                            alert(`Resource allocation for ${selectedUser.email} shifted to ${newTier.toUpperCase()}.`);
+                          } catch (err) {
+                            alert('Failed to modify membership tier. System sync error.');
+                          }
+                        }}
                         className="w-full bg-black border border-honey/20 rounded-md p-4 text-sm text-white focus:border-honey outline-none"
                       >
                         <option value="starter">Starter Adopter</option>
