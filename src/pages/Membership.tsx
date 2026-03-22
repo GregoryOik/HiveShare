@@ -2,15 +2,60 @@ import React, { useState } from 'react';
 import { X, Trash2, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
+import { db } from '../lib/firebase';
+import { collection, addDoc, onSnapshot, doc } from 'firebase/firestore';
+import { Loader2 } from 'lucide-react';
 
 export default function Membership() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartPlan, setCartPlan] = useState<{id: string, name: string, price: number, link: string} | null>(null);
   const [hasOliveOil, setHasOliveOil] = useState(false);
-  const { profile, logout } = useAuth();
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const { user, profile, logout } = useAuth();
 
   const cartItemsCount = (cartPlan ? 1 : 0) + (hasOliveOil ? 1 : 0);
   const cartTotal = (cartPlan?.price || 0) + (hasOliveOil ? 18 : 0);
+
+  const handleCheckout = async () => {
+    if (!user || !cartPlan) return;
+    
+    setIsRedirecting(true);
+    try {
+      // 1. Map our internal IDs to Stripe Price IDs
+      // IMPORTANT: User needs to update these with their actual Stripe Price IDs in Stripe Dashboard
+      const priceId = cartPlan.id === 'premium' 
+        ? 'price_premium_id' // Placeholder: Replace with actual Stripe Price ID
+        : 'price_starter_id'; // Placeholder: Replace with actual Stripe Price ID
+
+      // 2. Create the checkout session document
+      const docRef = await addDoc(collection(db, 'users', user.uid, 'checkout_sessions'), {
+        price: priceId,
+        success_url: `${window.location.origin}/success?tier=${cartPlan.id}&session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: window.location.origin + '/membership',
+        metadata: {
+          tier: cartPlan.id,
+          hasOliveOil: hasOliveOil.toString()
+        }
+      });
+
+      // 3. Wait for the extension to create the checkout URL
+      onSnapshot(doc(db, 'users', user.uid, 'checkout_sessions', docRef.id), (snap) => {
+        const data = snap.data();
+        if (data?.url) {
+          window.location.assign(data.url);
+        } else if (data?.error) {
+          console.error('Stripe Extension Error:', data.error);
+          alert('Something went wrong with the checkout. Please make sure the Extension is configured and Price IDs are correct.');
+          setIsRedirecting(false);
+        }
+      });
+
+    } catch (err) {
+      console.error('Error starting checkout:', err);
+      alert('Failed to initiate checkout.');
+      setIsRedirecting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#1A1208] text-white/80 font-body selection:bg-honey selection:text-white flex flex-col">
@@ -217,12 +262,20 @@ export default function Membership() {
                   <span className="font-display text-4xl text-white">{cartTotal} €</span>
                 </div>
                 {cartPlan ? (
-                  <a 
-                    href={cartPlan.link}
-                    className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px] shadow-[0_0_20px_rgba(200,134,10,0.3)] hover:shadow-[0_0_30px_rgba(200,134,10,0.5)]"
+                  <button 
+                    onClick={handleCheckout}
+                    disabled={isRedirecting}
+                    className="flex items-center justify-center gap-2 w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px] shadow-[0_0_20px_rgba(200,134,10,0.3)] hover:shadow-[0_0_30px_rgba(200,134,10,0.5)] disabled:opacity-50"
                   >
-                    Proceed to Checkout
-                  </a>
+                    {isRedirecting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Redirecting to Stripe...
+                      </>
+                    ) : (
+                      'Proceed to Checkout'
+                    )}
+                  </button>
                 ) : (
                   <button 
                     disabled

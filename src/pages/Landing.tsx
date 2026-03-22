@@ -500,15 +500,12 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
             <li className="flex gap-3"><span className="text-honey">—</span> Standard label</li>
           </ul>
           
-          <button 
-            onClick={() => {
-              setCartPlan({ id: 'starter', name: 'Starter Membership', price: 80, link: 'https://buy.stripe.com/test_7sYdR9gYn4ZB9Io8aAdwc00' });
-              setIsCartOpen(true);
-            }}
+          <Link 
+            to="/membership" 
             className="block text-center w-full border border-border-amber py-3 text-xs uppercase tracking-wider font-medium hover:bg-cream transition-colors rounded-[2px]"
           >
             Select Starter
-          </button>
+          </Link>
         </div>
         
         {/* Premium */}
@@ -531,15 +528,12 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
             <li className="flex gap-3"><span className="text-honey">—</span> Priority shipping & exclusive variety access</li>
           </ul>
           
-          <button 
-            onClick={() => {
-              setCartPlan({ id: 'premium', name: 'Premium Membership', price: 160, link: 'https://buy.stripe.com/test_9B6dR9azZdw79Io0I8dwc01' });
-              setIsCartOpen(true);
-            }}
+          <Link 
+            to="/membership" 
             className="block text-center w-full bg-honey text-white py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"
           >
             Select Premium
-          </button>
+          </Link>
         </div>
         
         {/* Corporate */}

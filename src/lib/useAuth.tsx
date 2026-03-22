@@ -10,7 +10,7 @@ import {
   sendPasswordResetEmail,
   User as FirebaseUser
 } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc, onSnapshot as onFirestoreSnapshot } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, collection, onSnapshot as onFirestoreSnapshot } from 'firebase/firestore';
 
 interface UserProfile {
   uid: string;
@@ -78,6 +78,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               updateDoc(userDocRef, { role: 'admin' }).catch(e => console.error('Failed to auto-repair role:', e));
             }
             
+            // STRIPE EXTENSION SYNC
+            // Listen to subscriptions subcollection for the latest status
+            const subCollectionRef = collection(db, 'users', currentUser.uid, 'subscriptions');
+            onFirestoreSnapshot(subCollectionRef, (subSnap) => {
+              const activeSub = subSnap.docs.find(d => ['active', 'trialing'].includes(d.data().status));
+              if (activeSub) {
+                const subData = activeSub.data();
+                // Map Stripe metadata or product ID back to our tier
+                // This assumes you set 'tier' in Stripe Product metadata or we can derive it from Price/Product ID
+                const tier = subData.metadata?.tier || (subData.items?.[0]?.price?.product?.id?.includes('premium') ? 'premium' : 'starter');
+                setProfile(prev => prev ? { ...prev, tier, role: 'subscriber' } : null);
+              }
+            });
+
             setProfile(data);
             setLoading(false);
           } else {
