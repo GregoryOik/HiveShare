@@ -412,14 +412,14 @@ const OriginsMap = ({ activeIndex }: { activeIndex: number | null }) => {
   return (
     <div className="w-full aspect-[4/3] border border-honey/20 bg-hive-dark relative flex items-center justify-center overflow-hidden group rounded-[2px] shadow-2xl">
       {/* Stylized Map Outline Overlay (Greece) */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-         <svg viewBox="0 0 500 500" className="w-full h-full fill-none stroke-honey/20 stroke-[0.8]">
+      <div className="absolute inset-0 opacity-40 pointer-events-none">
+         <svg viewBox="0 0 500 500" className="w-full h-full fill-none stroke-honey/30 stroke-[1.5]">
             {/* Peloponnese stylized outline */}
-            <path d="M120,320 Q140,300 180,310 T240,350 Q260,400 240,480 T160,490 T120,420 Z" />
-            {/* Attica/Evia section */}
-            <path d="M250,320 Q280,300 320,310 T380,250 Q400,180 370,150 T320,180 T280,240" />
+            <path d="M110,330 Q130,310 170,320 T230,360 Q250,410 230,490 T150,500 T110,430 Z" />
+            {/* Attica/Central Greece section */}
+            <path d="M240,330 Q270,310 310,320 T370,260 Q390,190 360,160 T310,190 T270,250" />
             {/* Evia Island specifically */}
-            <path d="M350,220 Q380,180 410,210 T390,260 Q360,280 340,250 Z" className="stroke-honey/40" />
+            <path d="M340,230 Q370,190 400,220 T380,270 Q350,290 330,260 Z" className="stroke-honey/60" />
          </svg>
       </div>
 

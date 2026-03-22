@@ -19,6 +19,8 @@ export interface HiveData {
   status: string;
   currentSubscribers?: number;
   lastDiaryEntryTimestamp?: string;
+  videoUrl?: string;
+  lastAdminNote?: string;
 }
 
 const DEFAULT_HIVES: HiveData[] = [
@@ -43,7 +45,9 @@ const DEFAULT_HIVES: HiveData[] = [
     photoUrl: '/beekeeper.jpg',
     beeSpecies: 'Apis mellifera macedonica',
     installationDate: '2025-04-12',
-    status: 'available'
+    status: 'available',
+    videoUrl: '',
+    lastAdminNote: 'Initial setup'
   }
 ];
 
