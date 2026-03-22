@@ -10,6 +10,7 @@ import {
   ArrowLeft,
   Clock,
   Sparkles,
+  ShieldAlert,
   Info
 } from 'lucide-react';
 import { useAuth } from '../lib/useAuth';
@@ -20,6 +21,24 @@ export default function Harvest() {
   const { profile } = useAuth();
   const { hives, loading } = useHiveData();
   const { config } = useSiteConfig();
+
+  // Maintenance Mode Interceptor
+  if (config?.maintenanceMode && profile?.role !== 'admin') {
+    return (
+      <div className="min-h-screen bg-[#0A0704] flex items-center justify-center p-6 text-center">
+        <div className="max-w-md space-y-8 animate-in fade-in zoom-in duration-1000">
+           <ShieldAlert className="w-24 h-24 text-honey mx-auto opacity-50" strokeWidth={1} />
+           <div className="space-y-4">
+             <h2 className="font-display text-4xl text-white tracking-tight">HIVE_STASIS</h2>
+             <p className="text-[10px] uppercase tracking-[0.3em] font-black text-honey">Logistics Temporarily Locked</p>
+             <p className="text-sm text-white/40 leading-relaxed font-sans">
+               We are updating the nomadic route maps. Access will be restored shortly.
+             </p>
+           </div>
+        </div>
+      </div>
+    );
+  }
 
   const selectedHiveId = profile?.subscribedHives?.[0];
   const activeHive = hives.find(h => h.id === selectedHiveId);

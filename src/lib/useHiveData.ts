@@ -29,6 +29,7 @@ export interface SiteConfig {
   globalHarvestDate: string;
   availableRegions: string[];
   systemAnnouncement?: string;
+  maintenanceMode?: boolean;
   lastUpdated?: string;
 }
 

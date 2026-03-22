@@ -17,6 +17,7 @@ import {
   Lock,
   Clock,
   AlertTriangle,
+  ShieldAlert,
   Image as ImageIcon
 } from 'lucide-react';
 import { 
@@ -44,6 +45,33 @@ export default function Dashboard() {
 
   // Redirect if not logged in
   if (!user && !loading) return <Navigate to="/login" />;
+
+  // Maintenance Mode Interceptor
+  if (config?.maintenanceMode && profile?.role !== 'admin') {
+    return (
+      <div className="min-h-screen bg-[#0A0704] flex items-center justify-center p-6 text-center">
+        <div className="max-w-md space-y-8 animate-in fade-in zoom-in duration-1000">
+           <div className="relative inline-block">
+             <div className="absolute inset-0 bg-honey/20 blur-3xl rounded-full animate-pulse"></div>
+             <ShieldAlert className="w-24 h-24 text-honey relative z-10 mx-auto" strokeWidth={1} />
+           </div>
+           <div className="space-y-4">
+             <h2 className="font-display text-4xl text-white tracking-tight">HIVE_STASIS_ACTIVE</h2>
+             <p className="text-[10px] uppercase tracking-[0.3em] font-black text-honey">System Wide Recalibration in Progress</p>
+             <p className="text-sm text-white/40 leading-relaxed font-sans">
+               We are currently performing deep-layer apiary synchronization. Your nomadic data is safe but temporarily offline for precision tuning.
+             </p>
+           </div>
+           <div className="pt-8 border-t border-white/5">
+             <div className="inline-flex items-center gap-2 group cursor-wait">
+               <RefreshCw size={14} className="text-honey animate-spin" />
+               <span className="text-[9px] uppercase tracking-widest text-honey/40 font-black">Syncing...</span>
+             </div>
+           </div>
+        </div>
+      </div>
+    );
+  }
 
   // Initial hive selection
   useEffect(() => {

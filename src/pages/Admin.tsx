@@ -30,7 +30,9 @@ import {
   Filter,
   Package,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  ArrowLeft,
+  Lock
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
@@ -45,11 +47,74 @@ export default function Admin() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [selectedHiveId, setSelectedHiveId] = useState<string>('');
   const [selectedUserUid, setSelectedUserUid] = useState<string>('');
+  
+  // Batch Selection States
+  const [selectedHiveIds, setSelectedHiveIds] = useState<string[]>([]);
+  const [selectedUserUids, setSelectedUserUids] = useState<string[]>([]);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [isPostingNote, setIsPostingNote] = useState(false);
   const [newJournalEntry, setNewJournalEntry] = useState('');
+  
+  // Custom Metadata Editor States
+  const [customMetaKey, setCustomMetaKey] = useState('');
+  const [customMetaValue, setCustomMetaValue] = useState('');
 
   const [isAddingHive, setIsAddingHive] = useState(false);
+
+  // Batch Operation Handlers
+  const handleBatchHiveUpdate = async (updates: any) => {
+    if (selectedHiveIds.length === 0) return;
+    const confirmMsg = `Apply updates to ${selectedHiveIds.length} apiaries?`;
+    if (!window.confirm(confirmMsg)) return;
+
+    let successCount = 0;
+    for (const id of selectedHiveIds) {
+      try {
+        await updateHive(id, updates);
+        successCount++;
+      } catch (err: any) {
+        console.error(`Batch update failed for Hive #${id}:`, err.message);
+      }
+    }
+    alert(`Batch Operation Complete: ${successCount}/${selectedHiveIds.length} units updated.`);
+    setSelectedHiveIds([]);
+  };
+
+  const handleBatchUserUpdate = async (updates: any) => {
+    if (selectedUserUids.length === 0) return;
+    const confirmMsg = `Apply updates to ${selectedUserUids.length} guardians?`;
+    if (!window.confirm(confirmMsg)) return;
+
+    let successCount = 0;
+    for (const uid of selectedUserUids) {
+      try {
+        await updateUser(uid, updates);
+        successCount++;
+      } catch (err: any) {
+        console.error(`Batch update failed for User ${uid}:`, err.message);
+      }
+    }
+    alert(`Batch Operation Complete: ${successCount}/${selectedUserUids.length} profiles updated.`);
+    setSelectedUserUids([]);
+  };
+
+  const handleBatchJournalEntry = async () => {
+    const entry = prompt('Enter journal entry for all selected units:');
+    if (!entry || selectedHiveIds.length === 0) return;
+
+    let successCount = 0;
+    for (const id of selectedHiveIds) {
+      try {
+        await addJournalEntry(id, entry, 'Maintenance');
+        successCount++;
+      } catch (err: any) {
+        console.error(`Journal append failed for Hive #${id}:`, err.message);
+      }
+    }
+    alert(`Journal Broadcast Complete: ${successCount}/${selectedHiveIds.length} units updated.`);
+    setSelectedHiveIds([]);
+  };
 
   // Selection logic for new hives
   useEffect(() => {
@@ -97,15 +162,52 @@ export default function Admin() {
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_transparent_0%,_#0A0704_90%)]"></div>
       </div>
 
-      {/* Admin Header */}
-      <header className="h-20 border-b border-honey/20 bg-[#0A0704]/80 backdrop-blur-xl sticky top-0 z-50 px-8 flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          <Link to="/" className="font-display text-2xl tracking-tight text-white group">
-            HIVE<span className="text-honey">SHARE</span>
-            <span className="ml-2 text-[8px] px-1.5 py-0.5 border border-honey/40 rounded-sm text-honey font-black vertical-super uppercase">Admin Mode</span>
-          </Link>
-          
-          <nav className="hidden lg:flex items-center gap-1">
+      {/* Command Center: Elite Operational Layer */}
+      <div className="bg-[#120D08] border-b border-honey/20 sticky top-0 z-[60] backdrop-blur-xl">
+        <div className="max-w-[1600px] mx-auto px-8 h-12 flex items-center justify-between border-b border-white/5">
+          <div className="flex items-center gap-6">
+            <h1 className="font-display text-lg text-white flex items-center gap-3">
+              <ShieldAlert className="text-honey" size={18} />
+              COMMAND_CENTER <span className="text-[9px] text-honey/40 font-mono tracking-widest uppercase">v2-ELITE</span>
+            </h1>
+            <div className="flex gap-3">
+               <button onClick={handleAddHive} className="px-3 py-1 bg-honey text-black text-[8px] font-black uppercase tracking-widest rounded-sm hover:scale-105 transition-all flex items-center gap-2">
+                 <Plus size={10}/> UNIT_DEPLOY
+               </button>
+               <button 
+                onClick={() => {
+                  const msg = prompt('Enter Global System Broadcast Message:');
+                  if (msg !== null) updateConfig({ systemAnnouncement: msg });
+                }}
+                className="px-3 py-1 bg-white/5 border border-honey/20 text-honey text-[8px] font-black uppercase tracking-widest rounded-sm hover:bg-honey/10 transition-all flex items-center gap-2"
+               >
+                 <Zap size={10}/> BROADCAST_NET
+               </button>
+               <button 
+                onClick={() => {
+                  if (config) updateConfig({ maintenanceMode: !config.maintenanceMode });
+                }}
+                className={`px-3 py-1 border text-[8px] font-black uppercase tracking-widest rounded-sm transition-all flex items-center gap-2 ${
+                  config?.maintenanceMode 
+                  ? 'bg-red-500/20 border-red-500 text-red-400' 
+                  : 'bg-green-500/5 border-green-500/30 text-green-500/60 hover:bg-green-500/10'
+                }`}
+               >
+                 <Lock size={10}/> {config?.maintenanceMode ? 'STATUS: OFFLINE' : 'STATUS: ONLINE'}
+               </button>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 text-[9px] font-mono text-white/30 uppercase tracking-tighter">
+            <span>{hives.length} UNITS_IN_FIELD</span>
+            <span>|</span>
+            <span className="text-honey">{authUser?.email}</span>
+            <button onClick={logout} className="ml-2 hover:text-red-500 transition-colors"><LogOut size={12}/></button>
+          </div>
+        </div>
+
+        {/* Navigation Layer */}
+        <div className="max-w-[1600px] mx-auto px-8 h-14 flex items-center justify-between">
+           <nav className="flex items-center gap-1">
             {[
               { id: 'hives', icon: Zap, label: 'Apiary Fleet' },
               { id: 'users', icon: Users, label: 'Guardians' },
@@ -115,7 +217,7 @@ export default function Admin() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full text-[10px] uppercase tracking-widest font-black transition-all ${
+                className={`flex items-center gap-2 px-6 py-2 rounded-full text-[10px] uppercase tracking-widest font-black transition-all ${
                   activeTab === tab.id 
                     ? 'bg-honey text-[#0A0704] shadow-[0_0_20px_rgba(200,134,10,0.3)]' 
                     : 'text-honey/40 hover:text-honey hover:bg-honey/10'
@@ -125,24 +227,11 @@ export default function Admin() {
               </button>
             ))}
           </nav>
-        </div>
-
-        <div className="flex items-center gap-6">
-          <Link 
-            to="/dashboard" 
-            className="hidden md:flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] uppercase tracking-widest font-black text-honey hover:bg-white/10 transition-all"
-          >
-            Project Journal
+          <Link to="/dashboard" className="flex items-center gap-2 px-4 py-1.5 bg-white/5 border border-white/5 text-[9px] font-black uppercase tracking-widest text-[#F1E9DB]/40 hover:text-honey hover:border-honey/20 transition-all rounded-full">
+            <ArrowLeft size={12} /> Return to Grid
           </Link>
-          <div className="flex flex-col items-end mr-4">
-            <span className="text-[9px] uppercase tracking-[0.2em] text-honey font-black">Master Operator</span>
-            <span className="text-[10px] text-white/40">{authUser?.email}</span>
-          </div>
-          <button onClick={logout} className="p-2 border border-honey/20 text-honey hover:bg-red-500/10 hover:border-red-500/40 hover:text-red-500 transition-all rounded-full">
-            <LogOut size={16} />
-          </button>
         </div>
-      </header>
+      </div>
 
       <main className="flex-1 w-full max-w-[1600px] mx-auto p-8 relative z-10 flex gap-8">
         
@@ -163,44 +252,84 @@ export default function Admin() {
             </div>
 
             <div className="flex-1 overflow-y-auto space-y-2 pr-2 custom-scrollbar">
+              {activeTab === 'hives' && (
+                <div className="mb-2 px-4 flex items-center justify-between">
+                  <button 
+                    onClick={() => setSelectedHiveIds(selectedHiveIds.length === hives.length ? [] : hives.map(h => h.id))}
+                    className="text-[8px] uppercase font-black text-honey/40 hover:text-honey transition-colors"
+                  >
+                    {selectedHiveIds.length === hives.length ? 'DESELECT_ALL' : 'SELECT_ALL_UNITS'}
+                  </button>
+                  <span className="text-[8px] font-mono text-honey/20">{selectedHiveIds.length} SELECTED</span>
+                </div>
+              )}
               {activeTab === 'hives' && hives.map(hive => (
-                <button
-                  key={hive.id}
-                  onClick={() => setSelectedHiveId(hive.id)}
-                  className={`w-full text-left p-4 rounded-lg border transition-all ${
-                    selectedHiveId === hive.id 
-                      ? 'bg-honey/10 border-honey/40 shadow-inner' 
-                      : 'border-white/5 hover:border-honey/20 bg-white/5'
-                  }`}
-                >
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="text-xs font-black uppercase text-white">Hive #{hive.id}</span>
-                    <span className={`text-[8px] uppercase font-black px-1.5 py-0.5 rounded-sm ${
-                      hive.status === 'available' ? 'bg-green-500/20 text-green-400' : 'bg-honey/20 text-honey'
-                    }`}>
-                      {hive.status}
-                    </span>
+                <div key={hive.id} className="relative group">
+                  <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
+                    <input 
+                      type="checkbox" 
+                      checked={selectedHiveIds.includes(hive.id)}
+                      onChange={() => setSelectedHiveIds(prev => prev.includes(hive.id) ? prev.filter(id => id !== hive.id) : [...prev, hive.id])}
+                      className="w-3 h-3 rounded-sm border-honey/20 bg-black/40 checked:bg-honey transition-all cursor-pointer"
+                    />
                   </div>
-                  <div className="text-[10px] text-honey/40 font-mono tracking-tighter">{hive.location}</div>
-                </button>
+                  <button
+                    onClick={() => setSelectedHiveId(hive.id)}
+                    className={`w-full text-left pl-8 pr-4 py-4 rounded-lg border transition-all ${
+                      selectedHiveId === hive.id 
+                        ? 'bg-honey/10 border-honey/40 shadow-inner' 
+                        : 'border-white/5 hover:border-honey/20 bg-white/5'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-xs font-black uppercase text-white">Hive #{hive.id}</span>
+                      <span className={`text-[8px] uppercase font-black px-1.5 py-0.5 rounded-sm ${
+                        hive.status === 'available' ? 'bg-green-500/20 text-green-400' : 'bg-honey/20 text-honey'
+                      }`}>
+                        {hive.status}
+                      </span>
+                    </div>
+                    <div className="text-[10px] text-honey/40 font-mono tracking-tighter">{hive.location}</div>
+                  </button>
+                </div>
               ))}
 
+              {activeTab === 'users' && (
+                <div className="mb-2 px-4 flex items-center justify-between">
+                  <button 
+                    onClick={() => setSelectedUserUids(selectedUserUids.length === filteredUsers.length ? [] : filteredUsers.map(u => u.uid))}
+                    className="text-[8px] uppercase font-black text-honey/40 hover:text-honey transition-colors"
+                  >
+                    {selectedUserUids.length === filteredUsers.length ? 'DESELECT_ALL' : 'SELECT_VISIBLE_GUARDIANS'}
+                  </button>
+                  <span className="text-[8px] font-mono text-honey/20">{selectedUserUids.length} SELECTED</span>
+                </div>
+              )}
               {activeTab === 'users' && filteredUsers.map(u => (
-                <button
-                  key={u.uid}
-                  onClick={() => setSelectedUserUid(u.uid)}
-                  className={`w-full text-left p-4 rounded-lg border transition-all ${
-                    selectedUserUid === u.uid 
-                      ? 'bg-honey/10 border-honey/40' 
-                      : 'border-white/5 hover:border-honey/20 bg-white/5'
-                  }`}
-                >
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="text-[11px] font-bold text-white truncate max-w-[120px]">{u.email}</span>
-                    <span className="text-[8px] uppercase font-black">{u.tier || 'FREE'}</span>
+                <div key={u.uid} className="relative group">
+                   <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
+                    <input 
+                      type="checkbox" 
+                      checked={selectedUserUids.includes(u.uid)}
+                      onChange={() => setSelectedUserUids(prev => prev.includes(u.uid) ? prev.filter(uid => uid !== u.uid) : [...prev, u.uid])}
+                      className="w-3 h-3 rounded-sm border-honey/20 bg-black/40 checked:bg-honey transition-all cursor-pointer"
+                    />
                   </div>
-                  <div className="text-[10px] text-honey/40 uppercase tracking-widest">{u.role}</div>
-                </button>
+                  <button
+                    onClick={() => setSelectedUserUid(u.uid)}
+                    className={`w-full text-left pl-8 pr-4 py-4 rounded-lg border transition-all ${
+                      selectedUserUid === u.uid 
+                        ? 'bg-honey/10 border-honey/40' 
+                        : 'border-white/5 hover:border-honey/20 bg-white/5'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-[11px] font-bold text-white truncate max-w-[120px]">{u.email}</span>
+                      <span className="text-[8px] uppercase font-black">{u.tier || 'FREE'}</span>
+                    </div>
+                    <div className="text-[10px] text-honey/40 uppercase tracking-widest">{u.role}</div>
+                  </button>
+                </div>
               ))}
             </div>
 
@@ -466,6 +595,50 @@ export default function Admin() {
                       </button>
                     </div>
                   </div>
+
+                  {/* Hive Meta: Unlimited Extensibility */}
+                  <div className="space-y-4 mt-8 pt-8 border-t border-honey/10">
+                    <label className="text-[10px] uppercase tracking-widest text-honey font-black flex items-center gap-2 underline decoration-honey/30 underline-offset-4">
+                      <Terminal size={14} /> Universal_Metadata_Core
+                    </label>
+                    <div className="bg-honey/5 border border-honey/10 p-5 rounded-lg space-y-4">
+                      <div className="grid grid-cols-2 gap-3">
+                        <input 
+                          type="text"
+                          value={customMetaKey}
+                          onChange={(e) => setCustomMetaKey(e.target.value)}
+                          placeholder="Field_Key"
+                          className="bg-black/60 border border-honey/20 rounded-md p-2 text-[10px] text-white focus:border-honey outline-none font-mono"
+                        />
+                        <input 
+                          type="text"
+                          value={customMetaValue}
+                          onChange={(e) => setCustomMetaValue(e.target.value)}
+                          placeholder="Field_Value"
+                          className="bg-black/60 border border-honey/20 rounded-md p-2 text-[10px] text-white focus:border-honey outline-none font-mono"
+                        />
+                      </div>
+                      <button 
+                        onClick={() => {
+                          if (!customMetaKey || !customMetaValue) return;
+                          updateHive(selectedHive.id, { [customMetaKey]: customMetaValue });
+                          setCustomMetaKey(''); setCustomMetaValue('');
+                        }}
+                        className="w-full py-2 bg-honey/10 border border-honey/30 text-honey text-[9px] font-black uppercase tracking-widest hover:bg-honey hover:text-black transition-all rounded-sm"
+                      >
+                        Push_Field_to_Core
+                      </button>
+                      <div className="space-y-1 max-h-[150px] overflow-y-auto custom-scrollbar pt-2 border-t border-white/5">
+                        {Object.entries(selectedHive).filter(([k]) => !['id','history','journal','weight','temp','humidity','activity','location','activeHarvest','nextHarvestDate','photoUrl','beeSpecies','installationDate','status','currentSubscribers','lastDiaryEntryTimestamp','videoUrl','lastAdminNote'].includes(k)).map(([k, v]) => (
+                          <div key={k} className="flex items-center justify-between p-2 bg-white/5 border border-white/5 rounded text-[9px] font-mono group/meta">
+                            <span className="text-honey/60">{k}:</span>
+                            <span className="text-white/60 truncate max-w-[120px]">{String(v)}</span>
+                            <button onClick={() => updateHive(selectedHive.id, { [k]: null })} className="text-red-500/40 hover:text-red-500 opacity-0 group-hover/meta:opacity-100 transition-opacity"><Trash2 size={10}/></button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Journaling Terminal */}
@@ -700,6 +873,50 @@ export default function Admin() {
                       rows={4}
                       className="w-full bg-[#0A0704] border border-honey/20 rounded-md p-4 text-[11px] text-white focus:border-honey outline-none font-sans resize-none italic"
                     />
+                  </div>
+                  
+                  {/* User Meta: Advanced Profiling */}
+                  <div className="space-y-4 pt-4 border-t border-honey/10">
+                    <label className="text-[10px] uppercase tracking-widest text-[#C8860A] font-black flex items-center gap-2 underline decoration-honey/30 underline-offset-4">
+                      <ShieldAlert size={14} /> Guardian_Metadata_Layer
+                    </label>
+                    <div className="bg-honey/5 border border-honey/10 p-4 rounded-md space-y-4">
+                      <div className="grid grid-cols-2 gap-3">
+                        <input 
+                          type="text"
+                          value={customMetaKey}
+                          onChange={(e) => setCustomMetaKey(e.target.value)}
+                          placeholder="Layer_Key"
+                          className="bg-black/60 border border-honey/20 rounded-md p-2 text-[10px] text-white focus:border-honey outline-none font-mono"
+                        />
+                        <input 
+                          type="text"
+                          value={customMetaValue}
+                          onChange={(e) => setCustomMetaValue(e.target.value)}
+                          placeholder="Layer_Value"
+                          className="bg-black/60 border border-honey/20 rounded-md p-2 text-[10px] text-white focus:border-honey outline-none font-mono"
+                        />
+                      </div>
+                      <button 
+                        onClick={() => {
+                          if (!customMetaKey || !customMetaValue) return;
+                          updateUser(selectedUser.uid, { [customMetaKey]: customMetaValue });
+                          setCustomMetaKey(''); setCustomMetaValue('');
+                        }}
+                        className="w-full py-2 bg-[#C8860A]/10 border border-[#C8860A]/30 text-[#C8860A] text-[9px] font-black uppercase tracking-widest hover:bg-[#C8860A] hover:text-black transition-all rounded-sm"
+                      >
+                        Push_Guardian_Field
+                      </button>
+                      <div className="space-y-1 max-h-[150px] overflow-y-auto custom-scrollbar pt-2 border-t border-white/5">
+                        {Object.entries(selectedUser).filter(([k]) => !['uid','email','role','subscribedHives','customLabel','shippingAddress','nextHarvestDate','tier','subscriptionStartDate','adminNotes','customHoneyName','userHarvestStatus'].includes(k)).map(([k, v]) => (
+                          <div key={k} className="flex items-center justify-between p-2 bg-white/5 border border-white/5 rounded text-[9px] font-mono group/meta">
+                            <span className="text-honey/60">{k}:</span>
+                            <span className="text-white/60 truncate max-w-[120px]">{String(v)}</span>
+                            <button onClick={() => updateUser(selectedUser.uid, { [k]: null })} className="text-red-500/40 hover:text-red-500 opacity-0 group-hover/meta:opacity-100 transition-opacity"><Trash2 size={10}/></button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -1040,6 +1257,70 @@ export default function Admin() {
           )}
         </div>
       </main>
+
+      {/* Batch Action Bar: Floating Elite Logic */}
+      {(selectedHiveIds.length > 0 || selectedUserUids.length > 0) && (
+        <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-[100] animate-in slide-in-from-bottom duration-500">
+          <div className="bg-[#1A150F] border border-honey shadow-[0_30px_60px_rgba(0,0,0,0.8)] px-8 py-4 rounded-full backdrop-blur-3xl flex items-center gap-8 min-w-[600px] border-animate">
+            <div className="flex flex-col">
+              <span className="text-[10px] uppercase tracking-widest text-honey font-black">BATCH_MODE_ACTIVE</span>
+              <span className="text-[8px] font-mono text-white/40">{selectedHiveIds.length || selectedUserUids.length} TARGETS_LOCKED</span>
+            </div>
+            <div className="h-8 w-[1px] bg-honey/20"></div>
+            
+            <div className="flex gap-4 items-center">
+              {activeTab === 'hives' ? (
+                <>
+                  <button 
+                    onClick={() => handleBatchHiveUpdate({ status: 'assigned' })}
+                    className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-[#F1E9DB]/60 hover:text-honey hover:border-honey/40 transition-all flex items-center gap-2"
+                  >
+                    <CheckCircle size={12} /> Set_Assigned
+                  </button>
+                  <button 
+                    onClick={() => handleBatchHiveUpdate({ status: 'available' })}
+                    className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-[#F1E9DB]/60 hover:text-honey hover:border-honey/40 transition-all flex items-center gap-2"
+                  >
+                    <Plus size={12} /> Release_Pool
+                  </button>
+                  <button 
+                    onClick={handleBatchJournalEntry}
+                    className="px-4 py-2 bg-honey text-black rounded-full text-[9px] font-black uppercase tracking-widest hover:scale-105 transition-all flex items-center gap-2"
+                  >
+                    <StickyNote size={12} /> Collective_Journal
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button 
+                    onClick={() => handleBatchUserUpdate({ tier: 'premium' })}
+                    className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-[#F1E9DB]/60 hover:text-honey hover:border-honey/40 transition-all flex items-center gap-2"
+                  >
+                    <Zap size={12} /> Massive_Upgrade
+                  </button>
+                  <button 
+                    onClick={() => {
+                      const note = prompt('Enter admin note for selected guardians:');
+                      if (note) handleBatchUserUpdate({ adminNotes: note });
+                    }}
+                    className="px-4 py-2 bg-honey text-black rounded-full text-[9px] font-black uppercase tracking-widest hover:scale-105 transition-all flex items-center gap-2"
+                  >
+                    <StickyNote size={12} /> Attach_Note
+                  </button>
+                </>
+              )}
+            </div>
+
+            <div className="h-8 w-[1px] bg-honey/20"></div>
+            <button 
+              onClick={() => { setSelectedHiveIds([]); setSelectedUserUids([]); }}
+              className="text-[9px] uppercase font-black text-red-500 hover:underline tracking-widest"
+            >
+              Cancel_Op
+            </button>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
