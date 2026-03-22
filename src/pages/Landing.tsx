@@ -218,19 +218,19 @@ const Hero = () => {
         </div>
 
         {/* MIDDLE - Temp */}
-        <div className="absolute top-[45%] md:top-1/2 left-1/3 md:left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#1A1208]/70 backdrop-blur-md border border-honey/20 p-3 md:p-5 rounded-[2px] z-10">
+        <div className="absolute top-[45%] md:top-1/2 left-1/3 md:left-1/2 -translate-x-1/2 -translate-y-1/2 bg-hive-bg/70 backdrop-blur-md border border-honey/20 p-3 md:p-5 rounded-[2px] z-10">
           <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-white/40 mb-1 md:mb-2">Temp</div>
           <div className="font-display text-2xl md:text-3xl text-pale-honey">34.5°C</div>
         </div>
 
         {/* RIGHT MIDDLE - Activity */}
-        <div className="absolute top-1/4 right-6 md:top-1/3 md:right-12 bg-[#1A1208]/70 backdrop-blur-md border border-honey/20 p-3 md:p-4 rounded-[2px] z-10">
+        <div className="absolute top-1/4 right-6 md:top-1/3 md:right-12 bg-hive-bg/70 backdrop-blur-md border border-honey/20 p-3 md:p-4 rounded-[2px] z-10">
           <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-white/40 mb-1 md:mb-2">Activity</div>
           <div className="font-display text-xl md:text-2xl text-green-400">High</div>
         </div>
         
         {/* Live Data Card */}
-        <div className="absolute bottom-6 right-6 md:bottom-12 md:right-12 bg-[#1A1208]/60 backdrop-blur-md border border-honey/30 p-4 md:p-5 rounded-[2px] shadow-2xl z-10">
+        <div className="absolute bottom-6 right-6 md:bottom-12 md:right-12 bg-hive-bg/60 backdrop-blur-md border border-honey/30 p-4 md:p-5 rounded-[2px] shadow-2xl z-10">
           <div className="flex items-center space-x-2 mb-2 md:mb-3">
             <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-green-500 animate-blink"></div>
             <div className="text-[9px] md:text-[10px] uppercase tracking-widest text-white/70 font-medium">Live · Hive #247</div>
@@ -361,38 +361,109 @@ const DashboardPreview = () => {
   );
 };
 
+const harvests = [
+  { 
+    color: '#E8A030', 
+    name: 'Welcome Jar', 
+    season: 'Immediate Delivery', 
+    location: 'Within 2 weeks', 
+    character: 'Our latest available harvest',
+    yield: '250g',
+    desc: 'A taste of the apiary to welcome you to the hive.' 
+  },
+  { 
+    color: '#F5C842', 
+    name: 'Spring Bloom', 
+    season: 'Spring Harvest', 
+    location: 'April–May', 
+    character: 'Light amber, aromatic',
+    yield: '800g',
+    desc: 'Thyme, vanilla orchid, sage' 
+  },
+  { 
+    color: '#5C3D1A', 
+    name: 'Pine & Earth', 
+    season: 'Autumn Harvest', 
+    location: 'September–October', 
+    character: 'Dark, mineral, rich',
+    yield: '800g',
+    desc: 'Pine, chestnut' 
+  }
+];
+
+const OriginsMap = ({ activeIndex }: { activeIndex: number | null }) => {
+  // Coordinates (relative to 100x100 SVG viewbox)
+  const Mani = { x: 55, y: 85 };
+  const Taygetos = { x: 50, y: 65 };
+  const Arcadia = { x: 52, y: 40 };
+
+  return (
+    <div className="w-full aspect-square border border-honey/20 bg-hive-panel relative flex items-center justify-center overflow-hidden group rounded-[2px]">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+         <svg viewBox="0 0 100 100" className="w-full h-full fill-none stroke-honey/20 stroke-[0.5]">
+            {/* Minimal Peloponnese Outline (Stylized) */}
+            <path d="M40,20 Q60,10 80,30 T70,70 Q60,95 45,85 T20,60 Q10,40 40,20" />
+         </svg>
+      </div>
+
+      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
+        {/* Animated Routes */}
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        {/* Route to Spring Bloom (Taygetos) */}
+        <path 
+          d={`M${Mani.x},${Mani.y} Q${Mani.x - 5},${(Mani.y + Taygetos.y)/2} ${Taygetos.x},${Taygetos.y}`}
+          className={`stroke-honey transition-all duration-1000 fill-none ${activeIndex === 1 ? 'stroke-[0.8] opacity-100' : 'stroke-[0.2] opacity-20'}`}
+          strokeDasharray={activeIndex === 1 ? "0" : "2,2"}
+          filter={activeIndex === 1 ? "url(#glow)" : ""}
+        />
+
+        {/* Route to Pine & Earth (Arcadia) */}
+        <path 
+          d={`M${Mani.x},${Mani.y} Q${Mani.x + 10},${(Mani.y + Arcadia.y)/2} ${Arcadia.x},${Arcadia.y}`}
+          className={`stroke-honey transition-all duration-1000 fill-none ${activeIndex === 2 ? 'stroke-[0.8] opacity-100' : 'stroke-[0.2] opacity-20'}`}
+          strokeDasharray={activeIndex === 2 ? "0" : "2,2"}
+          filter={activeIndex === 2 ? "url(#glow)" : ""}
+        />
+
+        {/* Locations */}
+        <g>
+          {/* Mani */}
+          <circle cx={Mani.x} cy={Mani.y} r="1.5" fill="#C8860A" className="animate-pulse" />
+          <text x={Mani.x + 3} y={Mani.y + 1} className="fill-white/40 text-[3px] font-display uppercase tracking-widest">Base: Mani</text>
+          
+          {/* Taygetos */}
+          <circle cx={Taygetos.x} cy={Taygetos.y} r="1" fill={activeIndex === 1 ? "#C8860A" : "#333"} className="transition-colors duration-500" />
+          <text x={Taygetos.x - 15} y={Taygetos.y - 2} className={`text-[3px] font-display uppercase tracking-widest transition-colors ${activeIndex === 1 ? 'fill-honey' : 'fill-white/20'}`}>Spring: Taygetos</text>
+          
+          {/* Arcadia */}
+          <circle cx={Arcadia.x} cy={Arcadia.y} r="1" fill={activeIndex === 2 ? "#C8860A" : "#333"} className="transition-colors duration-500" />
+          <text x={Arcadia.x + 3} y={Arcadia.y + 1} className={`text-[3px] font-display uppercase tracking-widest transition-colors ${activeIndex === 2 ? 'fill-honey' : 'fill-white/20'}`}>Autumn: Arcadia</text>
+        </g>
+      </svg>
+      
+      <div className="z-10 text-center bg-hive-panel/80 backdrop-blur-sm p-6 border border-honey/20 rounded-[2px] pointer-events-none">
+        <div className="text-[10px] uppercase tracking-widest text-honey mb-1 font-bold">
+          {activeIndex === 0 ? "Initial Assignment" : activeIndex === 1 ? "Spring Migration" : activeIndex === 2 ? "Autumn Migration" : "Nomadic Roots"}
+        </div>
+        <div className="font-display text-lg text-white">
+          {activeIndex === null ? "Laconia, Greece" : harvests[activeIndex].location}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Origins = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const harvests = [
-    { 
-      color: '#E8A030', 
-      name: 'Welcome Jar', 
-      season: 'Immediate Delivery', 
-      location: 'Within 2 weeks', 
-      character: 'Our latest available harvest',
-      yield: '250g',
-      desc: 'A taste of the apiary to welcome you to the hive.' 
-    },
-    { 
-      color: '#F5C842', 
-      name: 'Spring Bloom', 
-      season: 'Spring Harvest', 
-      location: 'April–May', 
-      character: 'Light amber, aromatic',
-      yield: '800g',
-      desc: 'Thyme, vanilla orchid, sage' 
-    },
-    { 
-      color: '#5C3D1A', 
-      name: 'Pine & Earth', 
-      season: 'Autumn Harvest', 
-      location: 'September–October', 
-      character: 'Dark, mineral, rich',
-      yield: '800g',
-      desc: 'Pine, chestnut' 
-    }
-  ];
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <section id="origins" className="py-32 px-6">
@@ -409,6 +480,8 @@ const Origins = () => {
                 <button 
                   className="w-full py-6 flex items-center justify-between text-left focus:outline-none"
                   onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                  onMouseEnter={() => setHoveredIndex(i)}
+                  onMouseLeave={() => setHoveredIndex(null)}
                 >
                   <div className="flex items-center gap-6">
                     <div className="w-3 h-3 rounded-full transition-transform duration-300 group-hover:scale-125" style={{ backgroundColor: h.color }}></div>
@@ -437,19 +510,7 @@ const Origins = () => {
         </div>
         
         <div className="w-full md:w-[45%] flex items-center justify-center">
-          <div className="w-full aspect-square border border-honey/20 bg-hive-panel relative flex items-center justify-center overflow-hidden group rounded-[2px]">
-            {/* TODO: Replace /map-texture.jpg in the public folder with your own map texture or image */}
-            <img src="/map-texture.jpg" alt="Map texture" className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay" />
-            {/* Topographic lines simulation */}
-            <div className="absolute inset-0 border border-honey/5 rounded-full scale-[0.3] group-hover:scale-[0.32] transition-transform duration-1000"></div>
-            <div className="absolute inset-0 border border-honey/10 rounded-full scale-[0.6] group-hover:scale-[0.63] transition-transform duration-1000"></div>
-            <div className="absolute inset-0 border border-honey/15 rounded-full scale-[0.9] group-hover:scale-[0.95] transition-transform duration-1000"></div>
-            
-            <div className="z-10 text-center bg-hive-panel/80 backdrop-blur-sm p-6 border border-honey/20 rounded-[2px]">
-              <div className="text-[10px] uppercase tracking-widest text-white/40 mb-2">36°57'14.0"N 22°21'08.0"E</div>
-              <div className="font-display text-xl text-pale-honey">Lagia, Mani</div>
-            </div>
-          </div>
+          <OriginsMap activeIndex={hoveredIndex !== null ? hoveredIndex : openIndex} />
         </div>
       </div>
     </section>
@@ -512,7 +573,7 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
         </div>
         
         {/* Premium */}
-        <div className="border-2 border-honey p-12 bg-[#1A1208] text-white relative z-10 shadow-[0_0_30px_rgba(200,134,10,0.15)] md:-my-3 rounded-[2px]">
+        <div className="border-2 border-honey p-12 bg-hive-bg text-white relative z-10 shadow-[0_0_30px_rgba(200,134,10,0.15)] md:-my-3 rounded-[2px]">
           <div className="absolute top-0 right-0 bg-honey text-[#1A1208] text-[9px] uppercase tracking-widest px-3 py-1 font-bold rounded-bl-sm">Recommended</div>
           <div className="text-[10px] uppercase tracking-widest text-honey/80 mb-6">Premium</div>
           <div className="mb-2 text-pale-honey flex items-start">
@@ -801,7 +862,7 @@ export default function Landing() {
       {isCartOpen && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex justify-end" onClick={() => setIsCartOpen(false)}>
           <div className="w-full max-w-md bg-hive-panel border-l border-honey/20 h-full shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col animate-in slide-in-from-right duration-300" onClick={e => e.stopPropagation()}>
-            <div className="p-6 border-b border-honey/10 flex justify-between items-center bg-[#1A1208]">
+            <div className="p-6 border-b border-honey/10 flex justify-between items-center bg-hive-bg">
               <h2 className="font-display text-2xl text-white">Your Cart</h2>
               <button onClick={() => setIsCartOpen(false)} className="text-white/40 hover:text-white transition-colors"><X size={24} /></button>
             </div>
@@ -836,7 +897,7 @@ export default function Landing() {
                     </div>
                   )}
                   {!hasOliveOil && cartPlan && (
-                    <div className="mt-4 p-5 rounded-[2px] bg-[#1A1208] border border-honey/20 flex flex-col gap-3">
+                    <div className="mt-4 p-5 rounded-[2px] bg-hive-bg border border-honey/20 flex flex-col gap-3">
                       <div className="flex justify-between items-start">
                         <div>
                           <p className="text-sm font-medium text-white/90 mb-1">Add Laconian Olive Oil?</p>
@@ -857,7 +918,7 @@ export default function Landing() {
             </div>
             
             {cartItemsCount > 0 && (
-              <div className="p-6 border-t border-honey/10 bg-[#1A1208]">
+              <div className="p-6 border-t border-honey/10 bg-hive-bg">
                 <div className="flex justify-between items-center mb-6 text-white text-white">
                   <span className="text-sm uppercase tracking-widest text-white/50">Total</span>
                   <span className="font-display text-3xl text-pale-honey">{cartTotal} €</span>
@@ -904,7 +965,7 @@ export default function Landing() {
             className="absolute inset-0 bg-black/40 backdrop-blur-xl"
             onClick={() => setSelectedPlanForSignup(null)}
           ></div>
-          <div className="bg-[#110C05]/95 border border-honey/30 p-10 rounded-[2px] w-full max-w-lg relative z-10 shadow-[0_0_50px_rgba(200,134,10,0.15)] animate-in fade-in zoom-in duration-500 overflow-hidden">
+          <div className="bg-hive-panel/95 border border-honey/30 p-10 rounded-[2px] w-full max-w-lg relative z-10 shadow-[0_0_50px_rgba(200,134,10,0.15)] animate-in fade-in zoom-in duration-500 overflow-hidden">
             {/* Subtle Golden Glow */}
             <div className="absolute -top-24 -left-24 w-48 h-48 bg-honey/10 blur-[80px] rounded-full pointer-events-none"></div>
             

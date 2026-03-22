@@ -310,7 +310,7 @@ export default function Admin() {
                     <select 
                       value={selectedUserEmail}
                       onChange={(e) => setSelectedUserEmail(e.target.value)}
-                      className="w-full bg-[#1A1208] border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors appearance-none text-sm"
+                      className="w-full bg-hive-bg border border-honey/20 rounded-[2px] px-3 py-2 text-white focus:outline-none focus:border-honey/50 transition-colors appearance-none text-sm"
                     >
                       <option value="">Select a user by email...</option>
                       {unassignedUsers.map(u => (
@@ -354,7 +354,7 @@ export default function Admin() {
                               <select 
                                 value={user.role}
                                 onChange={(e) => updateUser(user.uid, { role: e.target.value as any })}
-                                className="w-full bg-[#1A1208] border border-honey/20 rounded-[2px] px-2 py-1.5 text-xs text-white focus:outline-none focus:border-honey/50"
+                                className="w-full bg-hive-bg border border-honey/20 rounded-[2px] px-2 py-1.5 text-xs text-white focus:outline-none focus:border-honey/50"
                               >
                                 <option value="user">User (Prospect)</option>
                                 <option value="subscriber">Subscriber</option>
@@ -366,7 +366,7 @@ export default function Admin() {
                               <select 
                                 value={user.tier || 'starter'}
                                 onChange={(e) => updateUser(user.uid, { tier: e.target.value as any })}
-                                className="w-full bg-[#1A1208] border border-honey/20 rounded-[2px] px-2 py-1.5 text-xs text-white focus:outline-none focus:border-honey/50"
+                                className="w-full bg-hive-bg border border-honey/20 rounded-[2px] px-2 py-1.5 text-xs text-white focus:outline-none focus:border-honey/50"
                               >
                                 <option value="starter">Starter (€80)</option>
                                 <option value="premium">Premium (€160)</option>
@@ -379,7 +379,7 @@ export default function Admin() {
                                 value={user.customLabel || ''}
                                 onChange={(e) => updateUser(user.uid, { customLabel: e.target.value })}
                                 placeholder="e.g. The Smith Family"
-                                className="w-full bg-[#1A1208] border border-honey/20 rounded-[2px] px-2 py-1.5 text-xs text-white focus:outline-none focus:border-honey/50 transition-colors"
+                                className="w-full bg-hive-bg border border-honey/20 rounded-[2px] px-2 py-1.5 text-xs text-white focus:outline-none focus:border-honey/50 transition-colors"
                               />
                             </div>
                             <div className="md:col-span-2 space-y-2">
@@ -389,7 +389,7 @@ export default function Admin() {
                                 onChange={(e) => updateUser(user.uid, { shippingAddress: e.target.value })}
                                 placeholder="No address provided yet."
                                 rows={2}
-                                className="w-full bg-[#1A1208] border border-honey/20 rounded-[2px] px-2 py-1.5 text-xs text-white focus:outline-none focus:border-honey/50 transition-colors resize-none"
+                                className="w-full bg-hive-bg border border-honey/20 rounded-[2px] px-2 py-1.5 text-xs text-white focus:outline-none focus:border-honey/50 transition-colors resize-none"
                               />
                             </div>
                           </div>

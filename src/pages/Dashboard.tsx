@@ -193,7 +193,7 @@ export default function Dashboard() {
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Sidebar */}
           <aside className="lg:w-72 space-y-8">
-            <div className="p-6 bg-[#110C05]/40 border border-honey/10 rounded-[2px] backdrop-blur-md">
+            <div className="p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px] backdrop-blur-md">
               <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-6">Your Apiaries</div>
               <div className="space-y-3">
                 {hives.map(hive => (
@@ -218,7 +218,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="p-6 bg-[#110C05]/40 border border-honey/10 rounded-[2px] backdrop-blur-md">
+            <div className="p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px] backdrop-blur-md">
               <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-6">Membership</div>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
@@ -237,7 +237,7 @@ export default function Dashboard() {
           {/* Main Feed */}
           <div className="flex-1 space-y-8">
             {/* Hero Visualization */}
-            <section className="relative p-12 border border-honey/20 rounded-[2px] bg-[#110C05]/60 overflow-hidden flex flex-col items-center justify-center text-center backdrop-blur-xl">
+            <section className="relative p-12 border border-honey/20 rounded-[2px] bg-hive-panel/60 overflow-hidden flex flex-col items-center justify-center text-center backdrop-blur-xl">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(200,134,10,0.1)_0%,_transparent_70%)]"></div>
               
               <div className="relative z-10 w-full max-w-2xl">
@@ -274,7 +274,7 @@ export default function Dashboard() {
             {/* Analysis Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Chart */}
-              <div className="p-8 border border-honey/10 bg-[#110C05]/40 rounded-[2px] backdrop-blur-md">
+              <div className="p-8 border border-honey/10 bg-hive-panel/40 rounded-[2px] backdrop-blur-md">
                 <div className="flex justify-between items-center mb-10">
                   <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold">7-Day Growth Curve</div>
                 </div>
@@ -297,7 +297,7 @@ export default function Dashboard() {
               </div>
 
               {/* Harvest Timeline */}
-              <div className="p-8 border border-honey/10 bg-[#110C05]/40 rounded-[2px] backdrop-blur-md">
+              <div className="p-8 border border-honey/10 bg-hive-panel/40 rounded-[2px] backdrop-blur-md">
                 <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-10">Production Cycle</div>
                 <div className="space-y-6">
                   <div className="relative pl-6 border-l border-honey/20 pb-4">

@@ -14,6 +14,7 @@ import NotFound from './pages/NotFound';
 import { AuthProvider, useAuth } from './lib/useAuth';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import CookieConsent from './components/CookieConsent';
+import ApiaryAudio from './components/ApiaryAudio';
 
 function ProtectedRoute({ children, requireAdmin = false }: { children: React.ReactNode, requireAdmin?: boolean }) {
   const { user, profile, loading } = useAuth();
@@ -22,7 +23,7 @@ function ProtectedRoute({ children, requireAdmin = false }: { children: React.Re
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#1A1208] text-white flex items-center justify-center">
+      <div className="min-h-screen bg-hive-bg text-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-honey border-t-transparent rounded-full animate-spin"></div>
           <span className="text-xs uppercase tracking-widest text-white/50">Loading...</span>
@@ -78,6 +79,7 @@ export default function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
           <CookieConsent />
+          <ApiaryAudio />
         </Router>
       </AuthProvider>
     </ErrorBoundary>
