@@ -34,7 +34,9 @@ import {
   ArrowLeft,
   Lock,
   RefreshCw,
-  Radio
+  Radio,
+  Copy,
+  Check
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
@@ -689,6 +691,32 @@ export default function Admin() {
                       <Radio size={14} className={selectedHive.iotActive ? "animate-pulse text-green-500" : ""} /> IoT_Pulse_Simulator
                     </label>
                     <div className="bg-honey/5 border border-honey/10 p-5 rounded-lg space-y-4">
+                      {/* Hardware Key Section */}
+                      <div className="pb-4 border-b border-honey/10">
+                        <span className="text-[10px] uppercase tracking-widest text-honey/60 font-bold block mb-2">Hardware_Authentication_Key</span>
+                        <div className="flex items-center gap-2">
+                          <code className="bg-black/60 border border-honey/20 rounded px-2 py-1.5 text-[10px] text-honey font-mono flex-1 truncate">
+                            {selectedHive.iotKey || "KEY_NOT_GEN"}
+                          </code>
+                          <button 
+                            onClick={() => {
+                              if (selectedHive.iotKey) {
+                                navigator.clipboard.writeText(selectedHive.iotKey);
+                                alert("Hardware Key Copied to Clipboard!");
+                              }
+                            }}
+                            className="p-2 bg-honey/10 border border-honey/30 rounded hover:bg-honey hover:text-black transition-all"
+                            title="Copy Key"
+                          >
+                            <Copy size={12} />
+                          </button>
+                        </div>
+                        <div className="mt-2 flex items-center gap-2">
+                           <span className="text-[8px] uppercase text-white/20 tracking-widest">Uplink Target:</span>
+                           <code className="text-[8px] text-honey/40 font-mono">https://api.hiveshare.io/v1/uplink</code>
+                        </div>
+                      </div>
+
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-[10px] uppercase tracking-widest text-honey/60 font-bold">Uplink Status</span>
                         <div className="flex items-center gap-2">

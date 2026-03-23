@@ -255,12 +255,12 @@ export default function Dashboard() {
                   )}
                 </div>
                 <h2 className="font-display italic text-8xl text-[#2A1B0A] mb-8">{activeHive.weight.toFixed(1)}<span className="text-3xl ml-2 not-italic text-honey/60">kg</span></h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-honey/10">
-                  <div className="space-y-1"><div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/60">Temp</div><div className="text-sm text-[#2A1B0A] font-bold">{activeHive.temp}°C</div></div>
-                  <div className="space-y-1"><div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/60">Humidity</div><div className="text-sm text-[#2A1B0A] font-bold">{activeHive.humidity}%</div></div>
-                  <div className="space-y-1"><div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/60">Activity</div><div className="text-sm text-[#2A1B0A] font-bold">{activeHive.activity}</div></div>
-                  <div className="space-y-1"><div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/60">Health</div><div className="text-sm text-green-500 font-bold uppercase tracking-widest">Stable</div></div>
-                </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 pt-6 border-t border-honey/10">
+                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#2A1B0A]/60 font-black">Temp</div><div className="text-sm text-[#2A1B0A] font-black">{activeHive.temp}°C</div></div>
+                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#2A1B0A]/60 font-black">Humidity</div><div className="text-sm text-[#2A1B0A] font-black">{activeHive.humidity}%</div></div>
+                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#2A1B0A]/60 font-black">Activity</div><div className="text-sm text-[#2A1B0A] font-black">{activeHive.activity}</div></div>
+                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#2A1B0A]/60 font-black">Health</div><div className="text-sm text-green-600 font-black uppercase tracking-widest">Stable</div></div>
+                  </div>
               </div>
             </section>
 
@@ -287,15 +287,22 @@ export default function Dashboard() {
                           contentStyle={{ backgroundColor: '#1A1208', border: '1px solid rgba(200, 134, 10, 0.2)', borderRadius: '2px', fontSize: '10px' }}
                           itemStyle={{ color: '#C8860A' }}
                         />
-                        <Area
-                          type="monotone"
-                          dataKey="weight"
-                          stroke="#C8860A"
+                        <Area 
+                          type="monotone" 
+                          dataKey="weight" 
+                          stroke="#C8860A" 
                           strokeWidth={2}
-                          fillOpacity={1}
-                          fill="url(#colorWeight)"
+                          fillOpacity={1} 
+                          fill="url(#colorWeight)" 
+                          animationDuration={2000}
                         />
-                        <XAxis dataKey="day" hide />
+                        <XAxis 
+                          dataKey="day" 
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fill: 'rgba(42, 27, 10, 0.4)', fontSize: 8, fontWeight: 900 }}
+                          dy={10}
+                        />
                         <YAxis hide domain={['dataMin - 1', 'dataMax + 1']} />
                       </AreaChart>
                     </ResponsiveContainer>

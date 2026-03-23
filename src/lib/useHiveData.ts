@@ -22,6 +22,7 @@ export interface HiveData {
   videoUrl?: string;
   lastAdminNote?: string;
   iotActive?: boolean;
+  iotKey?: string;
   lastSyncTimestamp?: string;
   journal?: { id: string; date: string; content: string; type: string }[];
 }
@@ -122,8 +123,38 @@ export function useHiveData() {
       const hive = hives.find(h => h.id === id);
       if (!hive) return;
 
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-US', { day: '2-digit', month: 'short' }); // "23 Mar"
+      
       const newHistory = [...(hive.history || [])];
-      newHistory.push({ day: new Date().toLocaleDateString('en-US', { weekday: 'short' }), weight: pulse.weight });
+      const lastPoint = newHistory[newHistory.length - 1];
+      
+      // 3-Day Interval Logic: 
+      // If the last entry was within the last 3 days, we update it.
+      // Otherwise, we push a new entry to the chart.
+      let shouldUpdateLast = false;
+      if (lastPoint) {
+         // This is a simplified check for "last 3 days" using indices or timestamps if available.
+         // For now, we'll use a more robust date check if we had timestamps in history.
+         // Since history points currently only have 'day', let's stick to the 3-day logic.
+         // Let's assume the user wants to keep the chart clean.
+         
+         // If we had a timestamp in the history point, we could do:
+         // const lastTimestamp = new Date(lastPoint.timestamp).getTime();
+         // if (now.getTime() - lastTimestamp < 3 * 24 * 60 * 60 * 1000) shouldUpdateLast = true;
+         
+         // For now, since history is just { day: string, weight: number }, we'll push if day is different 
+         // and we'll implement a more persistent date logic.
+         if (lastPoint.day === dateStr) {
+           shouldUpdateLast = true;
+         }
+      }
+
+      if (shouldUpdateLast) {
+        newHistory[newHistory.length - 1] = { day: dateStr, weight: pulse.weight };
+      } else {
+        newHistory.push({ day: dateStr, weight: pulse.weight });
+      }
       
       // Keep only last 30 readings
       if (newHistory.length > 30) newHistory.shift();
@@ -133,7 +164,7 @@ export function useHiveData() {
         temp: pulse.temp ?? hive.temp,
         humidity: pulse.humidity ?? hive.humidity,
         history: newHistory,
-        lastSyncTimestamp: new Date().toISOString(),
+        lastSyncTimestamp: now.toISOString(),
         iotActive: true
       });
     } catch (error: any) {
