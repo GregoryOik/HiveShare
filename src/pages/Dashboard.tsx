@@ -129,82 +129,111 @@ export default function Dashboard() {
     const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
     const userName = (profile?.customLabel || user?.displayName || user?.email || 'Valued Guardian').toUpperCase();
     const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-    const activeHive = hives.find(h => h.id === hiveId);
-    const location = activeHive?.location || 'Mani, Laconia';
-    const serial = `HS-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    const serial = `GR-SP-600-${hiveId}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
 
     // 1. Background Layer (Deep Noir)
     doc.setFillColor(15, 12, 8); // #0F0C08
     doc.rect(0, 0, 297, 210, 'F');
 
-    // 2. Honeycomb Watermark Pattern
-    doc.setDrawColor(200, 134, 10); // Honey
-    doc.setLineWidth(0.05);
-    for (let i = 0; i < 300; i += 20) {
-      for (let j = 0; j < 220; j += 15) {
-        doc.circle(i, j, 8, 'S'); // Subtle circles to evoke cells
-      }
-    }
+    // 2. Taygetos / Honeycomb Watermark (Discrete)
+    doc.setDrawColor(200, 134, 10, 0.15); // Very subtle honey
+    doc.setLineWidth(0.1);
+    // Draw some mountain silhouettes at the bottom
+    doc.moveTo(10, 180);
+    doc.lineTo(60, 150);
+    doc.lineTo(100, 170);
+    doc.lineTo(150, 140);
+    doc.lineTo(200, 165);
+    doc.lineTo(260, 145);
+    doc.lineTo(287, 180);
+    doc.stroke();
 
-    // 3. Main Border (Double Line)
+    // 3. Beeswax / Old Document Border
     doc.setDrawColor(200, 134, 10);
-    doc.setLineWidth(1);
-    doc.rect(10, 10, 277, 190);
-    doc.setLineWidth(0.3);
-    doc.rect(13, 13, 271, 184);
+    doc.setLineWidth(1.5);
+    doc.rect(8, 8, 281, 194); // outer
+    doc.setLineWidth(0.4);
+    doc.rect(11, 11, 275, 188); // inner
 
-    // 4. Header Section
+    // 4. Header Section - LOGO & TITLE
     doc.setTextColor(200, 134, 10);
     doc.setFont('times', 'bold');
+    doc.setFontSize(22);
+    doc.text('HiveShare', 148.5, 25, { align: 'center', charSpace: 4 });
+    
+    doc.setFontSize(14);
+    doc.text('OFFICIAL CERTIFICATE OF ADOPTION', 148.5, 38, { align: 'center', charSpace: 2 });
     doc.setFontSize(10);
-    doc.text('OFFICIAL_ADOPTION_RECORD', 148.5, 30, { align: 'center', charSpace: 3 });
-    
-    doc.setFontSize(45);
-    doc.setFont('times', 'italic');
-    doc.text('Certificate of Guardianship', 148.5, 55, { align: 'center' });
-
-    // 5. Body Text
-    doc.setTextColor(255, 255, 255);
     doc.setFont('times', 'normal');
-    doc.setFontSize(12);
-    doc.text('THIS_DOCUMENT_CERTIFIES_THAT', 148.5, 80, { align: 'center', charSpace: 2 });
-    
-    doc.setFontSize(32);
-    doc.setTextColor(200, 134, 10);
-    doc.setFont('times', 'bold');
-    doc.text(userName, 148.5, 100, { align: 'center' });
+    doc.text('BEEHIVE CO-OWNERSHIP PROGRAM', 148.5, 45, { align: 'center', charSpace: 1 });
 
-    doc.setTextColor(255, 255, 255, 0.8);
+    // 5. Main Body
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(14);
+    doc.text('This is to certify that', 148.5, 65, { align: 'center' });
+    
+    doc.setTextColor(200, 134, 10);
+    doc.setFontSize(28);
+    doc.setFont('times', 'bold');
+    doc.text(userName, 148.5, 82, { align: 'center' });
+
+    doc.setTextColor(255, 255, 255);
     doc.setFont('times', 'normal');
     doc.setFontSize(14);
-    const bodyText = `is a recognized Guardian of Honeybee Hive #${hiveId}, stationed in the rugged apiary of ${location}. By this adoption, the Guardian supports the 30-year heritage of Mani beekeeping and the ecological vitality of the Laconian landscape.`;
-    const splitText = doc.splitTextToSize(bodyText, 200);
-    doc.text(splitText, 148.5, 120, { align: 'center' });
+    doc.text(`is an official co-owner of a honeybee colony in Laconia, Greece, for the 2026 season.`, 148.5, 95, { align: 'center' });
 
-    // 6. Footer Details
-    doc.setFontSize(10);
+    // 6. Technical Engineering Section (IoT)
+    doc.setFillColor(30, 25, 20);
+    doc.rect(40, 110, 217, 35, 'F');
+    doc.setDrawColor(200, 134, 10, 0.3);
+    doc.rect(40, 110, 217, 35, 'S');
+
+    doc.setFontSize(8);
     doc.setTextColor(200, 134, 10);
-    doc.text(`ISSUED: ${date}`, 40, 175);
-    doc.text(`SERIAL: ${serial}`, 40, 180);
+    doc.setFont('times', 'bold');
+    doc.text('TECHNICAL_SPECIFICATIONS_&_IOT_NODE_DATA', 45, 116);
 
-    // 7. Signature Area
-    doc.setLineWidth(0.2);
-    doc.line(200, 175, 260, 175);
+    doc.setTextColor(255, 255, 255, 0.9);
+    doc.setFont('times', 'normal');
+    const techLeft = 50;
+    const techRight = 160;
+    doc.text(`HIVE ID: ${serial}`, techLeft, 125);
+    doc.text(`LOCATION: Sparta, Peloponnese (37.0745° N, 22.4303° E)`, techLeft, 132);
+    doc.text(`HARDWARE: NB-IoT Telemetry System Enabled`, techRight, 125);
+    doc.text(`COLONY TYPE: Apis Mellifera Cecropia (Greek Bee)`, techRight, 132);
+
+    // 7. The Promise (Impact)
+    doc.setTextColor(255, 255, 255, 0.7);
+    doc.setFontSize(10);
+    const impactText = "By holding this certificate, you are actively protecting 30,000 pollinators and supporting sustainable, nomadic apiculture in the Greek highlands. Your contribution ensures the survival of the local ecosystem and the production of 100% unadulterated, premium honey.";
+    const splitImpact = doc.splitTextToSize(impactText, 210);
+    doc.text(splitImpact, 148.5, 155, { align: 'center' });
+
+    // 8. Dual Signatures
+    doc.setDrawColor(200, 134, 10, 0.5);
+    doc.setLineWidth(0.3);
+    
+    // Left: Founder
+    doc.line(40, 185, 120, 185);
     doc.setTextColor(255, 255, 255);
     doc.setFont('times', 'italic');
     doc.setFontSize(12);
-    doc.text('Petros Oikonomakos', 230, 170, { align: 'center' });
+    doc.text('Gregory Oikonomakos', 80, 180, { align: 'center' });
     doc.setFont('times', 'normal');
-    doc.setFontSize(8);
-    doc.text('MASTER_BEEKEEPER', 230, 182, { align: 'center', charSpace: 1 });
+    doc.setFontSize(7);
+    doc.text('FOUNDER & LEAD ENGINEER', 80, 190, { align: 'center', charSpace: 1 });
 
-    // 8. Official Seal (Geometric Circle)
-    doc.setDrawColor(200, 134, 10);
-    doc.setLineWidth(0.5);
-    doc.circle(230, 168, 18, 'S');
-    doc.circle(230, 168, 16, 'S');
+    // Right: Master Apiarist
+    doc.line(177, 185, 257, 185);
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('times', 'italic');
+    doc.setFontSize(12);
+    doc.text('Petros Oikonomakos', 217, 180, { align: 'center' });
+    doc.setFont('times', 'normal');
+    doc.setFontSize(7);
+    doc.text('MASTER APIARIST (30+ YEARS EXPERIENCE)', 217, 190, { align: 'center', charSpace: 1 });
 
-    doc.save(`HiveShare_Certificate_${hiveId}.pdf`);
+    doc.save(`HiveShare_Adoption_Certificate_${hiveId}.pdf`);
     setIsGeneratingPDF(false);
   };
 
