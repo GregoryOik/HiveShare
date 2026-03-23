@@ -17,6 +17,7 @@ interface AdminUserDetailsProps {
   assignHiveToUser: (uid: string, hiveId: string) => Promise<void>;
   removeHiveFromUser: (uid: string, hiveId: string) => Promise<void>;
   updateUser: (uid: string, data: Partial<UserProfile>) => Promise<void>;
+  deleteUser: (uid: string) => Promise<void>;
 }
 
 export function AdminUserDetails({
@@ -25,7 +26,8 @@ export function AdminUserDetails({
   hives,
   assignHiveToUser,
   removeHiveFromUser,
-  updateUser
+  updateUser,
+  deleteUser
 }: AdminUserDetailsProps) {
   const [customMetaKey, setCustomMetaKey] = useState('');
   const [customMetaValue, setCustomMetaValue] = useState('');
@@ -226,6 +228,46 @@ export function AdminUserDetails({
                      <option key={h.id} value={h.id}>Hive #{h.id} ({h.location})</option>
                    ))}
                  </select>
+              </div>
+            </div>
+
+            {/* Danger Zone */}
+            <div className="bg-red-500/5 border border-red-500/20 p-6 rounded-md space-y-4">
+              <h4 className="text-[10px] uppercase tracking-widest text-red-500 font-black flex items-center gap-2">
+                <ShieldAlert size={14} /> Danger_Zone
+              </h4>
+              <div className="flex flex-col gap-3">
+                <button 
+                  onClick={async () => {
+                    if (window.confirm("CRITICAL_ACTION: Cancel guardian subscription and release all linked units?")) {
+                      try {
+                        await updateUser(selectedUser.uid, { tier: 'starter', subscribedHives: [] });
+                        alert("Subscription terminated. Units released.");
+                      } catch (err: any) {
+                        alert(`Operation failed: ${err.message}`);
+                      }
+                    }
+                  }}
+                  className="w-full py-3 bg-red-500/10 border border-red-500/20 text-red-500 text-[9px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all rounded-sm"
+                >
+                  Cancel_Subscription
+                </button>
+                <button 
+                  onClick={async () => {
+                    if (window.confirm("NUCLEAR_COMMAND: Permanent deletion of guardian profile from registry? This cannot be undone.")) {
+                      try {
+                        await deleteUser(selectedUser.uid);
+                        alert("Profile purged from registry.");
+                        window.location.reload(); // Refresh to clear selection
+                      } catch (err: any) {
+                        alert(`Purge failed: ${err.message}`);
+                      }
+                    }
+                  }}
+                  className="w-full py-3 border border-red-500 text-red-500 text-[9px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all rounded-sm shadow-[0_0_15px_rgba(239,68,68,0.2)]"
+                >
+                  Purge_Guardian_Account
+                </button>
               </div>
             </div>
           </div>

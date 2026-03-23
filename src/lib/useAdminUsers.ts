@@ -93,5 +93,15 @@ export function useAdminUsers() {
     }
   };
 
-  return { users, loading, assignHiveToUser, removeHiveFromUser, updateUser, batchUpdateUsers };
+  const deleteUser = async (userId: string) => {
+    try {
+      const { deleteDoc: firebaseDeleteDoc } = await import('firebase/firestore');
+      await firebaseDeleteDoc(doc(db, 'users', userId));
+    } catch (error: any) {
+      console.error("[useAdminUsers] Error deleting user:", error);
+      throw error;
+    }
+  };
+
+  return { users, loading, assignHiveToUser, removeHiveFromUser, updateUser, batchUpdateUsers, deleteUser };
 }

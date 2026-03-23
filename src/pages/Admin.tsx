@@ -33,7 +33,7 @@ export default function Admin() {
   const { user: authUser, profile, logout } = useAuth();
   const { hives, loading: hivesLoading, addHive, updateHive, removeHive, pushHivePulse, seedHiveHistory, addJournalEntry } = useHiveData();
   const { config, updateConfig } = useSiteConfig();
-  const { users, loading: usersLoading, updateUser, assignHiveToUser, removeHiveFromUser, batchUpdateUsers } = useAdminUsers();
+  const { users, loading: usersLoading, updateUser, assignHiveToUser, removeHiveFromUser, batchUpdateUsers, deleteUser } = useAdminUsers();
 
   const [activeTab, setActiveTab] = useState<'hives' | 'users' | 'finance'>('hives');
   const [searchTerm, setSearchTerm] = useState('');
@@ -247,6 +247,7 @@ export default function Admin() {
                 assignHiveToUser={assignHiveToUser}
                 removeHiveFromUser={removeHiveFromUser}
                 updateUser={updateUser}
+                deleteUser={deleteUser}
               />
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
@@ -284,6 +285,18 @@ export default function Admin() {
                   </button>
                   <button onClick={() => handleBatchHiveUpdate({ status: 'available' })} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-[#F1E9DB]/60 hover:text-honey hover:border-honey/40 transition-all flex items-center gap-2">
                     <Plus size={12} /> Release_Pool
+                  </button>
+                  <button onClick={() => {
+                    const date = prompt('Enter new harvest date (YYYY-MM-DD):');
+                    if (date) handleBatchHiveUpdate({ nextHarvestDate: date });
+                  }} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-[#F1E9DB]/60 hover:text-honey hover:border-honey/40 transition-all flex items-center gap-2">
+                    <Calendar size={12} /> Sync_Harvest
+                  </button>
+                  <button onClick={() => {
+                    const loc = prompt('Enter new location/geography:');
+                    if (loc) handleBatchHiveUpdate({ location: loc });
+                  }} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-[#F1E9DB]/60 hover:text-honey hover:border-honey/40 transition-all flex items-center gap-2">
+                    <MapPin size={12} /> Relocate_Apiary
                   </button>
                   <button onClick={handleBatchJournalEntry} className="px-4 py-2 bg-honey text-black rounded-full text-[9px] font-black uppercase tracking-widest hover:scale-105 transition-all flex items-center gap-2">
                     <StickyNote size={12} /> Collective_Journal
