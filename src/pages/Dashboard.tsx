@@ -267,12 +267,25 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="p-8 border border-honey/10 bg-hive-panel/40 rounded-[2px]">
                   <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-6 flex items-center justify-between">
-                    <span>Growth Analysis</span>
-                    {activeHive.lastSyncTimestamp && (
-                      <span className="text-[8px] text-honey/40 font-black tracking-widest">
-                        LAST_SYNC: {new Date(activeHive.lastSyncTimestamp).toLocaleTimeString()}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-2">
+                       <span>Growth Analysis</span>
+                       <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      {activeHive.history && activeHive.history.length > 1 && (
+                        <div className="flex flex-col items-end">
+                          <span className="text-[8px] text-green-400 font-black tracking-widest bg-green-400/10 px-2 py-0.5 rounded-full mb-1">
+                            +{(activeHive.history[activeHive.history.length-1].weight - activeHive.history[0].weight).toFixed(1)}kg TREND
+                          </span>
+                          <span className="text-[7px] text-honey/30 uppercase tracking-tighter">Proj. Yield: ~{(activeHive.weight * 0.45).toFixed(1)}kg</span>
+                        </div>
+                      )}
+                      {activeHive.lastSyncTimestamp && (
+                        <span className="text-[8px] text-honey/40 font-black tracking-widest">
+                          LAST_SYNC: {new Date(activeHive.lastSyncTimestamp).toLocaleTimeString()}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="h-64">
                     <ResponsiveContainer width="100%" height="100%">
@@ -283,18 +296,29 @@ export default function Dashboard() {
                             <stop offset="95%" stopColor="#C8860A" stopOpacity={0}/>
                           </linearGradient>
                         </defs>
-                        <Tooltip
-                          contentStyle={{ backgroundColor: '#1A1208', border: '1px solid rgba(200, 134, 10, 0.2)', borderRadius: '2px', fontSize: '10px' }}
-                          itemStyle={{ color: '#C8860A' }}
+                        <Tooltip 
+                          content={({ active, payload, label }) => {
+                            if (active && payload && payload.length) {
+                              return (
+                                <div className="bg-[#0A0704]/95 backdrop-blur-md border border-honey/20 p-3 rounded-none shadow-2xl">
+                                  <p className="text-[8px] uppercase tracking-widest text-honey/40 mb-1 font-black">{label}</p>
+                                  <p className="text-sm font-display italic text-honey">{payload[0].value} <span className="text-[10px] not-italic text-honey/40">kg</span></p>
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
                         />
                         <Area 
                           type="monotone" 
                           dataKey="weight" 
                           stroke="#C8860A" 
-                          strokeWidth={2}
+                          strokeWidth={3}
                           fillOpacity={1} 
                           fill="url(#colorWeight)" 
                           animationDuration={2000}
+                          dot={{ r: 2, fill: '#C8860A', strokeWidth: 0, fillOpacity: 0.6 }}
+                          activeDot={{ r: 5, fill: '#C8860A', stroke: '#000', strokeWidth: 2 }}
                         />
                         <XAxis 
                           dataKey="day" 

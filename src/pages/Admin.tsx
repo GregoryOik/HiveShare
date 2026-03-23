@@ -43,7 +43,7 @@ import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 
 export default function Admin() {
-  const { hives, loading: hivesLoading, updateHive, pushHivePulse, addJournalEntry, addHive, removeHive } = useHiveData();
+  const { hives, loading: hivesLoading, updateHive, pushHivePulse, addJournalEntry, addHive, removeHive, seedHiveHistory } = useHiveData();
   const { users, loading: usersLoading, assignHiveToUser, removeHiveFromUser, updateUser } = useAdminUsers();
   const { config, updateConfig } = useSiteConfig();
   const { user: authUser, profile, logout, forceSyncAdminRole } = useAuth();

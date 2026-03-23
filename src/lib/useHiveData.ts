@@ -319,7 +319,27 @@ export function useHiveData() {
     return selectedHive.id;
   };
 
-  return { hives, loading, updateHive, pushHivePulse, addJournalEntry, addHive, removeHive, claimRandomHive };
+  const seedHiveHistory = async (hiveId: string) => {
+    try {
+      const hive = hives.find(h => h.id === hiveId);
+      if (!hive) return;
+
+      const newHistory = Array.from({ length: 7 }, (_, i) => ({
+        day: new Date(Date.now() - (7 - i) * 3 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { day: '2-digit', month: 'short' }),
+        weight: 20 + Math.random() * 15
+      }));
+
+      await updateDoc(doc(db, 'hives', hiveId), {
+        history: newHistory,
+        lastSyncTimestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error("[useHiveData] Error seeding history:", error);
+      throw error;
+    }
+  };
+
+  return { hives, loading, updateHive, pushHivePulse, addJournalEntry, addHive, removeHive, claimRandomHive, seedHiveHistory };
 }
 export const useSiteConfig = () => {
   const [config, setConfig] = useState<SiteConfig | null>(null);
