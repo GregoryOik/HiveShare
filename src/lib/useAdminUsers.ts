@@ -9,7 +9,7 @@ export interface UserProfile {
   subscribedHives: string[];
   customLabel?: string;
   shippingAddress?: string;
-  tier?: 'starter' | 'premium';
+  tier?: 'none' | 'starter' | 'premium';
   subscriptionStartDate?: string;
   lastSubscriptionAt?: string;
   nextHarvestDate?: string;

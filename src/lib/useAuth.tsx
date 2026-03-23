@@ -20,7 +20,7 @@ interface UserProfile {
   customLabel?: string;
   shippingAddress?: string;
   nextHarvestDate?: string;
-  tier?: 'starter' | 'premium';
+  tier?: 'none' | 'starter' | 'premium';
   subscriptionStartDate?: string;
   adminNotes?: string;
   customHoneyName?: string;

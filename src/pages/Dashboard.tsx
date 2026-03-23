@@ -31,7 +31,8 @@ import {
   ChevronRight,
   ShieldX,
   UserMinus,
-  X
+  X,
+  Users
 } from 'lucide-react';
 import {
   AreaChart,
@@ -103,10 +104,10 @@ export default function Dashboard() {
   // Auto-assignment failsafe
   useEffect(() => {
     const attemptAutoAssign = async () => {
-      if (!loading && profile?.tier && (!profile.subscribedHives || profile.subscribedHives.length === 0) && !isAutoAssigning) {
+      if (!loading && profile?.tier && profile.tier !== 'none' && (!profile.subscribedHives || profile.subscribedHives.length === 0) && !isAutoAssigning) {
         setIsAutoAssigning(true);
         try {
-          await claimRandomHive(profile.tier);
+          await claimRandomHive(profile.tier as 'starter' | 'premium');
         } catch (err) {
           console.error('[Dashboard] Auto-assignment failed:', err);
         } finally {
@@ -254,8 +255,12 @@ export default function Dashboard() {
               <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4">Membership</div>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-[#2A1B0A] font-bold">
-                  {profile?.tier === 'premium' ? <Crown className="text-honey w-4 h-4" /> : <Star className="text-honey w-4 h-4" />}
-                  {profile?.tier || 'Standard'}
+                  {profile?.tier === 'premium' ? <Crown className="text-honey w-4 h-4" /> : 
+                   profile?.tier === 'starter' ? <Star className="text-honey w-4 h-4" /> : 
+                   <Users className="text-[#2A1B0A]/30 w-4 h-4" />}
+                  {profile?.tier === 'premium' ? 'Premium Guardian' : 
+                   profile?.tier === 'starter' ? 'Starter Guardian' : 
+                   'Free Observer'}
                 </div>
                 <div className="h-[1px] bg-honey/10"></div>
                 <button onClick={() => setActiveTab('settings')} className="flex items-center gap-3 text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 hover:text-honey transition-all group">

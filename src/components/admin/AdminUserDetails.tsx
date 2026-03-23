@@ -55,10 +55,11 @@ export function AdminUserDetails({
           <div className="text-right">
             <div className="text-[10px] uppercase tracking-widest text-honey/40 font-black mb-1">Membership_Tier</div>
             <select 
-              value={selectedUser.tier || 'starter'}
+              value={selectedUser.tier || 'none'}
               onChange={(e) => updateUser(selectedUser.uid, { tier: e.target.value as any })}
               className="bg-black/60 border border-honey/20 rounded-md p-2 text-xs text-honey font-display uppercase outline-none focus:border-honey"
             >
+              <option value="none">Free Observer</option>
               <option value="starter">Starter Guardian</option>
               <option value="premium">Premium Guardian</option>
             </select>
@@ -239,12 +240,12 @@ export function AdminUserDetails({
               <div className="flex flex-col gap-3">
                 <button 
                   onClick={async () => {
-                    if (window.confirm("CRITICAL_ACTION: Cancel guardian subscription and release all linked units?")) {
+                    if (window.confirm("CRITICAL_ACTION: Cancel guardian subscription? They will be relegated to a Free Observer.")) {
                       try {
-                        await updateUser(selectedUser.uid, { tier: 'starter', subscribedHives: [] });
-                        alert("Subscription terminated. Units released.");
+                        await updateUser(selectedUser.uid, { tier: 'none', subscribedHives: [] });
+                        alert("Subscription revoked. Guardian is now a Free Observer.");
                       } catch (err: any) {
-                        alert(`Operation failed: ${err.message}`);
+                        alert(`De-escalation failed: ${err.message}`);
                       }
                     }
                   }}
