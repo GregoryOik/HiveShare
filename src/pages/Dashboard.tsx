@@ -127,19 +127,83 @@ export default function Dashboard() {
   const downloadCertificate = (hiveId: string) => {
     setIsGeneratingPDF(true);
     const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-    const userName = profile?.customLabel || user?.email || 'Valued Member';
+    const userName = (profile?.customLabel || user?.displayName || user?.email || 'Valued Guardian').toUpperCase();
     const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    const activeHive = hives.find(h => h.id === hiveId);
+    const location = activeHive?.location || 'Mani, Laconia';
+    const serial = `HS-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
 
-    doc.setFillColor(26, 18, 8); // #1A1208
+    // 1. Background Layer (Deep Noir)
+    doc.setFillColor(15, 12, 8); // #0F0C08
     doc.rect(0, 0, 297, 210, 'F');
-    doc.setDrawColor(200, 134, 10); // #C8860A
-    doc.setLineWidth(2);
+
+    // 2. Honeycomb Watermark Pattern
+    doc.setDrawColor(200, 134, 10); // Honey
+    doc.setLineWidth(0.05);
+    for (let i = 0; i < 300; i += 20) {
+      for (let j = 0; j < 220; j += 15) {
+        doc.circle(i, j, 8, 'S'); // Subtle circles to evoke cells
+      }
+    }
+
+    // 3. Main Border (Double Line)
+    doc.setDrawColor(200, 134, 10);
+    doc.setLineWidth(1);
     doc.rect(10, 10, 277, 190);
+    doc.setLineWidth(0.3);
+    doc.rect(13, 13, 271, 184);
+
+    // 4. Header Section
     doc.setTextColor(200, 134, 10);
-    doc.setFontSize(40);
-    doc.text('CERTIFICATE OF ADOPTION', 148.5, 60, { align: 'center' });
+    doc.setFont('times', 'bold');
+    doc.setFontSize(10);
+    doc.text('OFFICIAL_ADOPTION_RECORD', 148.5, 30, { align: 'center', charSpace: 3 });
+    
+    doc.setFontSize(45);
+    doc.setFont('times', 'italic');
+    doc.text('Certificate of Guardianship', 148.5, 55, { align: 'center' });
+
+    // 5. Body Text
     doc.setTextColor(255, 255, 255);
-    doc.text(userName.toUpperCase(), 148.5, 105, { align: 'center' });
+    doc.setFont('times', 'normal');
+    doc.setFontSize(12);
+    doc.text('THIS_DOCUMENT_CERTIFIES_THAT', 148.5, 80, { align: 'center', charSpace: 2 });
+    
+    doc.setFontSize(32);
+    doc.setTextColor(200, 134, 10);
+    doc.setFont('times', 'bold');
+    doc.text(userName, 148.5, 100, { align: 'center' });
+
+    doc.setTextColor(255, 255, 255, 0.8);
+    doc.setFont('times', 'normal');
+    doc.setFontSize(14);
+    const bodyText = `is a recognized Guardian of Honeybee Hive #${hiveId}, stationed in the rugged apiary of ${location}. By this adoption, the Guardian supports the 30-year heritage of Mani beekeeping and the ecological vitality of the Laconian landscape.`;
+    const splitText = doc.splitTextToSize(bodyText, 200);
+    doc.text(splitText, 148.5, 120, { align: 'center' });
+
+    // 6. Footer Details
+    doc.setFontSize(10);
+    doc.setTextColor(200, 134, 10);
+    doc.text(`ISSUED: ${date}`, 40, 175);
+    doc.text(`SERIAL: ${serial}`, 40, 180);
+
+    // 7. Signature Area
+    doc.setLineWidth(0.2);
+    doc.line(200, 175, 260, 175);
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('times', 'italic');
+    doc.setFontSize(12);
+    doc.text('Petros Oikonomakos', 230, 170, { align: 'center' });
+    doc.setFont('times', 'normal');
+    doc.setFontSize(8);
+    doc.text('MASTER_BEEKEEPER', 230, 182, { align: 'center', charSpace: 1 });
+
+    // 8. Official Seal (Geometric Circle)
+    doc.setDrawColor(200, 134, 10);
+    doc.setLineWidth(0.5);
+    doc.circle(230, 168, 18, 'S');
+    doc.circle(230, 168, 16, 'S');
+
     doc.save(`HiveShare_Certificate_${hiveId}.pdf`);
     setIsGeneratingPDF(false);
   };
