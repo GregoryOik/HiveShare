@@ -71,33 +71,38 @@ const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
       </nav>
 
       {/* Mobile Menu Drawer */}
-      <div className={`fixed inset-0 bg-hive-bg z-40 flex flex-col items-center justify-center transition-transform duration-500 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="absolute top-0 right-0 w-64 h-64 bg-honey/5 blur-[80px] rounded-full pointer-events-none"></div>
-        <div className="flex flex-col items-center space-y-8 text-sm uppercase tracking-[0.2em] font-bold text-[#2A1B0A]/80">
-          <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">How it works</a>
-          <a href="#features" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Features</a>
-          <a href="#origins" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Origins</a>
-          <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Pricing</a>
-          {profile?.role === 'admin' && (
-            <Link to="/admin" onClick={() => setMobileMenuOpen(false)} className="text-honey font-black animate-pulse">ADMIN STATION</Link>
-          )}
-          {user ? (
-            <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Apiary Journal</Link>
-          ) : (
-            <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200">Log In</Link>
-          )}
-          <a 
-            href="#pricing"
-            onClick={() => setMobileMenuOpen(false)}
-            className="mt-8 inline-block bg-honey text-[#2A1B0A] px-8 py-4 text-xs uppercase tracking-wider font-medium hover:bg-honey/90 transition-colors rounded-[2px]"
-          >
-            Get Started
-          </a>
+      <div className={`fixed inset-0 bg-hive-bg/95 backdrop-blur-2xl z-40 flex flex-col items-center justify-center transition-all duration-500 ease-in-out ${mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+        <div className="absolute inset-0 bg-gradient-to-b from-honey/5 via-transparent to-honey/5 pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-80 h-80 bg-honey/10 blur-[100px] rounded-full pointer-events-none animate-pulse"></div>
+        <div className="flex flex-col items-center space-y-10 text-[10px] uppercase tracking-[0.3em] font-black text-[#2A1B0A]/60 relative z-10 w-full px-12">
+          <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200 border-b border-honey/5 w-full text-center pb-4">How it works</a>
+          <a href="#features" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200 border-b border-honey/5 w-full text-center pb-4">Features</a>
+          <a href="#origins" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200 border-b border-honey/5 w-full text-center pb-4">Origins</a>
+          <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200 border-b border-honey/5 w-full text-center pb-4">Pricing</a>
+          
+          <div className="flex flex-col gap-4 w-full pt-4">
+            {profile?.role === 'admin' && (
+              <Link to="/admin" onClick={() => setMobileMenuOpen(false)} className="text-honey text-center font-black py-4 border border-honey/20 rounded-sm bg-honey/5 shadow-[0_0_20px_rgba(200,134,10,0.1)]">ADMIN STATION</Link>
+            )}
+            {user ? (
+              <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="text-[#2A1B0A] text-center font-black py-4 border border-honey/20 rounded-sm">APIARY JOURNAL</Link>
+            ) : (
+              <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-[#2A1B0A] text-center font-black py-4 border border-honey/20 rounded-sm">LOG IN</Link>
+            )}
+            <a 
+              href="#pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className="bg-honey text-[#2A1B0A] py-5 text-center font-black rounded-sm shadow-[0_10px_30px_rgba(200,134,10,0.3)]"
+            >
+              Get Started
+            </a>
+          </div>
+
           <button 
             onClick={() => { setMobileMenuOpen(false); setIsCartOpen(true); }}
-            className="mt-4 flex items-center gap-2 text-honey font-medium uppercase tracking-widest text-sm"
+            className="flex items-center justify-center gap-3 text-honey font-black uppercase tracking-widest text-[10px] mt-4"
           >
-            <ShoppingCart size={20} /> Cart ({cartItemsCount})
+            <ShoppingCart size={18} /> Cart ({cartItemsCount})
           </button>
         </div>
       </div>
@@ -151,13 +156,13 @@ const Hero = () => {
         </div>
         
         <h1 className="font-display text-5xl md:text-6xl lg:text-[4.5rem] leading-[1.0] font-light mb-6 text-[#2A1B0A]/95">
-          Own a piece of <span className="italic text-honey drop-shadow-[0_0_15px_rgba(200,134,10,0.3)]">Greece.</span><br />
-          Watch it live.<br />
-          Taste it home.
+          Own a Share of <span className="italic text-honey drop-shadow-[0_0_15px_rgba(200,134,10,0.3)]">Real Beehives.</span><br />
+          Receive Your Honey<br />
+          Every Harvest.
         </h1>
         
         <p className="text-[#2A1B0A]/90 text-sm md:text-base max-w-sm mb-8 leading-relaxed font-normal">
-          From €80/year (Approx. €7/month) — Free EU Shipping included. Your own named hive in Laconia, live vitality reports, and three harvests of raw Greek honey delivered to your door. Your first jar ships within two weeks. After that, your hive decides the rest.
+          Direct from our 30-year family apiaries in Mani, Laconia. Adopt your own named hive, monitor its vitality live, and receive 100% raw honey harvests shipped to your door. Authentic Greek heritage, powered by IOT.
         </p>
         
         <div className="mb-8 max-w-md flex flex-col gap-4">
@@ -252,10 +257,10 @@ const Hero = () => {
 
 const HowItWorks = () => {
   const steps = [
-    { num: '01', title: 'The Assignment', desc: 'You are paired with a specific, numbered hive in our Laconian apiary.' },
-    { num: '02', title: 'The Connection', desc: 'Access your apiary journal. Watch the weight grow, see the weather, view apiary snapshots.' },
-    { num: '03', title: 'The Harvest', desc: 'As the seasons change, our beekeepers extract honey exclusively from your hive.' },
-    { num: '04', title: 'The Delivery', desc: 'Your Welcome Jar ships within 2 weeks. After that, seasonal harvests arrive as nature dictates.' }
+    { num: '01', title: 'Claim Your Unit', desc: 'Secure your numbered hive in our Laconian apiaries. Three guardians share one physical unit to ensure sustainable management.' },
+    { num: '02', title: 'Connect to Mani', desc: 'Access your apiary journal. Watch your bees thrive via real-time weight, temperature, and vitality reports direct from the mountains.' },
+    { num: '03', title: 'Natural Maturation', desc: 'As the seasons turn, Petros extracts honey exclusively from your sector. No blending, no heating, just raw hive-to-jar purity.' },
+    { num: '04', title: 'Direct Harvest', desc: 'Receive your harvests automatically. From the Mani cliffs to your table—authentic heritage delivered anywhere in Europe.' }
   ];
 
   return (
@@ -500,10 +505,10 @@ const Beekeeper = () => {
       <div className="w-full md:w-1/2 text-[#2A1B0A]">
         <div className="w-8 h-[1px] bg-honey mb-10"></div>
         <p className="font-display text-3xl md:text-4xl leading-[1.4] font-light text-[#2A1B0A]/90 italic mb-10">
-          "I manage 600 hives. I know when the thyme will bloom in Mani two weeks before it happens. My grandfather followed the same blooms across these mountains."
+          "I have managed these mountains for 30 years. I know when the thyme will bloom in Mani before it happens. My father taught me the language of the bees, and now we share that heritage with you."
         </p>
         <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">
-          Petros Oikonomakos · Master Beekeeper
+          Petros Oikonomakos · Master Beekeeper (30+ Years Experience)
         </div>
       </div>
     </section>
