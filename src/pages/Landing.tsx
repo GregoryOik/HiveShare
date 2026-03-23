@@ -205,7 +205,14 @@ const Hero = () => {
       
       {/* Right Column - Dusk Honey */}
       <div className="w-full md:w-[55%] bg-hive-dark relative overflow-hidden min-h-[60vh] md:min-h-screen flex items-center justify-center border-l border-honey/10">
-        <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_center,_var(--color-honey)_0%,_transparent_70%)]"></div>
+        {/* Background Image of Mani Landscape */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/mani_landscape.png" 
+            alt="Mani landscape with beehives" 
+            className="w-full h-full object-cover opacity-30 mix-blend-overlay"
+          />
+        </div>
         
         {/* Hexagon Grid */}
         <HexagonGrid />
@@ -497,9 +504,9 @@ const Beekeeper = () => {
         <div className="absolute -inset-4 border border-honey/20 rounded-[2px] -z-10 translate-x-2 translate-y-2"></div>
         {/* TODO: Replace /beekeeper.jpg in the public folder with the actual photo of your father working the hives */}
         <img 
-          src="/beekeeper.jpg" 
+          src="/beekeeper.png" 
           alt="Petros Oikonomakos working the hives" 
-          className="w-full aspect-[4/5] object-cover rounded-[2px] sepia-[0.2] contrast-125"
+          className="w-full aspect-[4/5] object-cover rounded-[2px] sepia-[0.1] contrast-[1.1] shadow-2xl"
         />
       </div>
       <div className="w-full md:w-1/2 text-[#2A1B0A]">

@@ -131,109 +131,118 @@ export default function Dashboard() {
     const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
     const serial = `GR-SP-600-${hiveId}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
 
-    // 1. Background Layer (Deep Noir)
-    doc.setFillColor(15, 12, 8); // #0F0C08
+    // 1. Background Layer (Luminous Ivory / Light Parchment)
+    doc.setFillColor(252, 248, 240); // Soft Ivory
     doc.rect(0, 0, 297, 210, 'F');
 
-    // 2. Taygetos / Honeycomb Watermark (Discrete)
-    doc.setDrawColor(200, 134, 10, 0.15); // Very subtle honey
-    doc.setLineWidth(0.1);
-    // Draw some mountain silhouettes at the bottom
-    doc.moveTo(10, 180);
-    doc.lineTo(60, 150);
-    doc.lineTo(100, 170);
-    doc.lineTo(150, 140);
-    doc.lineTo(200, 165);
-    doc.lineTo(260, 145);
-    doc.lineTo(287, 180);
+    // 2. Subtle Radiance Pattern (Circular subtle honey glows)
+    doc.setDrawColor(200, 134, 10, 0.05);
+    for (let i = 0; i < 300; i += 40) {
+      for (let j = 0; j < 220; j += 40) {
+        doc.circle(i, j, 30, 'S');
+      }
+    }
+
+    // 3. Taygetos Silhouette (Subtle Grey/Gold)
+    doc.setDrawColor(180, 160, 140, 0.2); 
+    doc.setLineWidth(0.2);
+    doc.moveTo(0, 210);
+    doc.lineTo(40, 160);
+    doc.lineTo(90, 185);
+    doc.lineTo(160, 145);
+    doc.lineTo(220, 180);
+    doc.lineTo(260, 155);
+    doc.lineTo(297, 210);
     doc.stroke();
 
-    // 3. Beeswax / Old Document Border
-    doc.setDrawColor(200, 134, 10);
-    doc.setLineWidth(1.5);
-    doc.rect(8, 8, 281, 194); // outer
-    doc.setLineWidth(0.4);
-    doc.rect(11, 11, 275, 188); // inner
+    // 4. Elite Gold Border
+    doc.setDrawColor(180, 130, 40); // Rich Gold
+    doc.setLineWidth(2);
+    doc.rect(7, 7, 283, 196); // Bold outer
+    doc.setLineWidth(0.3);
+    doc.rect(10, 10, 277, 190); // Delicate inner
 
-    // 4. Header Section - LOGO & TITLE
-    doc.setTextColor(200, 134, 10);
+    // 5. Header Section
+    doc.setTextColor(140, 100, 30); // Darker Gold/Brown
     doc.setFont('times', 'bold');
-    doc.setFontSize(22);
-    doc.text('HiveShare', 148.5, 25, { align: 'center', charSpace: 4 });
+    doc.setFontSize(26);
+    doc.text('HiveShare', 148.5, 30, { align: 'center', charSpace: 5 });
     
     doc.setFontSize(14);
-    doc.text('OFFICIAL CERTIFICATE OF ADOPTION', 148.5, 38, { align: 'center', charSpace: 2 });
-    doc.setFontSize(10);
+    doc.text('OFFICIAL CERTIFICATE OF ADOPTION', 148.5, 42, { align: 'center', charSpace: 3 });
+    doc.setFontSize(9);
     doc.setFont('times', 'normal');
-    doc.text('BEEHIVE CO-OWNERSHIP PROGRAM', 148.5, 45, { align: 'center', charSpace: 1 });
+    doc.setTextColor(100, 80, 40);
+    doc.text('BEEHIVE CO-OWNERSHIP PROGRAM • MANI, GREECE', 148.5, 48, { align: 'center', charSpace: 1 });
 
-    // 5. Main Body
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(14);
-    doc.text('This is to certify that', 148.5, 65, { align: 'center' });
+    // 6. Main Proclamation
+    doc.setTextColor(40, 30, 20); // Deep Walnut
+    doc.setFontSize(16);
+    doc.text('This is to certify that', 148.5, 70, { align: 'center' });
     
-    doc.setTextColor(200, 134, 10);
-    doc.setFontSize(28);
+    doc.setTextColor(180, 130, 40);
+    doc.setFontSize(42);
     doc.setFont('times', 'bold');
-    doc.text(userName, 148.5, 82, { align: 'center' });
+    doc.text(userName, 148.5, 92, { align: 'center' });
 
-    doc.setTextColor(255, 255, 255);
+    doc.setTextColor(40, 30, 20);
     doc.setFont('times', 'normal');
-    doc.setFontSize(14);
-    doc.text(`is an official co-owner of a honeybee colony in Laconia, Greece, for the 2026 season.`, 148.5, 95, { align: 'center' });
+    doc.setFontSize(15);
+    doc.text(`is an official co-owner of a honeybee colony in Laconia, Greece, for the 2026 season.`, 148.5, 108, { align: 'center' });
 
-    // 6. Technical Engineering Section (IoT)
-    doc.setFillColor(30, 25, 20);
-    doc.rect(40, 110, 217, 35, 'F');
-    doc.setDrawColor(200, 134, 10, 0.3);
-    doc.rect(40, 110, 217, 35, 'S');
+    // 7. Engineering / IoT Station (Light Theme)
+    doc.setFillColor(245, 235, 220); // Muted beige
+    doc.rect(40, 120, 217, 35, 'F');
+    doc.setDrawColor(180, 130, 40, 0.4);
+    doc.rect(40, 120, 217, 35, 'S');
 
-    doc.setFontSize(8);
-    doc.setTextColor(200, 134, 10);
+    doc.setFontSize(9);
+    doc.setTextColor(100, 80, 40);
     doc.setFont('times', 'bold');
-    doc.text('TECHNICAL_SPECIFICATIONS_&_IOT_NODE_DATA', 45, 116);
+    doc.text('TECHNICAL_SPECIFICATIONS_&_IOT_NODE_DATA', 148.5, 126, { align: 'center' });
 
-    doc.setTextColor(255, 255, 255, 0.9);
+    doc.setTextColor(60, 50, 40);
     doc.setFont('times', 'normal');
-    const techLeft = 50;
-    const techRight = 160;
-    doc.text(`HIVE ID: ${serial}`, techLeft, 125);
-    doc.text(`LOCATION: Sparta, Peloponnese (37.0745° N, 22.4303° E)`, techLeft, 132);
-    doc.text(`HARDWARE: NB-IoT Telemetry System Enabled`, techRight, 125);
-    doc.text(`COLONY TYPE: Apis Mellifera Cecropia (Greek Bee)`, techRight, 132);
+    doc.setFontSize(9);
+    const techLeft = 55;
+    const techRight = 165;
+    doc.text(`HIVE ID: ${serial}`, techLeft, 136);
+    doc.text(`LOCATION: Sparta, Peloponnese (37.0745° N, 22.4303° E)`, techLeft, 144);
+    doc.text(`HARDWARE: NB-IoT Telemetry System Enabled`, techRight, 136);
+    doc.text(`COLONY TYPE: Apis Mellifera Cecropia (Greek Bee)`, techRight, 144);
 
-    // 7. The Promise (Impact)
-    doc.setTextColor(255, 255, 255, 0.7);
+    // 8. The Impact Statement
+    doc.setTextColor(80, 70, 60);
     doc.setFontSize(10);
     const impactText = "By holding this certificate, you are actively protecting 30,000 pollinators and supporting sustainable, nomadic apiculture in the Greek highlands. Your contribution ensures the survival of the local ecosystem and the production of 100% unadulterated, premium honey.";
     const splitImpact = doc.splitTextToSize(impactText, 210);
-    doc.text(splitImpact, 148.5, 155, { align: 'center' });
+    doc.text(splitImpact, 148.5, 168, { align: 'center' });
 
-    // 8. Dual Signatures
-    doc.setDrawColor(200, 134, 10, 0.5);
-    doc.setLineWidth(0.3);
+    // 9. Signature Block
+    doc.setDrawColor(180, 130, 40, 0.6);
+    doc.setLineWidth(0.4);
     
     // Left: Founder
-    doc.line(40, 185, 120, 185);
-    doc.setTextColor(255, 255, 255);
+    doc.line(40, 192, 120, 192);
+    doc.setTextColor(40, 30, 20);
     doc.setFont('times', 'italic');
-    doc.setFontSize(12);
-    doc.text('Gregory Oikonomakos', 80, 180, { align: 'center' });
+    doc.setFontSize(13);
+    doc.text('Gregory Oikonomakos', 80, 187, { align: 'center' });
     doc.setFont('times', 'normal');
-    doc.setFontSize(7);
-    doc.text('FOUNDER & LEAD ENGINEER', 80, 190, { align: 'center', charSpace: 1 });
+    doc.setFontSize(8);
+    doc.text('FOUNDER & LEAD ENGINEER', 80, 197, { align: 'center', charSpace: 1 });
 
     // Right: Master Apiarist
-    doc.line(177, 185, 257, 185);
-    doc.setTextColor(255, 255, 255);
+    doc.line(177, 192, 257, 192);
+    doc.setTextColor(40, 30, 20);
     doc.setFont('times', 'italic');
-    doc.setFontSize(12);
-    doc.text('Petros Oikonomakos', 217, 180, { align: 'center' });
+    doc.setFontSize(13);
+    doc.text('Petros Oikonomakos', 217, 187, { align: 'center' });
     doc.setFont('times', 'normal');
-    doc.setFontSize(7);
-    doc.text('MASTER APIARIST (30+ YEARS EXPERIENCE)', 217, 190, { align: 'center', charSpace: 1 });
+    doc.setFontSize(8);
+    doc.text('MASTER APIARIST (30+ YEARS EXPERIENCE)', 217, 197, { align: 'center', charSpace: 1 });
 
-    doc.save(`HiveShare_Adoption_Certificate_${hiveId}.pdf`);
+    doc.save(`HiveShare_Official_Record_${hiveId}.pdf`);
     setIsGeneratingPDF(false);
   };
 
@@ -364,6 +373,37 @@ export default function Dashboard() {
                   <Package size={14} className="group-hover:scale-110 transition-transform" />
                   <span>Harvest Tracker</span>
                 </Link>
+              </div>
+            </div>
+            <div className="p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px] overflow-hidden group border-animate">
+              <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4">Master Beekeeper</div>
+              <div className="relative h-40 mb-4 overflow-hidden rounded-sm group">
+                 <img src="/beekeeper.png" alt="Petros Oikonomakos" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                 <div className="absolute inset-0 bg-gradient-to-t from-[#1A1208] to-transparent opacity-80 group-hover:opacity-40 transition-opacity"></div>
+                 <div className="absolute bottom-3 left-3 text-white">
+                    <div className="text-[9px] font-black uppercase tracking-widest">Petros O.</div>
+                    <div className="text-[7px] text-white/60 uppercase tracking-tighter italic">30+ Years Experience</div>
+                 </div>
+              </div>
+              <p className="text-[9px] text-[#2A1B0A]/60 italic leading-relaxed">
+                "The bees know the Mani mountains better than any machine. I'm just here to listen."
+              </p>
+            </div>
+            
+            <div className="p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px] overflow-hidden group">
+              <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4 flex items-center justify-between">
+                <span>Apiary Snapshot</span>
+                <div className="flex items-center gap-1.5 animate-pulse">
+                  <Camera size={10} className="text-honey/60" />
+                  <span className="text-[8px] uppercase tracking-widest text-[#2A1B0A]/40">LIVE</span>
+                </div>
+              </div>
+              <div className="relative h-24 overflow-hidden rounded-sm mb-3">
+                 <img src="/mani_landscape.png" alt="Mani Apiary view" className="w-full h-full object-cover blur-[1px] group-hover:blur-0 transition-all duration-700" />
+                 <div className="absolute inset-0 bg-honey/5 mix-blend-color"></div>
+              </div>
+              <div className="text-[9px] text-[#2A1B0A]/40 uppercase tracking-widest font-black flex items-center gap-2">
+                 <MapPin size={8} /> Lagia, Laconia
               </div>
             </div>
           </aside>
