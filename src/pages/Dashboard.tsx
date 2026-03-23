@@ -562,10 +562,13 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-4">
                         <label className="text-[9px] uppercase tracking-widest font-black text-honey">Shipping Destination</label>
-                        <div className="p-4 border border-honey/10 bg-honey/5 rounded-sm flex items-center justify-between">
-                          <span className="text-sm italic text-[#2A1B0A]/70">{profile.shippingAddress || 'Not set'}</span>
-                          <button onClick={() => setActiveTab('main')} className="text-[8px] uppercase tracking-widest font-black text-honey hover:underline">Return</button>
-                        </div>
+                        <input 
+                          type="text" 
+                          defaultValue={profile.shippingAddress} 
+                          placeholder="Street, City, Postcode, Country"
+                          onBlur={(e) => updateProfile({ shippingAddress: e.target.value })}
+                          className="w-full bg-[#1A1208]/50 border border-honey/20 p-4 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey/60 transition-all rounded-sm placeholder:italic placeholder:text-[#2A1B0A]/30"
+                        />
                       </div>
                     </div>
                   )}

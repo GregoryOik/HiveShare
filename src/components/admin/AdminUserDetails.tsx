@@ -52,20 +52,53 @@ export function AdminUserDetails({
           </div>
           <div className="text-right">
             <div className="text-[10px] uppercase tracking-widest text-honey/40 font-black mb-1">Membership_Tier</div>
-            <div className="text-xl font-display text-honey uppercase">{selectedUser.tier || 'FREE_GUEST'}</div>
+            <select 
+              value={selectedUser.tier || 'starter'}
+              onChange={(e) => updateUser(selectedUser.uid, { tier: e.target.value as any })}
+              className="bg-black/60 border border-honey/20 rounded-md p-2 text-xs text-honey font-display uppercase outline-none focus:border-honey"
+            >
+              <option value="starter">Starter Guardian</option>
+              <option value="premium">Premium Guardian</option>
+            </select>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-8">
           <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
                <div className="bg-black/40 border border-honey/10 p-4 rounded-md">
                   <div className="text-[9px] uppercase tracking-widest text-honey/40 font-black mb-1">Harvest_Status</div>
-                  <div className="text-sm font-display text-white">{selectedUser.userHarvestStatus || 'PENDING'}</div>
+                  <select 
+                    value={selectedUser.userHarvestStatus || 'PENDING'}
+                    onChange={(e) => updateUser(selectedUser.uid, { userHarvestStatus: e.target.value })}
+                    className="w-full bg-transparent text-sm font-display text-white outline-none focus:text-honey"
+                  >
+                    <option value="PENDING">PENDING</option>
+                    <option value="PROCESSING">PROCESSING</option>
+                    <option value="SHIPPED">SHIPPED</option>
+                    <option value="DELIVERED">DELIVERED</option>
+                  </select>
                </div>
                <div className="bg-black/40 border border-honey/10 p-4 rounded-md">
                   <div className="text-[9px] uppercase tracking-widest text-honey/40 font-black mb-1">Honey_Label</div>
-                  <div className="text-sm font-display text-white truncate italic">"{selectedUser.customHoneyName || 'Standard'}"</div>
+                  <div 
+                    onClick={() => {
+                      const lab = prompt('Enter new honey label:', selectedUser.customHoneyName);
+                      if (lab !== null) updateUser(selectedUser.uid, { customHoneyName: lab });
+                    }}
+                    className="text-sm font-display text-white truncate italic cursor-pointer hover:text-honey"
+                  >
+                    "{selectedUser.customHoneyName || 'Standard'}"
+                  </div>
+               </div>
+               <div className="bg-black/40 border border-honey/10 p-4 rounded-md">
+                  <div className="text-[9px] uppercase tracking-widest text-honey/40 font-black mb-1">Subscription_Start</div>
+                  <input 
+                    type="date"
+                    defaultValue={selectedUser.subscriptionStartDate || selectedUser.lastSubscriptionAt?.split('T')[0]}
+                    onBlur={(e) => updateUser(selectedUser.uid, { subscriptionStartDate: e.target.value })}
+                    className="w-full bg-transparent text-[10px] font-display text-white outline-none focus:text-honey"
+                  />
                </div>
             </div>
 

@@ -3,7 +3,6 @@ import { Link, Navigate } from 'react-router-dom';
 import { 
   Zap, 
   Users, 
-  Terminal, 
   DollarSign, 
   ArrowLeft,
   Search,
@@ -28,7 +27,6 @@ import { AdminHiveGrid } from '../components/admin/AdminHiveGrid';
 import { AdminUserGrid } from '../components/admin/AdminUserGrid';
 import { AdminHiveDetails } from '../components/admin/AdminHiveDetails';
 import { AdminUserDetails } from '../components/admin/AdminUserDetails';
-import { AdminSystemSettings } from '../components/admin/AdminSystemSettings';
 import { AdminFinance } from '../components/admin/AdminFinance';
 
 export default function Admin() {
@@ -37,7 +35,7 @@ export default function Admin() {
   const { config, updateConfig } = useSiteConfig();
   const { users, loading: usersLoading, updateUser, assignHiveToUser, removeHiveFromUser, batchUpdateUsers } = useAdminUsers();
 
-  const [activeTab, setActiveTab] = useState<'hives' | 'users' | 'system' | 'finance'>('hives');
+  const [activeTab, setActiveTab] = useState<'hives' | 'users' | 'finance'>('hives');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedHiveId, setSelectedHiveId] = useState<string | null>(null);
   const [selectedUserUid, setSelectedUserUid] = useState<string | null>(null);
@@ -161,7 +159,6 @@ export default function Admin() {
             {[
               { id: 'hives', icon: Zap, label: 'Apiary Fleet' },
               { id: 'users', icon: Users, label: 'Guardians' },
-              { id: 'system', icon: Terminal, label: 'System Health' },
               { id: 'finance', icon: DollarSign, label: 'Revenue' }
             ].map(tab => (
               <button
@@ -262,17 +259,6 @@ export default function Admin() {
             )
           )}
 
-          {activeTab === 'system' && (
-            <AdminSystemSettings 
-              config={config}
-              updateConfig={updateConfig}
-              hives={hives}
-              filteredHives={filteredHives}
-              setSelectedHiveId={setSelectedHiveId}
-              setActiveTab={setActiveTab}
-              users={users}
-            />
-          )}
 
           {activeTab === 'finance' && (
             <AdminFinance users={users} />

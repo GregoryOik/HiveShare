@@ -11,11 +11,14 @@ export interface UserProfile {
   shippingAddress?: string;
   tier?: 'starter' | 'premium';
   subscriptionStartDate?: string;
+  lastSubscriptionAt?: string;
   nextHarvestDate?: string;
   adminNotes?: string;
   customHoneyName?: string;
   userHarvestStatus?: string;
   metadata?: { key: string; value: string }[];
+  dob?: string;
+  hasSeenTour?: boolean;
 }
 
 export function useAdminUsers() {
