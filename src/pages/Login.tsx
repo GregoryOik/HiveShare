@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Navigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
-import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, User, MapPin } from 'lucide-react';
 import OnboardingStepper from '../components/OnboardingStepper';
 
 export default function Login() {
@@ -14,6 +14,8 @@ export default function Login() {
   const [mode, setMode] = useState<'login' | 'signup' | 'reset'>('signup');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [shippingAddress, setShippingAddress] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [resetSent, setResetSent] = useState(false);
   
@@ -80,7 +82,12 @@ export default function Login() {
           setIsLoading(false);
           return;
         }
-        await signUp(email, password, acceptedMarketing);
+        if (!fullName || !shippingAddress) {
+          setLocalError('Please provide your full name and shipping address.');
+          setIsLoading(false);
+          return;
+        }
+        await signUp(email, password, acceptedMarketing, fullName, shippingAddress);
       } else {
         await signInWithEmail(email, password);
       }
@@ -156,6 +163,32 @@ export default function Login() {
 
           {/* Email/Password Form */}
           <form onSubmit={handleEmailSubmit} className="space-y-4 mb-6">
+            {mode === 'signup' && (
+              <>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#2A1B0A]/30" />
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Full Name"
+                    className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
+                    required={mode === 'signup'}
+                  />
+                </div>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#2A1B0A]/30" />
+                  <input
+                    type="text"
+                    value={shippingAddress}
+                    onChange={(e) => setShippingAddress(e.target.value)}
+                    placeholder="Shipping Address (City, Region)"
+                    className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
+                    required={mode === 'signup'}
+                  />
+                </div>
+              </>
+            )}
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#2A1B0A]/30" />
               <input

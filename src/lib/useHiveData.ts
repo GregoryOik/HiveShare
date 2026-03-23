@@ -21,6 +21,8 @@ export interface HiveData {
   lastDiaryEntryTimestamp?: string;
   videoUrl?: string;
   lastAdminNote?: string;
+  iotActive?: boolean;
+  lastSyncTimestamp?: string;
   journal?: { id: string; date: string; content: string; type: string }[];
 }
 
@@ -110,6 +112,32 @@ export function useHiveData() {
       await updateDoc(doc(db, 'hives', id), newData);
     } catch (error: any) {
       console.error('[useHiveData] Error updating hive:', error);
+      throw error;
+    }
+  };
+
+  const pushHivePulse = async (id: string, pulse: { weight: number, temp?: number, humidity?: number }) => {
+    if (!db || profile?.role !== 'admin') return;
+    try {
+      const hive = hives.find(h => h.id === id);
+      if (!hive) return;
+
+      const newHistory = [...(hive.history || [])];
+      newHistory.push({ day: new Date().toLocaleDateString('en-US', { weekday: 'short' }), weight: pulse.weight });
+      
+      // Keep only last 30 readings
+      if (newHistory.length > 30) newHistory.shift();
+
+      await updateDoc(doc(db, 'hives', id), {
+        weight: pulse.weight,
+        temp: pulse.temp ?? hive.temp,
+        humidity: pulse.humidity ?? hive.humidity,
+        history: newHistory,
+        lastSyncTimestamp: new Date().toISOString(),
+        iotActive: true
+      });
+    } catch (error: any) {
+      console.error('[useHiveData] IoT Pulse Failure:', error);
       throw error;
     }
   };
@@ -263,7 +291,7 @@ export function useHiveData() {
     return selectedHive.id;
   };
 
-  return { hives, loading, updateHive, addJournalEntry, addHive, removeHive, claimRandomHive };
+  return { hives, loading, updateHive, pushHivePulse, addJournalEntry, addHive, removeHive, claimRandomHive };
 }
 export const useSiteConfig = () => {
   const [config, setConfig] = useState<SiteConfig | null>(null);

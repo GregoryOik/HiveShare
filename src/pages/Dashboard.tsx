@@ -18,14 +18,18 @@ import {
   Clock,
   AlertTriangle,
   ShieldAlert,
-  Image as ImageIcon
+  Image as ImageIcon,
+  CheckCircle,
+  AlertCircle,
+  ArrowLeft,
+  Radio
 } from 'lucide-react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
+import {
+  AreaChart,
+  Area,
+  XAxis,
   YAxis,
-  Tooltip, 
+  Tooltip,
   ResponsiveContainer,
   Cell
 } from 'recharts';
@@ -170,8 +174,8 @@ export default function Dashboard() {
           <Link to="/" className="font-display text-2xl tracking-wide text-[#2A1B0A]">Hive<span className="text-honey">Share</span></Link>
           <div className="flex items-center gap-6">
             {profile?.role === 'admin' && (
-              <Link 
-                to="/admin" 
+              <Link
+                to="/admin"
                 className="hidden lg:flex items-center gap-2 px-4 py-1.5 bg-[#C8860A]/10 border border-[#C8860A]/30 rounded-full text-[9px] uppercase tracking-[0.2em] text-[#C8860A] font-black hover:bg-[#C8860A] hover:text-[#2A1B0A] transition-all animate-pulse"
               >
                 <Lock className="w-3 h-3" /> Central Station (God Mode)
@@ -241,7 +245,15 @@ export default function Dashboard() {
           <div className="flex-1 space-y-8">
             <section className="relative p-12 border border-honey/20 rounded-[2px] bg-hive-panel/60 overflow-hidden text-center backdrop-blur-xl">
               <div className="relative z-10">
-                <div className="text-[10px] uppercase tracking-[0.3em] text-honey font-bold mb-2">Current Weight</div>
+                <div className="text-[10px] uppercase tracking-[0.3em] text-honey font-bold mb-2 flex items-center justify-center gap-2">
+                  Current Weight
+                  {activeHive.iotActive && (
+                    <div className="flex items-center gap-1.5 ml-1">
+                      <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+                      <span className="text-[8px] tracking-[0.2em] text-green-500/80 font-black">LIVE</span>
+                    </div>
+                  )}
+                </div>
                 <h2 className="font-display italic text-8xl text-[#2A1B0A] mb-8">{activeHive.weight.toFixed(1)}<span className="text-3xl ml-2 not-italic text-honey/60">kg</span></h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-honey/10">
                   <div className="space-y-1"><div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/60">Temp</div><div className="text-sm text-[#2A1B0A] font-bold">{activeHive.temp}°C</div></div>
@@ -254,15 +266,40 @@ export default function Dashboard() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="p-8 border border-honey/10 bg-hive-panel/40 rounded-[2px]">
-                 <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-6">Growth Analysis</div>
-                 <div className="h-64">
-                   <ResponsiveContainer width="100%" height="100%">
-                     <BarChart data={activeHive.history}>
-                       <Bar dataKey="weight" fill="#C8860A" radius={[2, 2, 0, 0]} />
-                       <XAxis dataKey="day" hide />
-                     </BarChart>
-                   </ResponsiveContainer>
-                 </div>
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-6 flex items-center justify-between">
+                    <span>Growth Analysis</span>
+                    {activeHive.lastSyncTimestamp && (
+                      <span className="text-[8px] text-[#2A1B0A]/30 font-black tracking-widest">
+                        LAST_SYNC: {new Date(activeHive.lastSyncTimestamp).toLocaleTimeString()}
+                      </span>
+                    )}
+                  </div>
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={activeHive.history}>
+                        <defs>
+                          <linearGradient id="colorWeight" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#C8860A" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#C8860A" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <Tooltip
+                          contentStyle={{ backgroundColor: '#1A1208', border: '1px solid rgba(200, 134, 10, 0.2)', borderRadius: '2px', fontSize: '10px' }}
+                          itemStyle={{ color: '#C8860A' }}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="weight"
+                          stroke="#C8860A"
+                          strokeWidth={2}
+                          fillOpacity={1}
+                          fill="url(#colorWeight)"
+                        />
+                        <XAxis dataKey="day" hide />
+                        <YAxis hide domain={['dataMin - 1', 'dataMax + 1']} />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
               </div>
 
               <div className="p-8 border border-honey/10 bg-hive-panel/40 rounded-[2px] flex flex-col justify-between">

@@ -33,13 +33,14 @@ import {
   AlertCircle,
   ArrowLeft,
   Lock,
-  RefreshCw
+  RefreshCw,
+  Radio
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 
 export default function Admin() {
-  const { hives, loading: hivesLoading, updateHive, addJournalEntry, addHive, removeHive } = useHiveData();
+  const { hives, loading: hivesLoading, updateHive, pushHivePulse, addJournalEntry, addHive, removeHive } = useHiveData();
   const { users, loading: usersLoading, assignHiveToUser, removeHiveFromUser, updateUser } = useAdminUsers();
   const { config, updateConfig } = useSiteConfig();
   const { user: authUser, profile, logout, forceSyncAdminRole } = useAuth();
@@ -60,6 +61,11 @@ export default function Admin() {
   // Custom Metadata Editor States
   const [customMetaKey, setCustomMetaKey] = useState('');
   const [customMetaValue, setCustomMetaValue] = useState('');
+
+  // IoT Simulation States
+  const [iotWeight, setIotWeight] = useState<string>('');
+  const [iotTemp, setIotTemp] = useState<string>('');
+  const [iotHumidity, setIotHumidity] = useState<string>('');
 
   const [isAddingHive, setIsAddingHive] = useState(false);
 
@@ -153,6 +159,11 @@ export default function Admin() {
   const filteredUsers = users.filter(u => 
     u.email.toLowerCase().includes(searchTerm.toLowerCase()) || 
     u.customLabel?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const filteredHives = hives.filter(h => 
+    h.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    h.location.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -264,7 +275,7 @@ export default function Admin() {
                   <span className="text-[8px] font-mono text-honey/20">{selectedHiveIds.length} SELECTED</span>
                 </div>
               )}
-              {activeTab === 'hives' && hives.map(hive => (
+              {activeTab === 'hives' && filteredHives.map(hive => (
                 <div key={hive.id} className="relative group">
                   <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
                     <input 
@@ -669,6 +680,85 @@ export default function Admin() {
                           </div>
                         ))}
                       </div>
+                    </div>
+                  </div>
+
+                  {/* IoT Pulse Simulator */}
+                  <div className="space-y-4 mt-8 pt-8 border-t border-honey/10">
+                    <label className="text-[10px] uppercase tracking-widest text-honey font-black flex items-center gap-2 underline decoration-honey/30 underline-offset-4">
+                      <Radio size={14} className={selectedHive.iotActive ? "animate-pulse text-green-500" : ""} /> IoT_Pulse_Simulator
+                    </label>
+                    <div className="bg-honey/5 border border-honey/10 p-5 rounded-lg space-y-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[10px] uppercase tracking-widest text-honey/60 font-bold">Uplink Status</span>
+                        <div className="flex items-center gap-2">
+                          <div className={`w-2 h-2 rounded-full ${selectedHive.iotActive ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-red-500"}`}></div>
+                          <span className="text-[9px] uppercase tracking-widest text-white/40">{selectedHive.iotActive ? "Synchronized" : "Offline"}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-3 gap-2">
+                         <div className="space-y-1">
+                            <span className="text-[8px] uppercase text-honey/40">Weight (kg)</span>
+                            <input 
+                              type="number"
+                              value={iotWeight}
+                              onChange={(e) => setIotWeight(e.target.value)}
+                              placeholder={selectedHive.weight.toString()}
+                              className="w-full bg-black/60 border border-honey/20 rounded-md p-2 text-[10px] text-white focus:border-honey outline-none font-mono"
+                            />
+                         </div>
+                         <div className="space-y-1">
+                            <span className="text-[8px] uppercase text-honey/40">Temp (°C)</span>
+                            <input 
+                              type="number"
+                              value={iotTemp}
+                              onChange={(e) => setIotTemp(e.target.value)}
+                              placeholder={selectedHive.temp.toString()}
+                              className="w-full bg-black/60 border border-honey/20 rounded-md p-2 text-[10px] text-white focus:border-honey outline-none font-mono"
+                            />
+                         </div>
+                         <div className="space-y-1">
+                            <span className="text-[8px] uppercase text-honey/40">Humid (%)</span>
+                            <input 
+                              type="number"
+                              value={iotHumidity}
+                              onChange={(e) => setIotHumidity(e.target.value)}
+                              placeholder={selectedHive.humidity.toString()}
+                              className="w-full bg-black/60 border border-honey/20 rounded-md p-2 text-[10px] text-white focus:border-honey outline-none font-mono"
+                            />
+                         </div>
+                      </div>
+
+                      <button 
+                        onClick={async () => {
+                          const w = parseFloat(iotWeight) || selectedHive.weight;
+                          const t = parseFloat(iotTemp) || selectedHive.temp;
+                          const h = parseFloat(iotHumidity) || selectedHive.humidity;
+                          
+                          try {
+                            setIsSyncing(true);
+                            await pushHivePulse(selectedHive.id, { weight: w, temp: t, humidity: h });
+                            setIotWeight(''); setIotTemp(''); setIotHumidity('');
+                            alert(`Success: IoT Pulse Deployed to Unit #${selectedHive.id}. History synchronized.`);
+                          } catch (err: any) {
+                            alert(`Uplink Failure: ${err.message}`);
+                          } finally {
+                            setIsSyncing(false);
+                          }
+                        }}
+                        disabled={isSyncing}
+                        className="w-full py-2.5 bg-honey text-[#0A0704] text-[9px] font-black uppercase tracking-widest hover:bg-honey/90 transition-all rounded-sm flex items-center justify-center gap-2"
+                      >
+                        <Activity size={12} className={isSyncing ? "animate-spin" : ""} />
+                        Deploy_Pulse_Payload
+                      </button>
+
+                      {selectedHive.lastSyncTimestamp && (
+                        <div className="text-center pt-2">
+                           <span className="text-[9px] text-white/20 uppercase tracking-[0.2em]">Last Sync: {new Date(selectedHive.lastSyncTimestamp).toLocaleTimeString()}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1211,7 +1301,7 @@ export default function Admin() {
                         </tr>
                       </thead>
                       <tbody className="text-[11px] font-mono">
-                        {hives.map(hive => (
+                        {filteredHives.map(hive => (
                           <tr key={hive.id} className="border-b border-honey/5 hover:bg-white/[0.02] transition-colors group">
                             <td className="py-4 font-bold text-white">#{hive.id}</td>
                             <td className="py-4 text-white/60">{hive.location}</td>

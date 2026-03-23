@@ -33,7 +33,7 @@ interface AuthContextType {
   loading: boolean;
   error: string | null;
   signInWithGoogle: () => Promise<void>;
-  signUp: (email: string, password: string, acceptedMarketing?: boolean) => Promise<void>;
+  signUp: (email: string, password: string, acceptedMarketing?: boolean, fullName?: string, address?: string) => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -149,7 +149,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signUp = async (email: string, password: string, acceptedMarketing: boolean = false) => {
+  const signUp = async (email: string, password: string, acceptedMarketing: boolean = false, fullName?: string, address?: string) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       
@@ -157,14 +157,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const { sendEmail, emailTemplates } = await import('./email');
       sendEmail(emailTemplates.welcome(email)).catch(console.error);
 
-      // Store marketing preference
+      // Store marketing preference and identity metadata
       if (userCredential.user) {
         await setDoc(doc(db, 'users', userCredential.user.uid), {
           uid: userCredential.user.uid,
           email,
           role: 'subscriber',
           subscribedHives: [],
-          acceptedMarketing // Store this for future promotional emails
+          acceptedMarketing, // Store this for future promotional emails
+          customLabel: fullName || null,
+          shippingAddress: address || null
         }, { merge: true });
       }
 
