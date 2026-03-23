@@ -205,18 +205,15 @@ export function useHiveData() {
       ...DEFAULT_HIVES[0],
       id: newId,
       location: 'New Location',
-      weight: 20.0,
+      weight: 25.0 + Math.random() * 15,
+      temp: 34.0 + Math.random(),
+      humidity: 55 + Math.random() * 10,
       status: 'available',
       currentSubscribers: 0,
-      history: [
-        { day: 'Mon', weight: 19.5 },
-        { day: 'Tue', weight: 19.6 },
-        { day: 'Wed', weight: 19.7 },
-        { day: 'Thu', weight: 19.8 },
-        { day: 'Fri', weight: 19.9 },
-        { day: 'Sat', weight: 20.0 },
-        { day: 'Sun', weight: 20.0 },
-      ],
+      history: Array.from({ length: 7 }, (_, i) => ({
+        day: new Date(Date.now() - (7 - i) * 3 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { day: '2-digit', month: 'short' }),
+        weight: 20 + Math.random() * 15
+      })),
       journal: []
     };
     

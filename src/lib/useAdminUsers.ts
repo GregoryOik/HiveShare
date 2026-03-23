@@ -15,6 +15,7 @@ export interface UserProfile {
   adminNotes?: string;
   customHoneyName?: string;
   userHarvestStatus?: string;
+  metadata?: { key: string; value: string }[];
 }
 
 export function useAdminUsers() {

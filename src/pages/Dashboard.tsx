@@ -254,12 +254,12 @@ export default function Dashboard() {
                     </div>
                   )}
                 </div>
-                <h2 className="font-display italic text-8xl text-[#2A1B0A] mb-8">{activeHive.weight.toFixed(1)}<span className="text-3xl ml-2 not-italic text-honey/60">kg</span></h2>
+                <h2 className="font-display italic text-8xl text-honey mb-8">{activeHive.weight.toFixed(1)}<span className="text-3xl ml-2 not-italic text-honey/40">kg</span></h2>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 pt-6 border-t border-honey/10">
-                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#2A1B0A]/60 font-black">Temp</div><div className="text-sm text-[#2A1B0A] font-black">{activeHive.temp}°C</div></div>
-                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#2A1B0A]/60 font-black">Humidity</div><div className="text-sm text-[#2A1B0A] font-black">{activeHive.humidity}%</div></div>
-                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#2A1B0A]/60 font-black">Activity</div><div className="text-sm text-[#2A1B0A] font-black">{activeHive.activity}</div></div>
-                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#2A1B0A]/60 font-black">Health</div><div className="text-sm text-green-600 font-black uppercase tracking-widest">Stable</div></div>
+                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/60 font-black">Temp</div><div className="text-sm text-white font-black">{activeHive.temp}°C</div></div>
+                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/60 font-black">Humidity</div><div className="text-sm text-white font-black">{activeHive.humidity}%</div></div>
+                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/60 font-black">Activity</div><div className="text-sm text-white font-black">{activeHive.activity}</div></div>
+                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/60 font-black">Health</div><div className="text-sm text-green-400 font-black uppercase tracking-widest">Stable</div></div>
                   </div>
               </div>
             </section>
@@ -269,7 +269,7 @@ export default function Dashboard() {
                   <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-6 flex items-center justify-between">
                     <span>Growth Analysis</span>
                     {activeHive.lastSyncTimestamp && (
-                      <span className="text-[8px] text-[#2A1B0A]/30 font-black tracking-widest">
+                      <span className="text-[8px] text-honey/40 font-black tracking-widest">
                         LAST_SYNC: {new Date(activeHive.lastSyncTimestamp).toLocaleTimeString()}
                       </span>
                     )}
@@ -300,7 +300,7 @@ export default function Dashboard() {
                           dataKey="day" 
                           axisLine={false}
                           tickLine={false}
-                          tick={{ fill: 'rgba(42, 27, 10, 0.4)', fontSize: 8, fontWeight: 900 }}
+                          tick={{ fill: 'rgba(255, 185, 41, 0.4)', fontSize: 8, fontWeight: 900 }}
                           dy={10}
                         />
                         <YAxis hide domain={['dataMin - 1', 'dataMax + 1']} />
@@ -316,7 +316,7 @@ export default function Dashboard() {
                     {activeHive.journal?.map((entry, i) => (
                       <div key={i} className="pl-4 border-l-2 border-honey/20">
                         <div className="text-[9px] uppercase tracking-widest text-honey font-bold mb-1">{entry.type} · {new Date(entry.date).toLocaleDateString()}</div>
-                        <p className="text-xs text-[#2A1B0A]/70 italic leading-relaxed">"{entry.content}"</p>
+                        <p className="text-xs text-white/70 italic leading-relaxed">"{entry.content}"</p>
                       </div>
                     )) || <p className="text-xs text-[#2A1B0A]/40">No entries yet.</p>}
                   </div>

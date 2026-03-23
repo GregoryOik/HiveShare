@@ -35,8 +35,9 @@ import {
   Lock,
   RefreshCw,
   Radio,
-  Copy,
-  Check
+  Check,
+  Tag,
+  Trash2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
@@ -711,9 +712,15 @@ export default function Admin() {
                             <Copy size={12} />
                           </button>
                         </div>
-                        <div className="mt-2 flex items-center gap-2">
-                           <span className="text-[8px] uppercase text-white/20 tracking-widest">Uplink Target:</span>
-                           <code className="text-[8px] text-honey/40 font-mono">https://api.hiveshare.io/v1/uplink</code>
+                        <div className="mt-2 flex flex-col gap-1">
+                           <div className="flex items-center gap-2">
+                             <span className="text-[8px] uppercase text-white/20 tracking-widest font-black">Uplink Target (DEV_ONLY):</span>
+                             <code className="text-[8px] text-honey font-mono bg-honey/10 px-1 rounded">https://api.hiveshare.io/v1/uplink</code>
+                           </div>
+                           <p className="text-[7px] text-white/30 uppercase tracking-tighter leading-tight mt-1">
+                             * This is a REST endpoint placeholder. For real hardware integration (ESP32/Arduino), 
+                             please contact support to activate your dedicated API gateway.
+                           </p>
                         </div>
                       </div>
 
@@ -1048,7 +1055,7 @@ export default function Admin() {
                   {/* User Meta: Advanced Profiling */}
                   <div className="space-y-4 pt-4 border-t border-honey/10">
                     <label className="text-[10px] uppercase tracking-widest text-[#C8860A] font-black flex items-center gap-2 underline decoration-honey/30 underline-offset-4">
-                      <ShieldAlert size={14} /> Guardian_Metadata_Layer
+                      <Tag size={14} /> Guardian_Metadata_Layer
                     </label>
                     <div className="bg-honey/5 border border-honey/10 p-4 rounded-md space-y-4">
                       <div className="grid grid-cols-2 gap-3">
@@ -1070,7 +1077,9 @@ export default function Admin() {
                       <button 
                         onClick={() => {
                           if (!customMetaKey || !customMetaValue) return;
-                          updateUser(selectedUser.uid, { [customMetaKey]: customMetaValue });
+                          const currentMeta = selectedUser.metadata || [];
+                          const updatedMeta = [...currentMeta.filter(m => m.key !== customMetaKey), { key: customMetaKey, value: customMetaValue }];
+                          updateUser(selectedUser.uid, { metadata: updatedMeta });
                           setCustomMetaKey(''); setCustomMetaValue('');
                         }}
                         className="w-full py-2 bg-[#C8860A]/10 border border-[#C8860A]/30 text-[#C8860A] text-[9px] font-black uppercase tracking-widest hover:bg-[#C8860A] hover:text-black transition-all rounded-sm"
@@ -1078,13 +1087,24 @@ export default function Admin() {
                         Push_Guardian_Field
                       </button>
                       <div className="space-y-1 max-h-[150px] overflow-y-auto custom-scrollbar pt-2 border-t border-white/5">
-                        {Object.entries(selectedUser).filter(([k]) => !['uid','email','role','subscribedHives','customLabel','shippingAddress','nextHarvestDate','tier','subscriptionStartDate','adminNotes','customHoneyName','userHarvestStatus'].includes(k)).map(([k, v]) => (
-                          <div key={k} className="flex items-center justify-between p-2 bg-white/5 border border-white/5 rounded text-[9px] font-mono group/meta">
-                            <span className="text-honey/60">{k}:</span>
-                            <span className="text-white/60 truncate max-w-[120px]">{String(v)}</span>
-                            <button onClick={() => updateUser(selectedUser.uid, { [k]: null })} className="text-red-500/40 hover:text-red-500 opacity-0 group-hover/meta:opacity-100 transition-opacity"><Trash2 size={10}/></button>
+                        {selectedUser.metadata?.map((meta, i) => (
+                          <div key={i} className="flex items-center justify-between p-2 bg-white/5 border border-white/5 rounded text-[9px] font-mono group/meta">
+                            <span className="text-honey/60">{meta.key}:</span>
+                            <span className="text-white/60 truncate max-w-[120px]">{meta.value}</span>
+                            <button 
+                              onClick={() => {
+                                const updatedMeta = selectedUser.metadata?.filter(m => m.key !== meta.key) || [];
+                                updateUser(selectedUser.uid, { metadata: updatedMeta });
+                              }} 
+                              className="text-red-500/40 hover:text-red-500 opacity-0 group-hover/meta:opacity-100 transition-opacity"
+                            >
+                              <Trash2 size={10}/>
+                            </button>
                           </div>
                         ))}
+                        {(!selectedUser.metadata || selectedUser.metadata.length === 0) && (
+                          <div className="text-[8px] text-white/10 text-center py-2 uppercase tracking-widest">No_Layered_Data</div>
+                        )}
                       </div>
                     </div>
                   </div>
