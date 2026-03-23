@@ -37,7 +37,7 @@ import {
   Radio,
   Check,
   Tag,
-  Trash2
+  Copy
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
