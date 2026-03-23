@@ -3,7 +3,6 @@ import { Plus, Menu, X, Scale, Camera, Thermometer, Package, FlaskConical, MapPi
 import { Link } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
 import CookieConsent from '../components/CookieConsent';
-import BeeCursor from '../components/BeeCursor';
 
 const Navbar = ({ cartItemsCount, setIsCartOpen }: any) => {
   const [scrolled, setScrolled] = useState(false);

@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate, Navigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
-import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff, User, MapPin } from 'lucide-react';
+import { 
+  Mail, 
+  Lock, 
+  ArrowRight, 
+  Loader2, 
+  Eye, 
+  EyeOff, 
+  User, 
+  MapPin, 
+  Package, 
+  CheckCircle,
+  Globe
+} from 'lucide-react';
 import OnboardingStepper from '../components/OnboardingStepper';
 
 export default function Login() {
@@ -16,6 +28,9 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [shippingAddress, setShippingAddress] = useState('');
+  const [zipCode, setZipCode] = useState('');
+  const [country, setCountry] = useState('Greece');
+  const [isZipValid, setIsZipValid] = useState<boolean | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [resetSent, setResetSent] = useState(false);
   
@@ -82,12 +97,12 @@ export default function Login() {
           setIsLoading(false);
           return;
         }
-        if (!fullName || !shippingAddress) {
-          setLocalError('Please provide your full name and shipping address.');
+        if (!fullName || !shippingAddress || !isZipValid) {
+          setLocalError('Please provide your full name and a valid EU shipping address (including postcode).');
           setIsLoading(false);
           return;
         }
-        await signUp(email, password, acceptedMarketing, fullName, shippingAddress);
+        await signUp(email, password, acceptedMarketing, fullName, `${shippingAddress}, ${zipCode}, ${country}`);
       } else {
         await signInWithEmail(email, password);
       }
@@ -176,16 +191,56 @@ export default function Login() {
                     required={mode === 'signup'}
                   />
                 </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#2A1B0A]/30" />
+                    <input
+                      type="text"
+                      value={shippingAddress}
+                      onChange={(e) => setShippingAddress(e.target.value)}
+                      placeholder="Street & City"
+                      className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
+                      required={mode === 'signup'}
+                    />
+                  </div>
+                  <div className="relative">
+                    <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#2A1B0A]/30" />
+                    <select
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                      className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] appearance-none"
+                    >
+                      {['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden'].map(c => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#2A1B0A]/30" />
+                  <Package className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#2A1B0A]/30" />
                   <input
                     type="text"
-                    value={shippingAddress}
-                    onChange={(e) => setShippingAddress(e.target.value)}
-                    placeholder="Shipping Address (City, Region)"
-                    className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
+                    value={zipCode}
+                    onChange={(e) => {
+                      const val = e.target.value.toUpperCase();
+                      setZipCode(val);
+                      // EU Zip codes vary, but generally 3-10 alphanumeric characters
+                      setIsZipValid(val.length >= 3);
+                    }}
+                    placeholder="Postcode / ZIP"
+                    className={`w-full bg-hive-bg border pl-10 pr-12 py-3.5 text-sm text-[#2A1B0A] focus:outline-none transition-all rounded-[2px] placeholder:text-[#2A1B0A]/20 ${
+                      isZipValid === true ? 'border-green-500/50 bg-green-500/[0.02]' : 
+                      isZipValid === false && zipCode.length > 0 ? 'border-red-500/50' : 'border-honey/20'
+                    }`}
                     required={mode === 'signup'}
                   />
+                  {isZipValid === true && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5 animate-in fade-in zoom-in">
+                       <span className="text-[7px] font-black text-green-500 uppercase tracking-widest">Proofed EU</span>
+                       <CheckCircle className="w-4 h-4 text-green-500" />
+                    </div>
+                  )}
                 </div>
               </>
             )}

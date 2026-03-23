@@ -81,5 +81,14 @@ export function useAdminUsers() {
     }
   };
 
-  return { users, loading, assignHiveToUser, removeHiveFromUser, updateUser };
+  const batchUpdateUsers = async (uids: string[], data: Partial<UserProfile>) => {
+    try {
+      await Promise.all(uids.map(uid => updateDoc(doc(db, 'users', uid), data)));
+    } catch (error: any) {
+      console.error("[useAdminUsers] Error batch updating users:", error);
+      throw error;
+    }
+  };
+
+  return { users, loading, assignHiveToUser, removeHiveFromUser, updateUser, batchUpdateUsers };
 }

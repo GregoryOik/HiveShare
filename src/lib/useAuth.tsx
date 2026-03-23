@@ -26,6 +26,8 @@ interface UserProfile {
   customHoneyName?: string;
   userHarvestStatus?: string;
   metadata?: { key: string; value: string }[];
+  dob?: string;
+  hasSeenTour?: boolean;
 }
 
 interface AuthContextType {
@@ -39,6 +41,8 @@ interface AuthContextType {
   resetPassword: (email: string) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (newData: Partial<UserProfile>) => Promise<void>;
+  updatePassword: (newPassword: string) => Promise<void>;
+  deleteAccount: () => Promise<void>;
   cancelSubscription: () => Promise<void>;
   manageBilling: () => Promise<void>;
   forceSyncAdminRole: () => Promise<void>;
@@ -156,7 +160,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       // We don't wait for email to finish, as it's secondary to account creation
       const { sendEmail, emailTemplates } = await import('./email');
-      sendEmail(emailTemplates.welcome(email)).catch(console.error);
+      sendEmail(emailTemplates.welcome(email, fullName || 'Guardian')).catch(console.error);
 
       // Store marketing preference and identity metadata
       if (userCredential.user) {
@@ -200,6 +204,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await signOut(auth);
     } catch (error) {
       console.error('Error signing out', error);
+      throw error;
+    }
+  };
+
+  const updatePassword = async (newPassword: string) => {
+    if (!user) return;
+    try {
+      const { updatePassword: firebaseUpdatePassword } = await import('firebase/auth');
+      await firebaseUpdatePassword(user, newPassword);
+    } catch (error) {
+      console.error('Error updating password', error);
+      throw error;
+    }
+  };
+
+  const deleteAccount = async () => {
+    if (!user) return;
+    try {
+      const { deleteUser } = await import('firebase/auth');
+      const userDocRef = doc(db, 'users', user.uid);
+      await deleteUser(user);
+    } catch (error) {
+      console.error('Error deleting account', error);
       throw error;
     }
   };
@@ -265,7 +292,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, error, signInWithGoogle, signUp, signInWithEmail, resetPassword, logout, updateProfile, cancelSubscription, manageBilling, forceSyncAdminRole }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      profile, 
+      loading, 
+      error, 
+      signInWithGoogle, 
+      signUp, 
+      signInWithEmail, 
+      resetPassword, 
+      logout, 
+      updateProfile, 
+      updatePassword, 
+      deleteAccount, 
+      cancelSubscription, 
+      manageBilling, 
+      forceSyncAdminRole 
+    }}>
       {children}
     </AuthContext.Provider>
   );
