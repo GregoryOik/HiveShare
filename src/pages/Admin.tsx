@@ -1373,6 +1373,33 @@ export default function Admin() {
                     <Plus size={12} /> Release_Pool
                   </button>
                   <button 
+                    onClick={async () => {
+                      const loc = prompt('Enter new deployment zone for selected units:');
+                      if (loc) handleBatchHiveUpdate({ location: loc });
+                    }}
+                    className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-[#F1E9DB]/60 hover:text-honey hover:border-honey/40 transition-all flex items-center gap-2"
+                  >
+                    <MapPin size={12} /> Sync_Geography
+                  </button>
+                  <button 
+                    onClick={async () => {
+                      const harvest = prompt('Enter active harvest (e.g. Summer Thyme):');
+                      if (harvest) handleBatchHiveUpdate({ activeHarvest: harvest });
+                    }}
+                    className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-[#F1E9DB]/60 hover:text-honey hover:border-honey/40 transition-all flex items-center gap-2"
+                  >
+                    <Activity size={12} /> Sync_Honey
+                  </button>
+                  <button 
+                    onClick={async () => {
+                      const date = prompt('Enter next harvest date (YYYY-MM-DD):');
+                      if (date) handleBatchHiveUpdate({ nextHarvestDate: date });
+                    }}
+                    className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-[#F1E9DB]/60 hover:text-honey hover:border-honey/40 transition-all flex items-center gap-2"
+                  >
+                    <Calendar size={12} /> Sync_Timing
+                  </button>
+                  <button 
                     onClick={handleBatchJournalEntry}
                     className="px-4 py-2 bg-honey text-black rounded-full text-[9px] font-black uppercase tracking-widest hover:scale-105 transition-all flex items-center gap-2"
                   >
