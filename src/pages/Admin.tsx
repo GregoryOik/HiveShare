@@ -40,6 +40,7 @@ export default function Admin() {
   const [selectedHiveId, setSelectedHiveId] = useState<string | null>(null);
   const [selectedUserUid, setSelectedUserUid] = useState<string | null>(null);
   const [isAddingHive, setIsAddingHive] = useState(false);
+  const [userTierFilter, setUserTierFilter] = useState<'all' | 'premium' | 'starter' | 'none'>('all');
 
   // Batch Selection State
   const [selectedHiveIds, setSelectedHiveIds] = useState<string[]>([]);
@@ -55,10 +56,12 @@ export default function Admin() {
     h.status.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredUsers = users.filter(u => 
-    u.email.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    (u.uid.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const filteredUsers = users.filter(u => {
+    const matchesSearch = u.email.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         (u.uid.toLowerCase().includes(searchTerm.toLowerCase()));
+    const matchesTier = userTierFilter === 'all' || u.tier === userTierFilter;
+    return matchesSearch && matchesTier;
+  });
 
   const selectedHive = hives.find(h => h.id === selectedHiveId);
   const selectedUser = users.find(u => u.uid === selectedUserUid);
@@ -210,6 +213,8 @@ export default function Admin() {
                 setSelectedUserUid={setSelectedUserUid}
                 selectedUserUids={selectedUserUids}
                 setSelectedUserUids={setSelectedUserUids}
+                tierFilter={userTierFilter}
+                setTierFilter={setUserTierFilter}
               />
             )}
           </aside>

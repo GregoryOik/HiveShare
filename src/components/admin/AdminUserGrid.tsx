@@ -11,6 +11,8 @@ interface AdminUserGridProps {
   setSelectedUserUid: (uid: string | null) => void;
   selectedUserUids: string[];
   setSelectedUserUids: React.Dispatch<React.SetStateAction<string[]>>;
+  tierFilter: 'all' | 'premium' | 'starter' | 'none';
+  setTierFilter: (val: 'all' | 'premium' | 'starter' | 'none') => void;
 }
 
 export function AdminUserGrid({
@@ -21,11 +23,13 @@ export function AdminUserGrid({
   selectedUserUid,
   setSelectedUserUid,
   selectedUserUids,
-  setSelectedUserUids
+  setSelectedUserUids,
+  tierFilter,
+  setTierFilter
 }: AdminUserGridProps) {
   return (
     <div className="bg-[#120D08] border border-honey/10 rounded-lg p-6 flex flex-col h-[calc(100vh-200px)] sticky top-28">
-      <div className="mb-6">
+      <div className="mb-6 space-y-2">
         <div className="relative">
           <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-honey/40" />
           <input 
@@ -33,8 +37,24 @@ export function AdminUserGrid({
             placeholder="Search Guardians..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-black/40 border border-honey/20 rounded-full pl-10 pr-4 py-2.5 text-[11px] focus:outline-none focus:border-honey transition-all text-white placeholder:text-honey/20 font-sans"
+            className="w-full bg-black/40 border border-honey/20 rounded-full pl-10 pr-4 py-2 text-[10px] focus:outline-none focus:border-honey transition-all text-white placeholder:text-honey/20 font-sans"
           />
+        </div>
+        <div className="flex gap-1 overflow-x-auto pb-1 no-scrollbar">
+          {[
+            { id: 'all', label: 'All' },
+            { id: 'premium', label: 'Premium' },
+            { id: 'starter', label: 'Starter' },
+            { id: 'none', label: 'Free' }
+          ].map(f => (
+            <button
+              key={f.id}
+              onClick={() => setTierFilter(f.id as any)}
+              className={`px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest transition-all whitespace-nowrap border ${tierFilter === f.id ? 'bg-honey text-black border-honey' : 'bg-white/5 text-white/40 border-white/5 hover:border-honey/20'}`}
+            >
+              {f.label}
+            </button>
+          ))}
         </div>
       </div>
 
