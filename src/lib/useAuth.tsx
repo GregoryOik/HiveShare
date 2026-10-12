@@ -15,16 +15,24 @@ import { doc, getDoc, setDoc, updateDoc, collection, onSnapshot as onFirestoreSn
 interface UserProfile {
   uid: string;
   email: string;
+  fullName?: string;
   role: 'subscriber' | 'admin';
   subscribedHives: string[];
   customLabel?: string;
   shippingAddress?: string;
+  city?: string;
+  postalCode?: string;
+  country?: string;
   nextHarvestDate?: string;
   tier?: 'none' | 'starter' | 'premium';
+  subscriptionTier?: string;
   subscriptionStartDate?: string;
   adminNotes?: string;
+  courierNotes?: string;
   customHoneyName?: string;
   userHarvestStatus?: string;
+  trackingNumber?: string;
+  carrier?: string;
   metadata?: { key: string; value: string }[];
   dob?: string;
   hasSeenTour?: boolean;

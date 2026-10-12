@@ -32,7 +32,8 @@ import {
   ShieldX,
   UserMinus,
   X,
-  Users
+  Users,
+  Download
 } from 'lucide-react';
 import {
   AreaChart,
@@ -48,6 +49,7 @@ import { useHiveData, useSiteConfig } from '../lib/useHiveData';
 import Footer from '../components/Footer';
 import OnboardingStepper from '../components/OnboardingStepper';
 import { jsPDF } from 'jspdf';
+import CertificateModal from '../components/CertificateModal';
 
 export default function Dashboard() {
   const { user, profile, logout } = useAuth();
@@ -55,6 +57,7 @@ export default function Dashboard() {
   const { config } = useSiteConfig();
   const [selectedHiveId, setSelectedHiveId] = useState<string>('');
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [showCertModal, setShowCertModal] = useState(false);
   const [isAutoAssigning, setIsAutoAssigning] = useState(false);
   const [showTour, setShowTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
@@ -513,9 +516,22 @@ export default function Dashboard() {
                     )) || <p className="text-xs text-[#2A1B0A]/40">No entries yet.</p>}
                   </div>
                 </div>
-                <button onClick={() => downloadCertificate(activeHive.id)} className="mt-8 flex items-center justify-center gap-2 py-4 border border-honey/20 text-[10px] uppercase tracking-widest font-bold text-honey hover:bg-honey hover:text-[#2A1B0A] transition-all rounded-[2px]">
-                   <Award size={14}/> Download Adoption Certificate
-                </button>
+                <div className="flex gap-2 mt-8">
+                  <button 
+                    onClick={() => setShowCertModal(true)} 
+                    className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-honey text-[#0C0804] text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-[2px] shadow-sm"
+                  >
+                     <Award size={14}/> View & Print Certificate
+                  </button>
+                  <button 
+                    onClick={() => downloadCertificate(activeHive.id)} 
+                    disabled={isGeneratingPDF}
+                    className="flex items-center justify-center gap-1.5 px-4 py-3.5 border border-honey/30 text-[10px] uppercase tracking-widest font-bold text-honey hover:bg-honey/10 transition-all rounded-[2px]"
+                    title="Direct PDF Download"
+                  >
+                     <Download size={14}/> PDF
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -785,6 +801,15 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      {/* ── LUXURY ADOPTION CERTIFICATE MODAL ── */}
+      <CertificateModal
+        isOpen={showCertModal}
+        onClose={() => setShowCertModal(false)}
+        guardianName={profile?.customLabel || profile?.fullName || user?.displayName || user?.email?.split('@')[0] || 'Valued Guardian'}
+        tierName={profile?.tier === 'premium' ? 'Premium Patron' : 'Starter Guardianship'}
+        hiveId={activeHive?.id || '04'}
+      />
 
       <Footer />
     </div>

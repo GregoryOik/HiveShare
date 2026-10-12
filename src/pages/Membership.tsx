@@ -35,9 +35,9 @@ export default function Membership() {
     if (location.state?.tier && !cartPlan) {
       const tierId = location.state.tier;
       if (tierId === 'starter') {
-        setCartPlan({ id: 'starter', name: 'Starter Membership', price: 80 });
+        setCartPlan({ id: 'starter', name: 'Starter Guardianship', price: 140 });
       } else if (tierId === 'premium') {
-        setCartPlan({ id: 'premium', name: 'Premium Membership', price: 200 });
+        setCartPlan({ id: 'premium', name: 'Premium Patron', price: 340 });
       }
       window.history.replaceState({}, document.title);
     }
@@ -175,8 +175,8 @@ export default function Membership() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { id: 'starter', name: 'Starter', price: 80, desc: 'Ideal for casual observers. Track weight and receive a yearly harvest.', icon: Star },
-                { id: 'premium', name: 'Premium', price: 200, desc: 'The royal treatment. Full biometrics, custom labeling, and named hive.', icon: Crown },
+                { id: 'starter', name: 'Starter Guardianship', price: 140, desc: '2.5 kg raw honey (~€56/kg). Track hive telemetry and receive 3 seasonal deliveries.', icon: Star },
+                { id: 'premium', name: 'Premium Patron', price: 340, desc: '5 kg raw honey (~€68/kg). Dedicated named hive, custom labels, framed certificate, and Mani apiary visit invitation.', icon: Crown },
               ].map((plan) => (
                 <button
                   key={plan.id}

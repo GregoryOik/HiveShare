@@ -73,7 +73,7 @@ export function AdminUserDetails({
                   <div className="text-[9px] uppercase tracking-widest text-honey/40 font-black mb-1">Harvest_Status</div>
                   <select 
                     value={selectedUser.userHarvestStatus || 'PENDING'}
-                    onChange={(e) => updateUser(selectedUser.uid, { userHarvestStatus: e.target.value })}
+                    onChange={(e) => updateUser(selectedUser.uid, { userHarvestStatus: e.target.value as any })}
                     className="w-full bg-transparent text-sm font-display text-white outline-none focus:text-honey"
                   >
                     <option value="PENDING">PENDING</option>

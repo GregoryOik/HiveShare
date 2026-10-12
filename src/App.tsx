@@ -13,9 +13,12 @@ const Privacy = lazy(() => import('./pages/Privacy'));
 const Success = lazy(() => import('./pages/Success'));
 const Cancel = lazy(() => import('./pages/Cancel'));
 const Harvest = lazy(() => import('./pages/Harvest'));
+const BuyHoney = lazy(() => import('./pages/BuyHoney'));
+const VerifyBatch = lazy(() => import('./pages/VerifyBatch'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 import { AuthProvider, useAuth } from './lib/useAuth';
+import { LanguageProvider } from './lib/useLanguage';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import CookieConsent from './components/CookieConsent';
 
@@ -55,40 +58,41 @@ export default function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
-        <Router>
-          <Suspense fallback={<LoadingScreen />}>
-            <Routes>
-              {/* Dashboard Subdomain Routes */}
-              {isDashboardSubdomain && <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />}
-              {isDashboardSubdomain && <Route path="/dashboard" element={<Navigate to="/" replace />} />}
-              
-              {/* Standard Domain Routes */}
-              {!isDashboardSubdomain && <Route path="/" element={<Landing />} />}
-              {!isDashboardSubdomain && <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />}
+        <LanguageProvider>
+          <Router>
+            <Suspense fallback={<LoadingScreen />}>
+              <Routes>
+                {/* Dashboard Subdomain Routes */}
+                {isDashboardSubdomain && <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />}
+                {isDashboardSubdomain && <Route path="/dashboard" element={<Navigate to="/" replace />} />}
+                
+                {/* Standard Domain Routes */}
+                {!isDashboardSubdomain && <Route path="/" element={<Landing />} />}
+                {!isDashboardSubdomain && <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />}
 
-              {/* Shared Routes */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/membership" element={
-                <ProtectedRoute>
-                  <Membership />
-                </ProtectedRoute>
-              } />
-              <Route path="/admin" element={
-                <ProtectedRoute requireAdmin={true}>
-                  <Admin />
-                </ProtectedRoute>
-              } />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/success" element={<ProtectedRoute><Success /></ProtectedRoute>} />
-              <Route path="/cancel" element={<ProtectedRoute><Cancel /></ProtectedRoute>} />
-              <Route path="/harvest" element={<ProtectedRoute><Harvest /></ProtectedRoute>} />
-              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-          <CookieConsent />
-        </Router>
+                {/* Shared Routes */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/membership" element={
+                  <ProtectedRoute>
+                    <Membership />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/success" element={<ProtectedRoute><Success /></ProtectedRoute>} />
+                <Route path="/cancel" element={<ProtectedRoute><Cancel /></ProtectedRoute>} />
+                <Route path="/harvest" element={<ProtectedRoute><Harvest /></ProtectedRoute>} />
+                <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+                <Route path="/buy-honey" element={<BuyHoney />} />
+                <Route path="/verify" element={<VerifyBatch />} />
+                <Route path="/verify/:batchId" element={<VerifyBatch />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+            <CookieConsent />
+          </Router>
+        </LanguageProvider>
       </AuthProvider>
     </ErrorBoundary>
   );

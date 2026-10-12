@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { CheckCircle, ArrowRight, Package, RefreshCw, Star } from 'lucide-react';
+import { CheckCircle, ArrowRight, Package, RefreshCw, Star, Award } from 'lucide-react';
 import { useAuth } from '../lib/useAuth';
 import { db } from '../lib/firebase';
 import { doc, updateDoc, arrayUnion, collection, query, where, getDocs } from 'firebase/firestore';
+import CertificateModal from '../components/CertificateModal';
 import Footer from '../components/Footer';
 
 export default function Success() {
@@ -13,6 +14,7 @@ export default function Success() {
   const [error, setError] = useState<string | null>(null);
   const [claimedId, setClaimedId] = useState<string | null>(null);
   const [hasAttempted, setHasAttempted] = useState(false);
+  const [showCertModal, setShowCertModal] = useState(false);
   const tier = searchParams.get('tier') || 'starter';
   const isGift = searchParams.get('is_gift') === 'true';
   const isAdditional = searchParams.get('is_additional') === 'true';
@@ -64,13 +66,36 @@ export default function Success() {
           lastSubscriptionAt: new Date().toISOString()
         });
 
-        // Professional Email Dispatch
+        // Professional Email Dispatch: Guardian Welcome & Gregory Admin Alert
         const { sendEmail, emailTemplates } = await import('../lib/email');
         if (user.email) {
+          const tierDisplayName = tier === 'premium' ? 'Premium Patron' : tier === 'corporate' ? 'Corporate Sanctum' : 'Starter Guardianship';
+          const recipientName = profile?.fullName || user.displayName || 'Guardian';
+          const shippingStr = profile?.shippingAddress
+            ? `${profile.shippingAddress}${profile.city ? `, ${profile.city}` : ''}${profile.country ? `, ${profile.country}` : ''}`
+            : 'Pending address entry in portal';
+
+          // 1. Send Welcome to Guardian
+          sendEmail(emailTemplates.welcome(
+            user.email,
+            recipientName,
+            tierDisplayName,
+            hiveId
+          )).catch(console.error);
+
+          // 2. Send Colony Assignment to Guardian
           sendEmail(emailTemplates.assignment(
             user.email, 
             hiveId, 
-            'Peloponnese'
+            'Mani, Peloponnese'
+          )).catch(console.error);
+
+          // 3. Alert Gregory gatekeeper email immediately
+          sendEmail(emailTemplates.adminNewGuardianAlert(
+            recipientName,
+            user.email,
+            tierDisplayName,
+            shippingStr
           )).catch(console.error);
         }
 
@@ -190,14 +215,35 @@ export default function Success() {
                    </div>
                 </div>
 
-                <Link to="/dashboard" className="inline-flex items-center gap-4 bg-honey text-black px-12 py-6 text-xs uppercase tracking-[0.3em] font-black hover:bg-white transition-all group shadow-[0_20px_40px_rgba(200,134,10,0.2)]">
-                  Enter Command Journal <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
-                </Link>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <button
+                    onClick={() => setShowCertModal(true)}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white/5 border border-honey/40 text-honey hover:bg-honey hover:text-black px-8 py-5 text-xs uppercase tracking-[0.25em] font-black transition-all rounded-[2px]"
+                  >
+                    <Award size={18} /> View & Print Certificate
+                  </button>
+                  <Link
+                    to="/dashboard"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-4 bg-honey text-black px-10 py-5 text-xs uppercase tracking-[0.25em] font-black hover:bg-white transition-all group shadow-[0_20px_40px_rgba(200,134,10,0.2)] rounded-[2px]"
+                  >
+                    Enter Command Journal <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                  </Link>
+                </div>
               </div>
             )}
           </div>
         </div>
       </main>
+
+      {/* ── LUXURY ADOPTION CERTIFICATE MODAL ── */}
+      <CertificateModal
+        isOpen={showCertModal}
+        onClose={() => setShowCertModal(false)}
+        guardianName={profile?.fullName || user?.displayName || user?.email?.split('@')[0] || 'Valued Guardian'}
+        tierName={tier === 'premium' ? 'Premium Patron' : 'Starter Guardianship'}
+        hiveId={claimedId || '04'}
+      />
+
       <Footer />
     </div>
   );
