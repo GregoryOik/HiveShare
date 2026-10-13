@@ -21,7 +21,6 @@ import { AuthProvider, useAuth } from './lib/useAuth';
 import { LanguageProvider } from './lib/useLanguage';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import CookieConsent from './components/CookieConsent';
-import BeeCompanion from './components/BeeCompanion';
 
 function LoadingScreen() {
   return (
@@ -92,7 +91,6 @@ export default function App() {
               </Routes>
             </Suspense>
             <CookieConsent />
-            <BeeCompanion />
           </Router>
         </LanguageProvider>
       </AuthProvider>
