@@ -449,8 +449,8 @@ function JarCard({
             <div className="mt-2 p-3 bg-hive-bg border border-honey/20 rounded-sm text-xs space-y-1.5 animate-in fade-in duration-200">
               <div className="font-bold text-[#2A1B0A]">{displayPairing.dish}</div>
               <p className="text-[11px] text-[#2A1B0A]/70 leading-normal font-light">{displayPairing.note}</p>
-              <div className="text-[9px] text-honey font-mono pt-1 border-t border-honey/15">
-                🥄 {isEl ? 'Συμβουλή Πέτρου: Χρησιμοποιείτε πάντα ξύλινο ή κεραμικό κουτάλι για προστασία των ενζύμων.' : 'Petros’ tip: Always use an olive wood or ceramic spoon to preserve living enzymes.'}
+              <div className="text-[10px] text-honey font-serif italic pt-1 border-t border-honey/15">
+                {isEl ? 'Σερβίρετε κατά προτίμηση με ξύλινο ή κεραμικό κουτάλι για προστασία των φυσικών ενζύμων.' : 'Best served with an olive wood or horn spoon to preserve living bio-enzymes.'}
               </div>
             </div>
           )}
