@@ -329,6 +329,49 @@ export function useAdminUsers() {
     }
   };
 
+  const createUser = async (userData: Omit<UserProfile, 'uid'> & { uid?: string }) => {
+    try {
+      const targetUid = userData.uid || `client-${Date.now()}`;
+      const newUser: UserProfile = {
+        ...userData,
+        uid: targetUid,
+      };
+
+      setUsers(prev => [newUser, ...prev]);
+
+      if (db) {
+        const { setDoc } = await import('firebase/firestore');
+        await setDoc(doc(db, 'users', targetUid), newUser);
+      }
+      return targetUid;
+    } catch (error: any) {
+      console.error("[useAdminUsers] Error creating user:", error);
+      throw error;
+    }
+  };
+
+  const createJarOrder = async (orderData: Omit<JarOrder, 'id' | 'createdAt'> & { id?: string; createdAt?: string }) => {
+    try {
+      const targetId = orderData.id || `order-${Date.now()}`;
+      const newOrder: JarOrder = {
+        ...orderData,
+        id: targetId,
+        createdAt: orderData.createdAt || new Date().toISOString(),
+      };
+
+      setJarOrders(prev => [newOrder, ...prev]);
+
+      if (db) {
+        const { setDoc } = await import('firebase/firestore');
+        await setDoc(doc(db, 'jar_orders', targetId), newOrder);
+      }
+      return targetId;
+    } catch (error: any) {
+      console.error("[useAdminUsers] Error creating jar order:", error);
+      throw error;
+    }
+  };
+
   return {
     users,
     jarOrders,
@@ -338,7 +381,9 @@ export function useAdminUsers() {
     updateUser,
     batchUpdateUsers,
     deleteUser,
+    createUser,
     updateJarOrder,
     deleteJarOrder,
+    createJarOrder,
   };
 }

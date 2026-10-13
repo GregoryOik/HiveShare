@@ -10,7 +10,11 @@ import {
   Radio,
   TrendingUp,
   Trash2,
-  StickyNote
+  StickyNote,
+  X,
+  Copy,
+  Check,
+  Code2
 } from 'lucide-react';
 import { HiveData } from '../../lib/useHiveData';
 
@@ -36,6 +40,8 @@ export function AdminHiveDetails({
   const [iotHumidity, setIotHumidity] = useState('');
   const [journalText, setJournalText] = useState('');
   const [isSyncing, setIsSyncing] = useState(false);
+  const [showIotModal, setShowIotModal] = useState(false);
+  const [copiedSnippet, setCopiedSnippet] = useState<string | null>(null);
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
@@ -262,108 +268,135 @@ export function AdminHiveDetails({
 
         {/* Tactical Info & IoT Simulator */}
         <div className="col-span-12 lg:col-span-4 space-y-8">
-          <div className="bg-[#120D08] border border-honey/10 rounded-lg p-6">
-            <h3 className="text-[10px] uppercase tracking-[0.2em] text-honey font-black mb-6 flex items-center gap-2">
-              <Radio size={14} className="text-honey animate-pulse" /> IoT_Uplink_Simulator
-            </h3>
+          <div className="bg-[#120D08] border border-honey/20 rounded-lg p-6 space-y-6">
+            <div className="flex items-center justify-between border-b border-honey/15 pb-4">
+              <h3 className="text-xs uppercase tracking-[0.2em] text-honey font-bold flex items-center gap-2">
+                <Radio size={14} className="text-honey animate-pulse" /> IoT Hardware Uplink
+              </h3>
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${selectedHive.iotActive ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-red-500"}`}></div>
+                <span className="text-[9px] uppercase tracking-widest text-white/60 font-mono">
+                  {selectedHive.iotActive ? "Synchronized" : "Standby"}
+                </span>
+              </div>
+            </div>
             
-            <div className="space-y-6">
-              <div className="p-4 bg-honey/5 border border-honey/10 rounded-md">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[9px] uppercase tracking-widest text-honey/40 font-black">Uplink Target</span>
-                  <span className="text-[8px] font-mono text-white/20">REST_API_READY</span>
+            {/* API Access Token & Endpoint */}
+            <div className="space-y-3">
+              <div className="p-3 bg-black/60 border border-honey/15 rounded-sm space-y-2">
+                <div className="flex items-center justify-between text-[9px] uppercase tracking-widest text-honey/70 font-bold">
+                  <span>Hive Hardware Token</span>
+                  <button 
+                    onClick={async () => {
+                      const newToken = `hs_key_${selectedHive.id}_${Math.random().toString(36).substring(2, 10)}`;
+                      await updateHive(selectedHive.id, { iotKey: newToken });
+                    }}
+                    className="text-white/40 hover:text-honey transition-colors text-[8px]"
+                    title="Generate New Secret Key"
+                  >
+                    Regenerate Key
+                  </button>
                 </div>
-                <div className="bg-black/40 border border-honey/10 rounded p-2 text-[10px] font-mono text-honey break-all relative group cursor-pointer" onClick={() => {
-                  navigator.clipboard.writeText("https://api.hiveshare.io/v1/uplink");
-                }}>
-                  https://api.hiveshare.io/v1/uplink
-                  <div className="absolute inset-0 bg-honey/10 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center text-white text-[8px] font-black uppercase">Click to Copy Payload Target</div>
+                <div className="font-mono text-[10px] text-honey break-all select-all bg-honey/5 px-2 py-1.5 rounded border border-honey/10">
+                  {selectedHive.iotKey || `hs_key_${selectedHive.id}_default99`}
                 </div>
-                <p className="text-[7px] text-white/30 uppercase tracking-tighter leading-tight mt-1">
-                  * This is a REST endpoint placeholder. For real hardware integration (ESP32/Arduino), 
-                  please contact support to activate your dedicated API gateway.
-                </p>
+                {selectedHive.lastSyncTimestamp && (
+                  <div className="text-[9px] text-white/40 font-mono">
+                    Last ping: {new Date(selectedHive.lastSyncTimestamp).toLocaleString('en-GB')}
+                  </div>
+                )}
               </div>
 
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] uppercase tracking-widest text-honey/60 font-bold">Uplink Status</span>
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${selectedHive.iotActive ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-red-500"}`}></div>
-                  <span className="text-[9px] uppercase tracking-widest text-white/40">{selectedHive.iotActive ? "Synchronized" : "Offline"}</span>
-                </div>
+              {/* Hardware Guide Trigger */}
+              <button
+                type="button"
+                onClick={() => setShowIotModal(true)}
+                className="w-full py-2 bg-honey/10 border border-honey/30 hover:bg-honey hover:text-[#0C0804] text-honey text-[9px] uppercase tracking-widest font-black transition-all rounded-sm flex items-center justify-center gap-2"
+              >
+                <Zap size={12} /> View Hardware Setup (cURL / ESP32)
+              </button>
+            </div>
+
+            {/* Quick Test Pulse */}
+            <div className="pt-2 border-t border-honey/10 space-y-3">
+              <div className="text-[9px] uppercase tracking-widest text-honey/70 font-bold">
+                Manual Sensor Calibration (Field Override)
               </div>
-              
               <div className="grid grid-cols-3 gap-2">
                  <div className="space-y-1">
-                    <span className="text-[8px] uppercase text-honey/40">Weight (kg)</span>
+                    <span className="text-[8px] uppercase text-white/40">Weight (kg)</span>
                     <input 
                       type="number"
+                      step="0.1"
                       value={iotWeight}
                       onChange={(e) => setIotWeight(e.target.value)}
                       placeholder={selectedHive.weight.toString()}
-                      className="w-full bg-black/60 border border-honey/20 rounded-md p-2 text-[10px] text-white focus:border-honey outline-none font-mono"
+                      className="w-full bg-black/60 border border-honey/20 rounded-sm p-2 text-xs text-white focus:border-honey outline-none font-mono"
                     />
                  </div>
                  <div className="space-y-1">
-                    <span className="text-[8px] uppercase text-honey/40">Temp (°C)</span>
+                    <span className="text-[8px] uppercase text-white/40">Temp (°C)</span>
                     <input 
                       type="number"
+                      step="0.1"
                       value={iotTemp}
                       onChange={(e) => setIotTemp(e.target.value)}
                       placeholder={selectedHive.temp.toString()}
-                      className="w-full bg-black/60 border border-honey/20 rounded-md p-2 text-[10px] text-white focus:border-honey outline-none font-mono"
+                      className="w-full bg-black/60 border border-honey/20 rounded-sm p-2 text-xs text-white focus:border-honey outline-none font-mono"
                     />
                  </div>
                  <div className="space-y-1">
-                    <span className="text-[8px] uppercase text-honey/40">Humid (%)</span>
+                    <span className="text-[8px] uppercase text-white/40">Humid (%)</span>
                     <input 
                       type="number"
                       value={iotHumidity}
                       onChange={(e) => setIotHumidity(e.target.value)}
                       placeholder={selectedHive.humidity.toString()}
-                      className="w-full bg-black/60 border border-honey/20 rounded-md p-2 text-[10px] text-white focus:border-honey outline-none font-mono"
+                      className="w-full bg-black/60 border border-honey/20 rounded-sm p-2 text-xs text-white focus:border-honey outline-none font-mono"
                     />
                  </div>
               </div>
 
-              <button 
-                onClick={async () => {
-                  if (isSyncing) return;
-                  setIsSyncing(true);
-                  try {
-                    await seedHiveHistory(selectedHive.id);
-                    alert("Growth Pattern Generated Successfully! Check the Dashboard.");
-                  } catch (err: any) {
-                    alert(`Generation failed: ${err.message}`);
-                  } finally {
-                    setIsSyncing(false);
-                  }
-                }}
-                className="w-full py-2 bg-honey border border-honey text-black text-[9px] font-black uppercase tracking-widest hover:bg-black hover:text-honey transition-all rounded-sm flex items-center justify-center gap-2"
-              >
-                <TrendingUp size={12}/> Generate_Growth_Pattern
-              </button>
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <button 
+                  onClick={async () => {
+                    if (isSyncing) return;
+                    setIsSyncing(true);
+                    try {
+                      await seedHiveHistory(selectedHive.id);
+                      alert("Historic biometrics curve generated for dashboard chart.");
+                    } catch (err: any) {
+                      alert(`Generation failed: ${err.message}`);
+                    } finally {
+                      setIsSyncing(false);
+                    }
+                  }}
+                  className="py-2.5 bg-black/40 border border-honey/20 text-honey/80 hover:text-honey hover:border-honey/40 text-[8px] font-bold uppercase tracking-wider transition-all rounded-sm flex items-center justify-center gap-1.5"
+                >
+                  <TrendingUp size={12}/> Growth Pattern
+                </button>
 
-              <button 
-                onClick={async () => {
-                  if (isSyncing) return;
-                  setIsSyncing(true);
-                  try {
-                    await pushHivePulse(selectedHive.id, {
-                      weight: iotWeight ? Number(iotWeight) : selectedHive.weight,
-                      temp: iotTemp ? Number(iotTemp) : selectedHive.temp,
-                      humidity: iotHumidity ? Number(iotHumidity) : selectedHive.humidity
-                    });
-                    setIotWeight(''); setIotTemp(''); setIotHumidity('');
-                  } finally {
-                    setIsSyncing(false);
-                  }
-                }}
-                disabled={isSyncing}
-                className="w-full py-3 bg-[#1A1208] border border-honey/30 text-honey text-[10px] font-black uppercase tracking-widest hover:bg-honey hover:text-black transition-all rounded-sm flex items-center justify-center gap-2"
-              >
-                {isSyncing ? <RefreshCw size={14} className="animate-spin" /> : <Plus size={14} />} Push_Sensor_Pulse
-              </button>
+                <button 
+                  onClick={async () => {
+                    if (isSyncing) return;
+                    setIsSyncing(true);
+                    try {
+                      await pushHivePulse(selectedHive.id, {
+                        weight: iotWeight ? Number(iotWeight) : selectedHive.weight,
+                        temp: iotTemp ? Number(iotTemp) : selectedHive.temp,
+                        humidity: iotHumidity ? Number(iotHumidity) : selectedHive.humidity
+                      });
+                      setIotWeight(''); setIotTemp(''); setIotHumidity('');
+                    } finally {
+                      setIsSyncing(false);
+                    }
+                  }}
+                  disabled={isSyncing}
+                  className="py-2.5 bg-honey text-[#0C0804] text-[8px] font-black uppercase tracking-wider hover:bg-honey/90 transition-all rounded-sm flex items-center justify-center gap-1.5 shadow-sm"
+                >
+                  {isSyncing ? <RefreshCw size={12} className="animate-spin" /> : <Plus size={12} />} Push Pulse
+                </button>
+              </div>
             </div>
           </div>
 
@@ -409,6 +442,113 @@ export function AdminHiveDetails({
           </button>
         </div>
       </div>
+
+      {/* ── IOT HARDWARE CONNECTION GUIDE MODAL ── */}
+      {showIotModal && (
+        <div className="fixed inset-0 z-[250] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/85 backdrop-blur-md" onClick={() => setShowIotModal(false)} />
+          <div className="relative z-10 bg-[#16100A] border border-honey/30 rounded-[2px] shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between border-b border-honey/15 pb-4">
+              <div>
+                <div className="text-[9px] uppercase tracking-[0.3em] text-honey font-bold flex items-center gap-2">
+                  <Code2 size={12} /> Hardware Telemetry Uplink
+                </div>
+                <h3 className="font-display text-2xl text-white">Hive #{selectedHive.id} Sensor Protocol</h3>
+              </div>
+              <button onClick={() => setShowIotModal(false)} className="text-white/40 hover:text-white p-1">
+                <X size={20} />
+              </button>
+            </div>
+
+            <p className="text-xs text-white/70 leading-relaxed font-light">
+              Connect physical digital scales (e.g. HX711 with ESP32) and DHT22 microclimate probes to stream real-time weight, internal temperature, and humidity directly to HiveShare.
+            </p>
+
+            {/* Hardware Credentials */}
+            <div className="grid grid-cols-2 gap-4 text-xs font-mono">
+              <div className="p-3 bg-black/60 border border-honey/15 rounded-sm">
+                <span className="text-[9px] uppercase text-honey/60 block mb-1">Target Hive ID</span>
+                <span className="text-white font-bold">{selectedHive.id}</span>
+              </div>
+              <div className="p-3 bg-black/60 border border-honey/15 rounded-sm">
+                <span className="text-[9px] uppercase text-honey/60 block mb-1">Access Token</span>
+                <span className="text-honey break-all">{selectedHive.iotKey || `hs_key_${selectedHive.id}_default99`}</span>
+              </div>
+            </div>
+
+            {/* Snippet 1: cURL Test Command */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[9px] uppercase tracking-widest text-honey font-bold">1. cURL Terminal Ping (Test Uplink)</span>
+                <button
+                  onClick={() => {
+                    const snippet = `curl -X POST https://oikonomakos.gr/api/telemetry \\\n  -H "Content-Type: application/json" \\\n  -H "X-Hive-Key: ${selectedHive.iotKey || `hs_key_${selectedHive.id}_default99`}" \\\n  -d '{"hiveId":"${selectedHive.id}","weight":${selectedHive.weight},"temp":${selectedHive.temp},"humidity":${selectedHive.humidity}}'`;
+                    navigator.clipboard.writeText(snippet);
+                    setCopiedSnippet('curl');
+                    setTimeout(() => setCopiedSnippet(null), 2000);
+                  }}
+                  className="text-[9px] uppercase tracking-wider text-honey/70 hover:text-honey font-bold flex items-center gap-1 transition-colors"
+                >
+                  {copiedSnippet === 'curl' ? <><Check size={11} className="text-green-400" /> Copied</> : <><Copy size={11} /> Copy cURL</>}
+                </button>
+              </div>
+              <pre className="p-3 bg-black/80 border border-honey/20 text-honey/90 text-[11px] font-mono rounded overflow-x-auto select-all leading-relaxed">
+{`curl -X POST https://oikonomakos.gr/api/telemetry \\
+  -H "Content-Type: application/json" \\
+  -H "X-Hive-Key: ${selectedHive.iotKey || `hs_key_${selectedHive.id}_default99`}" \\
+  -d '{"hiveId":"${selectedHive.id}","weight":${selectedHive.weight},"temp":${selectedHive.temp},"humidity":${selectedHive.humidity}}'`}
+              </pre>
+            </div>
+
+            {/* Snippet 2: ESP32 / Arduino C++ Snippet */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[9px] uppercase tracking-widest text-honey font-bold">2. ESP32 Arduino C++ HTTP Client</span>
+                <button
+                  onClick={() => {
+                    const cppSnippet = `// HiveShare ESP32 Telemetry Transmitter\n#include <WiFi.h>\n#include <HTTPClient.h>\n\nconst char* hiveId = "${selectedHive.id}";\nconst char* token = "${selectedHive.iotKey || `hs_key_${selectedHive.id}_default99`}";\n\nvoid sendTelemetry(float weight, float temp, float humidity) {\n  HTTPClient http;\n  http.begin("https://oikonomakos.gr/api/telemetry");\n  http.addHeader("Content-Type", "application/json");\n  http.addHeader("X-Hive-Key", token);\n  \n  String payload = String("{\\"hiveId\\":\\"") + hiveId + "\\",\\"weight\\":" + weight + ",\\"temp\\":" + temp + ",\\"humidity\\":" + humidity + "}";\n  int httpCode = http.POST(payload);\n  http.end();\n}`;
+                    navigator.clipboard.writeText(cppSnippet);
+                    setCopiedSnippet('cpp');
+                    setTimeout(() => setCopiedSnippet(null), 2000);
+                  }}
+                  className="text-[9px] uppercase tracking-wider text-honey/70 hover:text-honey font-bold flex items-center gap-1 transition-colors"
+                >
+                  {copiedSnippet === 'cpp' ? <><Check size={11} className="text-green-400" /> Copied</> : <><Copy size={11} /> Copy C++ Code</>}
+                </button>
+              </div>
+              <pre className="p-3 bg-black/80 border border-honey/20 text-white/80 text-[10px] font-mono rounded overflow-x-auto select-all leading-relaxed">
+{`// HiveShare ESP32 Telemetry Transmitter
+#include <WiFi.h>
+#include <HTTPClient.h>
+
+const char* hiveId = "${selectedHive.id}";
+const char* token = "${selectedHive.iotKey || `hs_key_${selectedHive.id}_default99`}";
+
+void sendTelemetry(float weight, float temp, float humidity) {
+  HTTPClient http;
+  http.begin("https://oikonomakos.gr/api/telemetry");
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("X-Hive-Key", token);
+  
+  String payload = String("{\\"hiveId\\":\\"") + hiveId + "\\",\\"weight\\":" + weight + ",\\"temp\\":" + temp + ",\\"humidity\\":" + humidity + "}";
+  int httpCode = http.POST(payload);
+  http.end();
+}`}
+              </pre>
+            </div>
+
+            <div className="flex justify-end pt-4 border-t border-honey/15">
+              <button
+                type="button"
+                onClick={() => setShowIotModal(false)}
+                className="px-6 py-2.5 bg-honey text-[#0C0804] font-bold text-xs uppercase tracking-wider rounded-[2px] hover:bg-honey/90 transition-all"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

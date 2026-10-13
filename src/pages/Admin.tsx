@@ -36,7 +36,8 @@ import {
   Eye,
   KeyRound,
   Printer,
-  MessageSquare
+  MessageSquare,
+  Radio
 } from 'lucide-react';
 import { useAuth } from '../lib/useAuth';
 import { useHiveData, useSiteConfig } from '../lib/useHiveData';
@@ -64,8 +65,10 @@ export default function Admin() {
     removeHiveFromUser,
     batchUpdateUsers,
     deleteUser,
+    createUser,
     updateJarOrder,
-    deleteJarOrder
+    deleteJarOrder,
+    createJarOrder
   } = useAdminUsers();
 
   // Navigation & Tabs
@@ -80,6 +83,111 @@ export default function Admin() {
   const [editingClient, setEditingClient] = useState<UserProfile | null>(null);
   const [editingOrder, setEditingOrder] = useState<JarOrder | null>(null);
   const [copiedAddressId, setCopiedAddressId] = useState<string | null>(null);
+
+  // New Creation Modals State
+  const [showNewClientModal, setShowNewClientModal] = useState(false);
+  const [showNewOrderModal, setShowNewOrderModal] = useState(false);
+  const [showNewHiveModal, setShowNewHiveModal] = useState(false);
+  const [showConfigModal, setShowConfigModal] = useState(false);
+
+  // Form State: New Client
+  const [newClientForm, setNewClientForm] = useState<{
+    fullName: string;
+    email: string;
+    phone: string;
+    shippingAddress: string;
+    city: string;
+    postalCode: string;
+    country: string;
+    tier: 'starter' | 'premium' | 'none';
+    subscribedHives: string;
+    customHoneyName: string;
+    adminNotes: string;
+  }>({
+    fullName: '',
+    email: '',
+    phone: '',
+    shippingAddress: '',
+    city: 'Athens',
+    postalCode: '',
+    country: 'Greece',
+    tier: 'starter',
+    subscribedHives: '247',
+    customHoneyName: '',
+    adminNotes: 'Registered manually via phone / central station'
+  });
+
+  // Form State: New Order
+  const [newOrderForm, setNewOrderForm] = useState<{
+    variety: string;
+    size: string;
+    quantity: number;
+    pricePerKg: number;
+    fullName: string;
+    email: string;
+    phone: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+    status: 'pending' | 'packed' | 'shipped';
+  }>({
+    variety: 'Mani Thyme Honey (Grand Cru)',
+    size: '500g',
+    quantity: 2,
+    pricePerKg: 52,
+    fullName: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: 'Athens',
+    postalCode: '',
+    country: 'Greece',
+    status: 'pending'
+  });
+
+  // Form State: New Hive
+  const [newHiveForm, setNewHiveForm] = useState<{
+    id: string;
+    location: string;
+    activeHarvest: string;
+    status: string;
+    weight: number;
+    temp: number;
+    humidity: number;
+  }>({
+    id: '',
+    location: 'Lagia, Mani',
+    activeHarvest: 'Summer Wildflower',
+    status: 'available',
+    weight: 34.5,
+    temp: 34.8,
+    humidity: 62
+  });
+
+  // Form State: Site Config Broadcast
+  const [broadcastForm, setBroadcastForm] = useState<{
+    systemAnnouncement: string;
+    globalHarvestName: string;
+    globalHarvestDate: string;
+    dashboardGreeting: string;
+  }>({
+    systemAnnouncement: '',
+    globalHarvestName: 'Spring Wildflower',
+    globalHarvestDate: '2026-05-15',
+    dashboardGreeting: 'Greetings, Guardian'
+  });
+
+  useEffect(() => {
+    if (config) {
+      setBroadcastForm({
+        systemAnnouncement: config.systemAnnouncement || '',
+        globalHarvestName: config.globalHarvestName || 'Spring Wildflower',
+        globalHarvestDate: config.globalHarvestDate || '2026-05-15',
+        dashboardGreeting: config.dashboardGreeting || 'Greetings, Guardian'
+      });
+    }
+  }, [config]);
 
   // Email Notification & Composer State
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -307,6 +415,14 @@ export default function Admin() {
               >
                 <Lock size={10} /> {config?.maintenanceMode ? 'SYSTEM: MAINTENANCE' : 'SYSTEM: ONLINE'}
               </button>
+
+              <button
+                onClick={() => setShowConfigModal(true)}
+                className="px-3 py-1 border border-honey/30 bg-honey/10 text-honey hover:bg-honey hover:text-[#0C0804] text-[8px] font-black uppercase tracking-widest rounded-sm transition-all flex items-center gap-1.5"
+                title="Manage Live Announcement & Harvest Calendar"
+              >
+                <Radio size={10} /> Live Broadcast & Harvest
+              </button>
             </div>
           </div>
 
@@ -450,6 +566,13 @@ export default function Admin() {
                     {f.label}
                   </button>
                 ))}
+
+                <button
+                  onClick={() => setShowNewClientModal(true)}
+                  className="px-3.5 py-1.5 bg-honey text-[#0C0804] text-[9px] uppercase tracking-wider font-black rounded-[2px] hover:bg-honey/90 transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm ml-2"
+                >
+                  <Plus size={11} strokeWidth={3} /> New Client
+                </button>
               </div>
             </div>
 
@@ -723,6 +846,13 @@ export default function Admin() {
                     {f.label}
                   </button>
                 ))}
+
+                <button
+                  onClick={() => setShowNewOrderModal(true)}
+                  className="px-3.5 py-1.5 bg-honey text-[#0C0804] text-[9px] uppercase tracking-wider font-black rounded-[2px] hover:bg-honey/90 transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm ml-2"
+                >
+                  <Plus size={11} strokeWidth={3} /> Record Phone Order
+                </button>
               </div>
             </div>
 
@@ -922,11 +1052,7 @@ export default function Admin() {
                 selectedHiveIds={[]}
                 setSelectedHiveIds={() => {}}
                 isAddingHive={isAddingHive}
-                handleAddHive={async () => {
-                  setIsAddingHive(true);
-                  try { await addHive(); } catch (e: any) { alert(e.message); }
-                  setIsAddingHive(false);
-                }}
+                handleAddHive={() => setShowNewHiveModal(true)}
               />
             </aside>
 
@@ -1477,6 +1603,673 @@ export default function Admin() {
                 )}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── CREATE CLIENT (MANUAL REGISTRATION) MODAL ── */}
+      {showNewClientModal && (
+        <div className="fixed inset-0 z-[220] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setShowNewClientModal(false)} />
+          <div className="relative z-10 bg-[#16100A] border border-honey/30 rounded-[2px] shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between border-b border-honey/15 pb-4">
+              <div>
+                <div className="text-[9px] uppercase tracking-[0.3em] text-honey font-bold">Client Enrollment</div>
+                <h3 className="font-display text-2xl text-white">Enroll New Guardian / Observer</h3>
+              </div>
+              <button onClick={() => setShowNewClientModal(false)} className="text-white/40 hover:text-white p-1">
+                <X size={20} />
+              </button>
+            </div>
+
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                if (!newClientForm.email) {
+                  alert("Email is required.");
+                  return;
+                }
+                try {
+                  const hiveList = newClientForm.subscribedHives.split(',').map(s => s.trim()).filter(Boolean);
+                  await createUser({
+                    fullName: newClientForm.fullName,
+                    email: newClientForm.email,
+                    phone: newClientForm.phone,
+                    role: 'subscriber',
+                    shippingAddress: newClientForm.shippingAddress,
+                    city: newClientForm.city,
+                    postalCode: newClientForm.postalCode,
+                    country: newClientForm.country,
+                    tier: newClientForm.tier,
+                    subscribedHives: hiveList,
+                    customHoneyName: newClientForm.customHoneyName,
+                    adminNotes: newClientForm.adminNotes,
+                    userHarvestStatus: 'PENDING',
+                    subscriptionStartDate: new Date().toISOString().split('T')[0]
+                  });
+                  showToast(`✓ Client ${newClientForm.fullName || newClientForm.email} successfully registered`);
+                  setShowNewClientModal(false);
+                  setNewClientForm({
+                    fullName: '',
+                    email: '',
+                    phone: '',
+                    shippingAddress: '',
+                    city: 'Athens',
+                    postalCode: '',
+                    country: 'Greece',
+                    tier: 'starter',
+                    subscribedHives: '247',
+                    customHoneyName: '',
+                    adminNotes: 'Registered manually via phone / central station'
+                  });
+                } catch (err: any) {
+                  alert(`Failed to create client: ${err.message}`);
+                }
+              }}
+              className="space-y-4 text-xs"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Full Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={newClientForm.fullName}
+                    onChange={e => setNewClientForm({ ...newClientForm, fullName: e.target.value })}
+                    placeholder="e.g. Konstantinos Alexiou"
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Email Address *</label>
+                  <input
+                    type="email"
+                    required
+                    value={newClientForm.email}
+                    onChange={e => setNewClientForm({ ...newClientForm, email: e.target.value })}
+                    placeholder="client@example.com"
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Contact Phone</label>
+                  <input
+                    type="tel"
+                    value={newClientForm.phone}
+                    onChange={e => setNewClientForm({ ...newClientForm, phone: e.target.value })}
+                    placeholder="+30 697 123 4567"
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Membership Tier</label>
+                  <select
+                    value={newClientForm.tier}
+                    onChange={e => setNewClientForm({ ...newClientForm, tier: e.target.value as any })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey uppercase font-bold text-xs"
+                  >
+                    <option value="starter">Starter Guardianship (2.5kg · €140)</option>
+                    <option value="premium">Premium Patron (5.0kg · €340)</option>
+                    <option value="none">Observer (Unpaid)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Street Address</label>
+                <input
+                  type="text"
+                  value={newClientForm.shippingAddress}
+                  onChange={e => setNewClientForm({ ...newClientForm, shippingAddress: e.target.value })}
+                  placeholder="Street and apartment number"
+                  className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                />
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">City</label>
+                  <input
+                    type="text"
+                    value={newClientForm.city}
+                    onChange={e => setNewClientForm({ ...newClientForm, city: e.target.value })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Postal Code</label>
+                  <input
+                    type="text"
+                    value={newClientForm.postalCode}
+                    onChange={e => setNewClientForm({ ...newClientForm, postalCode: e.target.value })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Country</label>
+                  <input
+                    type="text"
+                    value={newClientForm.country}
+                    onChange={e => setNewClientForm({ ...newClientForm, country: e.target.value })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Assigned Hive IDs (comma-separated)</label>
+                  <input
+                    type="text"
+                    value={newClientForm.subscribedHives}
+                    onChange={e => setNewClientForm({ ...newClientForm, subscribedHives: e.target.value })}
+                    placeholder="247, 701"
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Custom Honey Jar Label</label>
+                  <input
+                    type="text"
+                    value={newClientForm.customHoneyName}
+                    onChange={e => setNewClientForm({ ...newClientForm, customHoneyName: e.target.value })}
+                    placeholder="e.g. Alexiou Family Reserve"
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Internal Notes</label>
+                <textarea
+                  rows={2}
+                  value={newClientForm.adminNotes}
+                  onChange={e => setNewClientForm({ ...newClientForm, adminNotes: e.target.value })}
+                  className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-honey/15">
+                <button
+                  type="button"
+                  onClick={() => setShowNewClientModal(false)}
+                  className="px-4 py-2 border border-white/20 text-white hover:bg-white/5 rounded-[2px] text-xs font-bold uppercase tracking-wider"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 bg-honey text-[#0C0804] hover:bg-honey/90 rounded-[2px] text-xs font-bold uppercase tracking-wider shadow-md"
+                >
+                  Enroll Guardian
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── CREATE JAR ORDER (PHONE / DIRECT ORDER) MODAL ── */}
+      {showNewOrderModal && (
+        <div className="fixed inset-0 z-[220] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setShowNewOrderModal(false)} />
+          <div className="relative z-10 bg-[#16100A] border border-honey/30 rounded-[2px] shadow-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto p-8 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between border-b border-honey/15 pb-4">
+              <div>
+                <div className="text-[9px] uppercase tracking-[0.3em] text-honey font-bold">Direct Order Registry</div>
+                <h3 className="font-display text-2xl text-white">Record Phone / Cash Order</h3>
+              </div>
+              <button onClick={() => setShowNewOrderModal(false)} className="text-white/40 hover:text-white p-1">
+                <X size={20} />
+              </button>
+            </div>
+
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                if (!newOrderForm.fullName || !newOrderForm.email) {
+                  alert("Customer name and email are required.");
+                  return;
+                }
+                try {
+                  const weightMap: Record<string, number> = { '250g': 0.25, '500g': 0.5, '1 kg': 1.0 };
+                  const itemWeight = weightMap[newOrderForm.size] || 0.5;
+                  const totalKg = itemWeight * newOrderForm.quantity;
+                  const grandTotal = Math.round(newOrderForm.pricePerKg * totalKg);
+                  const orderRef = `HS-MAN-${Math.floor(Math.random() * 899999 + 100000)}`;
+
+                  await createJarOrder({
+                    orderRef,
+                    variety: newOrderForm.variety,
+                    size: newOrderForm.size,
+                    weightKg: totalKg,
+                    pricePerKg: newOrderForm.pricePerKg,
+                    quantity: newOrderForm.quantity,
+                    subtotal: grandTotal,
+                    shipping: 0,
+                    grandTotal,
+                    status: newOrderForm.status,
+                    customer: {
+                      fullName: newOrderForm.fullName,
+                      email: newOrderForm.email,
+                      phone: newOrderForm.phone,
+                      address: newOrderForm.address,
+                      city: newOrderForm.city,
+                      postalCode: newOrderForm.postalCode,
+                      country: newOrderForm.country,
+                    }
+                  });
+
+                  showToast(`✓ Order ${orderRef} recorded for ${newOrderForm.fullName} (€${grandTotal})`);
+                  setShowNewOrderModal(false);
+                  setNewOrderForm({
+                    variety: 'Mani Thyme Honey (Grand Cru)',
+                    size: '500g',
+                    quantity: 2,
+                    pricePerKg: 52,
+                    fullName: '',
+                    email: '',
+                    phone: '',
+                    address: '',
+                    city: 'Athens',
+                    postalCode: '',
+                    country: 'Greece',
+                    status: 'pending'
+                  });
+                } catch (err: any) {
+                  alert(`Failed to record order: ${err.message}`);
+                }
+              }}
+              className="space-y-4 text-xs"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Honey Variety</label>
+                  <select
+                    value={newOrderForm.variety}
+                    onChange={e => setNewOrderForm({ ...newOrderForm, variety: e.target.value })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  >
+                    <option value="Mani Thyme Honey (Grand Cru)">Mani Thyme Honey (Grand Cru)</option>
+                    <option value="Black Fir Honey (Taygetos)">Black Fir Honey (Taygetos)</option>
+                    <option value="Wild Oak & Chestnut Honey">Wild Oak & Chestnut Honey</option>
+                    <option value="Spring Blossom & Orange Blossom">Spring Blossom & Orange Blossom</option>
+                  </select>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Jar Size</label>
+                    <select
+                      value={newOrderForm.size}
+                      onChange={e => setNewOrderForm({ ...newOrderForm, size: e.target.value })}
+                      className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                    >
+                      <option value="250g">250g</option>
+                      <option value="500g">500g</option>
+                      <option value="1 kg">1 kg</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Qty</label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="50"
+                      value={newOrderForm.quantity}
+                      onChange={e => setNewOrderForm({ ...newOrderForm, quantity: parseInt(e.target.value) || 1 })}
+                      className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey text-center"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Customer Full Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={newOrderForm.fullName}
+                    onChange={e => setNewOrderForm({ ...newOrderForm, fullName: e.target.value })}
+                    placeholder="e.g. Maria Papadaki"
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Email Address *</label>
+                  <input
+                    type="email"
+                    required
+                    value={newOrderForm.email}
+                    onChange={e => setNewOrderForm({ ...newOrderForm, email: e.target.value })}
+                    placeholder="maria@example.com"
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Contact Phone</label>
+                <input
+                  type="tel"
+                  value={newOrderForm.phone}
+                  onChange={e => setNewOrderForm({ ...newOrderForm, phone: e.target.value })}
+                  placeholder="+30 690 000 0000"
+                  className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Shipping Street Address</label>
+                <input
+                  type="text"
+                  value={newOrderForm.address}
+                  onChange={e => setNewOrderForm({ ...newOrderForm, address: e.target.value })}
+                  placeholder="Street and house number"
+                  className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                />
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">City</label>
+                  <input
+                    type="text"
+                    value={newOrderForm.city}
+                    onChange={e => setNewOrderForm({ ...newOrderForm, city: e.target.value })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Postal Code</label>
+                  <input
+                    type="text"
+                    value={newOrderForm.postalCode}
+                    onChange={e => setNewOrderForm({ ...newOrderForm, postalCode: e.target.value })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Country</label>
+                  <input
+                    type="text"
+                    value={newOrderForm.country}
+                    onChange={e => setNewOrderForm({ ...newOrderForm, country: e.target.value })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-honey/15">
+                <button
+                  type="button"
+                  onClick={() => setShowNewOrderModal(false)}
+                  className="px-4 py-2 border border-white/20 text-white hover:bg-white/5 rounded-[2px] text-xs font-bold uppercase tracking-wider"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 bg-honey text-[#0C0804] hover:bg-honey/90 rounded-[2px] text-xs font-bold uppercase tracking-wider shadow-md"
+                >
+                  Record Order
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── CREATE HIVE MODAL ── */}
+      {showNewHiveModal && (
+        <div className="fixed inset-0 z-[220] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setShowNewHiveModal(false)} />
+          <div className="relative z-10 bg-[#16100A] border border-honey/30 rounded-[2px] shadow-2xl w-full max-w-lg p-8 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between border-b border-honey/15 pb-4">
+              <div>
+                <div className="text-[9px] uppercase tracking-[0.3em] text-honey font-bold">Apiary Fleet Expansion</div>
+                <h3 className="font-display text-2xl text-white">Commission New Hive Colony</h3>
+              </div>
+              <button onClick={() => setShowNewHiveModal(false)} className="text-white/40 hover:text-white p-1">
+                <X size={20} />
+              </button>
+            </div>
+
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setIsAddingHive(true);
+                try {
+                  const createdId = await addHive({
+                    id: newHiveForm.id.trim() || undefined,
+                    location: newHiveForm.location,
+                    activeHarvest: newHiveForm.activeHarvest,
+                    status: newHiveForm.status,
+                    weight: Number(newHiveForm.weight),
+                    temp: Number(newHiveForm.temp),
+                    humidity: Number(newHiveForm.humidity),
+                  });
+                  showToast(`✓ Hive #${createdId} successfully commissioned at ${newHiveForm.location}`);
+                  setSelectedHiveId(createdId);
+                  setShowNewHiveModal(false);
+                } catch (err: any) {
+                  alert(`Failed to add hive: ${err.message}`);
+                } finally {
+                  setIsAddingHive(false);
+                }
+              }}
+              className="space-y-4 text-xs"
+            >
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Hive Identifier # (optional)</label>
+                  <input
+                    type="text"
+                    value={newHiveForm.id}
+                    onChange={e => setNewHiveForm({ ...newHiveForm, id: e.target.value })}
+                    placeholder="Auto-generated if empty"
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Zone / Microclimate</label>
+                  <input
+                    type="text"
+                    required
+                    value={newHiveForm.location}
+                    onChange={e => setNewHiveForm({ ...newHiveForm, location: e.target.value })}
+                    placeholder="e.g. Karyes, Taygetos"
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Active Harvest Focus</label>
+                  <select
+                    value={newHiveForm.activeHarvest}
+                    onChange={e => setNewHiveForm({ ...newHiveForm, activeHarvest: e.target.value })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  >
+                    <option value="Spring Wildflower">Spring Wildflower</option>
+                    <option value="Summer Thyme">Summer Thyme</option>
+                    <option value="Autumn Pine">Autumn Pine</option>
+                    <option value="Winter Fir">Winter Fir</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Initial Status</label>
+                  <select
+                    value={newHiveForm.status}
+                    onChange={e => setNewHiveForm({ ...newHiveForm, status: e.target.value })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  >
+                    <option value="available">Available for Guardianship</option>
+                    <option value="assigned">Assigned</option>
+                    <option value="shared">Shared Colony</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Weight (kg)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={newHiveForm.weight}
+                    onChange={e => setNewHiveForm({ ...newHiveForm, weight: parseFloat(e.target.value) || 0 })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey font-mono text-center"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Temp (°C)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={newHiveForm.temp}
+                    onChange={e => setNewHiveForm({ ...newHiveForm, temp: parseFloat(e.target.value) || 0 })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey font-mono text-center"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">Humidity (%)</label>
+                  <input
+                    type="number"
+                    value={newHiveForm.humidity}
+                    onChange={e => setNewHiveForm({ ...newHiveForm, humidity: parseInt(e.target.value) || 0 })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey font-mono text-center"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-honey/15">
+                <button
+                  type="button"
+                  onClick={() => setShowNewHiveModal(false)}
+                  className="px-4 py-2 border border-white/20 text-white hover:bg-white/5 rounded-[2px] text-xs font-bold uppercase tracking-wider"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isAddingHive}
+                  className="px-6 py-2 bg-honey text-[#0C0804] hover:bg-honey/90 rounded-[2px] text-xs font-bold uppercase tracking-wider shadow-md flex items-center gap-2"
+                >
+                  {isAddingHive ? <RefreshCw size={13} className="animate-spin" /> : <Plus size={13} />} Commission Colony
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── LIVE BROADCAST & SITE CONFIG MODAL ── */}
+      {showConfigModal && (
+        <div className="fixed inset-0 z-[220] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setShowConfigModal(false)} />
+          <div className="relative z-10 bg-[#16100A] border border-honey/30 rounded-[2px] shadow-2xl w-full max-w-lg p-8 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between border-b border-honey/15 pb-4">
+              <div>
+                <div className="text-[9px] uppercase tracking-[0.3em] text-honey font-bold flex items-center gap-2">
+                  <Radio size={12} /> Global Site Directives
+                </div>
+                <h3 className="font-display text-2xl text-white">Live Broadcast & Harvest Timing</h3>
+              </div>
+              <button onClick={() => setShowConfigModal(false)} className="text-white/40 hover:text-white p-1">
+                <X size={20} />
+              </button>
+            </div>
+
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                try {
+                  await updateConfig({
+                    systemAnnouncement: broadcastForm.systemAnnouncement.trim(),
+                    globalHarvestName: broadcastForm.globalHarvestName,
+                    globalHarvestDate: broadcastForm.globalHarvestDate,
+                    dashboardGreeting: broadcastForm.dashboardGreeting,
+                  });
+                  showToast('✓ Global broadcast & harvest settings published site-wide');
+                  setShowConfigModal(false);
+                } catch (err: any) {
+                  alert(`Broadcast update failed: ${err.message}`);
+                }
+              }}
+              className="space-y-4 text-xs"
+            >
+              <div>
+                <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">
+                  Live Broadcast Banner (Appears on Guardian Dashboards)
+                </label>
+                <input
+                  type="text"
+                  value={broadcastForm.systemAnnouncement}
+                  onChange={e => setBroadcastForm({ ...broadcastForm, systemAnnouncement: e.target.value })}
+                  placeholder="e.g. Wild thyme harvest in Mani starts in 10 days. All jars packed by hand."
+                  className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                />
+                <p className="text-[9px] text-white/40 mt-1">Leave empty to hide the announcement banner.</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">
+                    Current Harvest Name
+                  </label>
+                  <input
+                    type="text"
+                    value={broadcastForm.globalHarvestName}
+                    onChange={e => setBroadcastForm({ ...broadcastForm, globalHarvestName: e.target.value })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">
+                    Scheduled Harvest Date
+                  </label>
+                  <input
+                    type="date"
+                    value={broadcastForm.globalHarvestDate}
+                    onChange={e => setBroadcastForm({ ...broadcastForm, globalHarvestDate: e.target.value })}
+                    className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[9px] uppercase tracking-widest text-honey font-bold mb-1">
+                  Default Dashboard Greeting
+                </label>
+                <input
+                  type="text"
+                  value={broadcastForm.dashboardGreeting}
+                  onChange={e => setBroadcastForm({ ...broadcastForm, dashboardGreeting: e.target.value })}
+                  className="w-full bg-black/60 border border-honey/30 p-2.5 rounded-[2px] text-white focus:outline-none focus:border-honey"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-honey/15">
+                <button
+                  type="button"
+                  onClick={() => setShowConfigModal(false)}
+                  className="px-4 py-2 border border-white/20 text-white hover:bg-white/5 rounded-[2px] text-xs font-bold uppercase tracking-wider"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 bg-honey text-[#0C0804] hover:bg-honey/90 rounded-[2px] text-xs font-bold uppercase tracking-wider shadow-md"
+                >
+                  Publish Updates
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

@@ -193,28 +193,39 @@ export function useHiveData() {
     }
   };
 
-  const addHive = async () => {
+  const addHive = async (customData?: Partial<HiveData>) => {
     console.log('[useHiveData] addHive called, profile role:', profile?.role);
     if (profile?.role !== 'admin') {
       console.warn('[useHiveData] addHive blocked: not admin');
       return '';
     }
     
-    const newId = Math.floor(Math.random() * 900 + 100).toString();
+    const newId = customData?.id?.trim() || Math.floor(Math.random() * 900 + 100).toString();
     const newHive: HiveData = {
       ...DEFAULT_HIVES[0],
       id: newId,
-      location: 'New Location',
-      weight: 25.0 + Math.random() * 15,
-      temp: 34.0 + Math.random(),
-      humidity: 55 + Math.random() * 10,
-      status: 'available',
+      location: customData?.location || 'Lagia, Mani',
+      activeHarvest: customData?.activeHarvest || 'Summer Wildflower',
+      weight: customData?.weight ?? (28.0 + parseFloat((Math.random() * 10).toFixed(1))),
+      temp: customData?.temp ?? (34.0 + parseFloat((Math.random() * 1.5).toFixed(1))),
+      humidity: customData?.humidity ?? (58 + Math.floor(Math.random() * 8)),
+      status: customData?.status || 'available',
       currentSubscribers: 0,
+      iotActive: true,
+      iotKey: `key_iot_${newId}_${Math.random().toString(36).substring(2, 8)}`,
       history: Array.from({ length: 7 }, (_, i) => ({
         day: new Date(Date.now() - (7 - i) * 3 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { day: '2-digit', month: 'short' }),
-        weight: 20 + Math.random() * 15
+        weight: parseFloat((25 + Math.random() * 12).toFixed(1))
       })),
-      journal: []
+      journal: [
+        {
+          id: `init-${Date.now()}`,
+          date: new Date().toISOString(),
+          content: `Colony commissioned at ${customData?.location || 'Lagia, Mani'}. Bio-sensors active.`,
+          type: 'Observation'
+        }
+      ],
+      ...customData
     };
     
     try {
