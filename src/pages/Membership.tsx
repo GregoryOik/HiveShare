@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Loader2, Check, AlertTriangle, X, Trash2, LogOut, ArrowRight, ShoppingCart, Crown, Star, Package, Award, Type, ShieldCheck, Gift, RefreshCw } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../lib/useAuth';
+import { useLanguage } from '../lib/useLanguage';
 import { db } from '../lib/firebase';
 import { collection, addDoc, onSnapshot, doc } from 'firebase/firestore';
 import Footer from '../components/Footer';
@@ -20,6 +21,8 @@ export default function Membership() {
   const navigate = useNavigate();
   const location = useLocation() as { state?: { tier?: string } };
   const { user, profile, logout } = useAuth();
+  const { language } = useLanguage();
+  const isEl = language === 'el';
   
   const [cartPlan, setCartPlan] = useState<CartPlan | null>(null);
   const [hasOliveOil, setHasOliveOil] = useState(false);
@@ -35,13 +38,13 @@ export default function Membership() {
     if (location.state?.tier && !cartPlan) {
       const tierId = location.state.tier;
       if (tierId === 'starter') {
-        setCartPlan({ id: 'starter', name: 'Starter Guardianship', price: 140 });
+        setCartPlan({ id: 'starter', name: isEl ? 'Βασική Αναδοχή' : 'Starter Guardianship', price: 140 });
       } else if (tierId === 'premium') {
-        setCartPlan({ id: 'premium', name: 'Premium Patron', price: 340 });
+        setCartPlan({ id: 'premium', name: isEl ? 'Επίτιμος Προστάτης' : 'Premium Patron', price: 340 });
       }
       window.history.replaceState({}, document.title);
     }
-  }, [location.state, cartPlan]);
+  }, [location.state, cartPlan, isEl]);
 
   const cartTotal = (cartPlan?.price || 0) + (hasOliveOil ? 18 : 0);
 
@@ -165,22 +168,40 @@ export default function Membership() {
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-honey mb-2 group">
                 <div className="w-6 h-6 rounded-full border border-honey/30 flex items-center justify-center text-[10px] font-bold">02</div>
-                <span className="text-[10px] uppercase tracking-[0.3em] font-bold">Select Your Membership Level</span>
+                <span className="text-[10px] uppercase tracking-[0.3em] font-bold">
+                  {isEl ? 'Επιλογή Επιπέδου Αναδοχής' : 'Select Your Guardianship Level'}
+                </span>
               </div>
-              <h1 className="font-display text-5xl text-[#2A1B0A]">Choose your connection</h1>
+              <h1 className="font-display text-5xl text-[#2A1B0A]">
+                {isEl ? 'Συνδεθείτε με το Μελισσοκομείο' : 'Choose your connection'}
+              </h1>
               <p className="text-[#2A1B0A]/60 max-w-lg leading-relaxed font-light">
-                Select the tier that best matches your commitment to Laconia's bees.
+                {isEl
+                  ? 'Επιλέξτε το επίπεδο αναδοχής που ταιριάζει στη δική σας σχέση με τα μελισσοκομεία της Λακωνίας.'
+                  : "Select the tier that best matches your commitment to Laconia's living colonies."}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { id: 'starter', name: 'Starter Guardianship', price: 140, desc: '2.5 kg raw honey (~€56/kg). Track hive telemetry and receive 3 seasonal deliveries.', icon: Star },
-                { id: 'premium', name: 'Premium Patron', price: 340, desc: '5 kg raw honey (~€68/kg). Dedicated named hive, custom labels, framed certificate, and Mani apiary visit invitation.', icon: Crown },
+                { 
+                  id: 'starter', 
+                  name: isEl ? 'Βασική Αναδοχή' : 'Starter Guardianship', 
+                  price: 140, 
+                  desc: isEl ? '2,5 kg αγνό μέλι (~56€/kg). Πρόσβαση σε τηλεμετρία και 3 εποχιακές παραδόσεις.' : '2.5 kg raw honey (~€56/kg). Track hive telemetry and receive 3 seasonal deliveries.', 
+                  icon: Star 
+                },
+                { 
+                  id: 'premium', 
+                  name: isEl ? 'Επίτιμος Προστάτης' : 'Premium Patron', 
+                  price: 340, 
+                  desc: isEl ? '5 kg αγνό μέλι (~68€/kg). Αποκλειστική επώνυμη κυψέλη, προσωποποιημένες ετικέτες, επίσημο πιστοποιητικό και πρόσκληση στη Μάνη.' : '5 kg raw honey (~€68/kg). Dedicated named hive, custom labels, framed certificate, and Mani apiary visit invitation.', 
+                  icon: Crown 
+                },
               ].map((plan) => (
                 <button
                   key={plan.id}
-                  onClick={() => setCartPlan({ id: plan.id as any, name: plan.name + ' Membership', price: plan.price })}
+                  onClick={() => setCartPlan({ id: plan.id as any, name: plan.name, price: plan.price })}
                   className={`relative p-8 rounded-[2px] text-left border transition-all duration-500 group overflow-hidden ${
                     cartPlan?.id === plan.id 
                       ? 'bg-honey/10 border-honey/40 shadow-[0_20px_40px_rgba(200,134,10,0.1)]' 
@@ -192,7 +213,9 @@ export default function Membership() {
                       <plan.icon size={20} />
                     </div>
                     <div className="text-right">
-                      <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/80 font-bold mb-1">Yearly</div>
+                      <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/80 font-bold mb-1">
+                        {isEl ? 'Ετήσια' : 'Yearly'}
+                      </div>
                       <div className="text-3xl font-display text-honey">€{plan.price}</div>
                     </div>
                   </div>
@@ -206,7 +229,9 @@ export default function Membership() {
             </div>
 
             <div className="pt-8 border-t border-honey/10 space-y-4">
-              <div className="text-[10px] uppercase tracking-[0.3em] text-[#2A1B0A]/30 font-bold">Enhance Your Membership</div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-[#2A1B0A]/40 font-bold">
+                {isEl ? 'Πρόσθετες Επιλογές' : 'Enhance Your Membership'}
+              </div>
               <button 
                 onClick={() => setHasOliveOil(!hasOliveOil)}
                 className={`w-full flex items-center justify-between p-6 rounded-[2px] border transition-all duration-300 ${
@@ -218,7 +243,9 @@ export default function Membership() {
                     hasOliveOil ? 'bg-honey border-honey text-[#2A1B0A]' : 'border-white/20'
                   }`}><Check size={14} /></div>
                   <div className="text-left">
-                    <p className="text-sm text-[#2A1B0A] font-medium">Laconian Olive Oil (500ml)</p>
+                    <p className="text-sm text-[#2A1B0A] font-medium">
+                      {isEl ? 'Εξαιρετικό Παρθένο Ελαιόλαδο Λακωνίας (500ml)' : 'Laconian Olive Oil (500ml)'}
+                    </p>
                     <p className="text-[10px] uppercase tracking-widest text-honey/60">+ €18.00</p>
                   </div>
                 </div>
@@ -235,8 +262,12 @@ export default function Membership() {
                     isGift ? 'bg-honey border-honey text-[#2A1B0A]' : 'border-white/20'
                   }`}><Check size={14} /></div>
                   <div className="text-left">
-                    <p className="text-sm text-[#2A1B0A] font-medium">Purchase as a Gift</p>
-                    <p className="text-[10px] uppercase tracking-widest text-honey/60">Digital Adoption Card Included</p>
+                    <p className="text-sm text-[#2A1B0A] font-medium">
+                      {isEl ? 'Αγορά ως Δώρο' : 'Purchase as a Gift'}
+                    </p>
+                    <p className="text-[10px] uppercase tracking-widest text-honey/60">
+                      {isEl ? 'Περιλαμβάνει Ψηφιακή Κάρτα Αναδοχής' : 'Digital Adoption Card Included'}
+                    </p>
                   </div>
                 </div>
               </button>
@@ -264,40 +295,48 @@ export default function Membership() {
           <div className="md:col-span-12 lg:col-span-5 space-y-8">
             <div className="sticky top-32 p-10 bg-white/5 backdrop-blur-xl border border-honey/20 rounded-[2px] shadow-2xl">
               <div className="text-[10px] uppercase tracking-[0.3em] text-honey font-bold mb-8 flex items-center gap-3">
-                <ShoppingCart size={12} /> Order Summary
+                <ShoppingCart size={12} /> {isEl ? 'Σύνοψη Παραγγελίας' : 'Order Summary'}
               </div>
 
               <div className="space-y-6 mb-10">
                 {!cartPlan ? (
                   <div className="py-10 text-center border border-dashed border-white/10 rounded-[2px]">
-                    <p className="text-xs text-[#2A1B0A]/30 italic">Select a plan to continue</p>
+                    <p className="text-xs text-[#2A1B0A]/40 italic">
+                      {isEl ? 'Επιλέξτε ένα επίπεδο αναδοχής για να συνεχίσετε' : 'Select a plan to continue'}
+                    </p>
                   </div>
                 ) : (
                   <>
                     <div className="flex justify-between text-sm">
                       <div className="flex flex-col gap-1">
                         <span className="text-[#2A1B0A] font-medium">{cartPlan.name}</span>
-                        <span className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/30">Annual Subscription</span>
+                        <span className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40">
+                          {isEl ? 'Ετήσια Συνδρομή' : 'Annual Guardianship'}
+                        </span>
                       </div>
                       <span className="text-[#2A1B0A]">€{cartPlan.price}.00</span>
                     </div>
 
                     {hasOliveOil && (
                       <div className="flex justify-between text-sm animate-in fade-in slide-in-from-left-4">
-                        <span className="text-[#2A1B0A] font-medium">Extra Olive Oil</span>
+                        <span className="text-[#2A1B0A] font-medium">
+                          {isEl ? 'Ελαιόλαδο Λακωνίας (500ml)' : 'Laconian Olive Oil (500ml)'}
+                        </span>
                         <span className="text-[#2A1B0A]">€18.00</span>
                       </div>
                     )}
 
                     <div className="flex justify-between text-xs text-honey font-medium">
-                      <span>Free EU Shipping</span>
+                      <span>{isEl ? 'Δωρεάν Αποστολή στην Ε.Ε.' : 'Free EU Shipping'}</span>
                       <span>€0.00</span>
                     </div>
 
                     <div className="h-[1px] bg-honey/10"></div>
 
                     <div className="flex justify-between items-end">
-                      <div className="text-[10px] uppercase tracking-[0.3em] text-[#2A1B0A]/40 font-bold">Total</div>
+                      <div className="text-[10px] uppercase tracking-[0.3em] text-[#2A1B0A]/40 font-bold">
+                        {isEl ? 'Σύνολο' : 'Total'}
+                      </div>
                       <div className="text-4xl font-display text-[#2A1B0A] italic">€{cartTotal.toFixed(2)}</div>
                     </div>
 
@@ -315,7 +354,13 @@ export default function Membership() {
                         !isRedirecting ? 'bg-honey text-[#2A1B0A] hover:bg-honey/90' : 'bg-white/5 text-[#2A1B0A]/20 cursor-not-allowed'
                       }`}
                     >
-                      {isRedirecting ? <Loader2 size={16} className="animate-spin" /> : <>Complete Adoption <ArrowRight size={16} /></>}
+                      {isRedirecting ? (
+                        <Loader2 size={16} className="animate-spin" />
+                      ) : (
+                        <>
+                          {isEl ? 'Ολοκλήρωση Αναδοχής' : 'Complete Adoption'} <ArrowRight size={16} />
+                        </>
+                      )}
                     </button>
                     
                     {isRedirecting && (
@@ -331,8 +376,8 @@ export default function Membership() {
                 )}
               </div>
               
-              <div className="flex items-center justify-center gap-4 text-[10px] text-[#2A1B0A]/30 uppercase tracking-widest">
-                <ShieldCheck size={14} /> Secure Stripe Payment
+              <div className="flex items-center justify-center gap-4 text-[10px] text-[#2A1B0A]/40 uppercase tracking-widest">
+                <ShieldCheck size={14} /> {isEl ? 'Ασφαλής Πληρωμή μέσω Stripe' : 'Secure Stripe Payment'}
               </div>
             </div>
           </div>
