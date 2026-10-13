@@ -250,8 +250,19 @@ export default function Dashboard() {
   };
 
   if (loading) return (
-    <div className="min-h-screen bg-hive-bg flex items-center justify-center font-display text-xl tracking-widest text-[#2A1B0A] animate-pulse">
-      Connecting to your hive in Laconia...
+    <div className="min-h-screen bg-hive-bg text-[#2A1B0A] flex flex-col items-center justify-center p-6 text-center">
+      <div className="relative mb-6">
+        <div className="w-12 h-12 border-2 border-honey/20 border-t-honey rounded-full animate-spin"></div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="w-2 h-2 rounded-full bg-honey animate-pulse"></span>
+        </div>
+      </div>
+      <div className="font-display text-2xl text-[#2A1B0A] mb-2 tracking-wide">
+        Hive<span className="text-honey">Share</span>
+      </div>
+      <div className="text-[10px] uppercase tracking-[0.3em] font-mono text-honey font-bold">
+        Connecting to apiary telemetry in Mani...
+      </div>
     </div>
   );
 
@@ -301,244 +312,428 @@ export default function Dashboard() {
           <Link to="/" className="font-display text-2xl tracking-wide text-[#2A1B0A]">
             Hive<span className="text-honey">Share</span>
           </Link>
-          <div className="flex items-center gap-3 sm:gap-6">
-            <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-honey/10 border border-honey/20 rounded-full">
-              <div className="w-1.5 h-1.5 rounded-full bg-honey animate-pulse"></div>
-              <span className="text-[8px] uppercase tracking-widest font-black text-honey">APIARY_TELEMETRY: ACTIVE</span>
+          <div className="flex items-center gap-2.5 sm:gap-6">
+            <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 bg-honey/10 border border-honey/20 rounded-full">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+              <span className="text-[8px] uppercase tracking-widest font-mono font-bold text-honey">
+                <span className="hidden sm:inline">APIARY_TELEMETRY: </span>ACTIVE
+              </span>
             </div>
             {profile?.role === 'admin' && (
               <Link
                 to="/admin"
-                className="flex items-center gap-1.5 px-3 py-1 bg-[#C8860A]/10 border border-[#C8860A]/30 rounded-full text-[8px] sm:text-[9px] uppercase tracking-[0.2em] text-[#C8860A] font-black hover:bg-[#C8860A] hover:text-[#2A1B0A] transition-all whitespace-nowrap"
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 min-h-[36px] bg-[#C8860A]/10 border border-[#C8860A]/30 rounded-full text-[8px] sm:text-[9px] uppercase tracking-[0.2em] text-[#C8860A] font-black hover:bg-[#C8860A] hover:text-[#2A1B0A] transition-all whitespace-nowrap"
               >
                 <Lock className="w-3 h-3" /> <span className="hidden sm:inline">Central Station</span> (Admin)
               </Link>
             )}
             <div className="flex flex-col items-end">
-              <span className="text-[8px] sm:text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 font-bold">Colony ID</span>
-              <span className="text-xs text-honey font-medium">{profile?.subscribedHives?.[0] || 'ASSIGNING...'}</span>
+              <span className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#2A1B0A]/40 font-mono font-bold">Colony ID</span>
+              <span className="text-xs text-honey font-mono font-bold">{profile?.subscribedHives?.[0] || 'ASSIGNING...'}</span>
             </div>
-            <button onClick={logout} title="Sign Out" className="text-[#2A1B0A]/40 hover:text-red-500 transition-colors p-1">
+            <button 
+              onClick={logout} 
+              title="Sign Out" 
+              className="text-[#2A1B0A]/40 hover:text-red-500 transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center -mr-2"
+            >
               <LogOut className="w-4 h-4" />
             </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-12 flex-1 w-full relative z-10">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-5 sm:py-10 flex-1 w-full relative z-10">
         {config?.systemAnnouncement && (
-          <div className="mb-10 bg-[#C8860A]/10 border border-[#C8860A]/30 p-4 rounded-[2px] backdrop-blur-md flex items-center gap-4 animate-in slide-in-from-top duration-700">
-            <div className="w-8 h-8 rounded-full bg-[#C8860A]/20 flex items-center justify-center flex-shrink-0">
-              <Star size={14} className="text-[#C8860A] animate-pulse" />
+          <div className="mb-4 sm:mb-8 bg-[#C8860A]/10 border border-[#C8860A]/30 p-3.5 sm:p-4 rounded-[2px] backdrop-blur-md flex items-center gap-3 sm:gap-4 animate-in slide-in-from-top duration-700">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#C8860A]/20 flex items-center justify-center shrink-0">
+              <Star size={13} className="text-[#C8860A] animate-pulse" />
             </div>
-            <p className="text-[10px] uppercase tracking-[0.2em] font-black text-[#C8860A]">
+            <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-black text-[#C8860A]">
               {config.systemAnnouncement}
             </p>
           </div>
         )}
+
         {profile && !profile.shippingAddress && (
-          <div className="mb-10 bg-honey/5 border border-honey/20 p-5 rounded-[2px] flex flex-col md:flex-row items-center justify-between gap-6 backdrop-blur-sm">
-            <div className="flex items-center gap-4">
-              <AlertTriangle className="text-honey w-6 h-6" />
-              <div className="text-left"><p className="text-sm font-bold text-[#2A1B0A] uppercase">Shipping Address Required</p><p className="text-xs text-[#2A1B0A]/70">We need your address to ship your seasonal honey harvest.</p></div>
+          <div className="mb-4 sm:mb-8 bg-honey/5 border border-honey/20 p-4 sm:p-5 rounded-[2px] flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 backdrop-blur-sm">
+            <div className="flex items-center gap-3 sm:gap-4 text-left">
+              <AlertTriangle className="text-honey w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
+              <div>
+                <p className="text-xs sm:text-sm font-bold text-[#2A1B0A] uppercase tracking-wider">Shipping Address Required</p>
+                <p className="text-[11px] sm:text-xs text-[#2A1B0A]/70 leading-relaxed">We need your delivery address to fulfill seasonal honey harvests.</p>
+              </div>
             </div>
-            <button onClick={() => setActiveTab('settings')} className="px-8 py-3 bg-honey text-[#2A1B0A] text-[10px] uppercase tracking-widest font-bold rounded-sm">Update Address</button>
+            <button 
+              onClick={() => setActiveTab('settings')} 
+              className="w-full md:w-auto px-6 sm:px-8 py-2.5 sm:py-3 min-h-[44px] bg-honey text-[#2A1B0A] text-[10px] uppercase tracking-widest font-bold rounded-xs shrink-0 active:scale-95"
+            >
+              Update Address
+            </button>
           </div>
         )}
 
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Sidebar */}
-          <aside className="lg:w-72 space-y-8">
-            <div className="p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px] backdrop-blur-md">
-              <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-6">Your Apiaries</div>
-              <div className="space-y-3">
-                {hives.map(hive => (
-                  <button key={hive.id} onClick={() => setSelectedHiveId(hive.id)} className={`w-full text-left p-4 rounded-[2px] border transition-all ${selectedHiveId === hive.id ? 'bg-honey/10 border-honey/40' : 'border-honey/5 hover:border-honey/20'}`}>
-                    <div className="text-xs font-bold tracking-widest uppercase text-[#2A1B0A]">Hive #{hive.id}</div>
-                    <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40">{hive.location}</div>
-                  </button>
-                ))}
+        {/* Multi-Hive Mobile Swipeable Strip */}
+        {hives.length > 1 && (
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 mb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
+            <span className="text-[9px] uppercase tracking-widest font-mono text-[#2A1B0A]/50 shrink-0 font-bold">APIARIES:</span>
+            {hives.map(hive => (
+              <button
+                key={hive.id}
+                onClick={() => setSelectedHiveId(hive.id)}
+                className={`px-3.5 py-1.5 min-h-[36px] rounded-full border text-xs font-mono shrink-0 transition-all ${
+                  selectedHiveId === hive.id
+                    ? 'bg-honey text-[#0C0804] border-honey shadow-xs font-bold'
+                    : 'bg-white/70 text-[#2A1B0A]/70 border-honey/20 hover:border-honey/40'
+                }`}
+              >
+                #{hive.id} · {hive.location.split(',')[0]}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* ── LUXURY GUARDIAN WELCOME & QUICK ACTIONS BAR ── */}
+        <section className="mb-6 sm:mb-8 bg-hive-panel/75 border border-honey/20 p-5 sm:p-7 rounded-[2px] backdrop-blur-md relative overflow-hidden shadow-xs">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-honey/5 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
+          
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 relative z-10">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 text-[9px] uppercase tracking-widest font-mono font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  UPLINK: ACTIVE
+                </span>
+                <span className="text-[10px] uppercase tracking-widest font-mono text-[#2A1B0A]/60 font-semibold">
+                  {activeHive.location || 'Laconia, Peloponnese'}
+                </span>
+                <span className="hidden sm:inline text-honey/40">·</span>
+                <span className="inline-block text-[10px] uppercase tracking-widest font-mono text-honey font-bold">
+                  {profile?.tier === 'premium' ? 'Premium Patron' : profile?.tier === 'starter' ? 'Starter Guardian' : 'Apiary Observer'}
+                </span>
               </div>
-            </div>
-            <div className="p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px]">
-              <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4">Membership</div>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-[#2A1B0A] font-bold">
-                  {profile?.tier === 'premium' ? <Crown className="text-honey w-4 h-4" /> : 
-                   profile?.tier === 'starter' ? <Star className="text-honey w-4 h-4" /> : 
-                   <Users className="text-[#2A1B0A]/30 w-4 h-4" />}
-                  {profile?.tier === 'premium' ? 'Premium Guardian' : 
-                   profile?.tier === 'starter' ? 'Starter Guardian' : 
-                   'Free Observer'}
-                </div>
-                <div className="h-[1px] bg-honey/10"></div>
-                <button onClick={() => setActiveTab('settings')} className="flex items-center gap-3 text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 hover:text-honey transition-all group">
-                  <Settings size={14} className="group-hover:rotate-90 transition-transform" />
-                  <span>Account Settings</span>
-                </button>
-                <Link to="/harvest" className="flex items-center gap-3 text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 hover:text-honey transition-all group">
-                  <Package size={14} className="group-hover:scale-110 transition-transform" />
-                  <span>Harvest Tracker</span>
-                </Link>
-              </div>
-            </div>
-            <div className="p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px] overflow-hidden group border-animate">
-              <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4">Master Beekeeper</div>
-              <div className="relative h-40 mb-4 overflow-hidden rounded-sm group">
-                 <img src="/beekeeper.png" alt="Petros Oikonomakos" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                 <div className="absolute inset-0 bg-gradient-to-t from-[#1A1208] to-transparent opacity-80 group-hover:opacity-40 transition-opacity"></div>
-                 <div className="absolute bottom-3 left-3 text-white">
-                    <div className="text-[9px] font-black uppercase tracking-widest">Petros O.</div>
-                    <div className="text-[7px] text-white/60 uppercase tracking-tighter italic">30+ Years Experience</div>
-                 </div>
-              </div>
-              <p className="text-[9px] text-[#2A1B0A]/60 italic leading-relaxed">
-                "The bees know the Mani mountains better than any machine. I'm just here to listen."
+              
+              <h1 className="font-display text-2xl sm:text-3xl md:text-4xl text-[#2A1B0A] tracking-tight">
+                {config?.dashboardGreeting || `Welcome, ${profile?.customLabel || profile?.fullName || user?.displayName?.split(' ')[0] || user?.email?.split('@')[0] || 'Guardian'}`}
+              </h1>
+              
+              <p className="text-xs sm:text-sm text-[#2A1B0A]/70 max-w-xl font-body leading-relaxed">
+                Live biometric telemetry and ecological stream for <span className="text-[#2A1B0A] font-semibold">Colony #{activeHive.id}</span> in the Taygetos highlands.
               </p>
             </div>
-            
-            <div className="p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px] overflow-hidden group">
-              <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4 flex items-center justify-between">
-                <span>Apiary Snapshot</span>
-                <div className="flex items-center gap-1.5 animate-pulse">
-                  <Camera size={10} className="text-honey/60" />
-                  <span className="text-[8px] uppercase tracking-widest text-[#2A1B0A]/40">LIVE</span>
-                </div>
-              </div>
-              <div className="relative h-24 overflow-hidden rounded-sm mb-3">
-                 <img src="/mani_landscape.png" alt="Mani Apiary view" className="w-full h-full object-cover blur-[1px] group-hover:blur-0 transition-all duration-700" />
-                 <div className="absolute inset-0 bg-honey/5 mix-blend-color"></div>
-              </div>
-              <div className="text-[9px] text-[#2A1B0A]/40 uppercase tracking-widest font-black flex items-center gap-2">
-                 <MapPin size={8} /> Lagia, Laconia
-              </div>
-            </div>
-          </aside>
 
-          {/* Main Content */}
-          <div className="flex-1 space-y-8">
-            <section className="relative p-12 border border-honey/20 rounded-[2px] bg-hive-panel/60 overflow-hidden text-center backdrop-blur-xl">
+            {/* Quick Actions (44px min touch-target mobile pills) */}
+            <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap pt-2 md:pt-0 border-t md:border-t-0 border-honey/10">
+              <button
+                onClick={() => setShowCertModal(true)}
+                className="flex items-center gap-2 px-3.5 sm:px-4 py-2.5 min-h-[44px] bg-honey text-[#0C0804] text-[10px] uppercase tracking-widest font-bold rounded-[2px] hover:bg-honey/90 active:scale-95 transition-all shadow-xs"
+              >
+                <Award size={14} className="shrink-0" />
+                <span>Certificate</span>
+              </button>
+
+              <Link
+                to="/harvest"
+                className="flex items-center gap-2 px-3.5 sm:px-4 py-2.5 min-h-[44px] bg-white/70 border border-honey/30 text-[#2A1B0A] text-[10px] uppercase tracking-widest font-bold rounded-[2px] hover:bg-white active:scale-95 transition-all shadow-xs"
+              >
+                <Package size={14} className="shrink-0 text-honey" />
+                <span>Harvests</span>
+              </Link>
+
+              <button
+                onClick={() => setActiveTab('settings')}
+                className="flex items-center gap-2 px-3.5 sm:px-4 py-2.5 min-h-[44px] bg-white/70 border border-honey/30 text-[#2A1B0A] text-[10px] uppercase tracking-widest font-bold rounded-[2px] hover:bg-white active:scale-95 transition-all shadow-xs"
+              >
+                <Settings size={14} className="shrink-0 text-[#2A1B0A]/60" />
+                <span>Settings</span>
+              </button>
+
+              <button
+                onClick={() => downloadCertificate(activeHive.id)}
+                disabled={isGeneratingPDF}
+                className="flex items-center gap-1.5 px-3 py-2.5 min-h-[44px] border border-honey/30 text-honey hover:bg-honey/10 text-[10px] uppercase tracking-widest font-bold rounded-[2px] active:scale-95 transition-all"
+                title="Direct PDF Export"
+              >
+                <Download size={14} className="shrink-0" />
+                <span className="hidden sm:inline">PDF</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <div className="flex flex-col lg:flex-row gap-6 sm:gap-10 lg:gap-12">
+          {/* Main Telemetry Content (FIRST on mobile order-1, SECOND on desktop lg:order-2) */}
+          <div className="order-1 lg:order-2 flex-1 space-y-6 sm:space-y-8 min-w-0">
+            {/* Primary Hive Weight & Vitality HUD Card */}
+            <section className="relative p-6 sm:p-10 md:p-12 border border-honey/20 rounded-[2px] bg-hive-panel/75 overflow-hidden text-center backdrop-blur-xl shadow-xs">
+              {/* Subtle luxury radial glow */}
+              <div className="absolute inset-0 pointer-events-none opacity-25" style={{ backgroundImage: 'radial-gradient(#C8860A 0.75px, transparent 0.75px)', backgroundSize: '24px 24px' }}></div>
+
               <div className="relative z-10">
-                <div className="text-[10px] uppercase tracking-[0.3em] text-honey font-bold mb-2 flex items-center justify-center gap-2">
-                  Current Weight
-                  {activeHive.iotActive && (
-                    <div className="flex items-center gap-1.5 ml-1">
-                      <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
-                      <span className="text-[8px] tracking-[0.2em] text-green-500/80 font-black">LIVE</span>
-                    </div>
-                  )}
-                </div>
-                <h2 className="font-display italic text-8xl text-honey mb-8">{activeHive.weight.toFixed(1)}<span className="text-3xl ml-2 not-italic text-honey/40">kg</span></h2>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 pt-6 border-t border-honey/10">
-                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/60 font-black">Temp</div><div className="text-sm text-white font-black">{activeHive.temp}°C</div></div>
-                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/60 font-black">Humidity</div><div className="text-sm text-white font-black">{activeHive.humidity}%</div></div>
-                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/60 font-black">Activity</div><div className="text-sm text-white font-black">{activeHive.activity}</div></div>
-                    <div className="space-y-1"><div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/60 font-black">Health</div><div className="text-sm text-green-400 font-black uppercase tracking-widest">Stable</div></div>
+                {/* HUD Top Bar */}
+                <div className="flex items-center justify-between pb-4 sm:pb-5 mb-4 sm:mb-6 border-b border-honey/15 flex-wrap gap-2 text-left">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] font-mono font-bold text-honey">
+                      HIVE SCALE STATION #{activeHive.id}
+                    </span>
+                    <span className="text-[8px] uppercase tracking-widest font-mono text-[#2A1B0A]/40 font-semibold hidden sm:inline">
+                      · 37.07° N, 22.43° E
+                    </span>
                   </div>
+
+                  <div className="flex items-center gap-2">
+                    {activeHive.iotActive ? (
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 text-[8px] sm:text-[9px] uppercase tracking-widest font-mono font-bold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        LIVE UPLINK
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-honey/10 text-honey text-[8px] sm:text-[9px] uppercase tracking-widest font-mono font-bold">
+                        CACHED TELEMETRY
+                      </span>
+                    )}
+                    {activeHive.lastSyncTimestamp && (
+                      <span className="text-[8px] uppercase tracking-widest font-mono text-[#2A1B0A]/40 hidden md:inline">
+                        {new Date(activeHive.lastSyncTimestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Weight Big Hero Number */}
+                <div className="my-2 sm:my-4">
+                  <div className="text-[10px] uppercase tracking-[0.3em] font-mono text-honey font-bold mb-2">
+                    Current Biometric Weight
+                  </div>
+                  <h2 className="font-display italic text-6xl sm:text-7xl md:text-8xl text-[#2A1B0A] tracking-tight">
+                    {activeHive.weight.toFixed(1)}
+                    <span className="text-2xl sm:text-3xl md:text-4xl not-italic font-sans text-honey font-light ml-2">kg</span>
+                  </h2>
+                  <p className="text-[11px] sm:text-xs text-[#2A1B0A]/60 font-body mt-2 max-w-sm mx-auto">
+                    Continuous load-cell sensor telemetry tracking honey reserve accumulation.
+                  </p>
+                </div>
+
+                {/* 4 Sensor Dials - High Contrast Luxury Cards */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-honey/15">
+                  <div className="p-3 sm:p-4 bg-white/70 border border-honey/15 rounded-[2px] text-center space-y-1 hover:bg-white transition-all shadow-2xs">
+                    <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#8C5E14] font-mono font-bold">Brood Temp</div>
+                    <div className="text-base sm:text-lg font-mono font-bold text-[#2A1B0A]">{activeHive.temp}°C</div>
+                    <div className="text-[9px] text-[#2A1B0A]/50 font-body">Optimal 34-36°C</div>
+                  </div>
+
+                  <div className="p-3 sm:p-4 bg-white/70 border border-honey/15 rounded-[2px] text-center space-y-1 hover:bg-white transition-all shadow-2xs">
+                    <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#8C5E14] font-mono font-bold">Humidity</div>
+                    <div className="text-base sm:text-lg font-mono font-bold text-[#2A1B0A]">{activeHive.humidity}%</div>
+                    <div className="text-[9px] text-[#2A1B0A]/50 font-body">Internal Ambient</div>
+                  </div>
+
+                  <div className="p-3 sm:p-4 bg-white/70 border border-honey/15 rounded-[2px] text-center space-y-1 hover:bg-white transition-all shadow-2xs">
+                    <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#8C5E14] font-mono font-bold">Activity</div>
+                    <div className="text-base sm:text-lg font-mono font-bold text-[#2A1B0A]">{activeHive.activity}</div>
+                    <div className="text-[9px] text-[#2A1B0A]/50 font-body">Acoustic Cadence</div>
+                  </div>
+
+                  <div className="p-3 sm:p-4 bg-white/70 border border-honey/15 rounded-[2px] text-center space-y-1 hover:bg-white transition-all shadow-2xs">
+                    <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-emerald-800 font-mono font-bold">Colony Health</div>
+                    <div className="text-base sm:text-lg font-mono font-bold text-emerald-700 uppercase tracking-wider">Optimal</div>
+                    <div className="text-[9px] text-emerald-700/70 font-body">Queen Vigorous</div>
+                  </div>
+                </div>
               </div>
             </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="p-8 border border-honey/10 bg-hive-panel/40 rounded-[2px]">
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-6 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                       <span>Growth Analysis</span>
-                       <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      {activeHive.history && activeHive.history.length > 1 && (
-                        <div className="flex flex-col items-end">
-                          <span className="text-[8px] text-green-400 font-black tracking-widest bg-green-400/10 px-2 py-0.5 rounded-full mb-1">
-                            +{(activeHive.history[activeHive.history.length-1].weight - activeHive.history[0].weight).toFixed(1)}kg TREND
-                          </span>
-                          <span className="text-[7px] text-honey/30 uppercase tracking-tighter">Proj. Yield: ~{(activeHive.weight * 0.45).toFixed(1)}kg</span>
-                        </div>
-                      )}
-                      {activeHive.lastSyncTimestamp && (
-                        <span className="text-[8px] text-honey/40 font-black tracking-widest">
-                          LAST_SYNC: {new Date(activeHive.lastSyncTimestamp).toLocaleTimeString()}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+              {/* Growth Analysis */}
+              <div className="p-5 sm:p-7 border border-honey/10 bg-hive-panel/40 rounded-[2px]">
+                <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4 sm:mb-6 flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <span>Growth Analysis</span>
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]"></div>
+                  </div>
+                  <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
+                    {activeHive.history && activeHive.history.length > 1 && (
+                      <div className="flex flex-col items-end">
+                        <span className="text-[8px] text-emerald-700 font-black tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded-full mb-0.5">
+                          +{(activeHive.history[activeHive.history.length-1].weight - activeHive.history[0].weight).toFixed(1)}kg TREND
                         </span>
-                      )}
-                    </div>
+                        <span className="text-[7px] text-[#2A1B0A]/40 uppercase tracking-tighter">
+                          Proj. Yield: ~{(activeHive.weight * 0.45).toFixed(1)}kg
+                        </span>
+                      </div>
+                    )}
+                    {activeHive.lastSyncTimestamp && (
+                      <span className="text-[8px] text-honey font-bold tracking-widest font-mono">
+                        SYNC: {new Date(activeHive.lastSyncTimestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    )}
                   </div>
-                  <div className="h-64 relative group">
-                    <div className="absolute inset-0 pointer-events-none transition-opacity duration-1000 opacity-20 group-hover:opacity-40" style={{ backgroundImage: 'radial-gradient(#C8860A 0.5px, transparent 0.5px)', backgroundSize: '20px 20px' }}></div>
-                    <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={activeHive.history}>
-                        <defs>
-                          <linearGradient id="colorWeight" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#C8860A" stopOpacity={0.6}/>
-                            <stop offset="95%" stopColor="#C8860A" stopOpacity={0}/>
-                          </linearGradient>
-                        </defs>
-                        <Tooltip 
-                          content={({ active, payload, label }) => {
-                            if (active && payload && payload.length) {
-                              return (
-                                <div className="bg-[#1A1208] border border-honey/40 p-4 rounded-none shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-animate">
-                                  <p className="text-[10px] uppercase tracking-[0.2em] text-honey/60 mb-2 font-black">{label}</p>
-                                  <p className="text-2xl font-display italic text-honey">{payload[0].value} <span className="text-sm not-italic text-honey/40">kg</span></p>
-                                </div>
-                              );
-                            }
-                            return null;
-                          }}
-                        />
-                        <Area 
-                          type="monotone" 
-                          dataKey="weight" 
-                          stroke="#C8860A" 
-                          strokeWidth={3}
-                          fillOpacity={1} 
-                          fill="url(#colorWeight)" 
-                          animationDuration={2000}
-                          dot={{ r: 2, fill: '#C8860A', strokeWidth: 0, fillOpacity: 0.6 }}
-                          activeDot={{ r: 5, fill: '#C8860A', stroke: '#000', strokeWidth: 2 }}
-                        />
-                        <XAxis 
-                          dataKey="day" 
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fill: 'rgba(255, 185, 41, 0.4)', fontSize: 8, fontWeight: 900 }}
-                          dy={10}
-                        />
-                        <YAxis hide domain={['dataMin - 1', 'dataMax + 1']} />
-                      </AreaChart>
-                    </ResponsiveContainer>
-                  </div>
+                </div>
+
+                <div className="h-56 sm:h-64 relative group">
+                  <div className="absolute inset-0 pointer-events-none transition-opacity duration-1000 opacity-20 group-hover:opacity-40" style={{ backgroundImage: 'radial-gradient(#C8860A 0.5px, transparent 0.5px)', backgroundSize: '20px 20px' }}></div>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={activeHive.history} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="colorWeight" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#C8860A" stopOpacity={0.6}/>
+                          <stop offset="95%" stopColor="#C8860A" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <Tooltip 
+                        content={({ active, payload, label }) => {
+                          if (active && payload && payload.length) {
+                            return (
+                              <div className="bg-[#1A1208] border border-honey/40 p-3 sm:p-4 rounded-none shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                                <p className="text-[9px] uppercase tracking-[0.2em] text-honey/60 mb-1 font-mono font-bold">{label}</p>
+                                <p className="text-xl sm:text-2xl font-display italic text-honey">{payload[0].value} <span className="text-xs sm:text-sm not-italic text-honey/60">kg</span></p>
+                              </div>
+                            );
+                          }
+                          return null;
+                        }}
+                      />
+                      <Area 
+                        type="monotone" 
+                        dataKey="weight" 
+                        stroke="#C8860A" 
+                        strokeWidth={2.5}
+                        fillOpacity={1} 
+                        fill="url(#colorWeight)" 
+                        animationDuration={1500}
+                        dot={{ r: 2, fill: '#C8860A', strokeWidth: 0, fillOpacity: 0.7 }}
+                        activeDot={{ r: 5, fill: '#C8860A', stroke: '#0C0804', strokeWidth: 2 }}
+                      />
+                      <XAxis 
+                        dataKey="day" 
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fill: '#8C5E14', fontSize: 9, fontWeight: 700 }}
+                        dy={6}
+                      />
+                      <YAxis hide domain={['dataMin - 1', 'dataMax + 1']} />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
 
-              <div className="p-8 border border-honey/10 bg-hive-panel/40 rounded-[2px] flex flex-col justify-between">
+              {/* Master Beekeeper Field Notes */}
+              <div className="p-5 sm:p-7 border border-honey/10 bg-hive-panel/40 rounded-[2px] flex flex-col justify-between">
                 <div>
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-6 flex items-center gap-2"><StickyNote size={14}/> Master beekeeper Notes</div>
-                  <div className="space-y-4">
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4 sm:mb-6 flex items-center gap-2">
+                    <StickyNote size={14} className="text-honey" />
+                    <span>Master Beekeeper Field Journal</span>
+                  </div>
+                  <div className="space-y-3.5">
                     {activeHive.journal?.map((entry, i) => (
-                      <div key={i} className="pl-4 border-l-2 border-honey/40 bg-honey/5 py-2">
-                        <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A] font-black mb-1 opacity-60">{entry.type} · {new Date(entry.date).toLocaleDateString()}</div>
-                        <p className="text-sm text-[#2A1B0A] italic leading-relaxed font-medium">"{entry.content}"</p>
+                      <div key={i} className="pl-3.5 border-l-2 border-honey/40 bg-honey/5 py-2.5 pr-2 rounded-r-xs">
+                        <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#2A1B0A]/60 font-mono font-bold mb-1">
+                          {entry.type} · {new Date(entry.date).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </div>
+                        <p className="text-xs sm:text-sm text-[#2A1B0A] italic leading-relaxed font-serif">
+                          "{entry.content}"
+                        </p>
                       </div>
                     )) || <p className="text-xs text-[#2A1B0A]/40">No entries yet.</p>}
                   </div>
                 </div>
-                <div className="flex gap-2 mt-8">
+
+                <div className="flex flex-col sm:flex-row gap-2 mt-6 pt-4 border-t border-honey/10">
                   <button 
                     onClick={() => setShowCertModal(true)} 
-                    className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-honey text-[#0C0804] text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-[2px] shadow-sm"
+                    className="flex-1 flex items-center justify-center gap-2 py-3 bg-honey text-[#0C0804] text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-all rounded-[2px] shadow-xs active:scale-95 min-h-[44px]"
                   >
                      <Award size={14}/> View & Print Certificate
                   </button>
                   <button 
                     onClick={() => downloadCertificate(activeHive.id)} 
                     disabled={isGeneratingPDF}
-                    className="flex items-center justify-center gap-1.5 px-4 py-3.5 border border-honey/30 text-[10px] uppercase tracking-widest font-bold text-honey hover:bg-honey/10 transition-all rounded-[2px]"
+                    className="flex items-center justify-center gap-1.5 px-4 py-3 border border-honey/30 text-[10px] uppercase tracking-widest font-bold text-honey hover:bg-honey/10 transition-all rounded-[2px] active:scale-95 min-h-[44px]"
                     title="Direct PDF Download"
                   >
-                     <Download size={14}/> PDF
+                     <Download size={14}/> {isGeneratingPDF ? 'Generating...' : 'PDF'}
                   </button>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Sidebar & Secondary Apiary Info (order-2 on mobile, order-1 on lg screens) */}
+          <aside className="order-2 lg:order-1 lg:w-72 space-y-6 sm:space-y-8">
+            <div className="p-5 sm:p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px] backdrop-blur-md">
+              <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4">Your Apiaries</div>
+              <div className="space-y-2.5">
+                {hives.map(hive => (
+                  <button 
+                    key={hive.id} 
+                    onClick={() => setSelectedHiveId(hive.id)} 
+                    className={`w-full text-left p-3.5 rounded-[2px] border transition-all ${
+                      selectedHiveId === hive.id 
+                        ? 'bg-honey/15 border-honey/40 shadow-2xs' 
+                        : 'border-honey/10 hover:border-honey/20 bg-white/40'
+                    }`}
+                  >
+                    <div className="text-xs font-bold tracking-widest uppercase text-[#2A1B0A]">Hive #{hive.id}</div>
+                    <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/50 font-mono">{hive.location}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="p-5 sm:p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px]">
+              <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4">Guardianship Status</div>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-[#2A1B0A] font-bold">
+                  {profile?.tier === 'premium' ? <Crown className="text-honey w-4 h-4" /> : 
+                   profile?.tier === 'starter' ? <Star className="text-honey w-4 h-4" /> : 
+                   <Users className="text-[#2A1B0A]/40 w-4 h-4" />}
+                  {profile?.tier === 'premium' ? 'Premium Guardian' : 
+                   profile?.tier === 'starter' ? 'Starter Guardian' : 
+                   'Free Observer'}
+                </div>
+                <div className="h-[1px] bg-honey/10"></div>
+                <button onClick={() => setActiveTab('settings')} className="flex items-center gap-3 text-[10px] uppercase tracking-widest text-[#2A1B0A]/60 hover:text-honey transition-all group min-h-[44px]">
+                  <Settings size={14} className="group-hover:rotate-90 transition-transform" />
+                  <span>Account Settings</span>
+                </button>
+                <Link to="/harvest" className="flex items-center gap-3 text-[10px] uppercase tracking-widest text-[#2A1B0A]/60 hover:text-honey transition-all group min-h-[44px]">
+                  <Package size={14} className="group-hover:scale-110 transition-transform" />
+                  <span>Harvest Tracker</span>
+                </Link>
+              </div>
+            </div>
+
+            <div className="p-5 sm:p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px] overflow-hidden group">
+              <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4">Master Beekeeper</div>
+              <div className="relative h-40 mb-3 overflow-hidden rounded-xs group">
+                 <img src="/beekeeper.png" alt="Petros Oikonomakos" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                 <div className="absolute inset-0 bg-gradient-to-t from-[#1A1208]/90 via-[#1A1208]/40 to-transparent"></div>
+                 <div className="absolute bottom-3 left-3 text-white">
+                    <div className="text-[10px] font-bold uppercase tracking-widest">Petros Oikonomakos</div>
+                    <div className="text-[8px] text-white/70 uppercase tracking-wider italic font-serif">30+ Years Highland Apiculture</div>
+                 </div>
+              </div>
+              <p className="text-[10px] text-[#2A1B0A]/70 italic leading-relaxed font-serif">
+                "The bees know the Mani mountains better than any machine. I'm just here to listen."
+              </p>
+            </div>
+            
+            <div className="p-5 sm:p-6 bg-hive-panel/40 border border-honey/10 rounded-[2px] overflow-hidden group">
+              <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4 flex items-center justify-between">
+                <span>Apiary Snapshot</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span className="text-[8px] uppercase tracking-widest font-mono text-emerald-700 font-bold">LIVE CAM</span>
+                </div>
+              </div>
+              <div className="relative h-28 overflow-hidden rounded-xs mb-3">
+                 <img src="/mani_landscape.png" alt="Mani Apiary view" className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" />
+                 <div className="absolute inset-0 bg-honey/10 mix-blend-overlay"></div>
+              </div>
+              <div className="text-[9px] text-[#2A1B0A]/60 uppercase tracking-widest font-mono font-bold flex items-center gap-1.5">
+                 <MapPin size={10} className="text-honey" /> Lagia, Laconia · Elevation 840m
+              </div>
+            </div>
+          </aside>
         </div>
       </main>
 
@@ -576,10 +771,12 @@ export default function Dashboard() {
               {tourStep === 1 && (
                 <div className="space-y-6">
                   <h3 className="font-display text-3xl text-[#2A1B0A]">Weight Tracking</h3>
-                  <div className="bg-honey/5 border border-honey/10 p-4 rounded-sm">
-                    <AreaChart width={300} height={60} data={[{w:40}, {w:45}, {w:42}, {w:50}, {w:55}]} className="mx-auto opacity-40">
-                      <Area type="monotone" dataKey="w" stroke="#C8860A" fill="#C8860A" fillOpacity={0.2} />
-                    </AreaChart>
+                  <div className="bg-honey/5 border border-honey/10 p-4 rounded-sm h-[70px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={[{w:40}, {w:45}, {w:42}, {w:50}, {w:55}]}>
+                        <Area type="monotone" dataKey="w" stroke="#C8860A" fill="#C8860A" fillOpacity={0.25} />
+                      </AreaChart>
+                    </ResponsiveContainer>
                   </div>
                   <p className="text-[#2A1B0A]/70 leading-relaxed text-sm font-medium">
                     Monitor real-time honey accumulation. When the thyme blooms in Mani, you'll see a sharp upward spike in weight.
@@ -692,40 +889,40 @@ export default function Dashboard() {
                 <div className="md:col-span-2 space-y-8 animate-in fade-in slide-in-from-right duration-500">
                   {settingsStep === 'overview' && (
                     <div className="space-y-6">
-                      <div className="space-y-4">
-                        <label className="text-[9px] uppercase tracking-widest font-black text-honey">Guardian Name</label>
+                      <div className="space-y-3">
+                        <label className="text-[9px] uppercase tracking-widest font-mono font-bold text-honey">Guardian Name</label>
                         <input 
                           type="text" 
                           defaultValue={profile.customLabel} 
                           onBlur={(e) => updateProfile({ customLabel: e.target.value })}
-                          className="w-full bg-[#1A1208]/50 border border-honey/20 p-4 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey/60 transition-all rounded-sm"
+                          className="w-full bg-white/90 border border-honey/30 p-3.5 sm:p-4 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey focus:ring-1 focus:ring-honey/40 transition-all rounded-[2px] shadow-2xs"
                         />
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-4">
-                          <label className="text-[9px] uppercase tracking-widest font-black text-honey">DOB (Season Start)</label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-3">
+                          <label className="text-[9px] uppercase tracking-widest font-mono font-bold text-honey">DOB (Season Start)</label>
                           <input 
                             type="date" 
                             defaultValue={profile.dob} 
                             onBlur={(e) => updateProfile({ dob: e.target.value })}
-                            className="w-full bg-[#1A1208]/50 border border-honey/20 p-4 text-xs text-[#2A1B0A] focus:outline-none focus:border-honey/60 transition-all rounded-sm"
+                            className="w-full bg-white/90 border border-honey/30 p-3.5 sm:p-4 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey focus:ring-1 focus:ring-honey/40 transition-all rounded-[2px] shadow-2xs"
                           />
                         </div>
-                        <div className="space-y-4">
-                          <label className="text-[9px] uppercase tracking-widest font-black text-honey">Apiary ID</label>
-                          <div className="w-full bg-[#1A1208]/10 border border-honey/10 p-4 text-sm text-[#2A1B0A]/40 font-mono rounded-sm">
+                        <div className="space-y-3">
+                          <label className="text-[9px] uppercase tracking-widest font-mono font-bold text-honey">Apiary ID</label>
+                          <div className="w-full bg-white/50 border border-honey/20 p-3.5 sm:p-4 text-base sm:text-sm text-[#2A1B0A]/70 font-mono rounded-[2px]">
                             {profile.subscribedHives?.[0] || 'ASSIGNING...'}
                           </div>
                         </div>
                       </div>
-                      <div className="space-y-4">
-                        <label className="text-[9px] uppercase tracking-widest font-black text-honey">Shipping Destination</label>
+                      <div className="space-y-3">
+                        <label className="text-[9px] uppercase tracking-widest font-mono font-bold text-honey">Shipping Destination</label>
                         <input 
                           type="text" 
                           defaultValue={profile.shippingAddress} 
                           placeholder="Street, City, Postcode, Country"
                           onBlur={(e) => updateProfile({ shippingAddress: e.target.value })}
-                          className="w-full bg-[#1A1208]/50 border border-honey/20 p-4 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey/60 transition-all rounded-sm placeholder:italic placeholder:text-[#2A1B0A]/30"
+                          className="w-full bg-white/90 border border-honey/30 p-3.5 sm:p-4 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey focus:ring-1 focus:ring-honey/40 transition-all rounded-[2px] shadow-2xs placeholder:italic placeholder:text-[#2A1B0A]/40"
                         />
                       </div>
                     </div>
@@ -733,12 +930,12 @@ export default function Dashboard() {
 
                   {settingsStep === 'security' && (
                     <div className="space-y-6">
-                       <div className="p-6 bg-honey/5 border border-honey/10 rounded-sm">
-                          <div className="flex items-center gap-3 mb-4">
+                       <div className="p-5 sm:p-6 bg-honey/5 border border-honey/15 rounded-[2px]">
+                          <div className="flex items-center gap-3 mb-3">
                             <Key size={16} className="text-honey" />
-                            <h4 className="text-sm font-black text-[#2A1B0A] uppercase tracking-widest">Update Password</h4>
+                            <h4 className="text-xs sm:text-sm font-black text-[#2A1B0A] uppercase tracking-widest">Update Password</h4>
                           </div>
-                          <p className="text-[10px] text-[#2A1B0A]/60 mb-6 leading-relaxed">
+                          <p className="text-xs text-[#2A1B0A]/70 mb-5 leading-relaxed">
                             For your security, once you change your password you will be logged out of all other sessions.
                           </p>
                           <form onSubmit={async (e) => {
@@ -752,9 +949,9 @@ export default function Dashboard() {
                               name="newPass"
                               type="password" 
                               placeholder="New Secure Password" 
-                              className="w-full bg-hive-bg border border-honey/20 p-4 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey rounded-sm"
+                              className="w-full bg-white/90 border border-honey/30 p-3.5 sm:p-4 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey focus:ring-1 focus:ring-honey/40 rounded-[2px] shadow-2xs placeholder:text-[#2A1B0A]/40"
                             />
-                            <button type="submit" className="w-full bg-honey text-[#2A1B0A] py-4 text-[10px] uppercase tracking-widest font-black hover:shadow-xl transition-all">Update Sequence</button>
+                            <button type="submit" className="w-full bg-honey text-[#0C0804] py-3.5 min-h-[44px] text-[10px] uppercase tracking-widest font-black hover:bg-honey/90 transition-all rounded-[2px] shadow-xs active:scale-95">Update Sequence</button>
                           </form>
                        </div>
                     </div>
