@@ -222,7 +222,6 @@ const MEMBERSHIPS = [
     name: 'Starter Guardianship',
     subtitle: '2.5 kg Raw Honey · 3 Seasonal Harvest Deliveries',
     price: 140,
-    raisedPrice: 165,
     perKg: 56,
     retailJarValue: 260, // 2.5kg @ ~€104/kg
     highlight: false,
@@ -241,7 +240,6 @@ const MEMBERSHIPS = [
     name: 'Premium Patron',
     subtitle: '5 kg Raw Honey · Dedicated Named Hive · Private Visit',
     price: 340,
-    raisedPrice: 395,
     perKg: 68,
     retailJarValue: 520, // 5kg @ ~€104/kg
     highlight: true,
@@ -257,25 +255,17 @@ const MEMBERSHIPS = [
   },
 ];
 
-// ─── Urgency Bar ──────────────────────────────────────────────────────────────
-function UrgencyBar({ secondsLeft, priceRaised }: { secondsLeft: number; priceRaised: boolean }) {
+// ─── Minimal Luxury Heritage Header ──────────────────────────────────────────
+function ProvenanceBar() {
   const { language } = useLanguage();
   const isEl = language === 'el';
-  const mins = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
-  const secs = (secondsLeft % 60).toString().padStart(2, '0');
   return (
-    <div className="w-full bg-[#1A1208] text-pale-honey/70 border-b border-honey/10 py-2.5 px-6 flex items-center justify-center gap-4 text-[9px] font-bold uppercase tracking-[0.25em]">
-      {priceRaised ? (
-        <span className="text-honey">
-          {isEl ? 'Η διάθεση ιδρυτικών μελών έκλεισε. Ενεργές οι βασικές τιμές αναδόχων.' : 'Founding-member allocation is closed. Standard guardian rates now active.'}
-        </span>
-      ) : (
-        <>
-          <span>{isEl ? 'Κλειδωμένη τιμή ιδρυτικού μέλους για' : 'Founding-member rate locked for'}</span>
-          <span className="font-mono text-honey tracking-widest">{mins}:{secs}</span>
-          <span>· {isEl ? 'Την επόμενη σεζόν οι τιμές αυξάνονται' : 'Next season prices adjust upward'}</span>
-        </>
-      )}
+    <div className="w-full bg-[#1A1208] text-pale-honey/80 border-b border-honey/15 py-2 px-6 flex items-center justify-center gap-4 text-[9px] font-bold uppercase tracking-[0.3em]">
+      <span>{isEl ? 'Οικογενειακά Μελισσοκομεία Οικονομάκου' : 'Oikonomakos Family Apiaries'}</span>
+      <span className="text-honey/30">·</span>
+      <span>{isEl ? '100% Αγνό · Ανεπεξέργαστο · Αφιλτράριστο' : '100% Raw · Unfiltered · Single-Estate'}</span>
+      <span className="text-honey/30 hidden sm:inline">·</span>
+      <span className="hidden sm:inline">{isEl ? 'Μάνη & Σπάρτη, Λακωνία' : 'Mani & Sparta, Laconia'}</span>
     </div>
   );
 }
@@ -1009,17 +999,14 @@ function ValueComparisonSection() {
 // ─── Membership Card ──────────────────────────────────────────────────────────
 function MembershipCard({
   plan,
-  priceRaised,
   onSelect,
 }: {
   plan: typeof MEMBERSHIPS[0];
-  priceRaised: boolean;
   onSelect: (id: string) => void;
 }) {
   const { language } = useLanguage();
   const isEl = language === 'el';
-  const displayPrice = priceRaised ? plan.raisedPrice : plan.price;
-  const oldPrice     = priceRaised ? plan.price : null;
+  const displayPrice = plan.price;
 
   const planName = isEl ? (plan.id === 'starter' ? 'Βασική Αναδοχή' : 'Επίτιμος Προστάτης') : plan.name;
   const planSub = isEl
@@ -1066,7 +1053,6 @@ function MembershipCard({
         <div className="flex items-end gap-3">
           <div className="font-display text-6xl text-honey leading-none">€{displayPrice}</div>
           <div className="flex flex-col mb-1">
-            {oldPrice && <span className="text-sm line-through text-[#2A1B0A]/30">€{oldPrice}</span>}
             <span className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/40 font-bold">
               {isEl ? '/έτος' : '/year'}
             </span>
@@ -1131,17 +1117,15 @@ function MembershipCard({
 // ─── Membership Stripe Checkout Modal ─────────────────────────────────────────
 function MembershipCheckoutModal({
   planId,
-  priceRaised,
   onClose,
 }: {
   planId: string;
-  priceRaised: boolean;
   onClose: () => void;
 }) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const plan = MEMBERSHIPS.find(p => p.id === planId)!;
-  const displayPrice = priceRaised ? plan.raisedPrice : plan.price;
+  const displayPrice = plan.price;
   const priceId = plan.id === 'premium' ? PREMIUM_PRICE_ID : STARTER_PRICE_ID;
 
   const [hasOil, setHasOil] = useState(false);
@@ -1260,24 +1244,11 @@ export default function BuyHoney() {
   const { user } = useAuth();
   const { language, toggleLanguage, t } = useLanguage();
   const isEl = language === 'el';
-  const INITIAL_SECONDS = 10 * 60;
-  const [secondsLeft, setSecondsLeft] = useState(INITIAL_SECONDS);
-  const [priceRaised, setPriceRaised] = useState(false);
 
   // Modals state
   const [isConciergeOpen, setIsConciergeOpen] = useState(false);
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
   const [selectedJarPurchase, setSelectedJarPurchase] = useState<SelectedJarPurchase | null>(null);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSecondsLeft(s => {
-        if (s <= 1) { clearInterval(interval); setPriceRaised(true); return 0; }
-        return s - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleOpenJarPurchase = (jar: JarItem, option: JarOption) => {
     setSelectedJarPurchase({ jar, option, quantity: 1 });
@@ -1286,8 +1257,8 @@ export default function BuyHoney() {
   return (
     <div className="min-h-screen bg-hive-bg text-[#2A1B0A] font-body selection:bg-honey selection:text-[#2A1B0A]">
 
-      {/* Urgency Bar */}
-      <UrgencyBar secondsLeft={secondsLeft} priceRaised={priceRaised} />
+      {/* Provenance Header Bar */}
+      <ProvenanceBar />
 
       {/* Nav */}
       <header className="border-b border-honey/10 bg-hive-bg/90 backdrop-blur-md sticky top-0 z-50">
@@ -1451,16 +1422,9 @@ export default function BuyHoney() {
             </div>
           </div>
 
-          {!priceRaised && (
-            <p className="text-center text-[9px] uppercase tracking-[0.3em] font-bold text-[#2A1B0A]/40 mb-10">
-              {isEl ? 'Η τιμή ιδρυτικού μέλους λήγει σε ' : 'Founding-member rate expires in '}
-              <span className="font-mono text-honey">{String(Math.floor(secondsLeft / 60)).padStart(2, '0')}:{String(secondsLeft % 60).padStart(2, '0')}</span>
-            </p>
-          )}
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             {MEMBERSHIPS.map(plan => (
-              <MembershipCard key={plan.id} plan={plan} priceRaised={priceRaised} onSelect={setSelectedPlanId} />
+              <MembershipCard key={plan.id} plan={plan} onSelect={setSelectedPlanId} />
             ))}
           </div>
         </div>
@@ -1606,10 +1570,10 @@ export default function BuyHoney() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
-              onClick={() => setSelectedPlanId('premium')}
+              onClick={() => setSelectedPlanId('starter')}
               className="bg-honey text-[#2A1B0A] px-10 py-5 text-xs uppercase tracking-[0.2em] font-bold hover:bg-honey/90 transition-colors rounded-[2px] shadow-[0_0_30px_rgba(200,134,10,0.3)] flex items-center gap-3 active:scale-[0.98]"
             >
-              {isEl ? `Υιοθεσία Κυψέλης — από €${priceRaised ? 165 : 140}` : `Adopt a Hive — from €${priceRaised ? 165 : 140}`} <Zap size={14} />
+              {isEl ? 'Υιοθεσία Κυψέλης — από 140€' : 'Adopt a Hive — from €140'} <Zap size={14} />
             </button>
             <a
               href="#jars"
@@ -1646,7 +1610,6 @@ export default function BuyHoney() {
       {selectedPlanId && (
         <MembershipCheckoutModal
           planId={selectedPlanId}
-          priceRaised={priceRaised}
           onClose={() => setSelectedPlanId(null)}
         />
       )}
