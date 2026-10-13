@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Sparkles, Check, ArrowRight, RotateCcw, Compass, Award, Heart } from 'lucide-react';
+import { X, Sparkles, Check, ArrowRight, RotateCcw, Compass, Award, Heart, Eye, Flame, ShieldCheck, Thermometer } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../lib/useLanguage';
 
@@ -14,6 +14,7 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
 
   const [step, setStep] = useState<number>(1);
   const [flavorChoice, setFlavorChoice] = useState<string>('thyme');
+  const [sweetnessChoice, setSweetnessChoice] = useState<string>('balanced');
   const [usageChoice, setUsageChoice] = useState<string>('yogurt');
   const [formatChoice, setFormatChoice] = useState<string>('jar');
 
@@ -22,28 +23,35 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
   const resetQuiz = () => {
     setStep(1);
     setFlavorChoice('thyme');
+    setSweetnessChoice('balanced');
     setUsageChoice('yogurt');
     setFormatChoice('jar');
   };
 
-  // Determine Recommendation
+  // Determine Recommendation with 4 inputs
   const getRecommendation = () => {
-    if (formatChoice === 'membership' || flavorChoice === 'all') {
+    if (formatChoice === 'membership') {
       return {
-        title: isEl ? 'Αναδοχή Κυψέλης Starter (2,5 kg)' : 'Starter Guardianship (2.5 kg Reserve)',
-        subtitle: isEl ? 'Ετήσια σύνδεση με κυψέλη στη Μάνη · 3 εποχιακές αποστολές' : 'Living colony sponsorship · 3 seasonal harvest deliveries',
+        title: isEl ? 'Αναδοχή Κυψέλης Starter (2,5 kg Σοδειά)' : 'Starter Guardianship (2.5 kg Reserve)',
+        subtitle: isEl ? 'Ετήσια σύνδεση με επώνυμη κυψέλη στη Μάνη · 3 εποχιακές παραδόσεις' : 'Named living colony sponsorship · 3 seasonal harvest deliveries',
         price: '€140 / yr',
         pricePerKg: '€56 / kg',
         link: '/membership',
         buttonText: isEl ? 'Υιοθετήστε την Κυψέλη σας' : 'Claim Guardianship',
         image: '/raw_honey.png',
         matchScore: '99%',
+        sensoryProfile: {
+          intensity: 'High (8.5/10)',
+          sweetness: 'Moderate & Natural',
+          texture: 'Raw Crystalline / Raw Liquid',
+          aroma: 'Wild Thyme, Fir Pine & Mountain Flowers',
+        },
         reason: isEl
-          ? 'Επειδή εκτιμάτε την ποικιλία και θέλετε αυθεντικό, ανεπεξέργαστο μέλι καθ’ όλη τη διάρκεια της χρονιάς, η αναδοχή κυψέλης σάς προσφέρει άμεση σύνδεση με τον μελισσοκόμο Πέτρο και εξοικονόμηση πάνω από 50% σε σύγκριση με μεμονωμένα βάζα.'
-          : 'Because you value seasonal diversity and authentic provenance throughout the year, adopting a living colony connects you directly to Petros and delivers premium single-origin honey at over 50% savings compared to retail jars.',
+          ? 'Επειδή θέλετε την απόλυτη σχέση με την πηγή και εκτιμάτε τη μεταβολή της φύσης ανά εποχή, η αναδοχή κυψέλης σάς προσφέρει άμεση σύνδεση με τον μελισσοκόμο Πέτρο Οικονομάκο και εξοικονόμηση πάνω από 50% σε σύγκριση με τα μεμονωμένα βάζα.'
+          : 'Because you value intimate connection with the land and savor nature’s seasonal rhythms, adopting a living colony connects you directly to beekeeper Petros Oikonomakos and secures raw, unblended reserve honey at over 50% savings.',
         pairingTip: isEl
-          ? 'Συνοδεύει άριστα παραδοσιακό στραγγιστό γιαούρτι, παλαιωμένη γραβιέρα και πρωινές φρυγανιές.'
-          : 'Pairs exquisitely with Greek sheep yogurt, aged graviera, and fresh morning sourdough.',
+          ? 'Συνοδεύει άριστα παραδοσιακό στραγγιστό γιαούρτι, παλαιωμένη γραβιέρα και πρωινό προζυμένιο ψωμί.'
+          : 'Pairs exquisitely with strained Greek sheep yogurt, aged graviera cheese, and warm morning sourdough.',
       };
     }
 
@@ -56,17 +64,23 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
         link: '/buy-honey',
         buttonText: isEl ? 'Αποκτήστε το Συλλεκτικό Σετ' : 'Order Luxury Box Set',
         image: '/4jars.jpg',
-        matchScore: '97%',
+        matchScore: '98%',
+        sensoryProfile: {
+          intensity: 'Full Flight (Varied)',
+          sweetness: 'Low to Rich Spectrum',
+          texture: 'Trio Viscosity Flight',
+          aroma: 'Cedar, Wild Thyme, Orange Blossom',
+        },
         reason: isEl
           ? 'Η ιδανική γαστρονομική εμπειρία: απολαμβάνετε τα τρία πιο φημισμένα ελληνικά μέλια (Θυμάρι, Έλατο, Αγριολούλουδα) μαζί με το βραβευμένο ελαιόλαδο της οικογένειας Οικονομάκου.'
-          : 'The ultimate culinary gift: savor the top three Greek terroirs (Wild Thyme, Arcadian Fir, Wildflower) alongside the Oikonomakos family’s cold-pressed Extra Virgin Olive Oil.',
+          : 'The ultimate connoisseur flight: explore all 3 premier Greek terroirs (Wild Thyme, Arcadian Fir, Wildflower) alongside the Oikonomakos family’s single-estate Extra Virgin Olive Oil.',
         pairingTip: isEl
-          ? 'Ιδανικό για πλατό τυριών, γκουρμέ μαγειρική και δώρα υψηλού κύρους.'
-          : 'Ideal for charcuterie boards, gourmet pairings, and executive gifts.',
+          ? 'Ιδανικό για γκουρμέ πλατό τυριών, γαστρονομικά δώρα και επίσημα δείπνα.'
+          : 'Ideal for artisanal charcuterie boards, festive dinners, and distinguished luxury gifting.',
       };
     }
 
-    if (flavorChoice === 'fir') {
+    if (flavorChoice === 'fir' || sweetnessChoice === 'low') {
       return {
         title: isEl ? 'Μέλι Ελάτης Μαινάλου (Grand Cru)' : 'Black Fir Honey (Grand Cru)',
         subtitle: isEl ? 'Ορεινή Αρκαδία · Υψόμετρο 1.150μ · Δεν κρυσταλλώνει ποτέ' : 'Arcadian High Canopy · 1,150m · Never crystallizes',
@@ -75,17 +89,48 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
         link: '/buy-honey',
         buttonText: isEl ? 'Παραγγελία Μελιού Ελάτης' : 'Order Arcadian Fir',
         image: '/4jars.jpg',
-        matchScore: '98%',
+        matchScore: '99%',
+        sensoryProfile: {
+          intensity: 'Deep & Resinous (8/10)',
+          sweetness: 'Low Glucose (Gentle)',
+          texture: 'Super Dense, Caramel Viscosity',
+          aroma: 'Toasted Pine, Burnt Caramel, Wood Vanilla',
+        },
         reason: isEl
-          ? 'Η προτίμησή σας σε νότες καραμέλας, πεύκου και χαμηλής φυσικής γλυκύτητας ταιριάζει απόλυτα με το σπάνιο μέλι ελάτης. Έχει εξαιρετικά παχύρρευστη υφή και δεν κρυσταλλώνει ποτέ φυσικά.'
-          : 'Your preference for caramel, toasted pine notes, and low natural sweetness points to rare Arcadian Fir. Exceptionally thick, rich in minerals, and naturally non-crystallizing.',
+          ? 'Η προτίμησή σας σε χαμηλότερη φυσική γλυκύτητα και καραμελένιες νότες ξύλου ταιριάζει απόλυτα με το σπάνιο μέλι ελάτης. Χάρη στη χαμηλή περιεκτικότητα σε γλυκόζη, παραμένει παχύρρευστο και δεν κρυσταλλώνει ποτέ.'
+          : 'Your preference for low natural sweetness and toasty cedar/caramel notes makes Arcadian Fir your ideal match. Extremely high mineral density with very low glucose means it never crystallizes.',
         pairingTip: isEl
-          ? 'Δοκιμάστε το με καρύδια, μαύρο ψωμί σίκαλης ή κατευθείαν με το κουτάλι.'
-          : 'Try it with toasted walnuts, dark rye bread, or directly from the spoon.',
+          ? 'Δοκιμάστε το με καρύδια, μαύρο ψωμί σίκαλης ή κατευθείαν με το κουτάλι ως καθημερινό ελιξίριο.'
+          : 'Try it with toasted walnuts, dark rye sourdough, or savor unadulterated from an olive wood spoon.',
       };
     }
 
-    if (flavorChoice === 'flower') {
+    if (flavorChoice === 'pine' || sweetnessChoice === 'malt') {
+      return {
+        title: isEl ? 'Ορεινό Πευκόμελο (Marchalina Honeydew)' : 'Highland Pine Honey (Marchalina)',
+        subtitle: isEl ? 'Εύβοια · 680μ Υψόμετρο · Πλούσιο σε Ιχνοστοιχεία' : 'Evia Mountain Conifer Forest · 680m · Rich in Minerals',
+        price: '€52 (500g) / €88 (1kg)',
+        pricePerKg: '€104 / kg',
+        link: '/buy-honey',
+        buttonText: isEl ? 'Παραγγελία Πευκόμελου' : 'Order Pine Honey',
+        image: '/4jars.jpg',
+        matchScore: '97%',
+        sensoryProfile: {
+          intensity: 'Malted & Earthy (7.5/10)',
+          sweetness: 'Balanced Savory-Sweet',
+          texture: 'Velvety Amber Viscosity',
+          aroma: 'Warm Pine Bark & Malted Grain',
+        },
+        reason: isEl
+          ? 'Αναζητάτε ισορροπία, βαθιά γεύση βύνης και χαμηλή επιθετική γλύκα. Το πευκόμελο προσφέρει υψηλή συγκέντρωση μαγνησίου, σιδήρου και καλίου, ιδανικό για αθλητές και καθημερινή ευεξία.'
+          : 'You seek malted depth and earthy balance rather than pure floral sweetness. Highland Pine is rich in natural bio-minerals, potassium, and magnesium, making it an invigorating morning tonic.',
+        pairingTip: isEl
+          ? 'Ταιριάζει καταπληκτικά σε ζεστό μαύρο τσάι, καπνιστά τυριά και φρυγανισμένο ψωμί με βούτυρο.'
+          : 'Superb in hot black tea, paired with pecorino cheeses, or atop buttered rustic toast.',
+      };
+    }
+
+    if (flavorChoice === 'flower' || sweetnessChoice === 'gentle') {
       return {
         title: isEl ? 'Αγριολούλουδα Ταϋγέτου & Βανίλια' : 'Taygetos Wildflower & Vanilla Cream',
         subtitle: isEl ? 'Πρόποδες Σπάρτης · Υψόμετρο 310μ · Πρώιμη ανοιξιάτικη ανθοφορία' : 'Spartan Foothills · 310m Elevation · Early Spring Multi-Floral',
@@ -95,16 +140,22 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
         buttonText: isEl ? 'Παραγγελία Ανθόμελου' : 'Order Wildflower Jar',
         image: '/raw_honey.png',
         matchScore: '96%',
+        sensoryProfile: {
+          intensity: 'Delicate & Bright (6/10)',
+          sweetness: 'Soft Vanilla Floral',
+          texture: 'Silky Creamy Spread',
+          aroma: 'Spring Petals, Lemon Blossom & Honeycomb',
+        },
         reason: isEl
-          ? 'Απαλό, αρωματικό και κρεμώδες. Συλλέγεται από τα πρώτα αγριολούλουδα της κοιλάδας της Σπάρτης την άνοιξη, προσφέροντας ντελικάτη γλύκα και αναζωογονητική ενέργεια.'
-          : 'Delicate, floral, and creamy. Harvested from early spring blossoms across the Spartan plains, offering gentle natural sweetness and bright morning vitality.',
+          ? 'Ντελικάτο, αρωματικό και απαλό. Συλλέγεται από τα πρώτα αγριολούλουδα της κοιλάδας της Σπάρτης και προσφέρει μια φωτεινή, κρεμώδη γλυκύτητα που αγκαλιάζει τον ουρανίσκο χωρίς ίχνος πικρίδας.'
+          : 'Delicate, bright, and silky. Extracted during early spring across the Spartan orange and floral groves, offering gentle perfume and soothing natural energy without heavy resins.',
         pairingTip: isEl
-          ? 'Εξαιρετικό σε αφεψήματα χαμομηλιού, φρέσκα λευκά τυριά και φρούτα εποχής.'
-          : 'Sublime over fresh ricotta, white peaches, and herbal morning infusions.',
+          ? 'Εξαιρετικό σε αφεψήματα χαμομηλιού, φρέσκια ανθότυρο ή ρικότα και φρέσκα φρούτα εποχής.'
+          : 'Sublime over fresh ricotta, white peaches, and soothing herbal chamomile infusions.',
       };
     }
 
-    // Default: Thyme & Sage
+    // Default: Thyme & Sage (The Iconic Mani Terroir)
     return {
       title: isEl ? 'Άγριο Θυμάρι & Φασκόμηλο Μάνης' : 'Mani Wild Thyme & Mountain Sage',
       subtitle: isEl ? 'Λάγια Μάνης · Ακρωτήριο Ταίναρο · 84% Θυμάρι' : 'Lagia, Cape Tenaro, Mani · 84% Wild Thyme Dominance',
@@ -114,12 +165,18 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
       buttonText: isEl ? 'Παραγγελία Θυμαρίσιου' : 'Order Wild Thyme Jar',
       image: '/raw_honey.png',
       matchScore: '99%',
+      sensoryProfile: {
+        intensity: 'Pungent & Robust (9.5/10)',
+        sweetness: 'Intense Herbal Warmth',
+        texture: 'Rich Amber Honeycomb Run',
+        aroma: 'Sun-baked Thyme, Crushed Sage & Coastal Salt',
+      },
       reason: isEl
-          ? 'Το κορυφαίο ελληνικό μέλι: έντονο άρωμα, κεχριμπαρένιο χρώμα και υψηλή περιεκτικότητα σε γύρη από τα βραχώδη εδάφη της Μάνης. Ανεπεξέργαστο και πλούσιο σε ένζυμα.'
-          : 'The undisputed king of Greek honey: intense herbal bouquet, deep amber hue, and potent bio-active enzymes drawn from coastal thyme baked by the Laconian sun.',
+        ? 'Ο αδιαμφισβήτητος βασιλιάς του ελληνικού μελιού: έντονο άρωμα, κεχριμπαρένιο χρώμα και υψηλή πυκνότητα γύρης από τα βραχώδη εδάφη της Μάνης. Ανεπεξέργαστο, γεμάτο αντιοξειδωτικά και ένζυμα.'
+        : 'The undisputed monarch of Greek honey: fierce herbal bouquet, copper-amber translucence, and unmatched pollen density from thyme baked by the southern sun at Europe’s tip.',
       pairingTip: isEl
-          ? 'Κλασικός συνδυασμός με γιαούρτι, παλαιωμένα τυριά και ζεστό προζυμένιο ψωμί.'
-          : 'The timeless pairing with strained Greek yogurt, aged graviera, and crusty sourdough.',
+        ? 'Κλασικός, απαράμιλλος συνδυασμός με παραδοσιακό στραγγιστό γιαούρτι και καρύδια ή παλαιωμένα κατσικίσια τυριά.'
+        : 'The definitive Greek ritual: drizzled over thick sheep yogurt with crushed walnuts or aged graviera.',
     };
   };
 
@@ -138,9 +195,9 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
         {/* Header & Progress Bar */}
         <div className="border-b border-honey/20 pb-5">
           <div className="flex items-center justify-between mb-4">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-honey font-bold flex items-center gap-2">
+            <div className="text-[10px] uppercase tracking-[0.3em] text-[#9E6000] font-bold flex items-center gap-2">
               <Compass size={14} className="text-honey" />
-              <span>{isEl ? 'Προσωπικός Επιλογέας Μελιού' : 'The Honey Concierge'}</span>
+              <span>{isEl ? 'Προσωπικός Επιλογέας Μελιού Sommelier' : 'The Honey Concierge Sommelier'}</span>
             </div>
             <button 
               onClick={onClose} 
@@ -153,22 +210,40 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
 
           <div className="flex items-center justify-between">
             <h3 className="font-display text-2xl sm:text-3xl text-[#2A1B0A]">
-              {step <= 3
-                ? (isEl ? `Βήμα ${step} από 3: ${step === 1 ? 'Αρωματικό Προφίλ' : step === 2 ? 'Τρόπος Απόλαυσης' : 'Επιλογή Συσκευασίας'}` : `Step ${step} of 3: ${step === 1 ? 'Palate Profile' : step === 2 ? 'Daily Ritual' : 'Allocation Format'}`)
+              {step <= 4
+                ? (isEl
+                    ? `Βήμα ${step} από 4: ${
+                        step === 1
+                          ? 'Αρωματικό Προφίλ'
+                          : step === 2
+                          ? 'Επίπεδο Γλυκύτητας & Υφή'
+                          : step === 3
+                          ? 'Τρόπος Απόλαυσης'
+                          : 'Επιλογή Συσκευασίας'
+                      }`
+                    : `Step ${step} of 4: ${
+                        step === 1
+                          ? 'Botanical Terroir'
+                          : step === 2
+                          ? 'Sweetness & Viscosity'
+                          : step === 3
+                          ? 'Daily Ritual'
+                          : 'Format & Allocation'
+                      }`)
                 : (isEl ? 'Το Ιδανικό σας Μέλι' : 'Your Mountain Terroir Match')}
             </h3>
-            {step <= 3 && (
-              <div className="text-[10px] uppercase font-mono font-bold tracking-widest text-honey">
-                {Math.round((step / 3) * 100)}%
+            {step <= 4 && (
+              <div className="text-[10px] uppercase font-mono font-bold tracking-widest text-[#9E6000]">
+                {Math.round((step / 4) * 100)}%
               </div>
             )}
           </div>
 
-          {step <= 3 && (
+          {step <= 4 && (
             <div className="w-full h-1 bg-honey/15 rounded-full mt-3 overflow-hidden">
               <div 
                 className="h-full bg-honey transition-all duration-500 ease-out rounded-full"
-                style={{ width: `${(step / 3) * 100}%` }}
+                style={{ width: `${(step / 4) * 100}%` }}
               />
             </div>
           )}
@@ -179,35 +254,35 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
           <div className="space-y-6">
             <p className="text-sm sm:text-base text-[#2A1B0A]/80 font-serif italic">
               {isEl
-                ? 'Ποιο αρωματικό και γευστικό προφίλ ταιριάζει περισσότερο στον ουρανίσκο σας;'
-                : 'Which aromatic and sensory profile best resonates with your palate?'}
+                ? 'Ποιο αρωματικό και βοτανικό προφίλ ταιριάζει περισσότερο στον ουρανίσκο σας;'
+                : 'Which botanical and aromatic terroir speaks directly to your senses?'}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               {[
                 {
                   id: 'thyme',
-                  badge: 'Mani Thyme',
+                  badge: 'Mani Coastal Cliffs',
                   title: isEl ? 'Έντονο Άγριο Θυμάρι & Βότανα' : 'Intense Wild Thyme & Herbs',
-                  desc: isEl ? 'Πικάντικο, κεχριμπαρένιο, γεμάτο αρώματα της άγριας Μάνης.' : 'Pungent, amber, high pollen density, resinous sharp finish.',
+                  desc: isEl ? 'Πικάντικο, κεχριμπαρένιο, γεμάτο αρώματα της άγριας Μάνης.' : 'Pungent, amber, high pollen density, resinous herbal finish.',
                 },
                 {
                   id: 'fir',
-                  badge: 'Arcadian Fir',
-                  title: isEl ? 'Καραμέλα, Πεύκο & Βανίλια Ελάτης' : 'Caramel, Pine & Fir Vanilla',
-                  desc: isEl ? 'Παχύρρευστο, χαμηλή γλυκύτητα, δεν κρυσταλλώνει ποτέ.' : 'Ultra-thick viscosity, low glucose, never crystallizes.',
+                  badge: 'Arcadian Highlands',
+                  title: isEl ? 'Καραμέλα & Βανίλια Μαύρης Ελάτης' : 'Caramel & Black Fir Vanilla',
+                  desc: isEl ? 'Παχύρρευστο, χαμηλή γλυκύτητα, δεν κρυσταλλώνει ποτέ.' : 'Ultra-thick viscosity, low glucose, toasted pine finish.',
+                },
+                {
+                  id: 'pine',
+                  badge: 'Evia Conifers',
+                  title: isEl ? 'Γήινη Βύνη & Ορεινό Πεύκο' : 'Malted Pine & Forest Minerals',
+                  desc: isEl ? 'Πλούσιο σε μέταλλα, ισορροπημένο, ευγενικό με το στομάχι.' : 'Mineral-dense Marchalina honeydew with warm malted notes.',
                 },
                 {
                   id: 'flower',
-                  badge: 'Spring Bloom',
+                  badge: 'Spartan Valley Bloom',
                   title: isEl ? 'Απαλά Αγριολούλουδα & Ανθός' : 'Gentle Wildflower & Blossom',
                   desc: isEl ? 'Απαλή ντελικάτη γλύκα με κρεμώδεις ανθικές νότες.' : 'Delicate floral perfume with creamy vanilla sweetness.',
-                },
-                {
-                  id: 'all',
-                  badge: 'Seasonal Flight',
-                  title: isEl ? 'Θέλω Όλες τις Εποχιακές Σοδειές' : 'I Love Seasonal Variety',
-                  desc: isEl ? 'Εξερεύνηση διαφορετικών ποικιλιών καθ’ όλη τη χρονιά.' : 'Receive all seasonal harvest extractions as the year unfolds.',
                 },
               ].map(opt => (
                 <button
@@ -237,8 +312,77 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
           </div>
         )}
 
-        {/* ── QUESTION 2: USAGE & OCCASION ── */}
+        {/* ── QUESTION 2: SWEETNESS & VISCOSITY ── */}
         {step === 2 && (
+          <div className="space-y-6">
+            <p className="text-sm sm:text-base text-[#2A1B0A]/80 font-serif italic">
+              {isEl
+                ? 'Πώς προτιμάτε την ένταση της γλυκύτητας και την υφή του μελιού σας;'
+                : 'What sweetness intensity and honey viscosity do you naturally prefer?'}
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              {[
+                {
+                  id: 'low',
+                  badge: 'Low Sugar Profile',
+                  title: isEl ? 'Χαμηλή Γλυκύτητα / Παχύρρευστο' : 'Low Sweetness / Ultra Dense',
+                  desc: isEl ? 'Προτιμώ γήινες, καραμελένιες νότες χωρίς υπερβολική ζάχαρη.' : 'Toasted cedar notes, heavy viscosity, low glycemic spike.',
+                },
+                {
+                  id: 'balanced',
+                  badge: 'Classic Pungent',
+                  title: isEl ? 'Έντονο & Πικάντικο' : 'Pungent & Herbal Warmth',
+                  desc: isEl ? 'Πλούσια παραδοσιακή γεύση με βοτανικό κάψιμο στο λαιμό.' : 'Bold warmth, high pollen density, deep golden glow.',
+                },
+                {
+                  id: 'gentle',
+                  badge: 'Soft Floral',
+                  title: isEl ? 'Απαλό & Ντελικάτο' : 'Delicate, Floral & Velvety',
+                  desc: isEl ? 'Ελαφριά γλύκα που δεν καλύπτει τις λεπτές γεύσεις.' : 'Smooth melting sweetness, bright and refreshing finish.',
+                },
+                {
+                  id: 'malt',
+                  badge: 'Earthy Mineral',
+                  title: isEl ? 'Μαλτέζικο & Ισορροπημένο' : 'Malted & Savory-Sweet',
+                  desc: isEl ? 'Ιδανικό για όσους δεν αγαπούν τα πολύ γλυκά μέλια.' : 'Rich tree honeydew with low fructose and herbal balance.',
+                },
+              ].map(opt => (
+                <button
+                  key={opt.id}
+                  onClick={() => setSweetnessChoice(opt.id)}
+                  className={`text-left p-4 rounded-[3px] border transition-all ${
+                    sweetnessChoice === opt.id
+                      ? 'bg-honey/15 border-honey text-[#2A1B0A] shadow-md ring-1 ring-honey/40'
+                      : 'bg-white/80 border-[#C8860A]/20 text-[#2A1B0A]/80 hover:border-honey hover:bg-[#FEF7E6]'
+                  }`}
+                >
+                  <div className="text-[9px] uppercase tracking-widest text-[#9E6000] font-bold mb-1">{opt.badge}</div>
+                  <div className="font-bold text-sm text-[#2A1B0A] mb-1 font-serif">{opt.title}</div>
+                  <div className="text-xs text-[#2A1B0A]/70 leading-relaxed font-sans">{opt.desc}</div>
+                </button>
+              ))}
+            </div>
+
+            <div className="flex justify-between items-center pt-4 border-t border-[#C8860A]/15">
+              <button
+                onClick={() => setStep(1)}
+                className="px-4 py-2 border border-[#C8860A]/30 text-[#2A1B0A]/70 hover:text-[#2A1B0A] text-xs uppercase tracking-widest font-bold rounded-[3px] transition-colors"
+              >
+                {isEl ? 'Πίσω' : 'Back'}
+              </button>
+              <button
+                onClick={() => setStep(3)}
+                className="px-6 py-2.5 bg-honey text-[#2A1B0A] hover:bg-honey/90 text-xs uppercase tracking-widest font-bold rounded-[3px] flex items-center gap-2 shadow-sm transition-all"
+              >
+                {isEl ? 'Επόμενο' : 'Next Question'} <ArrowRight size={14} />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ── QUESTION 3: USAGE & OCCASION ── */}
+        {step === 3 && (
           <div className="space-y-6">
             <p className="text-sm sm:text-base text-[#2A1B0A]/80 font-serif italic">
               {isEl
@@ -291,13 +435,13 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
 
             <div className="flex justify-between items-center pt-4 border-t border-[#C8860A]/15">
               <button
-                onClick={() => setStep(1)}
+                onClick={() => setStep(2)}
                 className="px-4 py-2 border border-[#C8860A]/30 text-[#2A1B0A]/70 hover:text-[#2A1B0A] text-xs uppercase tracking-widest font-bold rounded-[3px] transition-colors"
               >
                 {isEl ? 'Πίσω' : 'Back'}
               </button>
               <button
-                onClick={() => setStep(3)}
+                onClick={() => setStep(4)}
                 className="px-6 py-2.5 bg-honey text-[#2A1B0A] hover:bg-honey/90 text-xs uppercase tracking-widest font-bold rounded-[3px] flex items-center gap-2 shadow-sm transition-all"
               >
                 {isEl ? 'Επόμενο' : 'Next Question'} <ArrowRight size={14} />
@@ -306,8 +450,8 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
           </div>
         )}
 
-        {/* ── QUESTION 3: FORMAT ── */}
-        {step === 3 && (
+        {/* ── QUESTION 4: FORMAT & ALLOCATION ── */}
+        {step === 4 && (
           <div className="space-y-6">
             <p className="text-sm sm:text-base text-[#2A1B0A]/80 font-serif italic">
               {isEl
@@ -325,13 +469,13 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
                 },
                 {
                   id: 'membership',
-                  badge: 'Hive Adoption',
+                  badge: 'Best Value',
                   title: isEl ? 'Ετήσια Αναδοχή Κυψέλης' : 'Annual Hive Guardianship',
                   desc: isEl ? 'Σύνδεση με κυψέλη, ζωντανό ημερολόγιο, 3 εποχιακές παραδόσεις.' : 'Adopt a living colony, get IoT updates & 3 seasonal harvests.',
                 },
                 {
                   id: 'hamper',
-                  badge: 'Luxury Gift Hamper',
+                  badge: 'Luxury Gift Set',
                   title: isEl ? 'Σετ Δώρου με Ελαιόλαδο' : 'Tasting Trio & Olive Oil',
                   desc: isEl ? '3 ποικιλίες μελιού + έξτρα παρθένο ελαιόλαδο σε ξύλινο κουτί.' : '3x raw honeys + single-estate olive oil in wooden presentation box.',
                 },
@@ -354,13 +498,13 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
 
             <div className="flex justify-between items-center pt-4 border-t border-[#C8860A]/15">
               <button
-                onClick={() => setStep(2)}
+                onClick={() => setStep(3)}
                 className="px-4 py-2 border border-[#C8860A]/30 text-[#2A1B0A]/70 hover:text-[#2A1B0A] text-xs uppercase tracking-widest font-bold rounded-[3px] transition-colors"
               >
                 {isEl ? 'Πίσω' : 'Back'}
               </button>
               <button
-                onClick={() => setStep(4)}
+                onClick={() => setStep(5)}
                 className="px-6 py-2.5 bg-honey text-[#2A1B0A] hover:bg-honey/90 text-xs uppercase tracking-widest font-bold rounded-[3px] flex items-center gap-2 shadow-sm transition-all"
               >
                 {isEl ? 'Δείτε το Αποτέλεσμα' : 'Reveal My Match'} <Sparkles size={14} />
@@ -369,8 +513,8 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
           </div>
         )}
 
-        {/* ── STEP 4: RECOMMENDATION RESULT ── */}
-        {step === 4 && (
+        {/* ── STEP 5: RECOMMENDATION RESULT ── */}
+        {step === 5 && (
           <div className="space-y-6 animate-in fade-in zoom-in-95 duration-200">
             {/* Match Card */}
             <div className="bg-[#FEF7E6] border-2 border-honey/40 p-6 sm:p-8 rounded-[4px] space-y-5 relative overflow-hidden shadow-sm">
@@ -388,6 +532,38 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
                   <div className="text-[10px] text-[#2A1B0A]/60 font-mono">{recommendation.pricePerKg}</div>
                 </div>
               </div>
+
+              {/* Sensory Radar Breakdown */}
+              {recommendation.sensoryProfile && (
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 p-3.5 bg-white/70 rounded border border-[#C8860A]/20 text-[11px]">
+                  <div>
+                    <span className="text-[#9E6000] font-bold block uppercase tracking-wider text-[9px]">
+                      {isEl ? 'Ένταση' : 'Intensity'}
+                    </span>
+                    <span className="text-[#2A1B0A] font-medium">{recommendation.sensoryProfile.intensity}</span>
+                  </div>
+                  <div>
+                    <span className="text-[#9E6000] font-bold block uppercase tracking-wider text-[9px]">
+                      {isEl ? 'Γλυκύτητα' : 'Sweetness'}
+                    </span>
+                    <span className="text-[#2A1B0A] font-medium">{recommendation.sensoryProfile.sweetness}</span>
+                  </div>
+                  <div>
+                    <span className="text-[#9E6000] font-bold block uppercase tracking-wider text-[9px]">
+                      {isEl ? 'Υφή' : 'Texture'}
+                    </span>
+                    <span className="text-[#2A1B0A] font-medium">{recommendation.sensoryProfile.texture}</span>
+                  </div>
+                  <div>
+                    <span className="text-[#9E6000] font-bold block uppercase tracking-wider text-[9px]">
+                      {isEl ? 'Αρώματα' : 'Key Notes'}
+                    </span>
+                    <span className="text-[#2A1B0A] font-medium truncate block" title={recommendation.sensoryProfile.aroma}>
+                      {recommendation.sensoryProfile.aroma}
+                    </span>
+                  </div>
+                </div>
+              )}
 
               {/* Rationale */}
               <div className="text-sm text-[#2A1B0A]/85 leading-relaxed font-sans">

@@ -480,13 +480,42 @@ const DashboardPreview = () => {
             ))}
           </div>
           
-          {/* Footer */}
-          <div className="flex justify-between items-center pt-2">
-            <div className="text-[11px] text-[#2A1B0A]/80">
+          {/* Footer & Live Colony Hum Quirky Easter Egg */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-3 border-t border-honey/10">
+            <div className="text-[11px] text-[#2A1B0A]/80 font-medium">
               {isEl ? 'Εκτιμώμενος τρύγος: 14 Ιουλίου' : 'Next harvest est. 14 Jul'}
             </div>
-            <div className="text-[10px] uppercase tracking-widest text-green-600 font-bold border border-green-600/20 px-2 py-1 bg-green-50 rounded-[2px]">
-              {isEl ? 'Άνθιση θυμαριού ενεργή' : 'Thyme flow active'}
+            
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  try {
+                    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    // Warm bee hum ~ 190 Hz with vibrato
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(190, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.015, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.8);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 1.8);
+                  } catch (e) {
+                    console.log('AudioContext not permitted yet');
+                  }
+                }}
+                className="text-[9px] uppercase tracking-wider text-honey font-bold border border-honey/30 px-2 py-1 bg-honey/10 hover:bg-honey hover:text-[#2A1B0A] transition-all rounded-[2px] flex items-center gap-1 cursor-pointer"
+                title={isEl ? 'Ακούστε τον ήχο της κυψέλης (190Hz)' : 'Listen to hive acoustics (190Hz)'}
+              >
+                <span>🔊</span> {isEl ? 'Ήχος Κυψέλης' : 'Colony Hum'}
+              </button>
+
+              <div className="text-[10px] uppercase tracking-widest text-green-700 font-bold border border-green-600/30 px-2 py-1 bg-green-500/10 rounded-[2px]">
+                {isEl ? 'Άνθιση θυμαριού ενεργή' : 'Thyme flow active'}
+              </div>
             </div>
           </div>
         </div>

@@ -441,19 +441,27 @@ function JarCard({
           {displayCharacter}
         </p>
 
-        {/* Culinary Pairing Toggle */}
-        <div>
-          <button
-            type="button"
-            onClick={() => setShowPairing(!showPairing)}
-            className="flex items-center gap-1.5 text-[9px] uppercase tracking-widest font-bold text-honey hover:text-[#2A1B0A] transition-colors"
-          >
-            <Utensils size={10} /> {showPairing ? (isEl ? 'Απόκρυψη Συνδυασμού' : 'Hide Pairing') : (isEl ? 'Οδηγός Γαστρονομίας' : 'Culinary Pairing Guide')}
-          </button>
+        {/* Culinary Pairing & Spoon Ritual Toggle */}
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => setShowPairing(!showPairing)}
+              className="flex items-center gap-1.5 text-[9px] uppercase tracking-widest font-bold text-honey hover:text-[#2A1B0A] transition-colors"
+            >
+              <Utensils size={10} /> {showPairing ? (isEl ? 'Απόκρυψη' : 'Hide') : (isEl ? 'Γαστρονομία & Συνδυασμός' : 'Culinary Pairing Guide')}
+            </button>
+            <span className="text-[9px] text-[#2A1B0A]/40 font-mono italic">
+              {isEl ? '100% Ανεπεξέργαστο' : '100% Raw Bioactive'}
+            </span>
+          </div>
           {showPairing && (
-            <div className="mt-2 p-3 bg-hive-bg border border-honey/20 rounded-sm text-xs space-y-1 animate-in fade-in duration-200">
+            <div className="mt-2 p-3 bg-hive-bg border border-honey/20 rounded-sm text-xs space-y-1.5 animate-in fade-in duration-200">
               <div className="font-bold text-[#2A1B0A]">{displayPairing.dish}</div>
               <p className="text-[11px] text-[#2A1B0A]/70 leading-normal font-light">{displayPairing.note}</p>
+              <div className="text-[9px] text-honey font-mono pt-1 border-t border-honey/15">
+                🥄 {isEl ? 'Συμβουλή Πέτρου: Χρησιμοποιείτε πάντα ξύλινο ή κεραμικό κουτάλι για προστασία των ενζύμων.' : 'Petros’ tip: Always use an olive wood or ceramic spoon to preserve living enzymes.'}
+              </div>
             </div>
           )}
         </div>
