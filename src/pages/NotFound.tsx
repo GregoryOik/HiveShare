@@ -77,23 +77,17 @@ export default function NotFound() {
           </p>
         </div>
 
-        {/* Secret Easter Egg Reveal */}
+        {/* Secret Beekeeper Note Reveal */}
         {discoveredNectar && (
-          <div className="p-4 bg-[#FEF7E6] border-2 border-honey/50 rounded-[4px] text-left space-y-2 animate-in fade-in slide-in-from-top-4 duration-300 shadow-sm">
+          <div className="p-4 bg-[#FEF7E6] border border-honey/40 rounded-[3px] text-left space-y-2 animate-in fade-in slide-in-from-top-4 duration-300 shadow-sm">
             <div className="flex items-center gap-2 text-honey font-bold text-xs uppercase tracking-wider">
-              <Sparkles size={15} />
-              <span>{isEl ? 'Μυστικό Εύρημα: Κωδικός Νέκταρ!' : 'Secret Discovery: Nectar Code!'}</span>
+              <Sparkles size={14} />
+              <span>{isEl ? 'Μυστική Σημείωση του Πέτρου:' : 'Petros’ Hidden Apiary Note:'}</span>
             </div>
-            <p className="text-xs text-[#2A1B0A]/85 leading-relaxed font-sans">
+            <p className="text-xs text-[#2A1B0A]/85 leading-relaxed font-serif italic">
               {isEl
-                ? 'Συγχαρητήρια για τον επίμονο χορό! Χρησιμοποιήστε τον κωδικό '
-                : 'Congratulations on doing the waggle dance! Use promo code '}
-              <span className="font-mono font-bold text-[#9E6000] bg-honey/20 px-1.5 py-0.5 rounded border border-honey/30">
-                WAGGLE10
-              </span>
-              {isEl
-                ? ' για 10% έκπτωση στην πρώτη σας αγορά μελιού ή αναδοχής.'
-                : ' for 10% off your direct jar purchase or guardianship.'}
+                ? '«Όταν μια αποικία σμηνουργεί, ακολουθεί πάντα την πιο γερή βασίλισσα στον πιο ψηλό κέδρο. Έτσι γεννιούνται τα πιο αγνά μελισσοκομεία.»'
+                : '“When a colony swarms, they always follow the strongest queen to the highest cedar tree. That is how the purest new apiaries are born.”'}
             </p>
           </div>
         )}

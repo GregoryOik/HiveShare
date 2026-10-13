@@ -1002,12 +1002,12 @@ const FinalCTA = () => {
       
       <div className="max-w-2xl mx-auto text-center relative z-10">
         <h2 className="font-display text-5xl font-light mb-6 text-[#2A1B0A]">
-          {isEl ? 'Γίνετε από τους πρώτους που αποκτούν Ελληνική Κυψέλη' : 'Be first to own a Greek beehive'}
+          {isEl ? 'Συνδεθείτε με την Πηγή του Ελληνικού Μελιού' : 'Connect Directly with Greek Apiary Heritage'}
         </h2>
         <p className="text-[#2A1B0A]/90 text-base mb-12 font-medium">
           {isEl
-            ? 'Τα ιδρυτικά μέλη εξασφαλίζουν προνομιακή πρόσβαση, κλειδωμένη τιμή και επώνυμη κυψέλη στην πρώτη παρτίδα 50 μονάδων.'
-            : 'Founding members get early access, locked pricing, and a named hive in our first batch of 50.'}
+            ? 'Επικοινωνήστε μαζί μας για εξατομικευμένη αναδοχή κυψέλης, ιδιωτικές επισκέψεις στα μελισσοκομεία μας στη Μάνη ή εξειδικευμένες εταιρικές αποστολές.'
+            : 'Get in touch for bespoke hive guardianship inquiries, private visits to our Mani apiaries, or distinguished corporate gifting.'}
         </p>
         
         <div className="mb-16 max-w-md mx-auto text-left">
@@ -1044,22 +1044,22 @@ const FinalCTA = () => {
                 className="w-full bg-transparent border border-honey/40 px-4 py-3 text-sm focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/60 text-[#2A1B0A] resize-none font-medium"
               ></textarea>
               <button type="submit" className="bg-honey text-[#2A1B0A] px-8 py-3 text-sm font-medium hover:bg-honey/90 transition-colors rounded-[2px] active:scale-95 w-full">
-                {isEl ? "Αποστολή Αιτήματος" : "Send Request"}
+                {isEl ? "Αποστολή Μηνύματος" : "Send Inquiry"}
               </button>
             </form>
           ) : (
             <div className="py-3 text-sm italic text-pale-honey animate-fade-in text-center">
-              {isEl ? "Σας ευχαριστούμε. Λάβαμε το αίτημά σας." : "Thank you. We have received your message."}
+              {isEl ? "Σας ευχαριστούμε. Θα επικοινωνήσουμε άμεσα μαζί σας." : "Thank you. Our family team will be in touch shortly."}
             </div>
           )}
         </div>
         
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-[10px] uppercase tracking-widest text-[#2A1B0A]/80 font-bold">
-          <div>{isEl ? 'Δεν απαιτείται πληρωμή τώρα' : 'No payment required now'}</div>
+          <div>{isEl ? '100% Αγνό Ανεπεξέργαστο Μέλι' : '100% Raw Unheated Honey'}</div>
           <div className="hidden md:block w-[1px] h-3 bg-honey/50"></div>
-          <div>{isEl ? 'Κλειδωμένη τιμή ιδρυτικού μέλους' : 'Founding member pricing locked'}</div>
+          <div>{isEl ? 'Πιστοποίηση Eurofins' : 'Eurofins Lab Certified'}</div>
           <div className="hidden md:block w-[1px] h-3 bg-honey/50"></div>
-          <div>{isEl ? 'Ακύρωση οποτεδήποτε' : 'Cancel anytime'}</div>
+          <div>{isEl ? 'Απευθείας από τον Μελισσοκόμο' : 'Direct From Petros'}</div>
         </div>
       </div>
     </section>
