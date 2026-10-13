@@ -187,7 +187,7 @@ export default function Login() {
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Full Name"
-                    className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
+                    className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
                     required={mode === 'signup'}
                   />
                 </div>
@@ -199,7 +199,7 @@ export default function Login() {
                       value={shippingAddress}
                       onChange={(e) => setShippingAddress(e.target.value)}
                       placeholder="Street & City"
-                      className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
+                      className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
                       required={mode === 'signup'}
                     />
                   </div>
@@ -208,7 +208,7 @@ export default function Login() {
                     <select
                       value={country}
                       onChange={(e) => setCountry(e.target.value)}
-                      className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] appearance-none"
+                      className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] appearance-none"
                     >
                       {['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden'].map(c => (
                         <option key={c} value={c}>{c}</option>
@@ -229,7 +229,7 @@ export default function Login() {
                       setIsZipValid(val.length >= 3);
                     }}
                     placeholder="Postcode / ZIP"
-                    className={`w-full bg-hive-bg border pl-10 pr-12 py-3.5 text-sm text-[#2A1B0A] focus:outline-none transition-all rounded-[2px] placeholder:text-[#2A1B0A]/20 ${
+                    className={`w-full bg-hive-bg border pl-10 pr-12 py-3.5 text-base sm:text-sm text-[#2A1B0A] focus:outline-none transition-all rounded-[2px] placeholder:text-[#2A1B0A]/20 ${
                       isZipValid === true ? 'border-green-500/50 bg-green-500/[0.02]' : 
                       isZipValid === false && zipCode.length > 0 ? 'border-red-500/50' : 'border-honey/20'
                     }`}
@@ -251,7 +251,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
+                className="w-full bg-hive-bg border border-honey/20 pl-10 pr-4 py-3.5 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
               />
             </div>
 
@@ -263,7 +263,7 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full bg-hive-bg border border-honey/20 pl-10 pr-10 py-3.5 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
+                  className="w-full bg-hive-bg border border-honey/20 pl-10 pr-10 py-3.5 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
                 />
                 <button
                   type="button"

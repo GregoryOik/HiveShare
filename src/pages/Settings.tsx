@@ -71,7 +71,7 @@ export default function Settings() {
   return (
     <div className="min-h-screen bg-hive-bg text-[#2A1B0A]/80 font-body selection:bg-honey selection:text-[#2A1B0A] pb-20">
       <header className="border-b border-honey/10 bg-hive-bg/90 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
           <Link to="/dashboard" className="flex items-center gap-2 text-[#2A1B0A] hover:text-honey transition-colors">
             <ArrowLeft className="w-4 h-4" />
             <span className="font-display text-2xl tracking-wide">
@@ -84,7 +84,7 @@ export default function Settings() {
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-6 pt-12">
+      <main className="max-w-2xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12">
         <div className="space-y-12">
           {/* Section Header */}
           <div className="space-y-2">
@@ -159,7 +159,7 @@ export default function Settings() {
                   placeholder="New password" 
                   required
                   minLength={6}
-                  className="w-full bg-transparent border border-honey/10 px-4 py-3 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
+                  className="w-full bg-transparent border border-honey/20 px-4 py-3 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/30"
                 />
                 <input 
                   type="password" 
@@ -167,7 +167,7 @@ export default function Settings() {
                   placeholder="Confirm new password" 
                   required
                   minLength={6}
-                  className="w-full bg-transparent border border-honey/10 px-4 py-3 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/20"
+                  className="w-full bg-transparent border border-honey/20 px-4 py-3 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/30"
                 />
                 <button 
                   type="submit"
@@ -365,9 +365,9 @@ export default function Settings() {
                   value={formData.customLabel}
                   onChange={(e) => setFormData({ ...formData, customLabel: e.target.value })}
                   placeholder="e.g. The Smith Family"
-                  className="w-full bg-hive-bg border border-honey/20 px-4 py-4 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/10"
+                  className="w-full bg-hive-bg border border-honey/20 px-4 py-3.5 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/30 font-medium"
                 />
-                <p className="text-[10px] text-[#2A1B0A]/30 ml-1 italic">This name will appear on your personalized honey jar labels.</p>
+                <p className="text-[10px] text-[#2A1B0A]/50 ml-1 italic">This name will appear on your personalized honey jar labels.</p>
               </div>
 
               <div className="space-y-2">
@@ -380,7 +380,7 @@ export default function Settings() {
                   onChange={(e) => setFormData({ ...formData, shippingAddress: e.target.value })}
                   placeholder="Line 1, City, Postcode, Country" 
                   rows={4}
-                  className="w-full bg-hive-bg border border-honey/20 px-4 py-4 text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/10 resize-none"
+                  className="w-full bg-hive-bg border border-honey/20 px-4 py-3.5 text-base sm:text-sm text-[#2A1B0A] focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/30 resize-none font-medium"
                 />
                 {profile?.shippingAddress && (
                   <div className="flex items-center gap-1.5 text-[9px] text-green-500/70 uppercase tracking-widest font-bold mt-2 ml-1">

@@ -15,19 +15,32 @@ const Navbar = ({ cartItemsCount, setIsCartOpen, onOpenConcierge }: any) => {
   const isEl = language === 'el';
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <>
-      <nav className={`fixed top-0 w-full z-50 transition-colors duration-300 ${scrolled ? 'bg-hive-bg/90 backdrop-blur-md border-b border-honey/10' : 'bg-transparent'}`}>
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="font-display text-2xl tracking-wide z-50 relative text-[#2A1B0A]">
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-hive-bg/95 backdrop-blur-md border-b border-honey/15 shadow-xs' : 'bg-transparent'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+          <Link to="/" className="font-display text-2xl sm:text-3xl tracking-wide z-50 relative text-[#2A1B0A]">
             Hive<span className="text-honey">Share</span>
-          </div>
-          <div className="hidden md:flex items-center space-x-8 lg:space-x-10 text-[10px] uppercase tracking-[0.2em] font-bold text-[#2A1B0A]/80">
+          </Link>
+          
+          {/* Desktop Nav Links */}
+          <div className="hidden md:flex items-center space-x-7 lg:space-x-9 text-[10px] uppercase tracking-[0.2em] font-bold text-[#2A1B0A]/80">
             <a href="#how-it-works" className="hover:text-honey transition-colors duration-200">{isEl ? 'Πώς λειτουργεί' : 'How it works'}</a>
             <a href="#origins" className="hover:text-honey transition-colors duration-200">{isEl ? 'Προέλευση' : 'Origins'}</a>
             <a href="#nomadic-calendar" className="hover:text-honey transition-colors duration-200 text-honey">{isEl ? 'Νομαδικός Κύκλος' : 'Nomadic Route'}</a>
@@ -39,7 +52,9 @@ const Navbar = ({ cartItemsCount, setIsCartOpen, onOpenConcierge }: any) => {
               <Sparkles size={12} /> {isEl ? 'Τεστ Γεύσης' : 'Quiz'}
             </button>
           </div>
-          <div className="hidden md:flex items-center space-x-5">
+
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center space-x-4 lg:space-x-5">
             {/* Bilingual Switcher */}
             <button
               onClick={toggleLanguage}
@@ -77,73 +92,163 @@ const Navbar = ({ cartItemsCount, setIsCartOpen, onOpenConcierge }: any) => {
             </a>
             <button 
               onClick={() => setIsCartOpen(true)} 
-              className="relative text-[#2A1B0A]/80 hover:text-honey transition-colors"
+              className="relative text-[#2A1B0A]/80 hover:text-honey transition-colors p-1"
+              aria-label="Cart"
             >
               <ShoppingCart size={19} />
               {cartItemsCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-honey text-[#2A1B0A] text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1.5 -right-1.5 bg-honey text-[#2A1B0A] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                   {cartItemsCount}
                 </span>
               )}
             </button>
           </div>
-          <button 
-            className="md:hidden z-50 relative text-[#2A1B0A]/80"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+
+          {/* Mobile Header Bar Right Side */}
+          <div className="flex md:hidden items-center gap-2.5 z-50">
+            {/* Quick Language Toggle on Mobile */}
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-honey/30 bg-honey/10 text-honey text-[10px] font-mono font-bold tracking-widest uppercase"
+              aria-label="Toggle language"
+            >
+              <Globe size={11} /> {isEl ? 'EN' : 'ΕΛ'}
+            </button>
+
+            {/* Quick Cart on Mobile */}
+            <button 
+              onClick={() => setIsCartOpen(true)} 
+              className="relative text-[#2A1B0A] p-2 hover:text-honey transition-colors"
+              aria-label="Shopping Cart"
+            >
+              <ShoppingCart size={20} />
+              {cartItemsCount > 0 && (
+                <span className="absolute top-0.5 right-0.5 bg-honey text-[#2A1B0A] text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {cartItemsCount}
+                </span>
+              )}
+            </button>
+
+            {/* Hamburger Button */}
+            <button 
+              className="p-2 text-[#2A1B0A] hover:text-honey transition-colors focus:outline-none"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </nav>
 
       {/* Mobile Menu Drawer */}
-      <div className={`fixed inset-0 bg-hive-bg/95 backdrop-blur-2xl z-40 flex flex-col items-center justify-center transition-all duration-500 ease-in-out ${mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
-        <div className="absolute inset-0 bg-gradient-to-b from-honey/5 via-transparent to-honey/5 pointer-events-none"></div>
-        <div className="absolute top-0 right-0 w-80 h-80 bg-honey/10 blur-[100px] rounded-full pointer-events-none animate-pulse"></div>
-        <div className="flex flex-col items-center space-y-6 text-[10px] uppercase tracking-[0.3em] font-black text-[#2A1B0A]/60 relative z-10 w-full px-12">
-          {/* Mobile Language Switcher */}
-          <button
-            onClick={() => { toggleLanguage(); setMobileMenuOpen(false); }}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-honey/40 bg-honey/15 text-honey font-bold tracking-widest text-xs"
-          >
-            <Globe size={14} /> {isEl ? 'Switch to English (EN)' : 'Αλλαγή σε Ελληνικά (ΕΛ)'}
-          </button>
-          <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200 border-b border-honey/5 w-full text-center pb-3">{isEl ? 'Πώς λειτουργεί' : 'How it works'}</a>
-          <a href="#origins" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200 border-b border-honey/5 w-full text-center pb-3">{isEl ? 'Προέλευση' : 'Origins'}</a>
-          <a href="#nomadic-calendar" onClick={() => setMobileMenuOpen(false)} className="text-honey hover:text-[#2A1B0A] transition-colors duration-200 border-b border-honey/5 w-full text-center pb-3">{isEl ? 'Νομαδικός Κύκλος' : 'Nomadic Route'}</a>
-          <button
-            onClick={() => { setMobileMenuOpen(false); onOpenConcierge(); }}
-            className="text-honey flex items-center justify-center gap-1.5 border-b border-honey/5 w-full text-center pb-3"
-          >
-            <Sparkles size={13} /> {isEl ? 'Τεστ Γεύσης (Concierge)' : 'Palate Quiz (Concierge)'}
-          </button>
-          <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey transition-colors duration-200 border-b border-honey/5 w-full text-center pb-3">{isEl ? 'Τιμές' : 'Pricing'}</a>
-          <Link to="/buy-honey" onClick={() => setMobileMenuOpen(false)} className="text-honey hover:text-[#2A1B0A] transition-colors duration-200 border-b border-honey/5 w-full text-center pb-3">{isEl ? 'Αγορά Μελιού' : 'Buy Honey'}</Link>
-          
-          <div className="flex flex-col gap-4 w-full pt-4">
-            {profile?.role === 'admin' && (
-              <Link to="/admin" onClick={() => setMobileMenuOpen(false)} className="text-honey text-center font-black py-4 border border-honey/20 rounded-sm bg-honey/5 shadow-[0_0_20px_rgba(200,134,10,0.1)]">ADMIN STATION</Link>
-            )}
-            {user ? (
-              <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="text-[#2A1B0A] text-center font-black py-4 border border-honey/20 rounded-sm">APIARY JOURNAL</Link>
-            ) : (
-              <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-[#2A1B0A] text-center font-black py-4 border border-honey/20 rounded-sm">LOG IN</Link>
-            )}
+      <div className={`fixed inset-0 bg-hive-bg/98 backdrop-blur-3xl z-40 flex flex-col justify-between transition-all duration-300 ease-in-out md:hidden ${mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
+        <div className="absolute inset-0 bg-gradient-to-b from-honey/5 via-transparent to-honey/10 pointer-events-none"></div>
+        
+        {/* Drawer Content */}
+        <div className="h-[100dvh] overflow-y-auto px-6 pt-24 pb-8 flex flex-col justify-between relative z-10 space-y-8">
+          <div className="space-y-5 text-left">
+            <div className="text-[9px] uppercase tracking-[0.3em] text-[#9E6000] font-bold mb-3 border-b border-honey/15 pb-2">
+              {isEl ? 'Πλοήγηση' : 'Navigation'}
+            </div>
+
+            <a 
+              href="#how-it-works" 
+              onClick={() => setMobileMenuOpen(false)} 
+              className="block font-display text-2xl text-[#2A1B0A] hover:text-honey transition-colors py-1"
+            >
+              {isEl ? '01 · Πώς λειτουργεί' : '01 · How It Works'}
+            </a>
+            <a 
+              href="#origins" 
+              onClick={() => setMobileMenuOpen(false)} 
+              className="block font-display text-2xl text-[#2A1B0A] hover:text-honey transition-colors py-1"
+            >
+              {isEl ? '02 · Προέλευση & Σοδειές' : '02 · Signature Terroirs'}
+            </a>
+            <a 
+              href="#nomadic-calendar" 
+              onClick={() => setMobileMenuOpen(false)} 
+              className="block font-display text-2xl text-honey hover:text-[#2A1B0A] transition-colors py-1"
+            >
+              {isEl ? '03 · Νομαδικός Κύκλος' : '03 · Nomadic Route'}
+            </a>
+            <a 
+              href="#pricing" 
+              onClick={() => setMobileMenuOpen(false)} 
+              className="block font-display text-2xl text-[#2A1B0A] hover:text-honey transition-colors py-1"
+            >
+              {isEl ? '04 · Επίπεδα Αναδοχής' : '04 · Guardianship Tiers'}
+            </a>
+            <Link 
+              to="/buy-honey" 
+              onClick={() => setMobileMenuOpen(false)} 
+              className="block font-display text-2xl text-honey hover:text-[#2A1B0A] transition-colors py-1"
+            >
+              {isEl ? '05 · Συλλογή Βάζων' : '05 · Single Batch Jars'}
+            </Link>
+
+            <button
+              onClick={() => { setMobileMenuOpen(false); onOpenConcierge(); }}
+              className="w-full text-left font-display text-2xl text-[#2A1B0A] hover:text-honey transition-colors py-1 flex items-center justify-between border-t border-honey/10 pt-4"
+            >
+              <span>{isEl ? 'Τεστ Γεύσης (Sommelier)' : 'Palate Concierge Quiz'}</span>
+              <Sparkles size={18} className="text-honey" />
+            </button>
+          </div>
+
+          {/* Drawer Actions */}
+          <div className="space-y-3 pt-6 border-t border-honey/20">
             <a 
               href="#pricing"
               onClick={() => setMobileMenuOpen(false)}
-              className="bg-honey text-[#2A1B0A] py-5 text-center font-black rounded-sm shadow-[0_10px_30px_rgba(200,134,10,0.3)]"
+              className="block w-full bg-honey text-[#2A1B0A] py-3.5 text-center font-bold text-xs uppercase tracking-widest rounded-[2px] shadow-md active:scale-98"
             >
-              Get Started
+              {isEl ? 'Υιοθεσία Κυψέλης — Από 140€/έτος' : 'Adopt a Hive — From €140/yr'}
             </a>
-          </div>
 
-          <button 
-            onClick={() => { setMobileMenuOpen(false); setIsCartOpen(true); }}
-            className="flex items-center justify-center gap-3 text-honey font-black uppercase tracking-widest text-[10px] mt-4"
-          >
-            <ShoppingCart size={18} /> Cart ({cartItemsCount})
-          </button>
+            <div className="grid grid-cols-2 gap-3">
+              {user ? (
+                <Link 
+                  to="/dashboard" 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="text-[#2A1B0A] text-center font-bold text-xs uppercase tracking-wider py-3 border border-honey/30 rounded-[2px] bg-white/40"
+                >
+                  {isEl ? 'Ημερολόγιο' : 'Journal'}
+                </Link>
+              ) : (
+                <Link 
+                  to="/login" 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="text-[#2A1B0A] text-center font-bold text-xs uppercase tracking-wider py-3 border border-honey/30 rounded-[2px] bg-white/40"
+                >
+                  {isEl ? 'Σύνδεση' : 'Log In'}
+                </Link>
+              )}
+
+              {profile?.role === 'admin' ? (
+                <Link 
+                  to="/admin" 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="text-honey text-center font-bold text-xs uppercase tracking-wider py-3 border border-honey/40 rounded-[2px] bg-honey/10"
+                >
+                  Admin
+                </Link>
+              ) : (
+                <Link 
+                  to="/buy-honey" 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="text-[#2A1B0A] text-center font-bold text-xs uppercase tracking-wider py-3 border border-honey/30 rounded-[2px] bg-white/40"
+                >
+                  {isEl ? 'Αγορά' : 'Shop'}
+                </Link>
+              )}
+            </div>
+
+            <div className="text-center pt-2 text-[9px] uppercase tracking-widest text-[#2A1B0A]/50 font-mono">
+              Laconia · Mani · Mount Mainalo · Evia
+            </div>
+          </div>
         </div>
       </div>
     </>
@@ -157,8 +262,8 @@ const HexagonGrid = () => {
   const xOffset = hexWidth + 4; // 4px gap
   const yOffset = hexHeight * 0.75 + 3; // 3px gap
 
-  const rows = 40;
-  const cols = 40;
+  const rows = 35;
+  const cols = 35;
 
   const hexes = [];
   for (let row = 0; row < rows; row++) {
@@ -177,7 +282,7 @@ const HexagonGrid = () => {
   }
 
   return (
-    <svg className="absolute inset-0 w-full h-full opacity-40" xmlns="http://www.w3.org/2000/svg">
+    <svg className="absolute inset-0 w-full h-full opacity-35" xmlns="http://www.w3.org/2000/svg">
       {hexes}
     </svg>
   );
@@ -188,83 +293,124 @@ const Hero = ({ onOpenConcierge }: any) => {
   const isEl = language === 'el';
 
   return (
-    <section className="min-h-screen flex flex-col md:flex-row pt-20 overflow-hidden relative">
+    <section className="min-h-screen flex flex-col md:flex-row pt-16 sm:pt-20 overflow-hidden relative">
       {/* Left Column */}
-      <div className="w-full md:w-[45%] flex flex-col justify-center px-6 md:pl-24 lg:pl-32 py-12 md:py-20 text-[#2A1B0A]">
-        <div className="w-12 h-[1px] bg-honey mb-6"></div>
-        <div className="text-[10px] uppercase tracking-[0.2em] text-[#2A1B0A]/80 mb-6 font-bold">
-          {isEl ? 'Λακωνία, Ελλάδα · Από το 1996' : 'Laconia, Greece · Est. 1996'}
+      <div className="w-full md:w-[48%] lg:w-[45%] flex flex-col justify-center px-4 sm:px-8 md:pl-16 lg:pl-28 py-8 sm:py-14 md:py-20 text-[#2A1B0A]">
+        <div className="w-10 sm:w-12 h-[1px] bg-honey mb-4 sm:mb-6"></div>
+        <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#9E6000] mb-3 sm:mb-6 font-bold flex items-center gap-2">
+          <span>{isEl ? 'Λακωνία, Ελλάδα · Από το 1996' : 'Laconia, Greece · Est. 1996'}</span>
         </div>
         
-        <h1 className="font-display text-5xl md:text-6xl lg:text-[4.5rem] leading-[1.0] font-light mb-6 text-[#2A1B0A]/95">
+        <h1 className="font-display text-3xl sm:text-5xl md:text-5xl lg:text-[4.2rem] leading-[1.08] font-light mb-4 sm:mb-6 text-[#2A1B0A]/95">
           {isEl ? (
             <>
-              Γίνετε Ανάδοχος <span className="italic text-honey drop-shadow-[0_0_15px_rgba(200,134,10,0.3)]">Πραγματικής Κυψέλης.</span><br />
-              Λάβετε το Μέλι σας<br />
-              σε Κάθε Σοδειά.
+              Γίνετε Ανάδοχος <span className="italic text-honey">Πραγματικής Κυψέλης.</span><br className="hidden sm:inline" />
+              {' '}Λάβετε το Μέλι σας σε Κάθε Σοδειά.
             </>
           ) : (
             <>
-              Own a Share of <span className="italic text-honey drop-shadow-[0_0_15px_rgba(200,134,10,0.3)]">Real Beehives.</span><br />
-              Receive Your Honey<br />
-              Every Harvest.
+              Own a Share of <span className="italic text-honey">Real Beehives.</span><br className="hidden sm:inline" />
+              {' '}Receive Your Honey Every Harvest.
             </>
           )}
         </h1>
         
-        <p className="text-[#2A1B0A]/90 text-sm md:text-base max-w-sm mb-8 leading-relaxed font-normal">
+        <p className="text-[#2A1B0A]/85 text-sm sm:text-base max-w-md mb-6 sm:mb-8 leading-relaxed font-light">
           {isEl
             ? 'Απευθείας από τα 30χρονα οικογενειακά μελισσοκομεία μας στη Μάνη. Υιοθετήστε τη δική σας επώνυμη κυψέλη, παρακολουθήστε την σε πραγματικό χρόνο και παραλάβετε 100% αγνό, ανεπεξέργαστο μέλι στην πόρτα σας.'
-            : 'Direct from our 30-year family apiaries in Mani, Laconia. Adopt your own named hive, monitor its vitality live, and receive 100% raw honey harvests shipped to your door. Authentic Greek heritage, powered by IOT.'}
+            : 'Direct from our 30-year family apiaries in Mani, Laconia. Adopt your own named hive, monitor its vitality live, and receive 100% raw honey harvests shipped to your door.'}
         </p>
+
+        {/* Living Colony Telemetry Badge (Mobile Dedicated & Clean) */}
+        <div className="md:hidden my-6 p-4 bg-hive-panel/90 border border-honey/30 rounded-[2px] shadow-sm space-y-3">
+          <div className="flex items-center justify-between text-[10px] font-mono">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_#22c55e]" />
+              <span className="font-bold text-[#2A1B0A] tracking-wider uppercase">
+                {isEl ? 'Κυψέλη #247 · Λάγια, Μάνη' : 'Living Colony #247 · Mani'}
+              </span>
+            </div>
+            <span className="text-[8px] uppercase tracking-wider text-green-700 font-bold bg-green-600/10 px-2 py-0.5 rounded-xs border border-green-600/20">
+              {isEl ? 'Άνθιση Θυμαριού' : 'Thyme Bloom Active'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2 pt-2.5 border-t border-honey/15 text-center">
+            <div>
+              <div className="text-[8px] uppercase tracking-wider text-[#2A1B0A]/50 font-bold mb-0.5">{isEl ? 'Βάρος' : 'Weight'}</div>
+              <div className="font-display text-lg text-honey font-semibold">38.2 kg</div>
+              <div className="text-[8px] text-green-700 font-mono">+180g / 24h</div>
+            </div>
+            <div className="border-x border-honey/15">
+              <div className="text-[8px] uppercase tracking-wider text-[#2A1B0A]/50 font-bold mb-0.5">{isEl ? 'Θερμ.' : 'Temp'}</div>
+              <div className="font-display text-lg text-[#2A1B0A] font-semibold">34.5°C</div>
+              <div className="text-[8px] text-[#2A1B0A]/60 font-mono">{isEl ? 'Ιδανική' : 'Optimal'}</div>
+            </div>
+            <div>
+              <div className="text-[8px] uppercase tracking-wider text-[#2A1B0A]/50 font-bold mb-0.5">{isEl ? 'Υγεία' : 'Vitality'}</div>
+              <div className="font-display text-lg text-green-700 font-semibold">98%</div>
+              <div className="text-[8px] text-honey font-mono">{isEl ? 'Ενεργή' : 'Active'}</div>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between pt-2 text-[9px] text-[#2A1B0A]/60 font-mono border-t border-honey/10">
+            <span>{isEl ? 'Επόμενος τρύγος: Ιούλιος 2026' : 'Next harvest: July 2026'}</span>
+            <span className="text-honey font-bold">{isEl ? '100% Αγνό' : '100% Raw Unheated'}</span>
+          </div>
+        </div>
         
-        <div className="mb-8 max-w-md flex flex-col gap-4">
-          <div className="flex flex-wrap gap-3">
-            <a 
-              href="#pricing"
-              className="bg-honey text-[#2A1B0A] px-6 md:px-8 py-4 text-[10px] md:text-xs uppercase tracking-wider font-bold hover:bg-honey/90 transition-colors rounded-[2px] inline-block shadow-[0_0_20px_rgba(200,134,10,0.2)] whitespace-nowrap"
-            >
-              {isEl ? 'Υιοθεσία Κυψέλης — Από 140€/έτος' : 'Adopt Your Hive — From €140/yr'}
-            </a>
+        {/* CTA Button Group */}
+        <div className="mb-6 max-w-md flex flex-col gap-3">
+          <a 
+            href="#pricing"
+            className="w-full bg-honey text-[#0C0804] px-6 py-4 text-center text-xs uppercase tracking-[0.2em] font-bold hover:bg-honey/90 transition-all rounded-[2px] shadow-[0_4px_20px_rgba(200,134,10,0.25)] active:scale-[0.98] flex items-center justify-center gap-2"
+          >
+            <span>{isEl ? 'Υιοθεσία Κυψέλης — Από 140€/έτος' : 'Adopt Your Hive — From €140/yr'}</span>
+            <ArrowRight size={14} />
+          </a>
+          
+          <div className="grid grid-cols-2 gap-2.5">
             <button 
               onClick={onOpenConcierge}
-              className="border border-honey/30 bg-honey/10 text-[#2A1B0A] hover:bg-honey hover:text-[#0C0804] px-4 md:px-5 py-4 text-xs uppercase tracking-wider font-bold transition-all rounded-[2px] flex items-center gap-1.5"
+              className="border border-honey/40 bg-honey/10 text-[#2A1B0A] hover:bg-honey hover:text-[#0C0804] px-3 py-3.5 text-[11px] uppercase tracking-wider font-bold transition-all rounded-[2px] flex items-center justify-center gap-1.5 active:scale-95"
             >
-              <Sparkles size={14} className="text-honey" />
-              {isEl ? 'Τεστ Γεύσης' : 'Palate Quiz'}
+              <Sparkles size={13} className="text-honey" />
+              <span>{isEl ? 'Τεστ Γεύσης' : 'Palate Quiz'}</span>
             </button>
             <Link 
               to="/buy-honey"
-              className="border border-honey/20 text-[#2A1B0A]/80 px-4 md:px-5 py-4 text-xs uppercase tracking-wider font-bold hover:bg-white/10 hover:border-honey/30 transition-colors rounded-[2px] inline-block"
+              className="border border-honey/30 text-[#2A1B0A]/85 hover:text-[#2A1B0A] hover:border-honey/60 px-3 py-3.5 text-[11px] uppercase tracking-wider font-bold transition-colors rounded-[2px] text-center active:scale-95 flex items-center justify-center"
             >
               {isEl ? 'Αγορά Βάζου' : 'Buy Jars'}
             </Link>
           </div>
-          <p className="text-xs text-[#2A1B0A]/70 font-medium">
-            {isEl ? 'Ερωτήσεις;' : 'Questions?'} <a href="mailto:info@oikonomakos.gr" className="text-[#C8860A] font-bold hover:underline">info@oikonomakos.gr</a>
+
+          <p className="text-xs text-[#2A1B0A]/70 font-medium pt-1">
+            {isEl ? 'Ερωτήσεις;' : 'Questions?'} <a href="mailto:info@oikonomakos.gr" className="text-honey font-bold hover:underline">info@oikonomakos.gr</a>
           </p>
         </div>
         
-        <div className="flex items-center space-x-8 mt-6">
+        {/* Key Metrics Strip */}
+        <div className="flex items-center justify-between sm:justify-start sm:space-x-8 mt-4 pt-4 border-t border-honey/15">
           <div>
-            <div className="font-display text-3xl mb-1 text-[#2A1B0A]">600</div>
-            <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">Active hives</div>
+            <div className="font-display text-2xl sm:text-3xl text-[#2A1B0A]">600</div>
+            <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">{isEl ? 'Ενεργές Κυψέλες' : 'Active hives'}</div>
           </div>
-          <div className="w-[1px] h-10 bg-[#2A1B0A]/10"></div>
+          <div className="w-[1px] h-8 bg-honey/20"></div>
           <div>
-            <div className="font-display text-3xl mb-1 text-[#2A1B0A]">6t</div>
-            <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">Annual yield</div>
+            <div className="font-display text-2xl sm:text-3xl text-[#2A1B0A]">6t</div>
+            <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">{isEl ? 'Ετήσια Παραγωγή' : 'Annual yield'}</div>
           </div>
-          <div className="w-[1px] h-10 bg-[#2A1B0A]/10"></div>
+          <div className="w-[1px] h-8 bg-honey/20"></div>
           <div>
-            <div className="font-display text-3xl mb-1 text-[#2A1B0A]">3</div>
-            <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">Harvests/year</div>
+            <div className="font-display text-2xl sm:text-3xl text-[#2A1B0A]">3</div>
+            <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">{isEl ? 'Σοδειές / έτος' : 'Harvests/yr'}</div>
           </div>
         </div>
       </div>
       
-      {/* Right Column - Dusk Honey */}
-      <div className="w-full md:w-[55%] bg-hive-dark relative overflow-hidden min-h-[60vh] md:min-h-screen flex items-center justify-center border-l border-honey/10">
+      {/* Right Column - Dusk Honey Visual (Desktop only) */}
+      <div className="hidden md:flex w-full md:w-[52%] lg:w-[55%] bg-hive-dark relative overflow-hidden min-h-screen items-center justify-center border-l border-honey/10">
         {/* Background Image of Mani Landscape */}
         <div className="absolute inset-0 z-0">
           <img 
@@ -281,41 +427,41 @@ const Hero = ({ onOpenConcierge }: any) => {
         <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-honey/20 to-transparent"></div>
 
         {/* TOP - Hive ID */}
-        <div className="absolute top-6 left-6 md:top-12 md:left-12 border-l-2 border-honey pl-3 md:pl-4 z-10">
-          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-[#E8A030] mb-1 font-bold">
+        <div className="absolute top-8 left-8 md:top-12 md:left-12 border-l-2 border-honey pl-4 z-10">
+          <div className="text-[9px] uppercase tracking-widest text-[#E8A030] mb-1 font-bold">
             Your hive
           </div>
-          <div className="font-display italic text-2xl md:text-3xl text-pale-honey drop-shadow-md">#247</div>
-          <div className="text-[8px] md:text-[9px] text-white/70 mt-1 font-bold">Lagia, Mani</div>
+          <div className="font-display italic text-3xl text-pale-honey drop-shadow-md">#247</div>
+          <div className="text-[9px] text-white/70 mt-1 font-bold">Lagia, Mani</div>
         </div>
 
         {/* Hive ID Counter Base Layer */}
         <div className="absolute inset-0 flex items-center justify-center z-1 pointer-events-none overflow-hidden">
-          <span className="font-display text-[12rem] md:text-[20rem] leading-none text-honey/[0.03] select-none">
+          <span className="font-display text-[16rem] lg:text-[20rem] leading-none text-honey/[0.03] select-none">
             247
           </span>
         </div>
 
         {/* MIDDLE - Temp */}
-        <div className="absolute top-[45%] md:top-1/2 left-1/4 md:left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md border border-honey/30 p-3 md:p-5 rounded-[2px] z-10 scale-[0.85] md:scale-100 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/80 mb-1 md:mb-2">Temp</div>
-          <div className="font-display text-xl md:text-3xl text-pale-honey">34.5°C</div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md border border-honey/30 p-5 rounded-[2px] z-10 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+          <div className="text-[9px] uppercase tracking-widest text-honey/80 mb-2">Temp</div>
+          <div className="font-display text-3xl text-pale-honey">34.5°C</div>
         </div>
 
         {/* RIGHT MIDDLE - Activity */}
-        <div className="absolute top-[15%] right-4 md:top-1/3 md:right-12 bg-black/40 backdrop-blur-md border border-honey/30 p-3 md:p-4 rounded-[2px] z-10 scale-[0.85] md:scale-100 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-          <div className="text-[8px] md:text-[9px] uppercase tracking-widest text-honey/80 mb-1 md:mb-2">Activity</div>
-          <div className="font-display text-lg md:text-2xl text-green-400">High</div>
+        <div className="absolute top-1/3 right-12 bg-black/40 backdrop-blur-md border border-honey/30 p-4 rounded-[2px] z-10 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+          <div className="text-[9px] uppercase tracking-widest text-honey/80 mb-2">Activity</div>
+          <div className="font-display text-2xl text-green-400">High</div>
         </div>
         
         {/* Live Data Card */}
-        <div className="absolute bottom-4 right-4 md:bottom-12 md:right-12 bg-black/80 backdrop-blur-xl border border-honey/60 p-3 md:p-5 rounded-[2px] shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-10 scale-[0.9] md:scale-100 origin-bottom-right">
-          <div className="flex items-center space-x-2 mb-2 md:mb-3">
-            <div className="w-1 md:w-2 h-1 md:h-2 rounded-full bg-green-500 animate-blink shadow-[0_0_10px_#22c55e]"></div>
-            <div className="text-[8px] md:text-[10px] uppercase tracking-widest text-honey font-bold">Live · Hive #247</div>
+        <div className="absolute bottom-12 right-12 bg-black/80 backdrop-blur-xl border border-honey/60 p-5 rounded-[2px] shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-10 origin-bottom-right">
+          <div className="flex items-center space-x-2 mb-3">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-blink shadow-[0_0_10px_#22c55e]"></div>
+            <div className="text-[10px] uppercase tracking-widest text-honey font-bold">Live · Hive #247</div>
           </div>
-          <div className="font-display italic text-2xl md:text-4xl text-pale-honey mb-0.5 drop-shadow-sm">38.2 kg</div>
-          <div className="text-[8px] md:text-[10px] text-white/80 font-medium">Updated 4 min ago</div>
+          <div className="font-display italic text-4xl text-pale-honey mb-0.5 drop-shadow-sm">38.2 kg</div>
+          <div className="text-[10px] text-white/80 font-medium">Updated 4 min ago</div>
         </div>
       </div>
     </section>
@@ -339,21 +485,26 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section id="how-it-works" className="py-32 px-6 max-w-7xl mx-auto">
-      <h2 className="font-display text-4xl font-light mb-16 text-[#2A1B0A] text-center">
-        {isEl ? 'Από τα άνθη του βουνού στο τραπέζι σας.' : 'From mountain bloom to your kitchen table.'}
-      </h2>
+    <section id="how-it-works" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 max-w-7xl mx-auto">
+      <div className="text-center mb-10 sm:mb-16 space-y-2">
+        <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.3em] text-[#9E6000] font-bold">
+          {isEl ? 'Η Διαδικασία Αναδοχής' : 'The Guardianship Journey'}
+        </div>
+        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light text-[#2A1B0A]">
+          {isEl ? 'Από τα άνθη του βουνού στο τραπέζι σας.' : 'From mountain bloom to your kitchen table.'}
+        </h2>
+      </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-4 border border-honey/20 rounded-[2px] overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-4 border border-honey/20 rounded-[2px] overflow-hidden bg-hive-panel/30">
         {steps.map((step, i) => (
-          <div key={i} className="group relative p-8 border-b md:border-b-0 md:border-r border-honey/20 last:border-0 transition-colors duration-500 hover:bg-hive-panel min-h-[320px] flex flex-col overflow-hidden">
-            <span className="absolute top-0 right-0 font-display text-[8rem] leading-none text-honey/[0.08] select-none -translate-y-2 translate-x-2 group-hover:text-honey/15 transition-colors duration-500">
+          <div key={i} className="group relative p-6 sm:p-8 border-b md:border-b-0 md:border-r border-honey/20 last:border-b-0 md:last:border-r-0 transition-colors duration-500 hover:bg-hive-panel min-h-[220px] md:min-h-[320px] flex flex-col justify-between overflow-hidden">
+            <span className="absolute top-2 right-4 font-display text-6xl sm:text-7xl md:text-[8rem] leading-none text-honey/[0.08] select-none group-hover:text-honey/15 transition-colors duration-500">
               {step.num}
             </span>
             <div className="mt-auto relative z-10">
-              <div className={`h-[1px] bg-honey mb-6 transition-all duration-700 group-hover:w-full ${['w-8','w-16','w-24','w-full'][i]}`}></div>
-              <h3 className="font-display text-[1.4rem] mb-4 text-[#2A1B0A]">{step.title}</h3>
-              <p className="text-sm text-[#2A1B0A]/80 leading-relaxed font-normal">{step.desc}</p>
+              <div className={`h-[1.5px] bg-honey mb-4 sm:mb-6 transition-all duration-700 group-hover:w-full ${['w-8','w-16','w-24','w-full'][i]}`}></div>
+              <h3 className="font-display text-xl sm:text-[1.35rem] mb-2 sm:mb-3 text-[#2A1B0A] leading-snug">{step.title}</h3>
+              <p className="text-xs sm:text-sm text-[#2A1B0A]/80 leading-relaxed font-light">{step.desc}</p>
             </div>
           </div>
         ))}
@@ -367,32 +518,32 @@ const WhatYouGet = () => {
   const isEl = language === 'el';
 
   const features = isEl ? [
-    { icon: <Scale size={18} strokeWidth={1} className="text-honey/60" />, title: 'Ζωντανή παρακολούθηση βάρους', desc: 'Δείτε σε πραγματικό χρόνο πόσο μέλι παράγουν οι μέλισσές σας μέρα με τη μέρα.' },
-    { icon: <Camera size={18} strokeWidth={1} className="text-honey/60" />, title: 'Φωτογραφίες μελισσοκομείου', desc: 'Οπτικό ημερολόγιο της κυψέλης σας με τακτικές ενημερώσεις από τον μελισσοκόμο.' },
-    { icon: <Thermometer size={18} strokeWidth={1} className="text-honey/60" />, title: 'Δείκτες υγείας αποικίας', desc: 'Έλεγχος εσωτερικής θερμοκρασίας και υγρασίας για άριστη ευρωστία του σμήνους.' },
-    { icon: <Package size={18} strokeWidth={1} className="text-honey/60" />, title: 'Άμεση & Εποχιακή Αποστολή', desc: 'Βάζο καλωσορίσματος σε 2 εβδομάδες και έπειτα ανοιξιάτικες και φθινοπωρινές παραδόσεις.' },
-    { icon: <FlaskConical size={18} strokeWidth={1} className="text-honey/60" />, title: 'Εργαστηριακός έλεγχος αγνότητας', desc: 'Κάθε παρτίδα αναλύεται από τη Eurofins για 100% αυθεντικότητα και μηδενικά κατάλοιπα.' },
-    { icon: <MapPin size={18} strokeWidth={1} className="text-honey/60" />, title: 'Απευθείας από τον Μελισσοκόμο', desc: 'Χωρίς μεσάζοντες, χωρίς αναμίξεις. Κατευθείαν από τον Πέτρο Οικονομάκο σε εσάς.' }
+    { icon: <Scale size={18} strokeWidth={1} className="text-honey" />, title: 'Ζωντανή παρακολούθηση βάρους', desc: 'Δείτε σε πραγματικό χρόνο πόσο μέλι παράγουν οι μέλισσές σας μέρα με τη μέρα.' },
+    { icon: <Camera size={18} strokeWidth={1} className="text-honey" />, title: 'Φωτογραφίες μελισσοκομείου', desc: 'Οπτικό ημερολόγιο της κυψέλης σας με τακτικές ενημερώσεις από τον μελισσοκόμο.' },
+    { icon: <Thermometer size={18} strokeWidth={1} className="text-honey" />, title: 'Δείκτες υγείας αποικίας', desc: 'Έλεγχος εσωτερικής θερμοκρασίας και υγρασίας για άριστη ευρωστία του σμήνους.' },
+    { icon: <Package size={18} strokeWidth={1} className="text-honey" />, title: 'Άμεση & Εποχιακή Αποστολή', desc: 'Βάζο καλωσορίσματος σε 2 εβδομάδες και έπειτα ανοιξιάτικες και φθινοπωρινές παραδόσεις.' },
+    { icon: <FlaskConical size={18} strokeWidth={1} className="text-honey" />, title: 'Εργαστηριακός έλεγχος αγνότητας', desc: 'Κάθε παρτίδα αναλύεται από τη Eurofins για 100% αυθεντικότητα και μηδενικά κατάλοιπα.' },
+    { icon: <MapPin size={18} strokeWidth={1} className="text-honey" />, title: 'Απευθείας από τον Μελισσοκόμο', desc: 'Χωρίς μεσάζοντες, χωρίς αναμίξεις. Κατευθείαν από τον Πέτρο Οικονομάκο σε εσάς.' }
   ] : [
-    { icon: <Scale size={18} strokeWidth={1} className="text-honey/60" />, title: 'Live weight tracking', desc: 'See exactly how much honey your bees are producing in real-time.' },
-    { icon: <Camera size={18} strokeWidth={1} className="text-honey/60" />, title: 'Apiary snapshots', desc: 'A visual record of your colony, updated regularly by the beekeeper.' },
-    { icon: <Thermometer size={18} strokeWidth={1} className="text-honey/60" />, title: 'Colony health data', desc: 'Monitor internal temperature and humidity to ensure your bees are thriving.' },
-    { icon: <Package size={18} strokeWidth={1} className="text-honey/60" />, title: 'Immediate & Seasonal Delivery', desc: 'A Welcome Jar within 2 weeks, followed by Spring and Autumn harvests.' },
-    { icon: <FlaskConical size={18} strokeWidth={1} className="text-honey/60" />, title: 'Lab-certified purity', desc: 'Every batch is tested by Eurofins for authenticity and zero pesticide residue.' },
-    { icon: <MapPin size={18} strokeWidth={1} className="text-honey/60" />, title: 'Direct from the Beekeeper', desc: 'No middlemen, no blending. Straight from Petros Oikonomakos to you.' }
+    { icon: <Scale size={18} strokeWidth={1} className="text-honey" />, title: 'Live weight tracking', desc: 'See exactly how much honey your bees are producing in real-time.' },
+    { icon: <Camera size={18} strokeWidth={1} className="text-honey" />, title: 'Apiary snapshots', desc: 'A visual record of your colony, updated regularly by the beekeeper.' },
+    { icon: <Thermometer size={18} strokeWidth={1} className="text-honey" />, title: 'Colony health data', desc: 'Monitor internal temperature and humidity to ensure your bees are thriving.' },
+    { icon: <Package size={18} strokeWidth={1} className="text-honey" />, title: 'Immediate & Seasonal Delivery', desc: 'A Welcome Jar within 2 weeks, followed by Spring and Autumn harvests.' },
+    { icon: <FlaskConical size={18} strokeWidth={1} className="text-honey" />, title: 'Lab-certified purity', desc: 'Every batch is tested by Eurofins for authenticity and zero pesticide residue.' },
+    { icon: <MapPin size={18} strokeWidth={1} className="text-honey" />, title: 'Direct from the Beekeeper', desc: 'No middlemen, no blending. Straight from Petros Oikonomakos to you.' }
   ];
 
   return (
-    <section id="features" className="py-32 px-6">
+    <section id="features" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 border border-honey/20 rounded-[2px] overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 border border-honey/20 rounded-[2px] overflow-hidden bg-white/40">
           {features.map((f, i) => (
-            <div key={i} className="p-10 border-b md:border-b-0 md:border-r md:[&:nth-child(n+4)]:border-b-0 [&:nth-child(1)]:border-b [&:nth-child(2)]:border-b [&:nth-child(3)]:border-b border-honey/20 hover:bg-hive-panel transition-colors duration-500">
-              <div className="w-10 h-10 border border-honey/60 flex items-center justify-center mb-8 rounded-[2px] bg-honey/10">
+            <div key={i} className="p-6 sm:p-8 md:p-10 border-b md:border-b-0 md:border-r last:border-b-0 md:[&:nth-child(n+4)]:border-b-0 md:[&:nth-child(1)]:border-b md:[&:nth-child(2)]:border-b md:[&:nth-child(3)]:border-b border-honey/20 hover:bg-hive-panel transition-colors duration-500">
+              <div className="w-10 h-10 border border-honey/40 flex items-center justify-center mb-6 rounded-[2px] bg-honey/10">
                 {f.icon}
               </div>
-              <h3 className="font-display text-[1.3rem] mb-3 text-[#2A1B0A]">{f.title}</h3>
-              <p className="text-xs text-[#2A1B0A]/80 leading-relaxed font-normal">{f.desc}</p>
+              <h3 className="font-display text-xl sm:text-[1.3rem] mb-2 sm:mb-3 text-[#2A1B0A]">{f.title}</h3>
+              <p className="text-xs sm:text-sm text-[#2A1B0A]/80 leading-relaxed font-light">{f.desc}</p>
             </div>
           ))}
         </div>
@@ -406,87 +557,93 @@ const DashboardPreview = () => {
   const isEl = language === 'el';
 
   return (
-    <section className="py-32 px-6 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-20 overflow-hidden">
-      <div className="w-full md:w-[40%]">
-        <h2 className="font-display text-4xl font-light mb-10 text-[#2A1B0A]">
-          {isEl ? 'Δείτε πώς παράγεται το μέλι σας.' : 'Watch your honey being made.'}
-        </h2>
-        <ul className="space-y-6 text-sm text-[#2A1B0A]/85 font-medium">
-          <li className="flex gap-4">
-            <span className="text-honey">—</span>
+    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-20 overflow-hidden">
+      <div className="w-full md:w-[45%] space-y-6">
+        <div>
+          <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.3em] text-[#9E6000] font-bold mb-2">
+            {isEl ? 'Ζωντανό Ημερολόγιο Αναδόχου' : 'Live Apiary Journal'}
+          </div>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light text-[#2A1B0A] leading-tight">
+            {isEl ? 'Δείτε πώς παράγεται το μέλι σας.' : 'Watch your honey being made.'}
+          </h2>
+        </div>
+
+        <ul className="space-y-4 sm:space-y-5 text-xs sm:text-sm text-[#2A1B0A]/85 font-medium">
+          <li className="flex gap-3">
+            <span className="text-honey font-bold">—</span>
             {isEl ? 'Ζωντανές μετρήσεις βάρους δείχνουν ακριβώς πότε ξεκινά η νεκταροέκκριση.' : 'Real-time weight metrics show exactly when the nectar flow begins.'}
           </li>
-          <li className="flex gap-4">
-            <span className="text-honey">—</span>
+          <li className="flex gap-3">
+            <span className="text-honey font-bold">—</span>
             {isEl ? 'Εσωτερικοί αισθητήρες κλίματος επιβεβαιώνουν ότι η αποικία διατηρεί ιδανική θερμοκρασία.' : 'Internal climate sensors ensure the colony is healthy and regulating temperature.'}
           </li>
-          <li className="flex gap-4">
-            <span className="text-honey">—</span>
+          <li className="flex gap-3">
+            <span className="text-honey font-bold">—</span>
             {isEl ? 'Τακτικές φωτογραφίες από το μελισσοκομείο σας συνδέουν με τη φύση της Μάνης.' : 'Regular snapshots from the apiary connect you to the landscape.'}
           </li>
-          <li className="flex gap-4">
-            <span className="text-honey">—</span>
+          <li className="flex gap-3">
+            <span className="text-honey font-bold">—</span>
             {isEl ? 'Προβλέψεις συγκομιδής σας ενημερώνουν για την επόμενη παράδοση στο σπίτι σας.' : 'Harvest predictions tell you exactly when to expect your next delivery.'}
           </li>
         </ul>
       </div>
       
-      <div className="w-full md:w-[60%] perspective-[1200px]">
-        <div className="bg-hive-panel border border-honey/20 rounded-[2px] p-6 shadow-[0_0_30px_rgba(200,134,10,0.05)] transform rotate-y-[-5deg] transition-transform duration-700 hover:rotate-y-0">
+      <div className="w-full md:w-[55%] md:perspective-[1200px]">
+        <div className="bg-hive-panel border border-honey/25 rounded-[2px] p-5 sm:p-7 shadow-[0_0_30px_rgba(200,134,10,0.06)] transform rotate-0 md:rotate-y-[-5deg] md:hover:rotate-y-0 transition-transform duration-700">
           {/* Header */}
-          <div className="flex justify-between items-center border-b border-honey/10 pb-4 mb-6">
-            <div className="text-[#2A1B0A]/90 text-sm tracking-wide">
+          <div className="flex justify-between items-center border-b border-honey/15 pb-4 mb-6">
+            <div className="text-[#2A1B0A]/90 text-xs sm:text-sm font-semibold tracking-wide">
               {isEl ? 'Κυψέλη #247 — Λάγια, Μάνη' : 'Hive #247 — Lagia, Mani'}
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-blink"></div>
-              <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/50">
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-blink shadow-[0_0_8px_#22c55e]"></div>
+              <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/60 font-bold">
                 {isEl ? 'Ζωντανά' : 'Live'}
               </div>
             </div>
           </div>
           
           {/* Metrics */}
-          <div className="grid grid-cols-3 gap-4 mb-8">
-            <div className="bg-white/10 p-4 border border-honey/30 rounded-[2px]">
-              <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/70 mb-2 font-bold">
+          <div className="grid grid-cols-3 gap-2.5 sm:gap-4 mb-6">
+            <div className="bg-white/80 p-3 sm:p-4 border border-honey/30 rounded-[2px]">
+              <div className="text-[8px] sm:text-[10px] uppercase tracking-widest text-[#9E6000] mb-1 font-bold">
                 {isEl ? 'Βάρος' : 'Weight'}
               </div>
-              <div className="font-display text-2xl text-honey drop-shadow-sm">38.2 kg</div>
+              <div className="font-display text-xl sm:text-2xl text-honey font-bold">38.2 kg</div>
             </div>
-            <div className="bg-white/5 p-4 border border-honey/10 rounded-[2px]">
-              <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-2">
+            <div className="bg-white/60 p-3 sm:p-4 border border-honey/15 rounded-[2px]">
+              <div className="text-[8px] sm:text-[10px] uppercase tracking-widest text-[#2A1B0A]/50 mb-1 font-bold">
                 {isEl ? 'Θερμ.' : 'Temp'}
               </div>
-              <div className="font-display text-2xl text-honey">34.5°C</div>
+              <div className="font-display text-xl sm:text-2xl text-[#2A1B0A] font-semibold">34.5°C</div>
             </div>
-            <div className="bg-white/5 p-4 border border-honey/10 rounded-[2px]">
-              <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 mb-2">
-                {isEl ? 'Δραστηριότητα' : 'Activity'}
+            <div className="bg-white/60 p-3 sm:p-4 border border-honey/15 rounded-[2px]">
+              <div className="text-[8px] sm:text-[10px] uppercase tracking-widest text-[#2A1B0A]/50 mb-1 font-bold">
+                {isEl ? 'Αποικία' : 'Activity'}
               </div>
-              <div className="font-display text-2xl text-honey">
+              <div className="font-display text-xl sm:text-2xl text-green-700 font-semibold">
                 {isEl ? 'Υψηλή' : 'High'}
               </div>
             </div>
           </div>
           
           {/* Chart Placeholder */}
-          <div className="h-40 border-b border-l border-honey/10 flex items-end gap-2 px-2 pb-0 pt-4 mb-6 relative">
-            <div className="absolute top-0 left-2 text-[9px] text-[#2A1B0A]/30">
+          <div className="h-32 sm:h-40 border-b border-l border-honey/15 flex items-end gap-1.5 sm:gap-2 px-2 pb-0 pt-4 mb-6 relative bg-white/30 rounded-xs">
+            <div className="absolute top-1.5 left-2 text-[8px] sm:text-[9px] uppercase tracking-widest text-[#2A1B0A]/40 font-mono">
               {isEl ? 'Βάρος (7 ημέρες)' : 'Weight (7 days)'}
             </div>
             {[40, 55, 45, 60, 75, 85, 100].map((h, i) => (
-              <div key={i} className={`flex-1 bg-honey transition-all duration-1000 ${i === 6 ? 'opacity-100 shadow-[0_0_15px_rgba(200,134,10,0.4)]' : 'opacity-40'}`} style={{ height: `${h}%` }}></div>
+              <div key={i} className={`flex-1 bg-honey transition-all duration-1000 ${i === 6 ? 'opacity-100 shadow-[0_0_12px_rgba(200,134,10,0.4)]' : 'opacity-40'}`} style={{ height: `${h}%` }}></div>
             ))}
           </div>
           
           {/* Clean Telemetry Status */}
-          <div className="flex justify-between items-center pt-3 border-t border-honey/10">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 pt-2 border-t border-honey/10">
             <div className="text-[11px] text-[#2A1B0A]/80 font-medium">
-              {isEl ? 'Εκτιμώμενος τρύγος: 14 Ιουλίου' : 'Next harvest est. 14 Jul'}
+              {isEl ? 'Εκτιμώμενος τρύγος: 14 Ιουλίου 2026' : 'Next harvest est. 14 Jul 2026'}
             </div>
             
-            <div className="text-[10px] uppercase tracking-widest text-green-700 font-bold border border-green-600/30 px-2.5 py-1 bg-green-500/10 rounded-[2px]">
+            <div className="text-[9px] uppercase tracking-widest text-green-800 font-bold border border-green-600/30 px-2.5 py-1 bg-green-500/10 rounded-[2px]">
               {isEl ? 'Άνθιση θυμαριού ενεργή' : 'Thyme flow active'}
             </div>
           </div>
@@ -579,50 +736,50 @@ const Origins = () => {
   ] : harvests;
 
   return (
-    <section id="origins" className="py-32 bg-hive-bg relative overflow-hidden">
+    <section id="origins" className="py-16 sm:py-24 md:py-32 bg-hive-bg relative overflow-hidden">
       {/* Subtle Background Elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-honey/5 blur-[120px] rounded-full"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-honey/5 blur-[120px] rounded-full"></div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-20 space-y-6">
-          <div className="flex items-center justify-center gap-4 text-honey mb-4">
-            <div className="h-[1px] w-12 bg-honey/30"></div>
-            <span className="text-[10px] uppercase tracking-[0.4em] font-bold">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        <div className="text-center mb-12 sm:mb-20 space-y-3 sm:space-y-4">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 text-honey">
+            <div className="h-[1px] w-8 sm:w-12 bg-honey/30"></div>
+            <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.35em] font-bold">
               {isEl ? 'Ο Νομαδικός Κύκλος' : 'The Nomadic Cycle'}
             </span>
-            <div className="h-[1px] w-12 bg-honey/30"></div>
+            <div className="h-[1px] w-8 sm:w-12 bg-honey/30"></div>
           </div>
-          <h2 className="font-display text-5xl md:text-6xl text-[#2A1B0A]">
+          <h2 className="font-display text-3xl sm:text-5xl md:text-6xl text-[#2A1B0A] leading-tight">
             {isEl ? 'Εποχιακές Χαρακτηριστικές Σοδειές' : 'Seasonal Signature Harvests'}
           </h2>
-          <p className="text-[#2A1B0A]/60 max-w-2xl mx-auto leading-relaxed font-light">
+          <p className="text-[#2A1B0A]/70 max-w-2xl mx-auto leading-relaxed font-light text-xs sm:text-sm">
             {isEl
               ? 'Τα μελισσοκομεία μας ακολουθούν την ανθοφορία σε όλη την Ελλάδα, συλλέγοντας τη μοναδική βοτανική ταυτότητα κάθε περιοχής. Κάθε βάζο διηγείται μια ιστορία ορεινού αέρα και άγριας χλωρίδας.'
               : 'Our apiaries follow the bloom across Greece, capturing the unique botanical essence of each region. Every jar tells a story of mountain air and wild flora.'}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {localizedHarvests.map((h, idx) => {
             const Icon = h.icon === 'Bug' ? Bug : h.icon === 'Milk' ? Milk : h.icon === 'Leaf' ? Leaf : Hexagon;
             return (
               <div 
                 key={idx}
-                className="group relative bg-hive-panel/40 border border-honey/10 p-10 rounded-[2px] backdrop-blur-sm hover:border-honey/30 transition-all duration-500 overflow-hidden"
+                className="group relative bg-hive-panel/50 border border-honey/15 p-6 sm:p-8 rounded-[2px] backdrop-blur-sm hover:border-honey/40 transition-all duration-500 overflow-hidden"
               >
                 {/* Decorative Jar Background Offset */}
-                <div className="absolute -top-10 -right-10 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-500 group-hover:rotate-12 transform">
-                  <Package size={180} strokeWidth={1} />
+                <div className="absolute -top-10 -right-10 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-500 group-hover:rotate-12 transform pointer-events-none">
+                  <Package size={160} strokeWidth={1} />
                 </div>
 
-                <div className="relative z-10 space-y-8">
+                <div className="relative z-10 space-y-6 sm:space-y-8">
                   <div className="flex justify-between items-start">
-                    <div className="p-3 bg-honey/10 text-honey rounded-sm">
-                      <Icon size={24} strokeWidth={1.5} />
+                    <div className="p-2.5 sm:p-3 bg-honey/10 text-honey rounded-sm">
+                      <Icon size={22} strokeWidth={1.5} />
                     </div>
                     <div className="text-right">
-                      <div className="text-[10px] font-bold uppercase tracking-widest text-honey mb-1">{h.season}</div>
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-honey mb-0.5">{h.season}</div>
                       <div className="text-[8px] uppercase tracking-widest text-[#2A1B0A]/40 font-bold">
                         {isEl ? 'Περίοδος Άνθισης' : 'Season Bloom'}
                       </div>
@@ -630,22 +787,22 @@ const Origins = () => {
                   </div>
 
                   <div>
-                    <h3 className="text-2xl font-display text-[#2A1B0A] mb-2">{h.name}</h3>
-                    <div className="flex items-center gap-2 text-honey/80 mb-4">
-                      <MapPin size={12} />
-                      <span className="text-[10px] uppercase tracking-widest font-bold">{h.location.split(',')[0]}</span>
+                    <h3 className="text-xl sm:text-2xl font-display text-[#2A1B0A] mb-1.5">{h.name}</h3>
+                    <div className="flex items-center gap-1.5 text-honey/90 mb-3">
+                      <MapPin size={11} />
+                      <span className="text-[9px] sm:text-[10px] uppercase tracking-widest font-bold">{h.location.split(',')[0]}</span>
                     </div>
                   </div>
 
-                  <div className="space-y-4 pt-6 border-t border-honey/5">
-                    <div className="flex justify-between items-center text-[10px] uppercase tracking-widest">
-                      <span className="text-[#2A1B0A]/40 font-bold">
+                  <div className="space-y-3 pt-4 sm:pt-6 border-t border-honey/10 text-[9px] sm:text-[10px] uppercase tracking-widest">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#2A1B0A]/50 font-bold">
                         {isEl ? 'Βοτανική Πηγή' : 'Botanical Source'}
                       </span>
-                      <span className="text-[#2A1B0A] font-bold text-right max-w-[120px]">{h.character.split(' ')[0]}</span>
+                      <span className="text-[#2A1B0A] font-bold text-right max-w-[120px] truncate">{h.character.split(' ')[0]}</span>
                     </div>
-                    <div className="flex justify-between items-center text-[10px] uppercase tracking-widest">
-                      <span className="text-[#2A1B0A]/40 font-bold">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#2A1B0A]/50 font-bold">
                         {isEl ? 'Ποσότητα' : 'Est. Yield'}
                       </span>
                       <span className="text-honey font-bold">{h.yield} / {isEl ? 'βάζο' : 'jar'}</span>
@@ -657,9 +814,9 @@ const Origins = () => {
           })}
         </div>
         
-        <div className="mt-20 text-center animate-in fade-in duration-1000">
-           <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#2A1B0A]/30">
-             {isEl ? 'Πιστοποιημένο · Αφιλτράριστο · Αγνό Ελληνικό Μέλι' : 'Certified Organic · Unfiltered · Raw Greek Honey'}
+        <div className="mt-12 sm:mt-16 text-center">
+           <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] font-bold text-[#2A1B0A]/40 font-mono">
+             {isEl ? 'Πιστοποιημένο · Αφιλτράριστο · Αγνό Ελληνικό Μέλι' : 'Certified Pure · Unfiltered · Raw Greek Honey'}
            </p>
         </div>
       </div>
@@ -672,23 +829,23 @@ const Beekeeper = () => {
   const isEl = language === 'el';
 
   return (
-    <section className="py-32 px-6 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 md:gap-24">
+    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10 sm:gap-16 md:gap-24">
       <div className="w-full md:w-1/2 relative">
-        <div className="absolute -inset-4 border border-honey/20 rounded-[2px] -z-10 translate-x-2 translate-y-2"></div>
+        <div className="absolute -inset-3 sm:-inset-4 border border-honey/20 rounded-[2px] -z-10 translate-x-2 translate-y-2"></div>
         <img 
           src="/beekeeper.png" 
           alt="Petros Oikonomakos working the hives" 
-          className="w-full aspect-[4/5] object-cover rounded-[2px] sepia-[0.1] contrast-[1.1] shadow-2xl"
+          className="w-full aspect-[4/5] object-cover rounded-[2px] sepia-[0.08] contrast-[1.05] shadow-xl"
         />
       </div>
-      <div className="w-full md:w-1/2 text-[#2A1B0A]">
-        <div className="w-8 h-[1px] bg-honey mb-10"></div>
-        <p className="font-display text-3xl md:text-4xl leading-[1.4] font-light text-[#2A1B0A]/90 italic mb-10">
+      <div className="w-full md:w-1/2 text-[#2A1B0A] space-y-6">
+        <div className="w-8 h-[1px] bg-honey"></div>
+        <p className="font-display text-2xl sm:text-3xl md:text-4xl leading-[1.35] font-light text-[#2A1B0A]/95 italic">
           {isEl
             ? '«Φροντίζω αυτά τα βουνά εδώ και 30 χρόνια. Γνωρίζω πότε θα ανθίσει το θυμάρι στη Μάνη πριν καν συμβεί. Ο πατέρας μου μου έμαθε τη γλώσσα των μελισσών, και τώρα μοιραζόμαστε αυτή την κληρονομιά μαζί σας.»'
             : '"I have managed these mountains for 30 years. I know when the thyme will bloom in Mani before it happens. My father taught me the language of the bees, and now we share that heritage with you."'}
         </p>
-        <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">
+        <div className="text-[9px] sm:text-[10px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold border-t border-honey/15 pt-4">
           {isEl
             ? 'Πέτρος Οικονομάκος · Αρχιμελισσοκόμος (30+ Χρόνια Εμπειρίας)'
             : 'Petros Oikonomakos · Master Beekeeper (30+ Years Experience)'}
@@ -703,111 +860,122 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
   const isEl = language === 'el';
 
   return (
-    <section id="pricing" className="py-32 px-6 max-w-7xl mx-auto text-[#2A1B0A]">
-      <h2 className="font-display text-4xl font-light mb-20 text-center text-[#2A1B0A]">
-        {isEl ? 'Επίπεδα Αναδοχής Κυψέλης' : 'Membership Tiers'}
-      </h2>
+    <section id="pricing" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 max-w-7xl mx-auto text-[#2A1B0A]">
+      <div className="text-center mb-12 sm:mb-20 space-y-3">
+        <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.3em] text-[#9E6000] font-bold">
+          {isEl ? 'Επιλογές Αναδοχής' : 'Guardianship Allocation'}
+        </div>
+        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light text-[#2A1B0A]">
+          {isEl ? 'Επίπεδα Αναδοχής Κυψέλης' : 'Membership Tiers'}
+        </h2>
+      </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-6 md:gap-0">
+      <div className="grid grid-cols-1 md:grid-cols-3 items-stretch gap-6 md:gap-0">
         {/* Starter */}
-        <div className="border border-honey/20 p-8 md:p-12 text-[#2A1B0A] bg-hive-panel/60 backdrop-blur-sm rounded-[2px] md:border-r-0">
-          <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/90 mb-6 font-bold">
-            {isEl ? 'Βασική Αναδοχή' : 'Starter Guardianship'}
-          </div>
-          <div className="mb-2 flex items-start">
-              <div className="flex items-baseline gap-2 mb-2">
-                <span className="font-display text-5xl text-honey">€140</span>
+        <div className="border border-honey/20 p-6 sm:p-8 md:p-12 text-[#2A1B0A] bg-hive-panel/60 backdrop-blur-sm rounded-[2px] md:border-r-0 flex flex-col justify-between">
+          <div>
+            <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/80 mb-4 sm:mb-6 font-bold">
+              {isEl ? 'Βασική Αναδοχή' : 'Starter Guardianship'}
+            </div>
+            
+            <div className="mb-6">
+              <div className="flex items-baseline gap-2">
+                <span className="font-display text-5xl sm:text-6xl text-honey font-light">€140</span>
                 <span className="text-honey uppercase tracking-widest text-[10px] font-bold">
                   {isEl ? '/έτος' : '/year'}
                 </span>
               </div>
-              <div className="text-[#2A1B0A] text-[10px] uppercase tracking-widest mb-6 font-bold">
-                {isEl ? 'Περ. €11,60/μήνα' : 'Approx. €11.60/month'}
+              <div className="text-[#2A1B0A]/70 text-[10px] uppercase tracking-widest mt-1 font-semibold">
+                {isEl ? 'Περ. €11,60/μήνα · Δωρεάν Αποστολή Ε.Ε.' : 'Approx. €11.60/month · Free EU Shipping'}
               </div>
+            </div>
+            
+            <ul className="space-y-3.5 text-xs sm:text-sm text-[#2A1B0A]/85 mb-8 sm:mb-12">
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Βάζο καλωσορίσματος (250g) εντός 2 εβδομάδων' : 'Welcome jar (250g) shipped within 2 weeks'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Πρόσβαση στο Ημερολόγιο Κυψέλης (IoT δεδομένα)' : 'Apiary Journal access (live IoT metrics)'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? '3 εποχιακές συγκομιδές (2,5kg σύνολο — 56€/kg)' : '3 seasonal harvests (2.5kg total — €56/kg)'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Πιστοποιητικό αυθεντικότητας Eurofins' : 'Eurofins lab certificate of authenticity'}</li>
+            </ul>
           </div>
-          <div className="text-[10px] text-honey font-bold uppercase tracking-widest mb-10">
-            {isEl ? 'Δωρεάν Αποστολή σε όλη την Ε.Ε.' : 'Free EU Shipping included'}
-          </div>
-          
-          <ul className="space-y-4 text-sm text-[#2A1B0A]/80 mb-12">
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Βάζο καλωσορίσματος (250g) εντός 2 εβδομάδων' : 'Welcome jar (250g) shipped within 2 weeks'}</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Πρόσβαση στο Ημερολόγιο Κυψέλης (IoT δεδομένα)' : 'Apiary Journal access (live IoT metrics)'}</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? '3 εποχιακές συγκομιδές (~800g έκαστη, 2,5kg σύνολο — 56€/kg)' : '3 seasonal harvests (~800g each, 2.5kg total — €56/kg)'}</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Πιστοποιητικό αυθεντικότητας Eurofins' : 'Eurofins lab certificate of authenticity'}</li>
-          </ul>
           
           <button 
             onClick={() => setSelectedPlanForSignup({ id: 'starter', name: isEl ? 'Βασική Αναδοχή' : 'Starter Guardianship' })}
-            className="block text-center w-full border border-honey/30 text-[#2A1B0A]/90 py-3 text-xs uppercase tracking-wider font-medium hover:bg-white/5 transition-colors rounded-[2px]"
+            className="block text-center w-full border border-honey/40 text-[#2A1B0A] py-3.5 text-xs uppercase tracking-wider font-bold hover:bg-honey hover:text-[#0C0804] transition-all rounded-[2px] active:scale-95"
           >
             {isEl ? 'Επιλογή Starter' : 'Select Starter'}
           </button>
         </div>
         
         {/* Premium */}
-        <div className="border-2 border-honey p-8 md:p-12 bg-hive-bg text-[#2A1B0A] relative z-10 shadow-[0_20px_50px_rgba(200,134,10,0.2)] md:-my-3 rounded-[2px]">
-          <div className="absolute top-0 right-0 bg-honey text-hive-bg text-[9px] uppercase tracking-widest px-3 py-1 font-bold rounded-bl-sm">
+        <div className="border-2 border-honey p-6 sm:p-8 md:p-12 bg-hive-bg text-[#2A1B0A] relative z-10 shadow-[0_20px_50px_rgba(200,134,10,0.18)] md:-my-3 rounded-[2px] flex flex-col justify-between">
+          <div className="absolute top-0 right-0 bg-honey text-[#0C0804] text-[9px] uppercase tracking-widest px-3 py-1 font-bold rounded-bl-sm">
             {isEl ? 'Επίτιμο Επίπεδο' : 'Patron Tier'}
           </div>
-          <div className="text-[10px] uppercase tracking-widest text-honey mb-6 font-bold">
-            {isEl ? 'Επίτιμος Προστάτης' : 'Premium Patron'}
-          </div>
-          <div className="mb-2 flex items-start">
-              <div className="flex items-baseline gap-2 mb-2">
-                <span className="font-display text-7xl text-honey">€340</span>
+          
+          <div>
+            <div className="text-[10px] uppercase tracking-widest text-honey mb-4 sm:mb-6 font-bold">
+              {isEl ? 'Επίτιμος Προστάτης' : 'Premium Patron'}
+            </div>
+            
+            <div className="mb-6">
+              <div className="flex items-baseline gap-2">
+                <span className="font-display text-6xl sm:text-7xl text-honey font-light">€340</span>
                 <span className="text-honey uppercase tracking-widest text-xs font-bold">
                   {isEl ? '/έτος' : '/year'}
                 </span>
               </div>
-              <div className="text-[#2A1B0A] text-[11px] uppercase tracking-widest mb-8 font-bold">
-                {isEl ? 'Περ. €28/μήνα' : 'Approx. €28/month'}
+              <div className="text-honey text-[11px] uppercase tracking-widest mt-1 font-bold">
+                {isEl ? 'Περ. €28/μήνα · Επώνυμη Κυψέλη στη Μάνη' : 'Approx. €28/month · Named Colony in Mani'}
               </div>
+            </div>
+            
+            <ul className="space-y-3.5 text-xs sm:text-sm text-[#2A1B0A] mb-8 sm:mb-12 font-medium">
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Πήλινο δοχείο υποδοχής (1kg) άμεσα' : 'Welcome crock (1kg) shipped immediately'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Πλήρες Ημερολόγιο Κυψέλης & βιομετρική τηλεμετρία' : 'Apiary Journal access (full live biometric telemetry)'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? '3 εποχιακές παραδόσεις (5kg σύνολο — 68€/kg)' : '3 seasonal harvests (5kg total — €68/kg)'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Επώνυμη ετικέτα με το όνομά σας σε κάθε βάζο' : 'Named jar (your name printed on every label)'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Επίσημο Πιστοποιητικό Αναδοχής για κορνίζα' : 'Framable Certificate of Hive Adoption'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Βουλοκερωμένη επιστολή από τον Πέτρο σε κάθε σοδειά' : 'Wax-sealed letter from Petros with each batch'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Ανοιχτή Πρόσκληση: Επίσκεψη στο μελισσοκομείο στη Μάνη' : "Open invitation: Visit Petros' apiary in Mani, Greece"}</li>
+            </ul>
           </div>
-          <div className="text-[10px] text-honey font-bold uppercase tracking-widest mb-10">
-            {isEl ? 'Δωρεάν Αποστολή σε όλη την Ε.Ε.' : 'Free EU Shipping included'}
-          </div>
-          
-          <ul className="space-y-4 text-sm text-[#2A1B0A] mb-12">
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Πήλινο δοχείο υποδοχής (1kg) άμεσα' : 'Welcome crock (1kg) shipped immediately'}</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Πλήρες Ημερολόγιο Κυψέλης & βιομετρική τηλεμετρία' : 'Apiary Journal access (full live biometric telemetry)'}</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? '3 εποχιακές παραδόσεις (~1,3kg έκαστη, 5kg σύνολο — 68€/kg)' : '3 seasonal harvests (~1.3kg each, 5kg total — €68/kg)'}</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Επώνυμη ετικέτα με το όνομά σας σε κάθε βάζο' : 'Named jar (your name printed on every label)'}</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Επίσημο Πιστοποιητικό Αναδοχής για κορνίζα' : 'Framable Certificate of Hive Adoption'}</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Βουλοκερωμένη επιστολή από τον Πέτρο σε κάθε σοδειά' : 'Wax-sealed letter from Petros with each batch'}</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Ανοιχτή Πρόσκληση: Επίσκεψη στο μελισσοκομείο στη Μάνη' : "Open invitation: Visit Petros' apiary in Mani, Greece"}</li>
-          </ul>
           
           <button 
             onClick={() => setSelectedPlanForSignup({ id: 'premium', name: isEl ? 'Επίτιμος Προστάτης' : 'Premium Patron' })}
-            className="block text-center w-full bg-honey text-[#2A1B0A] py-4 text-xs uppercase tracking-wider font-bold hover:bg-honey/90 transition-colors rounded-[2px] shadow-[0_0_15px_rgba(200,134,10,0.2)]"
+            className="block text-center w-full bg-honey text-[#2A1B0A] py-4 text-xs uppercase tracking-wider font-bold hover:bg-honey/90 transition-colors rounded-[2px] shadow-[0_0_20px_rgba(200,134,10,0.25)] active:scale-95"
           >
             {isEl ? 'Επιλογή Premium' : 'Select Premium'}
           </button>
         </div>
         
         {/* Corporate */}
-        <div className="border border-honey/20 p-10 bg-hive-panel md:border-l-0 rounded-[2px]">
-          <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/80 mb-6 font-bold">
-            {isEl ? 'Εταιρική Αναδοχή' : 'Corporate Apiary'}
+        <div className="border border-honey/20 p-6 sm:p-8 md:p-10 bg-hive-panel/60 md:border-l-0 rounded-[2px] flex flex-col justify-between">
+          <div>
+            <div className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/80 mb-4 sm:mb-6 font-bold">
+              {isEl ? 'Εταιρική Αναδοχή' : 'Corporate Apiary'}
+            </div>
+            
+            <div className="mb-6">
+              <div className="flex items-baseline gap-1 text-[#2A1B0A]">
+                <span className="font-display text-5xl sm:text-[3.2rem] leading-none font-light">€2,900</span>
+                <span className="text-xs uppercase tracking-widest text-[#2A1B0A]/60 font-bold ml-1">{isEl ? '/έτος' : '/year'}</span>
+              </div>
+              <div className="text-[#2A1B0A]/60 text-[10px] uppercase tracking-widest mt-1 font-semibold">
+                {isEl ? 'Σύμπλεγμα 15 Κυψελών · Εταιρικό Seal' : '15 Dedicated Hives · Custom Seal'}
+              </div>
+            </div>
+            
+            <ul className="space-y-3.5 text-xs sm:text-sm text-[#2A1B0A] mb-8 sm:mb-12">
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Σύμπλεγμα 15 αποκλειστικών κυψελών' : 'Block of 15 dedicated hives'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Εταιρικό portal & προσαρμοσμένη τηλεμετρία' : 'Custom branded apiary journal & telemetry'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Ειδικές ετικέτες με το λογότυπο της εταιρείας σας' : 'Custom branded jars with corporate seal'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Αποστολές εταιρικών δώρων για στελέχη & πελάτες' : 'Executive client gifting fulfillment'}</li>
+            </ul>
           </div>
-          <div className="mb-2 flex items-start text-[#2A1B0A]">
-            <span className="font-display text-[3rem] leading-none">2,900</span>
-            <span className="text-xl font-medium mt-1 ml-1">€</span>
-          </div>
-          <div className="text-xs text-[#2A1B0A]/70 mb-10 font-bold">
-            {isEl ? 'ανά έτος' : 'per year'}
-          </div>
-          
-          <ul className="space-y-4 text-sm text-[#2A1B0A] mb-12">
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Σύμπλεγμα 15 αποκλειστικών κυψελών' : 'Block of 15 dedicated hives'}</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Εταιρικό portal & προσαρμοσμένη τηλεμετρία' : 'Custom branded apiary journal & telemetry'}</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Ειδικές ετικέτες με το λογότυπο της εταιρείας σας' : 'Custom branded jars with corporate seal'}</li>
-            <li className="flex gap-3"><span className="text-honey">—</span> {isEl ? 'Αποστολές εταιρικών δώρων για στελέχη & πελάτες' : 'Executive client gifting fulfillment'}</li>
-          </ul>
           
           <button 
             onClick={() => document.getElementById('join')?.scrollIntoView({ behavior: 'smooth' })}
-            className="w-full border border-honey/40 text-[#2A1B0A] py-3 text-xs uppercase tracking-wider font-bold hover:bg-white/5 transition-colors rounded-[2px]"
+            className="w-full border border-honey/40 text-[#2A1B0A] py-3.5 text-xs uppercase tracking-wider font-bold hover:bg-honey hover:text-[#0C0804] transition-colors rounded-[2px] active:scale-95"
           >
             {isEl ? 'Επικοινωνήστε Μαζί μας' : 'Contact Us'}
           </button>
@@ -815,33 +983,33 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
       </div>
 
       {/* Olive Oil Add-on */}
-      <div className="mt-16 border border-honey/20 p-8 bg-hive-panel rounded-[2px] max-w-3xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
+      <div className="mt-12 sm:mt-16 border border-honey/25 p-6 sm:p-8 bg-hive-panel/80 rounded-[2px] max-w-3xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-xl relative overflow-hidden">
         <div className="absolute top-0 left-0 w-32 h-32 bg-honey/10 blur-[50px] pointer-events-none"></div>
-        <div className="relative z-10">
-          <div className="text-[10px] uppercase tracking-widest text-honey font-bold mb-2">
+        <div className="relative z-10 space-y-1">
+          <div className="text-[9px] uppercase tracking-widest text-[#9E6000] font-bold">
             {isEl ? 'Ετήσια Επιλογή' : 'Annual Add-on'}
           </div>
-          <h3 className="font-display text-2xl mb-2 text-[#2A1B0A]">
+          <h3 className="font-display text-xl sm:text-2xl text-[#2A1B0A]">
             {isEl ? '+ Εξαιρετικό Παρθένο Ελαιόλαδο Λακωνίας · 500ml' : '+ Laconian Olive Oil · 500ml'}
           </h3>
-          <p className="text-sm text-[#2A1B0A]/80 mb-1 font-medium">
+          <p className="text-xs sm:text-sm text-[#2A1B0A]/75 font-light">
             {isEl ? 'Μονοποικιλιακό, ψυχρής έκθλιψης, σοδειάς 2026' : 'Single-estate, cold-pressed, harvest 2026'}
           </p>
-          <p className="text-sm text-[#2A1B0A]/80 font-medium">
+          <p className="text-xs text-[#2A1B0A]/60 font-light">
             {isEl ? 'Συμπεριλαμβάνεται στη φθινοπωρινή σας αποστολή' : 'Added to your autumn shipment'}
           </p>
         </div>
-        <div className="text-center md:text-right flex flex-col items-center md:items-end relative z-10">
-          <div className="font-display text-3xl text-[#2A1B0A] mb-2">18 €</div>
+        <div className="w-full sm:w-auto text-left sm:text-right flex flex-row sm:flex-col items-center sm:items-end justify-between gap-3 relative z-10 pt-2 sm:pt-0 border-t sm:border-t-0 border-honey/15">
+          <div className="font-display text-2xl sm:text-3xl text-[#2A1B0A]">18 €</div>
           <button 
             onClick={() => {
               setHasOliveOil(true);
               setIsCartOpen(true);
             }}
             disabled={hasOliveOil || !cartPlan}
-            className="px-6 py-2 bg-honey text-[#2A1B0A] text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-colors rounded-[2px] disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_10px_rgba(200,134,10,0.2)]"
+            className="px-5 py-2.5 bg-honey text-[#2A1B0A] text-[10px] uppercase tracking-widest font-bold hover:bg-honey/90 transition-colors rounded-[2px] disabled:opacity-50 disabled:cursor-not-allowed shadow-xs active:scale-95 shrink-0"
           >
-            {!cartPlan ? (isEl ? 'Επιλέξτε πλάνο πρώτα' : 'Select a plan first') : hasOliveOil ? (isEl ? 'Προστέθηκε στο Καλάθι' : 'Added to Cart') : (isEl ? 'Προσθήκη στο Καλάθι' : 'Add to Cart')}
+            {!cartPlan ? (isEl ? 'Επιλέξτε πλάνο πρώτα' : 'Select a plan first') : hasOliveOil ? (isEl ? 'Προστέθηκε' : 'Added to Cart') : (isEl ? 'Προσθήκη' : 'Add to Cart')}
           </button>
         </div>
       </div>
@@ -854,48 +1022,48 @@ const AboutOurHoney = () => {
   const isEl = language === 'el';
 
   return (
-    <section className="py-32 px-6 border-t border-honey/10 relative overflow-hidden">
+    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 border-t border-honey/10 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[radial-gradient(circle,_rgba(200,134,10,0.03)_0%,_transparent_70%)] pointer-events-none"></div>
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-16 relative z-10">
+      <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10 sm:gap-16 relative z-10">
         <div className="w-full md:w-1/2">
           <img 
             src="/4jars.jpg" 
             alt="Four seasonal harvests of Greek honey" 
-            className="w-full h-[500px] object-cover rounded-[2px] shadow-2xl border border-honey/20"
+            className="w-full h-64 sm:h-96 md:h-[500px] object-cover rounded-[2px] shadow-2xl border border-honey/20"
           />
         </div>
         <div className="w-full md:w-1/2 text-[#2A1B0A]">
-          <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4">
+          <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-[#9E6000] font-bold mb-3 sm:mb-4">
             {isEl ? 'Ποιότητα & Προδιαγραφές' : 'Quality & Compliance'}
           </div>
-          <h2 className="font-display text-4xl font-light mb-8 text-[#2A1B0A]/90">
+          <h2 className="font-display text-3xl sm:text-4xl font-light mb-6 sm:mb-8 text-[#2A1B0A]">
             {isEl ? 'Σχετικά με το Μέλι μας' : 'About Our Honey'}
           </h2>
           
-          <div className="space-y-6 text-sm text-[#2A1B0A]/90 leading-relaxed font-medium">
+          <div className="space-y-4 sm:space-y-6 text-xs sm:text-sm text-[#2A1B0A]/85 leading-relaxed font-normal">
             <p className="text-[#2A1B0A]">
               {isEl
                 ? 'Κάθε βάζο μελιού που παραλαμβάνετε παράγεται αποκλειστικά από τον αρχιμελισσοκόμο Πέτρο Οικονομάκο. Οι κυψέλες μας ταξιδεύουν στα πιο παρθένα ελληνικά τοπία για να αιχμαλωτίσουν ξεχωριστές εποχιακές γεύσεις: Αγριολούλουδα από τη Σπάρτη, Θυμάρι από τη Λάγια (Μάνη), Ελατόμελο Βανίλια από το Μαίναλο και Πευκόμελο από την Εύβοια.'
                 : "Every jar of honey you receive is produced exclusively by master beekeeper Petros Oikonomakos. Our hives travel across Greece's most pristine landscapes to capture distinct seasonal flavors: Wildflower from Sparta, Thyme from Lagia (Mani), Fir Vanilla from Arachova (Arcadia), and Pine from Evia."}
             </p>
             
-            <ul className="space-y-4">
-              <li className="flex gap-4">
-                <span className="text-honey mt-1">✓</span> 
+            <ul className="space-y-3 sm:space-y-4">
+              <li className="flex gap-3">
+                <span className="text-honey font-bold mt-0.5">✓</span> 
                 <span>
                   <strong>{isEl ? '100% Αγνό & Ανεπεξέργαστο:' : '100% Pure & Unblended:'}</strong>{' '}
                   {isEl ? 'Το μέλι μας είναι ωμό, ανεπεξέργαστο, απαστερίωτο και ποτέ δεν αναμιγνύεται με εισαγόμενα μέλια ή σιρόπια.' : 'Our honey is raw, unpasteurized, and never blended with imported honeys or syrups.'}
                 </span>
               </li>
-              <li className="flex gap-4">
-                <span className="text-honey mt-1">✓</span> 
+              <li className="flex gap-3">
+                <span className="text-honey font-bold mt-0.5">✓</span> 
                 <span>
                   <strong>{isEl ? 'Πλήρης Συμμόρφωση με την Οδηγία της Ε.Ε.:' : 'EU Honey Directive Compliant:'}</strong>{' '}
                   {isEl ? 'Τηρούμε αυστηρά όλους τους κανονισμούς της Ευρωπαϊκής Ένωσης για την ποιότητα του μελιού, εξασφαλίζοντας μηδενική προσθήκη ζάχαρης ή νερού.' : 'We strictly adhere to all European Union regulations regarding honey quality, ensuring no added sugar or water.'}
                 </span>
               </li>
-              <li className="flex gap-4">
-                <span className="text-honey mt-1">✓</span> 
+              <li className="flex gap-3">
+                <span className="text-honey font-bold mt-0.5">✓</span> 
                 <span>
                   <strong>{isEl ? 'Επίσημη Ετικέτα Ιχνηλασιμότητας:' : 'Official Labeling:'}</strong>{' '}
                   {isEl ? 'Κάθε συσκευασία φέρει πλήρη ετικέτα με την ένδειξη «Ελληνικό Προϊόν», το ακριβές βάρος, τα στοιχεία παραγωγού και αριθμό παρτίδας για 100% ιχνηλασιμότητα.' : 'Each delivery comes with a fully compliant EU label indicating "Product of Greece", the exact weight, and our official producer details and VAT number for complete traceability.'}
@@ -903,7 +1071,7 @@ const AboutOurHoney = () => {
               </li>
             </ul>
             
-            <p className="pt-4 border-t border-honey/20 italic text-[#2A1B0A]/70 font-semibold">
+            <p className="pt-4 border-t border-honey/20 italic text-[#2A1B0A]/70 font-medium">
               {isEl
                 ? 'Όταν υιοθετείτε μια κυψέλη, δεν αποκτάτε απλώς μια ψηφιακή εμπειρία — εξασφαλίζετε μια ετήσια σοδειά αυθεντικού, χειροποίητου ελληνικού μελιού κατευθείαν στην πόρτα σας.'
                 : "When you adopt a hive, you're not just getting a digital experience; you're securing a seasonal supply of authentic, artisanal Greek honey delivered straight to your door."}
@@ -936,25 +1104,31 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="py-32 px-6 max-w-[720px] mx-auto text-[#2A1B0A]">
-      <h2 className="font-display text-3xl font-light mb-16 text-center text-[#2A1B0A]/90">
-        {isEl ? 'Συχνές Ερωτήσεις' : 'Questions we get asked'}
-      </h2>
+    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 max-w-[720px] mx-auto text-[#2A1B0A]">
+      <div className="text-center mb-10 sm:mb-16 space-y-2">
+        <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.3em] text-[#9E6000] font-bold">
+          {isEl ? 'Συχνές Ερωτήσεις' : 'Common Inquiries'}
+        </div>
+        <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-light text-[#2A1B0A]/95">
+          {isEl ? 'Όλα όσα θέλετε να γνωρίζετε' : 'Questions we get asked'}
+        </h2>
+      </div>
       
-      <div className="space-y-0">
+      <div className="space-y-0 border-t border-honey/20">
         {faqs.map((faq, i) => (
           <div key={i} className="border-b border-honey/20">
             <button 
-              className="w-full py-6 flex justify-between items-center text-left focus:outline-none group"
+              className="w-full py-5 sm:py-6 flex justify-between items-center text-left focus:outline-none group gap-4"
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
+              aria-expanded={openIndex === i}
             >
-              <span className="font-display text-[1.2rem] group-hover:text-honey transition-colors text-[#2A1B0A]">{faq.q}</span>
-              <Plus className={`w-5 h-5 text-[#2A1B0A]/70 group-hover:text-honey transition-all duration-500 ${openIndex === i ? 'rotate-45' : ''}`} strokeWidth={2} />
+              <span className="font-display text-base sm:text-[1.2rem] group-hover:text-honey transition-colors text-[#2A1B0A] leading-snug">{faq.q}</span>
+              <Plus className={`w-4 sm:w-5 h-4 sm:h-5 text-[#2A1B0A]/70 group-hover:text-honey transition-all duration-300 shrink-0 ${openIndex === i ? 'rotate-45 text-honey' : ''}`} strokeWidth={2} />
             </button>
             <div 
-              className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === i ? 'max-h-40 opacity-100 pb-6' : 'max-h-0 opacity-0'}`}
+              className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === i ? 'max-h-60 opacity-100 pb-5 sm:pb-6' : 'max-h-0 opacity-0'}`}
             >
-              <p className="text-sm text-[#2A1B0A]/85 leading-relaxed font-medium">{faq.a}</p>
+              <p className="text-xs sm:text-sm text-[#2A1B0A]/85 leading-relaxed font-light">{faq.a}</p>
             </div>
           </div>
         ))}
@@ -969,20 +1143,20 @@ const FinalCTA = () => {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <section id="join" className="py-32 px-6 relative overflow-hidden text-[#2A1B0A] border-t border-honey/10">
+    <section id="join" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 relative overflow-hidden text-[#2A1B0A] border-t border-honey/10">
       <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(200,134,10,0.08)_0%,_transparent_70%)]"></div>
       
       <div className="max-w-2xl mx-auto text-center relative z-10">
-        <h2 className="font-display text-5xl font-light mb-6 text-[#2A1B0A]">
+        <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6 text-[#2A1B0A]">
           {isEl ? 'Συνδεθείτε με την Πηγή του Ελληνικού Μελιού' : 'Connect Directly with Greek Apiary Heritage'}
         </h2>
-        <p className="text-[#2A1B0A]/90 text-base mb-12 font-medium">
+        <p className="text-[#2A1B0A]/85 text-sm sm:text-base mb-8 sm:mb-12 font-light max-w-lg mx-auto">
           {isEl
             ? 'Επικοινωνήστε μαζί μας για εξατομικευμένη αναδοχή κυψέλης, ιδιωτικές επισκέψεις στα μελισσοκομεία μας στη Μάνη ή εξειδικευμένες εταιρικές αποστολές.'
             : 'Get in touch for bespoke hive guardianship inquiries, private visits to our Mani apiaries, or distinguished corporate gifting.'}
         </p>
         
-        <div className="mb-16 max-w-md mx-auto text-left">
+        <div className="mb-12 sm:mb-16 max-w-md mx-auto text-left">
           {!submitted ? (
             <form 
               onSubmit={async (e) => { 
@@ -1007,30 +1181,30 @@ const FinalCTA = () => {
                 name="email"
                 placeholder={isEl ? "Το email σας" : "Your email"} 
                 required
-                className="w-full bg-transparent border border-honey/40 px-4 py-3 text-sm focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/60 text-[#2A1B0A] font-medium"
+                className="w-full bg-white/70 border border-honey/40 px-4 py-3 text-base sm:text-sm focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/50 text-[#2A1B0A] font-medium"
               />
               <textarea 
                 name="message"
                 placeholder={isEl ? "Το μήνυμά σας (προαιρετικό)" : "Your message (optional)"} 
                 rows={3}
-                className="w-full bg-transparent border border-honey/40 px-4 py-3 text-sm focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/60 text-[#2A1B0A] resize-none font-medium"
+                className="w-full bg-white/70 border border-honey/40 px-4 py-3 text-base sm:text-sm focus:outline-none focus:border-honey transition-colors rounded-[2px] placeholder:text-[#2A1B0A]/50 text-[#2A1B0A] resize-none font-medium"
               ></textarea>
-              <button type="submit" className="bg-honey text-[#2A1B0A] px-8 py-3 text-sm font-medium hover:bg-honey/90 transition-colors rounded-[2px] active:scale-95 w-full">
+              <button type="submit" className="bg-honey text-[#2A1B0A] px-8 py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-honey/90 transition-colors rounded-[2px] active:scale-95 w-full">
                 {isEl ? "Αποστολή Μηνύματος" : "Send Inquiry"}
               </button>
             </form>
           ) : (
-            <div className="py-3 text-sm italic text-pale-honey animate-fade-in text-center">
+            <div className="py-4 text-sm italic text-honey font-serif animate-fade-in text-center bg-honey/10 border border-honey/20 rounded-[2px]">
               {isEl ? "Σας ευχαριστούμε. Θα επικοινωνήσουμε άμεσα μαζί σας." : "Thank you. Our family team will be in touch shortly."}
             </div>
           )}
         </div>
         
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-[10px] uppercase tracking-widest text-[#2A1B0A]/80 font-bold">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-[9px] sm:text-[10px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">
           <div>{isEl ? '100% Αγνό Ανεπεξέργαστο Μέλι' : '100% Raw Unheated Honey'}</div>
-          <div className="hidden md:block w-[1px] h-3 bg-honey/50"></div>
+          <div className="hidden sm:block w-[1px] h-3 bg-honey/50"></div>
           <div>{isEl ? 'Πιστοποίηση Eurofins' : 'Eurofins Lab Certified'}</div>
-          <div className="hidden md:block w-[1px] h-3 bg-honey/50"></div>
+          <div className="hidden sm:block w-[1px] h-3 bg-honey/50"></div>
           <div>{isEl ? 'Απευθείας από τον Μελισσοκόμο' : 'Direct From Petros'}</div>
         </div>
       </div>
@@ -1047,12 +1221,14 @@ export default function Landing() {
   const [hasOliveOil, setHasOliveOil] = useState(false);
   const [selectedPlanForSignup, setSelectedPlanForSignup] = useState<{id: string, name: string} | null>(null);
   const { user } = useAuth();
+  const { language } = useLanguage();
+  const isEl = language === 'el';
 
   const cartItemsCount = (cartPlan ? 1 : 0) + (hasOliveOil ? 1 : 0);
   const cartTotal = (cartPlan?.price || 0) + (hasOliveOil ? 18 : 0);
 
   return (
-    <div className="min-h-screen bg-hive-bg text-cream font-body selection:bg-honey selection:text-[#2A1B0A]">
+    <div className="min-h-screen bg-hive-bg text-[#2A1B0A] font-body selection:bg-honey selection:text-[#2A1B0A]">
       <Navbar
         cartItemsCount={cartItemsCount}
         setIsCartOpen={setIsCartOpen}

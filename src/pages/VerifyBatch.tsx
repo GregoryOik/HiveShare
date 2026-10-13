@@ -161,24 +161,24 @@ export default function VerifyBatch() {
     <div className="min-h-screen bg-[#0C0804] text-[#E5DCD0] font-body selection:bg-honey selection:text-black">
       {/* ── HEADER ── */}
       <header className="border-b border-honey/15 bg-black/50 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link to="/" className="font-display text-2xl tracking-wide group flex items-center gap-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-3">
+          <Link to="/" className="font-display text-2xl tracking-wide group flex items-center gap-2 min-w-0">
             <span className="text-white group-hover:text-honey transition-colors">Hive</span>
             <span className="text-honey">Share</span>
-            <span className="text-[10px] uppercase font-mono tracking-widest text-honey/60 ml-2 border border-honey/20 px-2 py-0.5 rounded-sm">
+            <span className="hidden sm:inline-block text-[10px] uppercase font-mono tracking-widest text-honey/60 border border-honey/20 px-2 py-0.5 rounded-sm">
               Provenance Registry
             </span>
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2.5 sm:gap-4 shrink-0">
             <Link
               to="/buy-honey"
-              className="text-xs uppercase tracking-widest text-white/70 hover:text-honey font-bold transition-colors"
+              className="text-[10px] sm:text-xs uppercase tracking-widest text-white/70 hover:text-honey font-bold transition-colors"
             >
               Buy Honey
             </Link>
             <Link
               to="/membership"
-              className="px-4 py-2 bg-honey text-[#0C0804] hover:bg-honey/90 text-xs uppercase tracking-widest font-bold rounded-[2px] transition-all"
+              className="px-3 sm:px-4 py-2 bg-honey text-[#0C0804] hover:bg-honey/90 text-[10px] sm:text-xs uppercase tracking-widest font-bold rounded-[2px] transition-all"
             >
               Adopt a Colony
             </Link>
@@ -187,15 +187,15 @@ export default function VerifyBatch() {
       </header>
 
       {/* ── HERO & SEARCH ── */}
-      <div className="relative border-b border-honey/15 bg-gradient-to-b from-[#140E08] via-[#0C0804] to-[#0C0804] py-16 px-6">
+      <div className="relative border-b border-honey/15 bg-gradient-to-b from-[#140E08] via-[#0C0804] to-[#0C0804] py-12 sm:py-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-honey/10 border border-honey/30 rounded-full text-honey text-[10px] uppercase tracking-[0.3em] font-bold">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-honey/10 border border-honey/30 rounded-full text-honey text-[9px] sm:text-[10px] uppercase tracking-[0.25em] sm:tracking-[0.3em] font-bold">
             <ShieldCheck size={14} /> Official Batch Verification & Lab Certificate
           </div>
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-white tracking-tight">
+          <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight">
             Single-Origin Provenance
           </h1>
-          <p className="text-white/60 text-sm md:text-base max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-white/60 text-xs sm:text-base max-w-2xl mx-auto font-light leading-relaxed">
             Every numbered jar from Petros Oikonomakos’ apiaries is traceable to its precise mountain coordinates, floral bloom window, and independent moisture analysis.
           </p>
 
@@ -208,12 +208,12 @@ export default function VerifyBatch() {
                 value={searchInput}
                 onChange={e => setSearchInput(e.target.value)}
                 placeholder="Scan or enter batch code (e.g. THYME-2026-A1)..."
-                className="w-full bg-black/70 border border-honey/30 pl-10 pr-4 py-3 text-xs md:text-sm text-white rounded-[2px] uppercase tracking-wider font-mono focus:outline-none focus:border-honey"
+                className="w-full bg-black/70 border border-honey/30 pl-10 pr-4 py-3 text-base sm:text-sm text-white rounded-[2px] uppercase tracking-wider font-mono focus:outline-none focus:border-honey"
               />
             </div>
             <button
               type="submit"
-              className="px-6 py-3 bg-honey text-[#0C0804] hover:bg-honey/90 text-xs uppercase tracking-widest font-bold rounded-[2px] transition-all whitespace-nowrap shadow-md"
+              className="px-5 sm:px-6 py-3 bg-honey text-[#0C0804] hover:bg-honey/90 text-xs uppercase tracking-widest font-bold rounded-[2px] transition-all whitespace-nowrap shadow-md active:scale-95"
             >
               Verify
             </button>

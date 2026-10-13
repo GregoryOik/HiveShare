@@ -86,10 +86,10 @@ export default function Harvest() {
       </div>
 
       <header className="border-b border-honey/10 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50 relative">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between w-full">
-          <div className="flex items-center gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between w-full">
+          <div className="flex items-center gap-4 sm:gap-6">
             <Link to="/dashboard" className="p-2 hover:bg-honey/10 rounded-full transition-colors text-honey">
-              <ArrowLeft size={20} />
+              <ArrowLeft size={18} />
             </Link>
             <Link to="/" className="font-display text-2xl tracking-wide text-[#2A1B0A]">
               Hive<span className="text-honey">Share</span>
@@ -104,29 +104,29 @@ export default function Harvest() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-16 relative z-10 w-full flex-1">
-        <div className="mb-16 text-center space-y-4">
-          <h1 className="font-display text-5xl text-[#2A1B0A]">Harvest <span className="italic text-pale-honey">{config?.harvestSeason || 'Timeline'}</span></h1>
-          <p className="text-sm text-[#2A1B0A]/60 max-w-lg mx-auto leading-relaxed font-sans">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-16 relative z-10 w-full flex-1">
+        <div className="mb-10 sm:mb-16 text-center space-y-3 sm:space-y-4">
+          <h1 className="font-display text-3xl sm:text-5xl text-[#2A1B0A]">Harvest <span className="italic text-honey">{config?.harvestSeason || 'Timeline'}</span></h1>
+          <p className="text-xs sm:text-sm text-[#2A1B0A]/60 max-w-lg mx-auto leading-relaxed font-sans">
             {config?.siteWideHarvestDescription || 'Your nomadic journey follows the ancient bloom cycles of Greece. Here is the schedule for your seasonal honey yields.'}
           </p>
         </div>
 
         {/* Shipping Address Critical Check */}
         {!profile?.shippingAddress && (
-          <div className="mb-12 bg-red-500/5 border border-red-500/20 p-8 rounded-lg flex flex-col md:flex-row items-center justify-between gap-8 backdrop-blur-sm animate-pulse">
-            <div className="flex items-center gap-6 text-left">
-              <div className="w-14 h-14 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
-                <MapPin className="text-red-500 w-6 h-6" />
+          <div className="mb-8 sm:mb-12 bg-red-500/5 border border-red-500/20 p-4 sm:p-8 rounded-[2px] flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 backdrop-blur-sm animate-pulse">
+            <div className="flex items-center gap-4 sm:gap-6 text-left">
+              <div className="w-12 sm:w-14 h-12 sm:h-14 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
+                <MapPin className="text-red-500 w-5 sm:w-6 h-5 sm:h-6" />
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-black text-[#2A1B0A] uppercase tracking-widest">Logistics Alert: No Address Found</p>
-                <p className="text-xs text-[#2A1B0A]/70 leading-relaxed font-medium">We cannot fulfill your upcoming harvest deliveries without a verified shipping address.</p>
+                <p className="text-xs sm:text-sm font-black text-[#2A1B0A] uppercase tracking-widest">Logistics Alert: No Address Found</p>
+                <p className="text-[11px] sm:text-xs text-[#2A1B0A]/70 leading-relaxed font-medium">We cannot fulfill your upcoming harvest deliveries without a verified shipping address.</p>
               </div>
             </div>
             <Link 
               to="/settings" 
-              className="px-8 py-4 bg-[#2A1B0A] text-white text-[10px] uppercase tracking-widest font-black hover:bg-honey hover:text-[#2A1B0A] transition-all rounded-sm flex items-center gap-2"
+              className="w-full md:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-[#2A1B0A] text-white text-[10px] uppercase tracking-widest font-black hover:bg-honey hover:text-[#2A1B0A] transition-all rounded-[2px] flex items-center justify-center gap-2"
             >
               Update Shipping Coordinates <ChevronRight size={14} />
             </Link>
@@ -134,11 +134,11 @@ export default function Harvest() {
         )}
 
         {/* Harvest Cards */}
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           {harvests.map((harvest, index) => (
             <div 
               key={harvest.id}
-              className={`relative bg-white border rounded-lg p-8 transition-all duration-500 group overflow-hidden ${
+              className={`relative bg-white border rounded-[2px] p-5 sm:p-8 transition-all duration-500 group overflow-hidden ${
                 harvest.status === 'upcoming' 
                   ? 'border-honey/40 shadow-xl shadow-honey/5' 
                   : 'border-[#2A1B0A]/5 opacity-80'

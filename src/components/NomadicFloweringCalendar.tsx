@@ -124,34 +124,34 @@ export default function NomadicFloweringCalendar() {
   const currentStation = STATIONS.find(s => s.id === selectedStationId) || STATIONS[2];
 
   return (
-    <section id="nomadic-calendar" className="py-20 md:py-28 px-6 bg-[#0E0905] border-t border-honey/15 text-[#E5DCD0]">
-      <div className="max-w-7xl mx-auto space-y-12">
+    <section id="nomadic-calendar" className="py-14 sm:py-20 md:py-28 px-4 sm:px-6 bg-[#0E0905] border-t border-honey/15 text-[#E5DCD0]">
+      <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         {/* Section Header */}
-        <div className="max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-honey/10 border border-honey/30 rounded-full text-honey text-[10px] uppercase tracking-[0.3em] font-bold">
-            <Compass size={13} /> {isEl ? 'Ο Νομαδικός Κύκλος των Μελισσιών' : 'The Nomadic Apiary Route'}
+        <div className="max-w-3xl space-y-3 sm:space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-honey/10 border border-honey/30 rounded-full text-honey text-[9px] sm:text-[10px] uppercase tracking-[0.3em] font-bold">
+            <Compass size={12} /> {isEl ? 'Ο Νομαδικός Κύκλος των Μελισσιών' : 'The Nomadic Apiary Route'}
           </div>
-          <h2 className="font-display text-4xl md:text-5xl text-white tracking-tight">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl text-white tracking-tight leading-tight">
             {isEl ? 'Ακολουθώντας τις Ανθοφορίες της Πελοποννήσου' : 'Chasing the Peloponnese Blooms'}
           </h2>
-          <p className="text-white/60 text-sm md:text-base leading-relaxed font-light">
+          <p className="text-white/60 text-xs sm:text-sm md:text-base leading-relaxed font-light">
             {isEl
               ? 'Οι μέλισσές μας δεν μένουν ποτέ στάσιμες. Ο Πέτρος Οικονομάκος μετακινεί τις κυψέλες ακολουθώντας τον αρχαίο κύκλο της ελληνικής φύσης: από τους παραθαλάσσιους πορτοκαλεώνες στις βραχονησίδες της Μάνης και τα αλπικά δάση ελάτης στα 1.200 μέτρα.'
               : 'Our colonies never remain stationary. Petros moves the hives following the ancient Greek rhythm: from sea-level citrus valleys to wind-swept limestone cliffs and 1,200m alpine fir canopies.'}
           </p>
         </div>
 
-        {/* 5-Step Timeline Tabs */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 border-b border-honey/15 pb-6">
+        {/* 5-Step Timeline Tabs (Swipeable on mobile, grid on desktop) */}
+        <div className="flex overflow-x-auto no-scrollbar gap-2.5 pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 lg:grid-cols-5 border-b border-honey/15 sm:pb-6">
           {STATIONS.map((station, index) => {
             const isSelected = station.id === selectedStationId;
             return (
               <button
                 key={station.id}
                 onClick={() => setSelectedStationId(station.id)}
-                className={`text-left p-4 rounded-[2px] border transition-all relative overflow-hidden ${
+                className={`text-left p-3.5 sm:p-4 rounded-[2px] border transition-all relative overflow-hidden min-w-[190px] shrink-0 sm:min-w-0 ${
                   isSelected
-                    ? 'bg-[#1C140C] border-honey text-white shadow-xl'
+                    ? 'bg-[#1C140C] border-honey text-white shadow-xl ring-1 ring-honey/40'
                     : 'bg-black/40 border-honey/15 text-white/60 hover:border-honey/40 hover:text-white'
                 }`}
               >
@@ -167,7 +167,7 @@ export default function NomadicFloweringCalendar() {
                   )}
                 </div>
 
-                <div className="font-bold text-xs sm:text-sm text-white line-clamp-1 mb-1">
+                <div className="font-bold text-xs sm:text-sm text-white line-clamp-1 mb-1 font-serif">
                   {station.seasonName[language]}
                 </div>
 
@@ -181,24 +181,24 @@ export default function NomadicFloweringCalendar() {
         </div>
 
         {/* ── SELECTED STATION DETAIL CARD ── */}
-        <div className="bg-[#140E08] border border-honey/25 p-8 md:p-12 rounded-[2px] shadow-2xl space-y-8">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-honey/15 pb-8">
+        <div className="bg-[#140E08] border border-honey/25 p-5 sm:p-8 md:p-12 rounded-[2px] shadow-2xl space-y-6 sm:space-y-8">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 border-b border-honey/15 pb-5 sm:pb-8">
             <div>
-              <div className="flex items-center gap-2 text-honey text-xs uppercase tracking-widest font-mono mb-2">
-                <Calendar size={13} />
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-honey text-[10px] sm:text-xs uppercase tracking-widest font-mono mb-2">
+                <Calendar size={12} className="shrink-0" />
                 <span>{currentStation.months[language]}</span>
                 <span>·</span>
-                <MapPin size={13} />
-                <span>{currentStation.region[language]} ({currentStation.elevationMeters}m Altitude)</span>
+                <MapPin size={12} className="shrink-0" />
+                <span>{currentStation.region[language]} ({currentStation.elevationMeters}m)</span>
               </div>
-              <h3 className="font-display text-3xl md:text-4xl text-white">
+              <h3 className="font-display text-2xl sm:text-3xl md:text-4xl text-white leading-tight">
                 {currentStation.seasonName[language]}
               </h3>
             </div>
 
             {/* Station Status Badge */}
             <div className="flex items-center gap-3">
-              <div className={`px-4 py-2 border rounded-sm text-xs uppercase tracking-widest font-mono font-bold flex items-center gap-2 ${
+              <div className={`px-3.5 py-1.5 sm:px-4 sm:py-2 border rounded-sm text-[10px] sm:text-xs uppercase tracking-widest font-mono font-bold flex items-center gap-2 ${
                 currentStation.statusType === 'active'
                   ? 'bg-green-500/10 border-green-500/40 text-green-400'
                   : currentStation.statusType === 'completed'
@@ -214,44 +214,44 @@ export default function NomadicFloweringCalendar() {
           </div>
 
           {/* 3-Column Specifications */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-xs leading-relaxed">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 text-xs leading-relaxed">
             {/* Box 1: Botanical Source */}
-            <div className="p-6 bg-black/50 border border-honey/15 rounded-[2px] space-y-3">
-              <div className="text-[10px] uppercase tracking-widest text-honey font-bold flex items-center gap-1.5">
-                <Sparkles size={13} /> {isEl ? 'Χλωρίδα & Νέκταρ' : 'Botanical Bloom'}
+            <div className="p-4 sm:p-6 bg-black/50 border border-honey/15 rounded-[2px] space-y-2.5">
+              <div className="text-[9px] sm:text-[10px] uppercase tracking-widest text-honey font-bold flex items-center gap-1.5">
+                <Sparkles size={12} /> {isEl ? 'Χλωρίδα & Νέκταρ' : 'Botanical Bloom'}
               </div>
-              <div className="text-white font-semibold text-sm">
+              <div className="text-white font-semibold text-xs sm:text-sm font-serif">
                 {currentStation.nectarFlora[language]}
               </div>
-              <p className="text-white/60">
+              <p className="text-white/60 text-[11px] sm:text-xs font-light">
                 {currentStation.flavorProfile[language]}
               </p>
             </div>
 
             {/* Box 2: Laboratory Expectation */}
-            <div className="p-6 bg-black/50 border border-honey/15 rounded-[2px] space-y-3">
-              <div className="text-[10px] uppercase tracking-widest text-honey font-bold flex items-center gap-1.5">
-                <Droplets size={13} /> {isEl ? 'Ποιοτικά Χαρακτηριστικά' : 'Raw Quality Specs'}
+            <div className="p-4 sm:p-6 bg-black/50 border border-honey/15 rounded-[2px] space-y-2.5">
+              <div className="text-[9px] sm:text-[10px] uppercase tracking-widest text-honey font-bold flex items-center gap-1.5">
+                <Droplets size={12} /> {isEl ? 'Ποιοτικά Χαρακτηριστικά' : 'Raw Quality Specs'}
               </div>
               <div>
-                <div className="text-white/40 uppercase tracking-wider text-[9px]">{isEl ? 'Υγρασία Εξαγωγής' : 'Expected Moisture'}</div>
-                <div className="text-green-400 font-mono font-bold text-sm mt-0.5">{currentStation.moistureExpected}</div>
+                <div className="text-white/40 uppercase tracking-wider text-[8px] sm:text-[9px]">{isEl ? 'Υγρασία Εξαγωγής' : 'Expected Moisture'}</div>
+                <div className="text-green-400 font-mono font-bold text-xs sm:text-sm mt-0.5">{currentStation.moistureExpected}</div>
               </div>
               <div>
-                <div className="text-white/40 uppercase tracking-wider text-[9px]">{isEl ? 'Επεξεργασία' : 'Extraction Method'}</div>
-                <div className="text-white font-medium mt-0.5">{isEl ? 'Εν ψυχρώ · Αφιλτράριστο' : 'Cold-Spun · Unheated'}</div>
+                <div className="text-white/40 uppercase tracking-wider text-[8px] sm:text-[9px]">{isEl ? 'Επεξεργασία' : 'Extraction Method'}</div>
+                <div className="text-white font-medium text-[11px] sm:text-xs mt-0.5">{isEl ? 'Εν ψυχρώ · Αφιλτράριστο' : 'Cold-Spun · Unheated'}</div>
               </div>
             </div>
 
             {/* Box 3: Beekeeper Field Note */}
-            <div className="p-6 bg-[#1A1208] border border-honey/30 rounded-[2px] space-y-3">
-              <div className="text-[10px] uppercase tracking-widest text-honey font-bold flex items-center gap-1.5">
-                <Activity size={13} /> {isEl ? 'Σημείωμα Μελισσοκόμου' : 'Petros’ Field Dispatch'}
+            <div className="p-4 sm:p-6 bg-[#1A1208] border border-honey/30 rounded-[2px] space-y-2.5">
+              <div className="text-[9px] sm:text-[10px] uppercase tracking-widest text-honey font-bold flex items-center gap-1.5">
+                <Activity size={12} /> {isEl ? 'Σημείωμα Μελισσοκόμου' : 'Petros’ Field Dispatch'}
               </div>
-              <p className="font-serif italic text-white/90 text-sm leading-relaxed">
+              <p className="font-serif italic text-white/90 text-xs sm:text-sm leading-relaxed">
                 "{currentStation.fieldNote[language]}"
               </p>
-              <div className="text-[9px] uppercase tracking-widest text-white/40 font-mono pt-1">
+              <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-white/40 font-mono pt-1">
                 Petros Oikonomakos · Laconia Station
               </div>
             </div>

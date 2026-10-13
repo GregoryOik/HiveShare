@@ -278,8 +278,8 @@ function InteractiveJarLabelPreview() {
   const [hiveNumber] = useState('247');
 
   return (
-    <div className="border border-honey/30 bg-hive-panel rounded-[2px] p-8 md:p-12 relative overflow-hidden shadow-sm my-16">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10">
+    <div className="border border-honey/30 bg-hive-panel rounded-[2px] p-4 sm:p-8 md:p-12 relative overflow-hidden shadow-sm my-10 sm:my-16">
+      <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-6 sm:gap-10">
         <div className="w-full md:w-1/2 space-y-4">
           <div className="flex items-center gap-2 text-honey">
             <Sparkles size={16} />
@@ -287,7 +287,7 @@ function InteractiveJarLabelPreview() {
               {isEl ? 'Προσωποποιημένη Προέλευση' : 'Personalized Provenance'}
             </span>
           </div>
-          <h3 className="font-display text-3xl md:text-4xl text-[#2A1B0A] leading-tight">
+          <h3 className="font-display text-2xl sm:text-3xl md:text-4xl text-[#2A1B0A] leading-tight">
             {isEl ? 'Δείτε το όνομά σας στη συλλεκτική σοδειά του Πέτρου.' : "See your name on Petros' reserve harvest."}
           </h3>
           <p className="text-xs text-[#2A1B0A]/70 leading-relaxed font-light">
@@ -306,14 +306,14 @@ function InteractiveJarLabelPreview() {
               onChange={e => setGuardianName(e.target.value)}
               placeholder={isEl ? 'π.χ. Δημήτριος Βασιλείου' : 'e.g. Dr. Thomas Vance'}
               maxLength={36}
-              className="w-full bg-white/80 border border-honey/40 px-4 py-3 text-sm text-[#2A1B0A] rounded-[2px] focus:outline-none focus:border-honey font-medium"
+              className="w-full bg-white/80 border border-honey/40 px-4 py-3 text-base sm:text-sm text-[#2A1B0A] rounded-[2px] focus:outline-none focus:border-honey font-medium"
             />
           </div>
         </div>
 
         {/* Real-time Jar Label Render */}
         <div className="w-full md:w-1/2 flex justify-center">
-          <div className="w-full max-w-[340px] bg-[#FFFDF9] border-[3px] border-[#C8860A] p-6 shadow-xl rounded-[2px] text-center relative overflow-hidden">
+          <div className="w-full max-w-[340px] bg-[#FFFDF9] border-[3px] border-[#C8860A] p-4 sm:p-6 shadow-xl rounded-[2px] text-center relative overflow-hidden">
             <div className="absolute inset-1 border border-[#C8860A]/30 pointer-events-none" />
             <div className="text-[8px] uppercase tracking-[0.35em] text-[#C8860A] font-bold mb-1">
               {isEl ? 'Μελισσοκομεία Πέτρου Οικονομάκου · Από το 1996' : 'Petros Oikonomakos Apiaries · Est. 1996'}
@@ -605,22 +605,22 @@ function JarCheckoutModal({
       <div className="absolute inset-0 bg-black/75 backdrop-blur-md" onClick={onClose} />
 
       <div className="relative z-10 bg-hive-bg border border-honey/30 rounded-[2px] shadow-[0_0_80px_rgba(200,134,10,0.18)] w-full max-w-xl max-h-[92vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-300">
-        <div className="sticky top-0 bg-hive-bg/95 backdrop-blur-md border-b border-honey/10 px-8 py-5 flex items-center justify-between z-20">
+        <div className="sticky top-0 bg-hive-bg/95 backdrop-blur-md border-b border-honey/10 px-4 sm:px-8 py-3.5 sm:py-5 flex items-center justify-between z-20">
           <div>
             <div className="text-[9px] uppercase tracking-[0.3em] text-honey font-bold">
               {isEl ? 'Απευθείας Αγορά Μελιού' : 'Direct Honey Purchase'}
             </div>
-            <h3 className="font-display text-2xl text-[#2A1B0A]">
+            <h3 className="font-display text-xl sm:text-2xl text-[#2A1B0A]">
               {isEl ? 'Παραγγελία Μονοποικιλιακής Σοδειάς' : 'Single Batch Harvest Order'}
             </h3>
           </div>
-          <button onClick={onClose} className="text-[#2A1B0A]/40 hover:text-[#2A1B0A] transition-colors p-1">
+          <button onClick={onClose} className="text-[#2A1B0A]/40 hover:text-[#2A1B0A] transition-colors p-1.5" aria-label="Close">
             <X size={20} />
           </button>
         </div>
 
         {isSuccess ? (
-          <div className="p-8 md:p-12 text-center space-y-6">
+          <div className="p-6 sm:p-8 md:p-12 text-center space-y-6">
             <div className="w-16 h-16 rounded-full bg-honey/10 border border-honey/40 flex items-center justify-center mx-auto text-honey">
               <PackageCheck size={32} />
             </div>
@@ -628,7 +628,7 @@ function JarCheckoutModal({
               <div className="text-[10px] uppercase tracking-[0.3em] text-honey font-bold mb-1">
                 {isEl ? 'Η Παραγγελία Καταχωρήθηκε' : 'Order Registered'}
               </div>
-              <h4 className="font-display text-3xl text-[#2A1B0A]">
+              <h4 className="font-display text-2xl sm:text-3xl text-[#2A1B0A]">
                 {isEl ? `Σας ευχαριστούμε, ${fullName || 'Ανάδοχε'}` : `Thank you, ${fullName || 'Guardian'}`}
               </h4>
               <p className="text-xs font-mono text-[#2A1B0A]/50 mt-1">
@@ -662,44 +662,46 @@ function JarCheckoutModal({
             </button>
           </div>
         ) : (
-          <div className="p-6 md:p-8 space-y-6">
+          <div className="p-4 sm:p-6 md:p-8 space-y-5 sm:space-y-6">
             {/* Selected Item Summary */}
-            <div className="flex items-center justify-between p-4 bg-hive-panel/80 border border-honey/20 rounded-[2px]">
-              <div className="flex items-center gap-4">
-                <img src={item.jar.image} alt={item.jar.variety} className="w-14 h-14 object-cover rounded-[2px] border border-honey/20" />
-                <div>
-                  <h4 className="font-display text-lg text-[#2A1B0A] leading-snug">{item.jar.variety}</h4>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 bg-hive-panel/80 border border-honey/20 rounded-[2px]">
+              <div className="flex items-center gap-3.5">
+                <img src={item.jar.image} alt={item.jar.variety} className="w-12 sm:w-14 h-12 sm:h-14 object-cover rounded-[2px] border border-honey/20 shrink-0" />
+                <div className="min-w-0">
+                  <h4 className="font-display text-base sm:text-lg text-[#2A1B0A] leading-snug truncate">{item.jar.variety}</h4>
                   <div className="text-[10px] uppercase tracking-wider text-[#2A1B0A]/60 font-bold">
                     {item.option.size} · <span className="text-honey">€{item.option.priceKg}/kg</span>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-honey/15">
                 <div className="flex items-center border border-honey/30 rounded-[2px] bg-white/60">
                   <button
                     type="button"
                     onClick={() => setQuantity(q => Math.max(1, q - 1))}
                     className="p-1.5 text-[#2A1B0A]/60 hover:text-honey"
+                    aria-label="Decrease quantity"
                   >
                     <Minus size={12} />
                   </button>
-                  <span className="px-2 text-xs font-bold text-[#2A1B0A]">{quantity}</span>
+                  <span className="px-2.5 text-xs font-bold text-[#2A1B0A]">{quantity}</span>
                   <button
                     type="button"
                     onClick={() => setQuantity(q => q + 1)}
                     className="p-1.5 text-[#2A1B0A]/60 hover:text-honey"
+                    aria-label="Increase quantity"
                   >
                     <Plus size={12} />
                   </button>
                 </div>
-                <div className="font-display text-2xl text-honey min-w-[60px] text-right">
+                <div className="font-display text-xl sm:text-2xl text-honey min-w-[60px] text-right font-semibold">
                   €{subtotal}
                 </div>
               </div>
             </div>
 
             {/* ── THE HIGH-CONVERTING HIVESHARE VALUE ANCHOR ── */}
-            <div className="p-5 bg-[#1A1208] text-cream border border-honey/40 rounded-[2px] space-y-3 relative overflow-hidden shadow-lg">
+            <div className="p-4 sm:p-5 bg-[#1A1208] text-cream border border-honey/40 rounded-[2px] space-y-3 relative overflow-hidden shadow-lg">
               <div className="absolute top-0 right-0 w-32 h-32 bg-honey/10 blur-[40px] pointer-events-none" />
               <div className="flex items-center gap-2 text-honey text-[10px] uppercase tracking-widest font-black">
                 <Sparkles size={14} className="text-pale-honey animate-pulse" />
@@ -709,7 +711,7 @@ function JarCheckoutModal({
                 You are paying <strong className="text-pale-honey">€{item.option.priceKg}/kg</strong> for individual honey ({totalWeightKg}kg for €{subtotal}).
                 For <strong className="text-pale-honey">€140/year</strong>, HiveShare Starter gives you <strong className="text-pale-honey">2.5 kg of honey (€56/kg)</strong> — plus your own hive telemetry, apiary journal, and free EU shipping across 3 deliveries!
               </p>
-              <div className="pt-2 flex flex-col sm:flex-row gap-3 items-center justify-between border-t border-honey/20">
+              <div className="pt-2 flex flex-col sm:flex-row gap-2.5 items-center justify-between border-t border-honey/20">
                 <span className="text-[10px] uppercase tracking-wider text-honey font-bold">
                   Get 2.5 kg for €140 (~€56/kg)
                 </span>
@@ -727,7 +729,7 @@ function JarCheckoutModal({
             </div>
 
             {/* Direct Order Form */}
-            <form onSubmit={handleSubmitOrder} className="space-y-4 pt-2">
+            <form onSubmit={handleSubmitOrder} className="space-y-4 pt-1">
               <div className="flex items-center justify-between border-b border-honey/10 pb-2">
                 <span className="text-[10px] uppercase tracking-[0.25em] text-[#2A1B0A]/60 font-bold">
                   Shipping Destination
@@ -751,12 +753,12 @@ function JarCheckoutModal({
                     value={giftNote}
                     onChange={e => setGiftNote(e.target.value)}
                     placeholder="Wishing you health and golden mornings from the Mani mountains. Love, Marcus"
-                    className="w-full bg-white/90 border border-honey/30 p-2 text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
+                    className="w-full bg-white/90 border border-honey/30 p-2.5 text-base sm:text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
                   />
                 </div>
               )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
                   <label className="block text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold mb-1">
                     {isGift ? 'Recipient Full Name *' : 'Full Name *'}
@@ -767,7 +769,7 @@ function JarCheckoutModal({
                     value={fullName}
                     onChange={e => setFullName(e.target.value)}
                     placeholder="e.g. Elena Müller"
-                    className="w-full bg-white/70 border border-honey/30 px-3.5 py-2.5 text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
+                    className="w-full bg-white/70 border border-honey/30 px-3.5 py-2.5 text-base sm:text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
                   />
                 </div>
                 <div>
@@ -778,7 +780,7 @@ function JarCheckoutModal({
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="elena@example.de"
-                    className="w-full bg-white/70 border border-honey/30 px-3.5 py-2.5 text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
+                    className="w-full bg-white/70 border border-honey/30 px-3.5 py-2.5 text-base sm:text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
                   />
                 </div>
               </div>
@@ -791,11 +793,11 @@ function JarCheckoutModal({
                   value={address}
                   onChange={e => setAddress(e.target.value)}
                   placeholder="Kastanienallee 14"
-                  className="w-full bg-white/70 border border-honey/30 px-3.5 py-2.5 text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
+                  className="w-full bg-white/70 border border-honey/30 px-3.5 py-2.5 text-base sm:text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
                 />
               </div>
 
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold mb-1">Postal Code *</label>
                   <input
@@ -804,7 +806,7 @@ function JarCheckoutModal({
                     value={postalCode}
                     onChange={e => setPostalCode(e.target.value)}
                     placeholder="10119"
-                    className="w-full bg-white/70 border border-honey/30 px-3.5 py-2.5 text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
+                    className="w-full bg-white/70 border border-honey/30 px-3.5 py-2.5 text-base sm:text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
                   />
                 </div>
                 <div>
@@ -815,7 +817,7 @@ function JarCheckoutModal({
                     value={city}
                     onChange={e => setCity(e.target.value)}
                     placeholder="Berlin"
-                    className="w-full bg-white/70 border border-honey/30 px-3.5 py-2.5 text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
+                    className="w-full bg-white/70 border border-honey/30 px-3.5 py-2.5 text-base sm:text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
                   />
                 </div>
                 <div>
@@ -823,7 +825,7 @@ function JarCheckoutModal({
                   <select
                     value={country}
                     onChange={e => setCountry(e.target.value)}
-                    className="w-full bg-white/70 border border-honey/30 px-2 py-2.5 text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
+                    className="w-full bg-white/70 border border-honey/30 px-2 py-2.5 text-base sm:text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
                   >
                     <option value="Germany">Germany</option>
                     <option value="Netherlands">Netherlands</option>
@@ -845,7 +847,7 @@ function JarCheckoutModal({
                   value={phone}
                   onChange={e => setPhone(e.target.value)}
                   placeholder="+49 170 1234567"
-                  className="w-full bg-white/70 border border-honey/30 px-3.5 py-2 text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
+                  className="w-full bg-white/70 border border-honey/30 px-3.5 py-2.5 text-base sm:text-xs rounded-[2px] text-[#2A1B0A] focus:outline-none focus:border-honey"
                 />
               </div>
 
@@ -901,10 +903,10 @@ function ValueComparisonSection() {
   const isEl = language === 'el';
 
   return (
-    <div className="my-20 border border-honey/30 bg-hive-panel rounded-[2px] p-8 md:p-14 relative overflow-hidden shadow-sm">
+    <div className="my-10 sm:my-20 border border-honey/30 bg-hive-panel rounded-[2px] p-4 sm:p-8 md:p-14 relative overflow-hidden shadow-sm">
       <div className="absolute top-0 right-0 w-80 h-80 bg-honey/5 blur-[100px] rounded-full pointer-events-none" />
 
-      <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center gap-12">
+      <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center gap-8 sm:gap-12">
         <div className="flex-1 space-y-4">
           <div className="flex items-center gap-2 text-honey">
             <TrendingDown size={18} />
@@ -912,35 +914,35 @@ function ValueComparisonSection() {
               {isEl ? 'Γιατί η Αναδοχή Κυψέλης Αξίζει Περισσότερο' : 'Why HiveShare Guardianship Pays For Itself'}
             </span>
           </div>
-          <h2 className="font-display text-3xl md:text-5xl text-[#2A1B0A] leading-[1.1] font-light">
+          <h2 className="font-display text-2xl sm:text-3xl md:text-5xl text-[#2A1B0A] leading-[1.1] font-light">
             {isEl ? (
-              <>Τα μεμονωμένα βάζα φτάνουν τα <span className="italic text-honey font-normal">112€/kg</span>.<br />Οι ανάδοχοι πληρώνουν μόλις <span className="italic text-honey font-normal">56€/kg</span>.</>
+              <>Τα μεμονωμένα βάζα φτάνουν τα <span className="italic text-honey font-normal">112€/kg</span>.<br className="hidden sm:inline" /> Οι ανάδοχοι πληρώνουν μόλις <span className="italic text-honey font-normal">56€/kg</span>.</>
             ) : (
-              <>Individual jars cost up to <span className="italic text-honey font-normal">€112/kg</span>.<br />Guardians pay as little as <span className="italic text-honey font-normal">€56/kg</span>.</>
+              <>Individual jars cost up to <span className="italic text-honey font-normal">€112/kg</span>.<br className="hidden sm:inline" /> Guardians pay as little as <span className="italic text-honey font-normal">€56/kg</span>.</>
             )}
           </h2>
-          <p className="text-sm text-[#2A1B0A]/75 leading-relaxed max-w-lg font-light">
+          <p className="text-xs sm:text-sm text-[#2A1B0A]/75 leading-relaxed max-w-lg font-light">
             {isEl
               ? 'Υιοθετώντας μια ενεργή κυψέλη απευθείας, παρακάμπτετε εισαγωγείς και μεσάζοντες. Λαμβάνετε υπερδιπλάσια ποσότητα μελιού για τα χρήματά σας, συσκευασμένη κατευθείαν από το μελισσοκομείο στη Λακωνία.'
               : 'By sponsoring an active beehive directly, you bypass multi-tier luxury importers and supermarket distribution margins. You receive more than double the honey for your spend, packaged straight from the extractor cellars in Laconia.'}
           </p>
 
-          <div className="pt-2 grid grid-cols-2 gap-4 max-w-md">
-            <div className="p-4 bg-white/60 border border-honey/20 rounded-[2px]">
+          <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-md">
+            <div className="p-3.5 sm:p-4 bg-white/60 border border-honey/20 rounded-[2px]">
               <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/50 font-bold mb-1">
                 {isEl ? 'Μεμονωμένα Βάζα' : 'Individual Single Jars'}
               </div>
-              <div className="font-display text-2xl text-[#2A1B0A]">€88 – €112</div>
-              <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/50">
+              <div className="font-display text-xl sm:text-2xl text-[#2A1B0A]">€88 – €112</div>
+              <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#2A1B0A]/50">
                 {isEl ? 'Ανά κιλό (λιανική)' : 'Per kilogram retail'}
               </div>
             </div>
-            <div className="p-4 bg-honey/15 border border-honey/40 rounded-[2px]">
+            <div className="p-3.5 sm:p-4 bg-honey/15 border border-honey/40 rounded-[2px]">
               <div className="text-[9px] uppercase tracking-widest text-honey font-bold mb-1">
                 {isEl ? 'Αναδοχή HiveShare' : 'HiveShare Guardianship'}
               </div>
-              <div className="font-display text-2xl text-honey">€56 – €68</div>
-              <div className="text-[9px] uppercase tracking-widest text-honey font-bold">
+              <div className="font-display text-xl sm:text-2xl text-honey font-bold">€56 – €68</div>
+              <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-honey font-bold">
                 {isEl ? 'Ανά κιλό (Έκπτωση έως 50%)' : 'Per kilogram (Save up to 50%)'}
               </div>
             </div>
@@ -950,7 +952,7 @@ function ValueComparisonSection() {
         {/* Comparison Table */}
         <div className="w-full lg:w-[440px] flex-shrink-0">
           <div className="border border-honey/25 rounded-[2px] overflow-hidden text-xs bg-hive-bg shadow-md">
-            <div className="bg-[#1A1208] text-pale-honey/80 px-6 py-3.5 text-[9px] uppercase tracking-[0.25em] font-bold flex justify-between">
+            <div className="bg-[#1A1208] text-pale-honey/80 px-3.5 sm:px-6 py-2.5 sm:py-3.5 text-[8px] sm:text-[9px] uppercase tracking-[0.25em] font-bold flex justify-between">
               <span>{isEl ? 'Κατηγορία Προέλευσης' : 'Provenance Tier'}</span>
               <span>{isEl ? 'Τελική Τιμή Μελιού' : 'Effective Honey Rate'}</span>
             </div>
@@ -960,32 +962,32 @@ function ValueComparisonSection() {
               { mode: 'Μέλι Ελάτης (Βάζο 1 kg)', rate: '€88 / kg', isMember: false },
               { mode: 'Ορεινό Πευκόμελο (Βάζο 1 kg)', rate: '€88 / kg', isMember: false },
               { mode: 'Βασική Αναδοχή (2,5 kg)', rate: '56€ / kg (45% Έκπτωση)', isMember: true },
-              { mode: 'Επίτιμος Προστάτης (5,0 kg)', rate: '68€ / kg (Επώνυμη Κυψέλη)', isMember: true },
+              { mode: 'Επίτιμος Προστάτης (5,0 kg)', rate: '68€ / kg (Επώνυμη)', isMember: true },
             ] : [
               { mode: 'Thyme & Sage (250g Jar)', rate: '€112 / kg', isMember: false },
               { mode: 'Wildflower & Vanilla (500g Jar)', rate: '€104 / kg', isMember: false },
               { mode: 'Black Fir Honey (1 kg Jar)', rate: '€88 / kg', isMember: false },
               { mode: 'Pine Mountain Honey (1 kg Jar)', rate: '€88 / kg', isMember: false },
               { mode: 'Starter Guardianship (2.5 kg)', rate: '€56 / kg (45% OFF)', isMember: true },
-              { mode: 'Premium Patron (5.0 kg)', rate: '€68 / kg (Named Hive)', isMember: true },
+              { mode: 'Premium Patron (5.0 kg)', rate: '€68 / kg (Named)', isMember: true },
             ]).map((row, i) => (
               <div
                 key={i}
-                className={`flex justify-between items-center px-6 py-3.5 border-b border-honey/10 last:border-0 ${
+                className={`flex justify-between items-center px-3.5 sm:px-6 py-2.5 sm:py-3.5 border-b border-honey/10 last:border-0 ${
                   row.isMember ? 'bg-honey/10 font-bold' : 'hover:bg-hive-panel/50'
                 }`}
               >
-                <div className="flex items-center gap-2">
-                  {row.isMember && <span className="text-honey">★</span>}
-                  <span className={row.isMember ? 'text-[#2A1B0A]' : 'text-[#2A1B0A]/70'}>{row.mode}</span>
+                <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 pr-2">
+                  {row.isMember && <span className="text-honey shrink-0">★</span>}
+                  <span className={`truncate text-xs ${row.isMember ? 'text-[#2A1B0A]' : 'text-[#2A1B0A]/70'}`}>{row.mode}</span>
                 </div>
-                <span className={`font-mono ${row.isMember ? 'text-honey text-sm' : 'text-[#2A1B0A]/50'}`}>
+                <span className={`font-mono shrink-0 ${row.isMember ? 'text-honey text-xs sm:text-sm font-bold' : 'text-[#2A1B0A]/50 text-xs'}`}>
                   {row.rate}
                 </span>
               </div>
             ))}
           </div>
-          <div className="mt-3 text-[9px] uppercase tracking-widest text-[#2A1B0A]/40 font-bold text-center">
+          <div className="mt-2.5 sm:mt-3 text-[8px] sm:text-[9px] uppercase tracking-widest text-[#2A1B0A]/40 font-bold text-center">
             {isEl
               ? 'Η αναδοχή περιλαμβάνει 3 εποχιακές παραδόσεις · ζωντανή τηλεμετρία IoT · πιστοποιητικά συγκομιδής'
               : 'Guardianships include 3 seasonal deliveries · live IoT telemetry · harvest certificates'}
@@ -1044,14 +1046,14 @@ function MembershipCard({
         </div>
       )}
 
-      <div className="px-8 pt-8 pb-6 flex flex-col flex-1 gap-5">
+      <div className="px-5 sm:px-8 pt-6 sm:pt-8 pb-5 sm:pb-6 flex flex-col flex-1 gap-4 sm:gap-5">
         <div>
           <div className="text-[9px] uppercase tracking-widest font-bold text-[#2A1B0A]/50 mb-1">{planSub}</div>
-          <h3 className="font-display text-3xl text-[#2A1B0A]">{planName}</h3>
+          <h3 className="font-display text-2xl sm:text-3xl text-[#2A1B0A]">{planName}</h3>
         </div>
 
         <div className="flex items-end gap-3">
-          <div className="font-display text-6xl text-honey leading-none">€{displayPrice}</div>
+          <div className="font-display text-5xl sm:text-6xl text-honey leading-none">€{displayPrice}</div>
           <div className="flex flex-col mb-1">
             <span className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/40 font-bold">
               {isEl ? '/έτος' : '/year'}
@@ -1345,56 +1347,56 @@ export default function BuyHoney() {
       </header>
 
       {/* Hero */}
-      <section className="relative py-20 md:py-28 px-6 overflow-hidden">
+      <section className="relative py-12 sm:py-20 md:py-28 px-4 sm:px-6 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,_rgba(200,134,10,0.05)_0%,_transparent_70%)] pointer-events-none" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="h-[1px] w-10 bg-honey/40" />
-            <div className="text-[10px] uppercase tracking-[0.4em] font-bold text-honey">
+          <div className="flex items-center justify-center gap-3 mb-4 sm:mb-6">
+            <div className="h-[1px] w-8 sm:w-10 bg-honey/40" />
+            <div className="text-[9px] sm:text-[10px] uppercase tracking-[0.35em] sm:tracking-[0.4em] font-bold text-honey">
               {isEl ? 'Μελισσοκομεία Λακωνίας & Μάνης · Από το 1996' : 'Laconia & Mani Apiaries · Est. 1996'}
             </div>
-            <div className="h-[1px] w-10 bg-honey/40" />
+            <div className="h-[1px] w-8 sm:w-10 bg-honey/40" />
           </div>
-          <h1 className="font-display text-5xl md:text-7xl font-light leading-[1.05] text-[#2A1B0A] mb-6">
-            {isEl ? 'Αγνό Ελληνικό Ανεπεξέργαστο Μέλι.' : 'Artisanal Raw Greek Honey.'}<br />
-            <span className="italic text-honey drop-shadow-[0_0_20px_rgba(200,134,10,0.4)]">
+          <h1 className="font-display text-3xl sm:text-5xl md:text-7xl font-light leading-[1.08] text-[#2A1B0A] mb-4 sm:mb-6">
+            {isEl ? 'Αγνό Ελληνικό Ανεπεξέργαστο Μέλι.' : 'Artisanal Raw Greek Honey.'}<br className="hidden sm:inline" />
+            {' '}<span className="italic text-honey drop-shadow-[0_0_20px_rgba(200,134,10,0.4)]">
               {isEl ? 'Αγοράστε Απευθείας ή Υιοθετήστε Κυψέλη.' : 'Buy Direct or Sponsor a Hive.'}
             </span>
           </h1>
-          <p className="text-base md:text-lg text-[#2A1B0A]/70 max-w-2xl mx-auto mb-8 leading-relaxed font-light">
+          <p className="text-xs sm:text-base md:text-lg text-[#2A1B0A]/70 max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed font-light">
             {isEl
               ? 'Αγοράστε σπάνια, αριθμημένα βάζα μίας σοδειάς, ή υιοθετήστε μια ενεργή κυψέλη για να λαμβάνετε τη σοδειά του Πέτρου σε προνομιακή τιμή (έως και 50% οικονομικότερα ανά κιλό). Αγνό, ανεπεξέργαστο, αφιλτράριστο.'
               : "Purchase rare, numbered single-batch jars directly, or adopt an active beehive to receive Petros' seasonal harvest at guardian rates (saving up to 50% per kilogram). Pure, unheated, unfiltered."}
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-12">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-12">
             <button
               onClick={() => setIsConciergeOpen(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-honey/15 border border-honey/40 text-[#2A1B0A] hover:bg-honey hover:text-[#2A1B0A] font-medium text-xs tracking-wider uppercase transition-all shadow-sm"
+              className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 rounded-full bg-honey/15 border border-honey/40 text-[#2A1B0A] hover:bg-honey hover:text-[#2A1B0A] font-medium text-xs tracking-wider uppercase transition-all shadow-sm active:scale-95"
             >
               <Sparkles className="w-4 h-4 text-honey" />
               <span>{isEl ? 'Βρείτε το Μέλι σας (Τεστ 30")' : 'Find Your Honey Match (30s Quiz)'}</span>
             </button>
           </div>
 
-          <div className="flex items-center justify-center space-x-8">
+          <div className="flex items-center justify-center space-x-4 sm:space-x-8">
             <div className="text-center">
-              <div className="font-display text-3xl mb-1 text-[#2A1B0A]">30+</div>
-              <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">
+              <div className="font-display text-2xl sm:text-3xl mb-1 text-[#2A1B0A]">30+</div>
+              <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">
                 {isEl ? 'Χρόνια Μελισσοκομίας' : 'Years beekeeping'}
               </div>
             </div>
-            <div className="w-[1px] h-10 bg-[#2A1B0A]/10" />
+            <div className="w-[1px] h-8 sm:h-10 bg-[#2A1B0A]/10" />
             <div className="text-center">
-              <div className="font-display text-3xl mb-1 text-[#2A1B0A]">€56/kg</div>
-              <div className="text-[9px] uppercase tracking-widest text-honey font-bold">
+              <div className="font-display text-2xl sm:text-3xl mb-1 text-honey">€56/kg</div>
+              <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-honey font-bold">
                 {isEl ? 'Τιμή HiveShare' : 'HiveShare Rate'}
               </div>
             </div>
-            <div className="w-[1px] h-10 bg-[#2A1B0A]/10" />
+            <div className="w-[1px] h-8 sm:h-10 bg-[#2A1B0A]/10" />
             <div className="text-center">
-              <div className="font-display text-3xl mb-1 text-[#2A1B0A]">100%</div>
-              <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">
+              <div className="font-display text-2xl sm:text-3xl mb-1 text-[#2A1B0A]">100%</div>
+              <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold">
                 {isEl ? 'Ανεπεξέργαστο & Αγνό' : 'Unheated & Raw'}
               </div>
             </div>
@@ -1403,26 +1405,26 @@ export default function BuyHoney() {
       </section>
 
       {/* ── Individual Jars Section (Buy Honey Immediately) ── */}
-      <section id="jars" className="px-6 pb-6">
+      <section id="jars" className="px-4 sm:px-6 pb-6">
         <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-8 pb-4 border-b border-honey/15">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 pb-3 sm:pb-4 border-b border-honey/15">
             <div>
               <div className="text-[9px] uppercase tracking-[0.3em] font-bold text-honey mb-1">
                 {isEl ? 'Συλλεκτικά Βάζα Μονής Σοδειάς' : 'Single Batch Jars'}
               </div>
-              <h2 className="font-display text-3xl md:text-4xl text-[#2A1B0A]">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-[#2A1B0A]">
                 {isEl ? 'Αγορά Μεμονωμένων Βάζων' : 'Purchase Individual Jars'}
               </h2>
             </div>
-            <div className="text-right">
-              <div className="text-[9px] uppercase tracking-widest text-[#2A1B0A]/50 font-bold">
+            <div className="text-left sm:text-right">
+              <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#2A1B0A]/50 font-bold">
                 {isEl ? 'Τιμή Μεμονωμένου Βάζου' : 'Single Harvest Rate'}
               </div>
-              <div className="font-display text-lg text-[#2A1B0A]">€88 – €112 / kg</div>
+              <div className="font-display text-base sm:text-lg text-[#2A1B0A]">€88 – €112 / kg</div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {JARS.map(jar => (
               <JarCard key={jar.id} jar={jar} onBuy={handleOpenJarPurchase} />
             ))}
@@ -1431,34 +1433,34 @@ export default function BuyHoney() {
       </section>
 
       {/* ── Interactive Name on Jar Label Preview ── */}
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <InteractiveJarLabelPreview />
       </div>
 
       {/* ── Value Comparison: Why HiveShare Pays For Itself ── */}
-      <section className="px-6">
+      <section className="px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <ValueComparisonSection />
         </div>
       </section>
 
       {/* ── HiveShare Memberships Section ── */}
-      <section id="memberships" className="px-6 pb-24">
+      <section id="memberships" className="px-4 sm:px-6 pb-16 sm:pb-24">
         <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-8 pb-4 border-b border-honey/15">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8 pb-3 sm:pb-4 border-b border-honey/15">
             <div>
               <div className="text-[9px] uppercase tracking-[0.3em] font-bold text-honey mb-1">
                 {isEl ? 'Υιοθετήστε μια Ενεργή Κυψέλη' : 'Adopt an Active Beehive'}
               </div>
-              <h2 className="font-display text-3xl md:text-4xl text-[#2A1B0A]">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-[#2A1B0A]">
                 {isEl ? 'Επίπεδα Αναδοχής HiveShare' : 'HiveShare Guardianship Tiers'}
               </h2>
             </div>
-            <div className="text-right">
-              <div className="text-[9px] uppercase tracking-widest text-honey font-bold">
+            <div className="text-left sm:text-right">
+              <div className="text-[8px] sm:text-[9px] uppercase tracking-widest text-honey font-bold">
                 {isEl ? 'Τιμή Αναδόχου' : 'Guardian Rate'}
               </div>
-              <div className="font-display text-lg text-honey">
+              <div className="font-display text-base sm:text-lg text-honey">
                 {isEl ? 'Από 56€ / kg' : 'From €56 / kg'}
               </div>
             </div>
