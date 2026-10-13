@@ -391,51 +391,58 @@ export default function Admin() {
       </div>
 
       {/* ── Top Protocol Bar ── */}
-      <header className="border-b border-honey/15 bg-[#0C0804]/90 backdrop-blur-xl sticky top-0 z-[100]">
-        <div className="max-w-[1700px] mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-honey rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(200,134,10,0.4)]">
-                <Zap size={20} className="text-[#0C0804]" fill="currentColor" />
+      <header className="border-b border-honey/15 bg-[#0C0804]/95 backdrop-blur-xl sticky top-0 z-[100]">
+        <div className="max-w-[1700px] mx-auto px-4 sm:px-6 md:px-10 h-16 sm:h-20 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 sm:gap-6 min-w-0">
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-honey rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(200,134,10,0.4)] shrink-0">
+                <Zap size={18} className="text-[#0C0804]" fill="currentColor" />
               </div>
-              <div>
-                <h1 className="font-display text-2xl tracking-tight text-white leading-none">CENTRAL_STATION</h1>
-                <p className="text-[8px] tracking-[0.35em] font-black text-honey uppercase mt-1">Client CRM & Fleet Dispatch</p>
+              <div className="min-w-0">
+                <h1 className="font-display text-lg sm:text-2xl tracking-tight text-white leading-none truncate">CENTRAL_STATION</h1>
+                <p className="text-[7px] sm:text-[8px] tracking-[0.25em] sm:tracking-[0.35em] font-black text-honey uppercase mt-0.5 truncate">Client CRM & Fleet</p>
               </div>
             </div>
 
-            <div className="hidden lg:flex items-center gap-3 pl-4 border-l border-honey/15">
+            <div className="hidden md:flex items-center gap-2 sm:gap-3 pl-3 sm:pl-4 border-l border-honey/15">
               <button
                 onClick={() => { if (config) updateConfig({ maintenanceMode: !config.maintenanceMode }); }}
-                className={`px-3 py-1 border text-[8px] font-black uppercase tracking-widest rounded-sm transition-all flex items-center gap-1.5 ${
+                className={`px-2.5 sm:px-3 py-1 border text-[7px] sm:text-[8px] font-black uppercase tracking-widest rounded-sm transition-all flex items-center gap-1.5 ${
                   config?.maintenanceMode
                     ? 'bg-red-500/20 border-red-500 text-red-400'
                     : 'bg-green-500/10 border-green-500/40 text-green-400'
                 }`}
               >
-                <Lock size={10} /> {config?.maintenanceMode ? 'SYSTEM: MAINTENANCE' : 'SYSTEM: ONLINE'}
+                <Lock size={10} /> {config?.maintenanceMode ? 'MAINTENANCE' : 'ONLINE'}
               </button>
 
               <button
                 onClick={() => setShowConfigModal(true)}
-                className="px-3 py-1 border border-honey/30 bg-honey/10 text-honey hover:bg-honey hover:text-[#0C0804] text-[8px] font-black uppercase tracking-widest rounded-sm transition-all flex items-center gap-1.5"
+                className="px-2.5 sm:px-3 py-1 border border-honey/30 bg-honey/10 text-honey hover:bg-honey hover:text-[#0C0804] text-[7px] sm:text-[8px] font-black uppercase tracking-widest rounded-sm transition-all flex items-center gap-1.5 whitespace-nowrap"
                 title="Manage Live Announcement & Harvest Calendar"
               >
-                <Radio size={10} /> Live Broadcast & Harvest
+                <Radio size={10} /> Broadcast
               </button>
             </div>
           </div>
 
-          <div className="flex items-center gap-6 text-[10px] font-mono text-white/50 uppercase tracking-wider">
-            <div className="hidden md:flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-6 text-[9px] sm:text-[10px] font-mono text-white/50 uppercase tracking-wider shrink-0">
+            <div className="hidden xl:flex items-center gap-4">
               <span className="text-honey font-bold">€{totalRevenue.toLocaleString()} EST. REV</span>
               <span>·</span>
               <span>{totalGuardians} ACTIVE GUARDIANS</span>
               <span>·</span>
               <span className="text-orange-400 font-bold">{pendingShipments} SHIPMENTS PENDING</span>
             </div>
-            <span className="text-white/20">|</span>
-            <span className="text-honey">{authUser?.email || 'gregory@hiveshare'}</span>
+            <button
+              onClick={() => setShowConfigModal(true)}
+              className="md:hidden p-1.5 bg-honey/10 border border-honey/20 text-honey rounded-sm"
+              title="Broadcast & Directives"
+            >
+              <Radio size={13} />
+            </button>
+            <span className="text-white/20 hidden sm:inline">|</span>
+            <span className="text-honey hidden sm:inline truncate max-w-[140px]">{authUser?.email || 'gregory@hiveshare'}</span>
             <button
               onClick={() => {
                 sessionStorage.removeItem('hs_admin_master_unlocked');
@@ -449,14 +456,14 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* ── Tab Navigation ── */}
-        <div className="max-w-[1700px] mx-auto px-6 md:px-10 h-14 flex items-center justify-between border-t border-honey/10">
-          <nav className="flex items-center gap-2">
+        {/* ── Tab Navigation (Fully touch-scrollable with fade indicators) ── */}
+        <div className="max-w-[1700px] mx-auto px-4 sm:px-6 md:px-10 h-12 sm:h-14 flex items-center justify-between border-t border-honey/10 gap-2 overflow-x-auto custom-scrollbar">
+          <nav className="flex items-center gap-1 sm:gap-2 shrink-0 py-1">
             {[
-              { id: 'crm', icon: Users, label: 'Clients & Address CRM', badge: users.length },
-              { id: 'orders', icon: ShoppingBag, label: 'Jar Orders & Shipments', badge: jarOrders.length },
-              { id: 'hives', icon: Zap, label: 'Apiary Fleet', badge: hives.length },
-              { id: 'finance', icon: DollarSign, label: 'Financial Health' },
+              { id: 'crm', icon: Users, label: 'Clients & CRM', badge: users.length },
+              { id: 'orders', icon: ShoppingBag, label: 'Jar Orders', badge: jarOrders.length },
+              { id: 'hives', icon: Zap, label: 'Fleet', badge: hives.length },
+              { id: 'finance', icon: DollarSign, label: 'Finance' },
             ].map(tab => (
               <button
                 key={tab.id}
@@ -464,15 +471,15 @@ export default function Admin() {
                   setActiveTab(tab.id as any);
                   setSearchTerm('');
                 }}
-                className={`flex items-center gap-2 px-5 py-2 rounded-full text-[10px] uppercase tracking-widest font-black transition-all ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[9px] sm:text-[10px] uppercase tracking-wider sm:tracking-widest font-black transition-all whitespace-nowrap ${
                   activeTab === tab.id
                     ? 'bg-honey text-[#0C0804] shadow-[0_0_20px_rgba(200,134,10,0.3)]'
                     : 'text-honey/60 hover:text-honey hover:bg-honey/10'
                 }`}
               >
-                <tab.icon size={13} /> {tab.label}
+                <tab.icon size={12} className="shrink-0" /> {tab.label}
                 {tab.badge !== undefined && (
-                  <span className={`text-[8px] px-1.5 py-0.5 rounded-full ${
+                  <span className={`text-[8px] px-1 sm:px-1.5 py-0.2 rounded-full ${
                     activeTab === tab.id ? 'bg-[#0C0804] text-honey' : 'bg-honey/20 text-honey'
                   }`}>
                     {tab.badge}
@@ -482,20 +489,20 @@ export default function Admin() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 shrink-0 py-1">
             {activeTab === 'crm' && (
               <button
                 onClick={handleExportCSV}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-honey/15 border border-honey/30 hover:bg-honey hover:text-[#0C0804] text-honey text-[9px] uppercase tracking-widest font-black transition-all rounded-full"
+                className="flex items-center gap-1.5 px-3 py-1 bg-honey/15 border border-honey/30 hover:bg-honey hover:text-[#0C0804] text-honey text-[8px] sm:text-[9px] uppercase tracking-wider font-black transition-all rounded-full whitespace-nowrap"
               >
-                <Download size={11} /> Export CSV Manifest
+                <Download size={10} /> <span className="hidden sm:inline">Export </span>CSV
               </button>
             )}
             <Link
               to="/dashboard"
-              className="flex items-center gap-1.5 px-4 py-1.5 bg-white/5 border border-white/10 text-[9px] font-black uppercase tracking-widest text-white/50 hover:text-honey hover:border-honey/30 transition-all rounded-full"
+              className="flex items-center gap-1 px-3 py-1 bg-white/5 border border-white/10 text-[8px] sm:text-[9px] font-black uppercase tracking-wider text-white/50 hover:text-honey hover:border-honey/30 transition-all rounded-full whitespace-nowrap"
             >
-              <ArrowLeft size={11} /> Back to Site
+              <ArrowLeft size={10} /> <span className="hidden sm:inline">Back to </span>Site
             </Link>
           </div>
         </div>

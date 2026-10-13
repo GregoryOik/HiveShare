@@ -296,27 +296,31 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-hive-bg text-[#2A1B0A]/80 font-body selection:bg-honey selection:text-[#2A1B0A] flex flex-col relative overflow-hidden">
-      <header className="border-b border-honey/10 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link to="/" className="font-display text-2xl tracking-wide text-[#2A1B0A]">Hive<span className="text-honey">Share</span></Link>
-          <div className="flex items-center gap-6">
+      <header className="border-b border-honey/10 bg-hive-bg/90 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-3">
+          <Link to="/" className="font-display text-2xl tracking-wide text-[#2A1B0A]">
+            Hive<span className="text-honey">Share</span>
+          </Link>
+          <div className="flex items-center gap-3 sm:gap-6">
             <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-honey/10 border border-honey/20 rounded-full">
               <div className="w-1.5 h-1.5 rounded-full bg-honey animate-pulse"></div>
-              <span className="text-[8px] uppercase tracking-widest font-black text-honey">PROTOTYPE_DATA: SIMULATED_FLIGHT</span>
+              <span className="text-[8px] uppercase tracking-widest font-black text-honey">APIARY_TELEMETRY: ACTIVE</span>
             </div>
             {profile?.role === 'admin' && (
               <Link
                 to="/admin"
-                className="hidden lg:flex items-center gap-2 px-4 py-1.5 bg-[#C8860A]/10 border border-[#C8860A]/30 rounded-full text-[9px] uppercase tracking-[0.2em] text-[#C8860A] font-black hover:bg-[#C8860A] hover:text-[#2A1B0A] transition-all"
+                className="flex items-center gap-1.5 px-3 py-1 bg-[#C8860A]/10 border border-[#C8860A]/30 rounded-full text-[8px] sm:text-[9px] uppercase tracking-[0.2em] text-[#C8860A] font-black hover:bg-[#C8860A] hover:text-[#2A1B0A] transition-all whitespace-nowrap"
               >
-                <Lock className="w-3 h-3" /> Central Station (God Mode)
+                <Lock className="w-3 h-3" /> <span className="hidden sm:inline">Central Station</span> (Admin)
               </Link>
             )}
-            <div className="hidden md:flex flex-col items-end">
-              <span className="text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 font-bold">Laconia Apiary ID</span>
+            <div className="flex flex-col items-end">
+              <span className="text-[8px] sm:text-[10px] uppercase tracking-widest text-[#2A1B0A]/40 font-bold">Colony ID</span>
               <span className="text-xs text-honey font-medium">{profile?.subscribedHives?.[0] || 'ASSIGNING...'}</span>
             </div>
-            <button onClick={logout} className="text-[#2A1B0A]/40 hover:text-red-500 transition-colors"><LogOut className="w-4 h-4" /></button>
+            <button onClick={logout} title="Sign Out" className="text-[#2A1B0A]/40 hover:text-red-500 transition-colors p-1">
+              <LogOut className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </header>

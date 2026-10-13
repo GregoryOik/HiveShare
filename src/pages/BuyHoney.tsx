@@ -5,7 +5,7 @@ import {
   ChevronRight, Check, X, Loader2, AlertTriangle, Lock,
   MapPin, ShieldCheck, TrendingDown, ShoppingBag, Plus, Minus,
   PackageCheck, Info, Sparkles, Gift, Utensils, Compass, Award,
-  Thermometer, Droplets, Mountain, Globe
+  Thermometer, Droplets, Mountain, Globe, Menu
 } from 'lucide-react';
 import { useAuth } from '../lib/useAuth';
 import { useLanguage } from '../lib/useLanguage';
@@ -1249,6 +1249,7 @@ export default function BuyHoney() {
   const [isConciergeOpen, setIsConciergeOpen] = useState(false);
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
   const [selectedJarPurchase, setSelectedJarPurchase] = useState<SelectedJarPurchase | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleOpenJarPurchase = (jar: JarItem, option: JarOption) => {
     setSelectedJarPurchase({ jar, option, quantity: 1 });
@@ -1261,16 +1262,16 @@ export default function BuyHoney() {
       <ProvenanceBar />
 
       {/* Nav */}
-      <header className="border-b border-honey/10 bg-hive-bg/90 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <header className="border-b border-honey/10 bg-hive-bg/95 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="font-display text-2xl tracking-wide">
             Hive<span className="text-honey">Share</span>
           </Link>
-          <div className="flex items-center gap-4 md:gap-6">
+          <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
             {/* Language Switcher */}
             <button
               onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-honey/30 bg-[#FFFDF5] text-[11px] font-medium tracking-wider uppercase hover:border-honey text-[#2A1B0A] transition-all"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full border border-honey/30 bg-[#FFFDF5] text-[11px] font-medium tracking-wider uppercase hover:border-honey text-[#2A1B0A] transition-all"
               title="Εναλλαγή Γλώσσας / Switch Language"
             >
               <Globe className="w-3.5 h-3.5 text-honey" />
@@ -1287,19 +1288,60 @@ export default function BuyHoney() {
             </button>
 
             {user ? (
-              <Link to="/dashboard" className="text-[10px] uppercase tracking-widest font-bold text-[#2A1B0A]/60 hover:text-honey transition-colors">
+              <Link to="/dashboard" className="hidden sm:inline-block text-[10px] uppercase tracking-widest font-bold text-[#2A1B0A]/60 hover:text-honey transition-colors">
                 {isEl ? 'Το Μελισσοκομείο μου' : 'My Apiary'}
               </Link>
             ) : (
-              <Link to="/login" className="text-[10px] uppercase tracking-widest font-bold text-[#2A1B0A]/60 hover:text-honey transition-colors">
+              <Link to="/login" className="hidden sm:inline-block text-[10px] uppercase tracking-widest font-bold text-[#2A1B0A]/60 hover:text-honey transition-colors">
                 {isEl ? 'Σύνδεση' : 'Log In'}
               </Link>
             )}
-            <Link to="/" className="text-[10px] uppercase tracking-widest font-bold border border-honey/30 px-4 py-2 hover:bg-honey hover:text-[#2A1B0A] transition-colors rounded-[2px]">
+            <Link to="/" className="hidden sm:inline-block text-[10px] uppercase tracking-widest font-bold border border-honey/30 px-4 py-2 hover:bg-honey hover:text-[#2A1B0A] transition-colors rounded-[2px]">
               {isEl ? 'Σχετικά' : 'About'}
             </Link>
+
+            {/* Mobile Hamburger Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="sm:hidden p-2 text-[#2A1B0A] hover:text-honey transition-colors"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Menu Dropdown Drawer */}
+        {mobileMenuOpen && (
+          <div className="sm:hidden bg-hive-bg/98 border-b border-honey/20 px-6 py-6 space-y-4 animate-in slide-in-from-top-3 duration-200">
+            <button
+              onClick={() => { setMobileMenuOpen(false); setIsConciergeOpen(true); }}
+              className="w-full py-2.5 px-4 bg-honey/15 border border-honey/30 rounded-sm text-xs font-bold uppercase tracking-wider text-[#2A1B0A] flex items-center justify-center gap-2"
+            >
+              <Sparkles size={13} className="text-honey" /> {isEl ? 'Τεστ Γεύσης (Palate Quiz)' : 'Palate Quiz'}
+            </button>
+            <div className="flex flex-col space-y-3 pt-2 text-xs uppercase tracking-widest font-bold text-[#2A1B0A]/80">
+              <a href="#jars" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey py-1">
+                {isEl ? 'Μεμονωμένα Βάζα' : 'Single Batch Jars'}
+              </a>
+              <a href="#memberships" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey py-1">
+                {isEl ? 'Επίπεδα Αναδοχής' : 'Guardianship Tiers'}
+              </a>
+              {user ? (
+                <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey py-1 text-honey">
+                  {isEl ? 'Το Μελισσοκομείο μου' : 'My Apiary Portal'}
+                </Link>
+              ) : (
+                <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey py-1">
+                  {isEl ? 'Σύνδεση Λογαριασμού' : 'Log In'}
+                </Link>
+              )}
+              <Link to="/" onClick={() => setMobileMenuOpen(false)} className="hover:text-honey py-1">
+                {isEl ? 'Αρχική Σελίδα' : 'Home / About'}
+              </Link>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Hero */}

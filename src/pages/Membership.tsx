@@ -144,19 +144,25 @@ export default function Membership() {
         <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-honey/10 blur-[150px] rounded-full opacity-50"></div>
       </div>
 
-      <header className="border-b border-honey/10 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link to="/" className="font-display text-2xl tracking-wide group flex items-center gap-2">
+      <header className="border-b border-honey/10 bg-hive-bg/90 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-4">
+          <Link to="/" className="font-display text-2xl tracking-wide group flex items-center gap-1">
             <span className="text-[#2A1B0A] group-hover:text-honey transition-colors">Hive</span><span className="text-honey">Share</span>
           </Link>
-          <div className="flex items-center gap-6">
-            <div className="hidden sm:flex flex-col items-end mr-4">
+          <div className="flex items-center gap-3 sm:gap-6">
+            <div className="hidden sm:flex flex-col items-end mr-2">
               <span className="text-[9px] uppercase tracking-[0.2em] text-[#2A1B0A]/30 font-bold">Secure Checkout</span>
               <span className="text-[10px] text-honey font-medium">{user?.email}</span>
             </div>
-            <button onClick={logout} className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#2A1B0A]/40 hover:text-[#2A1B0A] transition-all duration-300 group flex items-center gap-2">
-              <LogOut className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" /> Sign Out
-            </button>
+            {user ? (
+              <button onClick={logout} className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] font-bold text-[#2A1B0A]/50 hover:text-[#2A1B0A] transition-all flex items-center gap-1.5 p-1">
+                <LogOut className="w-3.5 h-3.5" /> <span className="hidden sm:inline">Sign Out</span>
+              </button>
+            ) : (
+              <Link to="/login" className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] font-bold text-honey hover:text-[#2A1B0A] transition-all border border-honey/30 px-3 py-1 rounded-[2px]">
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </header>
