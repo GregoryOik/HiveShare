@@ -244,8 +244,6 @@ export default function VerifyBatch() {
         <div className="max-w-5xl mx-auto px-6 py-16 space-y-10">
           {/* Certificate Header Banner */}
           <div className="bg-[#140E08] border-2 border-honey/30 p-8 md:p-10 rounded-[2px] relative overflow-hidden shadow-2xl">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-honey/5 rounded-full blur-3xl pointer-events-none" />
-
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-honey/15 pb-8">
               <div>
                 <div className="flex items-center gap-2 text-honey text-xs font-mono uppercase tracking-widest mb-1">
@@ -296,12 +294,12 @@ export default function VerifyBatch() {
               </div>
               <div className="space-y-3 text-xs">
                 <div>
-                  <div className="text-white/40 uppercase tracking-wider text-[10px]">Apiary Sector</div>
+                  <div className="text-white/40 uppercase tracking-wider text-[10px]">Apiary Location</div>
                   <div className="text-white font-medium text-sm mt-0.5">{currentBatch.apiaryLocation}</div>
                 </div>
                 <div>
                   <div className="text-white/40 uppercase tracking-wider text-[10px]">Elevation</div>
-                  <div className="text-honey font-mono text-sm mt-0.5">{currentBatch.altitudeMeters} Meters a.s.l.</div>
+                  <div className="text-honey font-medium text-sm mt-0.5">{currentBatch.altitudeMeters} Meters a.s.l.</div>
                 </div>
                 <div>
                   <div className="text-white/40 uppercase tracking-wider text-[10px]">GPS Coordinates</div>
@@ -322,8 +320,8 @@ export default function VerifyBatch() {
               <div className="space-y-3 text-xs">
                 <div>
                   <div className="text-white/40 uppercase tracking-wider text-[10px]">Moisture Content</div>
-                  <div className="text-green-400 font-mono text-sm mt-0.5 font-bold">
-                    {currentBatch.moisturePercent}% <span className="text-[10px] text-white/50 font-normal">(Raw grade &lt;18%)</span>
+                  <div className="text-honey font-serif text-base mt-0.5 font-bold">
+                    {currentBatch.moisturePercent}% <span className="text-[10px] text-white/50 font-normal font-sans">(Raw grade &lt;18%)</span>
                   </div>
                 </div>
                 <div>

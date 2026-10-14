@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Plus, Zap } from 'lucide-react';
+import { Search, Plus } from 'lucide-react';
 import { HiveData } from '../../lib/useHiveData';
 
 interface AdminHiveGridProps {

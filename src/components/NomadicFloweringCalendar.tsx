@@ -70,7 +70,7 @@ const STATIONS: MigrationStation[] = [
     region: { en: 'Lagia & Cape Tenaro, Deep Mani', el: 'Λάγια & Ακρωτήριο Ταίναρο, Μέσα Μάνη' },
     elevationMeters: 620,
     nectarFlora: { en: '100% Wild Coastal Thyme (Thymus capitatus)', el: '100% Άγριο Παράκτιο Θυμάρι (Thymus capitatus)' },
-    status: { en: 'Current Prime Extraction', el: 'Κύρια Σοδειά σε Εξέλιξη' },
+    status: { en: 'Peak Summer Harvest', el: 'Κύρια Θερινή Σοδειά' },
     statusType: 'active',
     fieldNote: {
       en: 'The crown jewel of Greek honey. The relentless sun and dry Aegean winds stress the coastal thyme shrubs, producing the most concentrated, dense nectar in the Mediterranean.',
@@ -160,10 +160,10 @@ export default function NomadicFloweringCalendar() {
                   <div className="absolute top-0 left-0 right-0 h-1 bg-honey" />
                 )}
 
-                <div className="flex items-center justify-between text-[9px] uppercase tracking-widest font-mono text-honey mb-1">
+                <div className="flex items-center justify-between text-[9px] uppercase tracking-widest text-honey mb-1 font-semibold">
                   <span>0{index + 1} · {station.months[language]}</span>
                   {station.statusType === 'active' && (
-                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-honey" />
                   )}
                 </div>
 
@@ -198,15 +198,15 @@ export default function NomadicFloweringCalendar() {
 
             {/* Station Status Badge */}
             <div className="flex items-center gap-3">
-              <div className={`px-3.5 py-1.5 sm:px-4 sm:py-2 border rounded-sm text-[10px] sm:text-xs uppercase tracking-widest font-mono font-bold flex items-center gap-2 ${
+              <div className={`px-3.5 py-1.5 border rounded-[2px] text-xs uppercase tracking-wider font-medium flex items-center gap-2 ${
                 currentStation.statusType === 'active'
-                  ? 'bg-green-500/10 border-green-500/40 text-green-400'
+                  ? 'bg-honey/15 border-honey/40 text-honey'
                   : currentStation.statusType === 'completed'
-                  ? 'bg-honey/10 border-honey/30 text-honey'
-                  : 'bg-white/5 border-white/20 text-white/60'
+                  ? 'bg-white/5 border-white/20 text-white/70'
+                  : 'bg-white/5 border-white/10 text-white/50'
               }`}>
                 {currentStation.statusType === 'active' && (
-                  <span className="w-2 h-2 rounded-full bg-green-400 animate-ping" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-honey" />
                 )}
                 <span>{currentStation.status[language]}</span>
               </div>
@@ -235,7 +235,7 @@ export default function NomadicFloweringCalendar() {
               </div>
               <div>
                 <div className="text-white/40 uppercase tracking-wider text-[8px] sm:text-[9px]">{isEl ? 'Υγρασία Εξαγωγής' : 'Expected Moisture'}</div>
-                <div className="text-green-400 font-mono font-bold text-xs sm:text-sm mt-0.5">{currentStation.moistureExpected}</div>
+                <div className="text-honey font-serif font-bold text-sm sm:text-base mt-0.5">{currentStation.moistureExpected}</div>
               </div>
               <div>
                 <div className="text-white/40 uppercase tracking-wider text-[8px] sm:text-[9px]">{isEl ? 'Επεξεργασία' : 'Extraction Method'}</div>

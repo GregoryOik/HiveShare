@@ -75,20 +75,19 @@ export default function Dashboard() {
       <div className="min-h-screen bg-[#0A0704] flex items-center justify-center p-6 text-center">
         <div className="max-w-md space-y-8 animate-in fade-in zoom-in duration-1000">
            <div className="relative inline-block">
-             <div className="absolute inset-0 bg-honey/20 blur-3xl rounded-full animate-pulse"></div>
-             <ShieldAlert className="w-24 h-24 text-honey relative z-10 mx-auto" strokeWidth={1} />
+             <ShieldAlert className="w-20 h-20 text-honey relative z-10 mx-auto" strokeWidth={1} />
            </div>
            <div className="space-y-4">
-             <h2 className="font-display text-4xl text-white tracking-tight">HIVE_STASIS_ACTIVE</h2>
-             <p className="text-[10px] uppercase tracking-[0.3em] font-black text-honey">System Wide Recalibration in Progress</p>
-             <p className="text-sm text-white/40 leading-relaxed font-sans">
-               We are currently performing deep-layer apiary synchronization. Your nomadic data is safe but temporarily offline for precision tuning.
+             <h2 className="font-display text-4xl text-white tracking-tight">Apiary Maintenance</h2>
+             <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-honey">Scheduled Apiary Synchronization</p>
+             <p className="text-sm text-white/50 leading-relaxed font-sans">
+               We are currently performing routine apiary synchronization. Your colony data is safe and live telemetry will resume momentarily.
              </p>
            </div>
            <div className="pt-8 border-t border-white/5">
              <div className="inline-flex items-center gap-2 group cursor-wait">
                <RefreshCw size={14} className="text-honey animate-spin" />
-               <span className="text-[9px] uppercase tracking-widest text-honey/40 font-black">Syncing...</span>
+               <span className="text-[9px] uppercase tracking-widest text-honey/60 font-bold">Synchronizing...</span>
              </div>
            </div>
         </div>
@@ -394,16 +393,14 @@ export default function Dashboard() {
 
         {/* ── LUXURY GUARDIAN WELCOME & QUICK ACTIONS BAR ── */}
         <section className="mb-6 sm:mb-8 bg-hive-panel/75 border border-honey/20 p-5 sm:p-7 rounded-[2px] backdrop-blur-md relative overflow-hidden shadow-xs">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-honey/5 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
-          
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 relative z-10">
             <div className="space-y-1.5">
               <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 text-[9px] uppercase tracking-widest font-mono font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  UPLINK: ACTIVE
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-honey/15 border border-honey/30 text-honey text-[9px] uppercase tracking-wider font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-honey"></span>
+                  Live Telemetry
                 </span>
-                <span className="text-[10px] uppercase tracking-widest font-mono text-[#2A1B0A]/60 font-semibold">
+                <span className="text-[10px] uppercase tracking-wider text-[#2A1B0A]/60 font-medium">
                   {activeHive.location || 'Laconia, Peloponnese'}
                 </span>
                 <span className="hidden sm:inline text-honey/40">·</span>
@@ -417,7 +414,7 @@ export default function Dashboard() {
               </h1>
               
               <p className="text-xs sm:text-sm text-[#2A1B0A]/70 max-w-xl font-body leading-relaxed">
-                Live biometric telemetry and ecological stream for <span className="text-[#2A1B0A] font-semibold">Colony #{activeHive.id}</span> in the Taygetos highlands.
+                Live sensor telemetry and microclimate records for <span className="text-[#2A1B0A] font-semibold">Colony #{activeHive.id}</span> in the Taygetos highlands.
               </p>
             </div>
 
@@ -472,23 +469,23 @@ export default function Dashboard() {
                 {/* HUD Top Bar */}
                 <div className="flex items-center justify-between pb-4 sm:pb-5 mb-4 sm:mb-6 border-b border-honey/15 flex-wrap gap-2 text-left">
                   <div className="flex items-center gap-2">
-                    <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] font-mono font-bold text-honey">
-                      HIVE SCALE STATION #{activeHive.id}
+                    <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] font-bold text-honey">
+                      Colony Station #{activeHive.id}
                     </span>
-                    <span className="text-[8px] uppercase tracking-widest font-mono text-[#2A1B0A]/40 font-semibold hidden sm:inline">
+                    <span className="text-[8px] uppercase tracking-wider text-[#2A1B0A]/40 font-medium hidden sm:inline">
                       · 37.07° N, 22.43° E
                     </span>
                   </div>
 
                   <div className="flex items-center gap-2">
                     {activeHive.iotActive ? (
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 text-[8px] sm:text-[9px] uppercase tracking-widest font-mono font-bold">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        LIVE UPLINK
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-honey/15 border border-honey/30 text-honey text-[8px] sm:text-[9px] uppercase tracking-wider font-semibold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-honey"></span>
+                        Live Telemetry
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-honey/10 text-honey text-[8px] sm:text-[9px] uppercase tracking-widest font-mono font-bold">
-                        CACHED TELEMETRY
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/60 border border-honey/15 text-[#2A1B0A]/60 text-[8px] sm:text-[9px] uppercase tracking-wider font-medium">
+                        Cached Telemetry
                       </span>
                     )}
                     {activeHive.lastSyncTimestamp && (
@@ -501,8 +498,8 @@ export default function Dashboard() {
 
                 {/* Weight Big Hero Number */}
                 <div className="my-2 sm:my-4">
-                  <div className="text-[10px] uppercase tracking-[0.3em] font-mono text-honey font-bold mb-2">
-                    Current Biometric Weight
+                  <div className="text-[10px] uppercase tracking-[0.3em] font-sans text-honey font-bold mb-2">
+                    Live Colony Weight
                   </div>
                   <h2 className="font-display italic text-6xl sm:text-7xl md:text-8xl text-[#2A1B0A] tracking-tight">
                     {activeHive.weight.toFixed(1)}
@@ -712,8 +709,8 @@ export default function Dashboard() {
                     <div className="text-[8px] text-white/70 uppercase tracking-wider italic font-serif">30+ Years Highland Apiculture</div>
                  </div>
               </div>
-              <p className="text-[10px] text-[#2A1B0A]/70 italic leading-relaxed font-serif">
-                "The bees know the Mani mountains better than any machine. I'm just here to listen."
+              <p className="text-[10px] text-[#2A1B0A]/70 leading-relaxed font-sans">
+                Over 30 years of nomadic apiculture across Laconia, rotating colonies across wild seasonal mountain blooms.
               </p>
             </div>
             
@@ -721,8 +718,8 @@ export default function Dashboard() {
               <div className="text-[10px] uppercase tracking-[0.2em] text-honey font-bold mb-4 flex items-center justify-between">
                 <span>Apiary Snapshot</span>
                 <div className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span className="text-[8px] uppercase tracking-widest font-mono text-emerald-700 font-bold">LIVE CAM</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-honey"></span>
+                  <span className="text-[9px] uppercase tracking-wider text-honey font-semibold">Apiary View</span>
                 </div>
               </div>
               <div className="relative h-28 overflow-hidden rounded-xs mb-3">
@@ -742,8 +739,6 @@ export default function Dashboard() {
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 sm:p-10 pointer-events-none">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto" onClick={() => setShowTour(false)}></div>
           <div className="bg-hive-panel border border-honey/30 p-8 sm:p-12 rounded-[2px] w-full max-w-lg relative z-10 shadow-[0_40px_100px_rgba(0,0,0,0.8)] animate-in zoom-in duration-500 pointer-events-auto">
-            <div className="absolute -top-12 sm:-top-20 -left-12 sm:-left-20 w-48 h-48 sm:w-64 sm:h-64 bg-honey/10 blur-[80px] rounded-full pointer-events-none"></div>
-            
             <button 
               onClick={() => setShowTour(false)}
               className="absolute top-6 right-6 text-[#2A1B0A]/20 hover:text-honey transition-colors"
@@ -756,7 +751,7 @@ export default function Dashboard() {
                 <div className="w-10 h-10 rounded-full border border-honey/40 flex items-center justify-center text-honey font-display text-lg">
                   {tourStep + 1}
                 </div>
-                <div className="text-[10px] uppercase tracking-[0.3em] text-[#2A1B0A]/40 font-black">Apiary Activation Sequence</div>
+                <div className="text-[10px] uppercase tracking-[0.3em] text-[#2A1B0A]/60 font-bold">Dashboard Overview</div>
               </div>
 
               {tourStep === 0 && (
@@ -802,7 +797,7 @@ export default function Dashboard() {
                   <h3 className="font-display text-3xl text-[#2A1B0A]">Account Settings</h3>
                   <div className="flex items-center gap-4 p-4 border border-honey/20 bg-honey/5">
                     <UserIcon size={20} className="text-honey" />
-                    <span className="text-xs text-[#2A1B0A] font-bold">PROFILE_LOCK: ACTIVE</span>
+                    <span className="text-xs text-[#2A1B0A] font-semibold">Profile Verified</span>
                   </div>
                   <p className="text-[#2A1B0A]/70 leading-relaxed text-sm font-medium">
                     Update your delivery address, change your password, or manage your digital certificate in the settings tab.
@@ -983,9 +978,9 @@ export default function Dashboard() {
                                 }
                               }
                             }}
-                            className="w-full border-2 border-red-600 text-red-600 py-4 text-[10px] uppercase tracking-[0.2em] font-black hover:bg-red-600 hover:text-white transition-all shadow-xl"
+                            className="w-full border-2 border-red-600 text-red-600 py-3.5 text-xs uppercase tracking-wider font-bold hover:bg-red-600 hover:text-white transition-all shadow-md rounded-[2px]"
                           >
-                             PURGE ACCOUNT DATA
+                             Delete Account Data
                           </button>
                        </div>
                     </div>
@@ -994,8 +989,8 @@ export default function Dashboard() {
               </div>
 
               <div className="text-center">
-                 <button onClick={() => setActiveTab('main')} className="text-[10px] uppercase tracking-[0.4em] font-black text-[#2A1B0A]/20 hover:text-honey transition-all">
-                    Return to Journal Base
+                 <button onClick={() => setActiveTab('main')} className="text-xs uppercase tracking-widest font-semibold text-[#2A1B0A]/50 hover:text-honey transition-all">
+                    ← Back to Dashboard
                  </button>
               </div>
             </div>

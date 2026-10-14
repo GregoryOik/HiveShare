@@ -3,7 +3,8 @@ import {
   Scale, 
   Thermometer, 
   Droplets, 
-  Zap, 
+  Activity,
+  Cpu,
   RefreshCw, 
   Plus, 
   CheckCircle,
@@ -51,7 +52,7 @@ export function AdminHiveDetails({
           { label: 'Live Weight', value: `${selectedHive.weight}kg`, icon: Scale, color: 'text-honey' },
           { label: 'Ambient Temp', value: `${selectedHive.temp}°C`, icon: Thermometer, color: 'text-blue-400' },
           { label: 'Internal Humid', value: `${selectedHive.humidity}%`, icon: Droplets, color: 'text-cyan-400' },
-          { label: 'Colony Activity', value: selectedHive.activity, icon: Zap, color: 'text-amber-400' }
+          { label: 'Colony Activity', value: selectedHive.activity, icon: Activity, color: 'text-amber-400' }
         ].map((stat, i) => (
           <div key={i} className="bg-[#120D08] border border-honey/10 p-6 rounded-lg relative overflow-hidden group hover:border-honey/30 transition-all">
             <div className="relative z-10">
@@ -182,7 +183,7 @@ export function AdminHiveDetails({
                     try {
                       await updateHive(selectedHive.id, { activity: e.target.value });
                     } catch (err: any) {
-                      alert(`Biometric Update Failed: ${err.message}`);
+                      alert(`Colony Activity Update Failed: ${err.message}`);
                     }
                   }}
                   className="w-full bg-black/40 border border-honey/20 rounded-md p-3 text-white text-sm outline-none focus:border-honey cursor-pointer"
@@ -271,7 +272,7 @@ export function AdminHiveDetails({
           <div className="bg-[#120D08] border border-honey/20 rounded-lg p-6 space-y-6">
             <div className="flex items-center justify-between border-b border-honey/15 pb-4">
               <h3 className="text-xs uppercase tracking-[0.2em] text-honey font-bold flex items-center gap-2">
-                <Radio size={14} className="text-honey animate-pulse" /> IoT Hardware Uplink
+                <Radio size={14} className="text-honey animate-pulse" /> IoT Sensor Telemetry
               </h3>
               <div className="flex items-center gap-2">
                 <div className={`w-2 h-2 rounded-full ${selectedHive.iotActive ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-red-500"}`}></div>
@@ -313,7 +314,7 @@ export function AdminHiveDetails({
                 onClick={() => setShowIotModal(true)}
                 className="w-full py-2 bg-honey/10 border border-honey/30 hover:bg-honey hover:text-[#0C0804] text-honey text-[9px] uppercase tracking-widest font-black transition-all rounded-sm flex items-center justify-center gap-2"
               >
-                <Zap size={12} /> View Hardware Setup (cURL / ESP32)
+                <Cpu size={12} /> View Hardware Setup (cURL / ESP32)
               </button>
             </div>
 
@@ -451,9 +452,9 @@ export function AdminHiveDetails({
             <div className="flex items-center justify-between border-b border-honey/15 pb-4">
               <div>
                 <div className="text-[9px] uppercase tracking-[0.3em] text-honey font-bold flex items-center gap-2">
-                  <Code2 size={12} /> Hardware Telemetry Uplink
+                  <Code2 size={12} /> Hardware Sensor Integration
                 </div>
-                <h3 className="font-display text-2xl text-white">Hive #{selectedHive.id} Sensor Protocol</h3>
+                <h3 className="font-display text-2xl text-white">Hive #{selectedHive.id} Sensor Setup</h3>
               </div>
               <button onClick={() => setShowIotModal(false)} className="text-white/40 hover:text-white p-1">
                 <X size={20} />
@@ -479,7 +480,7 @@ export function AdminHiveDetails({
             {/* Snippet 1: cURL Test Command */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[9px] uppercase tracking-widest text-honey font-bold">1. cURL Terminal Ping (Test Uplink)</span>
+                <span className="text-[9px] uppercase tracking-widest text-honey font-bold">1. cURL Telemetry Test (Ping Sensor Data)</span>
                 <button
                   onClick={() => {
                     const snippet = `curl -X POST https://oikonomakos.gr/api/telemetry \\\n  -H "Content-Type: application/json" \\\n  -H "X-Hive-Key: ${selectedHive.iotKey || `hs_key_${selectedHive.id}_default99`}" \\\n  -d '{"hiveId":"${selectedHive.id}","weight":${selectedHive.weight},"temp":${selectedHive.temp},"humidity":${selectedHive.humidity}}'`;

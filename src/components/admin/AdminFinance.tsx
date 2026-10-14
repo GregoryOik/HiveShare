@@ -2,7 +2,6 @@ import React from 'react';
 import { 
   DollarSign, 
   TrendingUp,
-  Zap,
   Star,
   Crown,
   History,

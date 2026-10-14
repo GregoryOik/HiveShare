@@ -143,16 +143,16 @@ export function AdminSystemSettings({
             </div>
 
             <div className="bg-[#120D08] border border-honey/10 rounded-lg p-8">
-              <div className="text-[10px] uppercase tracking-widest text-honey font-black mb-6">Omni-Vault Audit Trail</div>
+              <div className="text-[10px] uppercase tracking-widest text-honey font-black mb-6">System Activity Log</div>
               <div className="space-y-4 font-mono text-[9px] text-white/30 max-h-[200px] overflow-y-auto custom-scrollbar">
                 <div>{"[23:58:12] > DB_COMMIT :: Updated configuration for Unit #247"}</div>
                 <div>{"[23:55:04] > AUTH_VALIDATION :: Superuser Gregory session refreshed"}</div>
-                <div>{"[23:42:15] > ACCESS_GRANTED :: User system.root@hive.station"}</div>
-                <div>{"[23:41:02] > STRIPE_WEBHOOK :: Subscription cycle verified for 42 nodes"}</div>
-                <div>{"[22:15:55] > SENSOR_TX :: Uplink stable - All 124 units transmitting"}</div>
+                <div>{"[23:42:15] > ACCESS_VERIFIED :: Admin session authenticated"}</div>
+                <div>{"[23:41:02] > STRIPE_WEBHOOK :: Subscription cycle verified for member apiaries"}</div>
+                <div>{"[22:15:55] > SENSOR_TX :: Telemetry active - Field scales & temperature sensors syncing"}</div>
                 <div>{"[20:10:05] > GEO_TRACKING :: Nomadic migration path updated for Mani apiary"}</div>
                 <div>{"[19:44:12] > BACKUP_SEQ :: Cloud Firestore snapshot completed (342MB)"}</div>
-                <div>{"[18:30:00] > HARVEST_PREDICT :: ML Model suggests high yield for Summer Thyme"}</div>
+                <div>{"[18:30:00] > HARVEST_LOG :: Flowering calendar calibrated for Summer Thyme season"}</div>
               </div>
             </div>
          </div>

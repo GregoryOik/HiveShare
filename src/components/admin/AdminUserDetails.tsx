@@ -218,7 +218,7 @@ export function AdminUserDetails({
                          await assignHiveToUser(selectedUser.uid, val);
                          alert(`Unit #${val} successfully linked to guardian ${selectedUser.email}.`);
                        } catch (err: any) {
-                         alert(`Uplink failed: ${err.message}`);
+                         alert(`Assignment failed: ${err.message}`);
                        }
                      }
                    }}

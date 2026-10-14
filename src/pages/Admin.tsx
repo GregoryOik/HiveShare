@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Zap,
+  Layers,
   Users,
   DollarSign,
   ArrowLeft,
@@ -396,10 +396,10 @@ export default function Admin() {
           <div className="flex items-center gap-3 sm:gap-6 min-w-0">
             <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-honey rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(200,134,10,0.4)] shrink-0">
-                <Zap size={18} className="text-[#0C0804]" fill="currentColor" />
+                <Layers size={18} className="text-[#0C0804]" />
               </div>
               <div className="min-w-0">
-                <h1 className="font-display text-lg sm:text-2xl tracking-tight text-white leading-none truncate">CENTRAL_STATION</h1>
+                <h1 className="font-display text-lg sm:text-2xl tracking-tight text-white leading-none truncate">Apiary Console</h1>
                 <p className="text-[7px] sm:text-[8px] tracking-[0.25em] sm:tracking-[0.35em] font-black text-honey uppercase mt-0.5 truncate">Client CRM & Fleet</p>
               </div>
             </div>
@@ -462,7 +462,7 @@ export default function Admin() {
             {[
               { id: 'crm', icon: Users, label: 'Clients & CRM', badge: users.length },
               { id: 'orders', icon: ShoppingBag, label: 'Jar Orders', badge: jarOrders.length },
-              { id: 'hives', icon: Zap, label: 'Fleet', badge: hives.length },
+              { id: 'hives', icon: Layers, label: 'Fleet', badge: hives.length },
               { id: 'finance', icon: DollarSign, label: 'Finance' },
             ].map(tab => (
               <button
@@ -1075,7 +1075,7 @@ export default function Admin() {
                 />
               ) : (
                 <div className="h-96 flex flex-col items-center justify-center text-center space-y-3 bg-[#140E08] border border-honey/20 rounded-[2px] p-8">
-                  <Zap size={36} className="text-honey/30" />
+                  <Layers size={36} className="text-honey/30" />
                   <h3 className="font-display text-2xl text-white">Select a Hive Unit</h3>
                   <p className="text-xs text-honey/50 max-w-sm">
                     Select any hive from the fleet on the left to calibrate telemetry, update microclimate status, or add beekeeper harvest entries.

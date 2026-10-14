@@ -100,12 +100,12 @@ export default function CertificateModal({
             {/* Colony Details Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-2xl border-t border-b border-[#C8860A]/20 py-4 my-4 font-sans text-left">
               <div>
-                <div className="text-[8px] uppercase tracking-widest text-[#1A1208]/40 font-bold">Colony Sector</div>
+                <div className="text-[8px] uppercase tracking-widest text-[#1A1208]/40 font-bold">Colony Location</div>
                 <div className="text-xs font-bold text-[#1A1208] mt-0.5">Lagia, Mani</div>
               </div>
               <div>
                 <div className="text-[8px] uppercase tracking-widest text-[#1A1208]/40 font-bold">Allocated Colony</div>
-                <div className="text-xs font-mono font-bold text-[#C8860A] mt-0.5">Hive #{hiveId}</div>
+                <div className="text-xs font-semibold text-[#C8860A] mt-0.5">Hive #{hiveId}</div>
               </div>
               <div>
                 <div className="text-[8px] uppercase tracking-widest text-[#1A1208]/40 font-bold">Guardianship Tier</div>

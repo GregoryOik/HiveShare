@@ -189,8 +189,6 @@ export default function HoneyConciergeModal({ isOpen, onClose }: HoneyConciergeM
 
       {/* Modal Dialog */}
       <div className="relative z-10 w-full max-w-2xl max-h-[92dvh] flex flex-col bg-[#FFFDF7] text-[#2A1B0A] border-2 border-honey/40 rounded-[2px] shadow-[0_25px_80px_rgba(42,27,10,0.35)] p-4 sm:p-8 animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
-        {/* Subtle Background Glow */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-honey/10 blur-[100px] rounded-full pointer-events-none" />
 
         {/* Header & Progress Bar (Sticky Top) */}
         <div className="shrink-0 border-b border-honey/20 pb-3 sm:pb-4">

@@ -44,7 +44,7 @@ export const translations: Translations = {
   starterTitle: { en: 'Starter Guardianship', el: 'Βασική Αναδοχή' },
   starterSub: { en: '2.5 kg Raw Honey · 3 Deliveries', el: '2,5 kg Αγνό Μέλι · 3 Εποχιακές Αποστολές' },
   premiumTitle: { en: 'Premium Patron', el: 'Επίτιμος Προστάτης' },
-  premiumSub: { en: '5.0 kg Raw Honey · Dedicated Sector', el: '5,0 kg Αγνό Μέλι · Αποκλειστικός Τομέας' },
+  premiumSub: { en: '5.0 kg Raw Honey · Dedicated Colony', el: '5,0 kg Αγνό Μέλι · Επώνυμη Κυψέλη' },
   corporateTitle: { en: 'Corporate Sanctum', el: 'Εταιρική Αναδοχή' },
   corporateSub: { en: '25 kg Reserve · Custom Gold Seals', el: '25 kg Συλλεκτικό Απόθεμα · Χρυσή Σφραγίδα' },
   perYear: { en: '/year', el: '/έτος' },

@@ -58,7 +58,7 @@ const Navbar = ({ cartItemsCount, setIsCartOpen, onOpenConcierge }: any) => {
             {/* Bilingual Switcher */}
             <button
               onClick={toggleLanguage}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-honey/30 bg-honey/10 text-honey hover:bg-honey hover:text-[#0C0804] text-[9px] font-mono font-bold uppercase tracking-widest transition-all"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-honey/30 bg-honey/10 text-honey hover:bg-honey hover:text-[#0C0804] text-[9px] font-sans font-bold uppercase tracking-widest transition-all"
               title={isEl ? 'Switch to English' : 'Αλλαγή σε Ελληνικά'}
             >
               <Globe size={11} /> {isEl ? 'EN' : 'ΕΛ'}
@@ -109,7 +109,7 @@ const Navbar = ({ cartItemsCount, setIsCartOpen, onOpenConcierge }: any) => {
             {/* Quick Language Toggle on Mobile */}
             <button
               onClick={toggleLanguage}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-honey/30 bg-honey/10 text-honey text-[10px] font-mono font-bold tracking-widest uppercase"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-honey/30 bg-honey/10 text-honey text-[10px] font-sans font-bold tracking-widest uppercase"
               aria-label="Toggle language"
             >
               <Globe size={11} /> {isEl ? 'EN' : 'ΕΛ'}
@@ -142,7 +142,7 @@ const Navbar = ({ cartItemsCount, setIsCartOpen, onOpenConcierge }: any) => {
       </nav>
 
       {/* Mobile Menu Drawer */}
-      <div className={`fixed inset-0 bg-hive-bg/98 backdrop-blur-3xl z-40 flex flex-col justify-between transition-all duration-300 ease-in-out md:hidden ${mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
+      <div className={`fixed inset-0 bg-hive-bg/98 backdrop-blur-md z-40 flex flex-col justify-between transition-all duration-300 ease-in-out md:hidden ${mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
         <div className="absolute inset-0 bg-gradient-to-b from-honey/5 via-transparent to-honey/10 pointer-events-none"></div>
         
         {/* Drawer Content */}
@@ -255,39 +255,6 @@ const Navbar = ({ cartItemsCount, setIsCartOpen, onOpenConcierge }: any) => {
   );
 };
 
-const HexagonGrid = () => {
-  const hexRadius = 32;
-  const hexWidth = Math.sqrt(3) * hexRadius; // ~55.42
-  const hexHeight = 2 * hexRadius; // 64
-  const xOffset = hexWidth + 4; // 4px gap
-  const yOffset = hexHeight * 0.75 + 3; // 3px gap
-
-  const rows = 35;
-  const cols = 35;
-
-  const hexes = [];
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
-      const x = col * xOffset + (row % 2 === 1 ? xOffset / 2 : 0);
-      const y = row * yOffset;
-      hexes.push(
-        <polygon
-          key={`${row}-${col}`}
-          points="27.71,0 55.42,16 55.42,48 27.71,64 0,48 0,16"
-          transform={`translate(${x}, ${y})`}
-          className="fill-honey/10 hover:fill-honey/40 transition-colors duration-1000 hover:duration-0 cursor-pointer"
-        />
-      );
-    }
-  }
-
-  return (
-    <svg className="absolute inset-0 w-full h-full opacity-35" xmlns="http://www.w3.org/2000/svg">
-      {hexes}
-    </svg>
-  );
-};
-
 const Hero = ({ onOpenConcierge }: any) => {
   const { language } = useLanguage();
   const isEl = language === 'el';
@@ -322,15 +289,15 @@ const Hero = ({ onOpenConcierge }: any) => {
         </p>
 
         {/* Living Colony Telemetry Badge (Mobile Dedicated & Clean) */}
-        <div className="md:hidden my-6 p-4 bg-hive-panel/90 border border-honey/30 rounded-[2px] shadow-sm space-y-3">
-          <div className="flex items-center justify-between text-[10px] font-mono">
+        <div className="md:hidden my-6 p-4 bg-hive-panel/95 border border-honey/30 rounded-[2px] shadow-sm space-y-3">
+          <div className="flex items-center justify-between text-[10px]">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_#22c55e]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-honey" />
               <span className="font-bold text-[#2A1B0A] tracking-wider uppercase">
                 {isEl ? 'Κυψέλη #247 · Λάγια, Μάνη' : 'Living Colony #247 · Mani'}
               </span>
             </div>
-            <span className="text-[8px] uppercase tracking-wider text-green-700 font-bold bg-green-600/10 px-2 py-0.5 rounded-xs border border-green-600/20">
+            <span className="text-[8px] uppercase tracking-wider text-honey font-bold bg-honey/10 px-2 py-0.5 rounded-xs border border-honey/25">
               {isEl ? 'Άνθιση Θυμαριού' : 'Thyme Bloom Active'}
             </span>
           </div>
@@ -339,21 +306,21 @@ const Hero = ({ onOpenConcierge }: any) => {
             <div>
               <div className="text-[8px] uppercase tracking-wider text-[#2A1B0A]/50 font-bold mb-0.5">{isEl ? 'Βάρος' : 'Weight'}</div>
               <div className="font-display text-lg text-honey font-semibold">38.2 kg</div>
-              <div className="text-[8px] text-green-700 font-mono">+180g / 24h</div>
+              <div className="text-[8px] text-[#2A1B0A]/60">+180g / 24h</div>
             </div>
             <div className="border-x border-honey/15">
               <div className="text-[8px] uppercase tracking-wider text-[#2A1B0A]/50 font-bold mb-0.5">{isEl ? 'Θερμ.' : 'Temp'}</div>
               <div className="font-display text-lg text-[#2A1B0A] font-semibold">34.5°C</div>
-              <div className="text-[8px] text-[#2A1B0A]/60 font-mono">{isEl ? 'Ιδανική' : 'Optimal'}</div>
+              <div className="text-[8px] text-[#2A1B0A]/60">{isEl ? 'Ιδανική' : 'Optimal'}</div>
             </div>
             <div>
               <div className="text-[8px] uppercase tracking-wider text-[#2A1B0A]/50 font-bold mb-0.5">{isEl ? 'Υγεία' : 'Vitality'}</div>
-              <div className="font-display text-lg text-green-700 font-semibold">98%</div>
-              <div className="text-[8px] text-honey font-mono">{isEl ? 'Ενεργή' : 'Active'}</div>
+              <div className="font-display text-lg text-[#2A1B0A] font-semibold">{isEl ? 'Άριστη' : 'Optimal'}</div>
+              <div className="text-[8px] text-honey font-medium">{isEl ? 'Ενεργή' : 'Active'}</div>
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-2 text-[9px] text-[#2A1B0A]/60 font-mono border-t border-honey/10">
+          <div className="flex items-center justify-between pt-2 text-[9px] text-[#2A1B0A]/60 border-t border-honey/10">
             <span>{isEl ? 'Επόμενος τρύγος: Ιούλιος 2026' : 'Next harvest: July 2026'}</span>
             <span className="text-honey font-bold">{isEl ? '100% Αγνό' : '100% Raw Unheated'}</span>
           </div>
@@ -410,58 +377,49 @@ const Hero = ({ onOpenConcierge }: any) => {
       </div>
       
       {/* Right Column - Dusk Honey Visual (Desktop only) */}
-      <div className="hidden md:flex w-full md:w-[52%] lg:w-[55%] bg-hive-dark relative overflow-hidden min-h-screen items-center justify-center border-l border-honey/10">
-        {/* Background Image of Mani Landscape */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="/mani_landscape.png" 
-            alt="Mani landscape with beehives" 
-            className="w-full h-full object-cover opacity-30 mix-blend-overlay"
-          />
-        </div>
-        
-        {/* Hexagon Grid */}
-        <HexagonGrid />
+      {/* Right Column - Authentic Editorial Photography & Docked Telemetry (Desktop only) */}
+      <div className="hidden md:flex w-full md:w-[52%] lg:w-[55%] relative overflow-hidden min-h-screen items-center justify-center border-l border-honey/15 bg-[#140E08]">
+        {/* Rich Mani Apiary Photography */}
+        <img 
+          src="/mani_landscape.png" 
+          alt="Mani landscape with beehives" 
+          className="w-full h-full object-cover opacity-80"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#140E08] via-transparent to-[#140E08]/40"></div>
 
-        {/* Vertical Connecting Line */}
-        <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-honey/20 to-transparent"></div>
-
-        {/* TOP - Hive ID */}
-        <div className="absolute top-8 left-8 md:top-12 md:left-12 border-l-2 border-honey pl-4 z-10">
-          <div className="text-[9px] uppercase tracking-widest text-[#E8A030] mb-1 font-bold">
-            Your hive
+        {/* Top Provenance Badge */}
+        <div className="absolute top-10 left-10 border-l border-honey pl-4 z-10">
+          <div className="text-[9px] uppercase tracking-[0.25em] text-honey mb-1 font-bold">
+            Apiary Station
           </div>
-          <div className="font-display italic text-3xl text-pale-honey drop-shadow-md">#247</div>
-          <div className="text-[9px] text-white/70 mt-1 font-bold">Lagia, Mani</div>
+          <div className="font-display text-2xl text-white">Lagia, Mani</div>
+          <div className="text-[9px] text-white/60 mt-0.5">Elevation 620m · Laconia, Greece</div>
         </div>
 
-        {/* Hive ID Counter Base Layer */}
-        <div className="absolute inset-0 flex items-center justify-center z-1 pointer-events-none overflow-hidden">
-          <span className="font-display text-[16rem] lg:text-[20rem] leading-none text-honey/[0.03] select-none">
-            247
-          </span>
-        </div>
-
-        {/* MIDDLE - Temp */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md border border-honey/30 p-5 rounded-[2px] z-10 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-          <div className="text-[9px] uppercase tracking-widest text-honey/80 mb-2">Temp</div>
-          <div className="font-display text-3xl text-pale-honey">34.5°C</div>
-        </div>
-
-        {/* RIGHT MIDDLE - Activity */}
-        <div className="absolute top-1/3 right-12 bg-black/40 backdrop-blur-md border border-honey/30 p-4 rounded-[2px] z-10 shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-          <div className="text-[9px] uppercase tracking-widest text-honey/80 mb-2">Activity</div>
-          <div className="font-display text-2xl text-green-400">High</div>
-        </div>
-        
-        {/* Live Data Card */}
-        <div className="absolute bottom-12 right-12 bg-black/80 backdrop-blur-xl border border-honey/60 p-5 rounded-[2px] shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-10 origin-bottom-right">
-          <div className="flex items-center space-x-2 mb-3">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-blink shadow-[0_0_10px_#22c55e]"></div>
-            <div className="text-[10px] uppercase tracking-widest text-honey font-bold">Live · Hive #247</div>
+        {/* Docked Luxury Telemetry Card */}
+        <div className="absolute bottom-10 right-10 left-10 max-w-md ml-auto bg-[#140E08]/92 backdrop-blur-md border border-honey/30 p-5 rounded-[2px] shadow-2xl z-10">
+          <div className="flex items-center justify-between pb-3 mb-3 border-b border-honey/15">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-honey"></span>
+              <span className="text-[10px] uppercase tracking-widest font-bold text-honey">Colony #247 · Live Status</span>
+            </div>
+            <span className="text-[9px] text-white/50">Updated 4m ago</span>
           </div>
-          <div className="font-display italic text-4xl text-pale-honey mb-0.5 drop-shadow-sm">38.2 kg</div>
-          <div className="text-[10px] text-white/80 font-medium">Updated 4 min ago</div>
+
+          <div className="grid grid-cols-3 gap-4 text-center">
+            <div>
+              <div className="text-[8px] uppercase tracking-wider text-white/50 mb-1">Net Weight</div>
+              <div className="font-display italic text-2xl text-honey">38.2 <span className="text-xs not-italic text-honey/60">kg</span></div>
+            </div>
+            <div>
+              <div className="text-[8px] uppercase tracking-wider text-white/50 mb-1">Brood Temp</div>
+              <div className="font-display text-2xl text-white">34.5°C</div>
+            </div>
+            <div>
+              <div className="text-[8px] uppercase tracking-wider text-white/50 mb-1">Vitality</div>
+              <div className="font-display text-2xl text-white">Optimal</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -478,9 +436,9 @@ const HowItWorks = () => {
     { num: '03', title: 'Φυσική Ωρίμανση', desc: 'Με την αλλαγή των εποχών, ο Πέτρος συλλέγει το μέλι αποκλειστικά από τον δικό σας τομέα. Χωρίς προσμίξεις, χωρίς θέρμανση, 100% αγνό.' },
     { num: '04', title: 'Παραλαβή Σοδειάς', desc: 'Παραλαμβάνετε το μέλι σας αυτόματα στο σπίτι. Από τους βράχους της Μάνης στο τραπέζι σας — αυθεντική ελληνική κληρονομιά.' }
   ] : [
-    { num: '01', title: 'Claim Your Unit', desc: 'Secure your numbered hive in our Laconian apiaries. Three guardians share one physical unit to ensure sustainable management.' },
-    { num: '02', title: 'Connect to Mani', desc: 'Access your apiary journal. Watch your bees thrive via real-time weight, temperature, and vitality reports direct from the mountains.' },
-    { num: '03', title: 'Natural Maturation', desc: 'As the seasons turn, Petros extracts honey exclusively from your sector. No blending, no heating, just raw hive-to-jar purity.' },
+    { num: '01', title: 'Choose Your Hive', desc: 'Secure your numbered colony in our Laconian apiaries. Three guardians share one physical hive to ensure gentle, sustainable beekeeping.' },
+    { num: '02', title: 'Connect to Mani', desc: 'Access your apiary journal. Watch your bees thrive via real-time weight, temperature, and seasonal reports direct from the mountains.' },
+    { num: '03', title: 'Natural Maturation', desc: 'As the seasons turn, Petros extracts honey exclusively from your colony. No blending, no heating, just raw hive-to-jar purity.' },
     { num: '04', title: 'Direct Harvest', desc: 'Receive your harvests automatically. From the Mani cliffs to your table—authentic heritage delivered anywhere in Europe.' }
   ];
 
@@ -737,10 +695,6 @@ const Origins = () => {
 
   return (
     <section id="origins" className="py-16 sm:py-24 md:py-32 bg-hive-bg relative overflow-hidden">
-      {/* Subtle Background Elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-honey/5 blur-[120px] rounded-full"></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-honey/5 blur-[120px] rounded-full"></div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="text-center mb-12 sm:mb-20 space-y-3 sm:space-y-4">
           <div className="flex items-center justify-center gap-3 sm:gap-4 text-honey">
@@ -840,10 +794,10 @@ const Beekeeper = () => {
       </div>
       <div className="w-full md:w-1/2 text-[#2A1B0A] space-y-6">
         <div className="w-8 h-[1px] bg-honey"></div>
-        <p className="font-display text-2xl sm:text-3xl md:text-4xl leading-[1.35] font-light text-[#2A1B0A]/95 italic">
+        <p className="font-display text-2xl sm:text-3xl md:text-4xl leading-[1.35] font-light text-[#2A1B0A]/95">
           {isEl
-            ? '«Φροντίζω αυτά τα βουνά εδώ και 30 χρόνια. Γνωρίζω πότε θα ανθίσει το θυμάρι στη Μάνη πριν καν συμβεί. Ο πατέρας μου μου έμαθε τη γλώσσα των μελισσών, και τώρα μοιραζόμαστε αυτή την κληρονομιά μαζί σας.»'
-            : '"I have managed these mountains for 30 years. I know when the thyme will bloom in Mani before it happens. My father taught me the language of the bees, and now we share that heritage with you."'}
+            ? '«Εδώ και τριάντα χρόνια, οι κυψέλες μας ακολουθούν τις ανθοφορίες της Λακωνίας—από το άγριο θυμάρι της Μάνης μέχρι τα έλατα του Μαινάλου. Συλλέγουμε μόνο σε πλήρη φυσική ωρίμανση, αγνό και αφιλτράριστο.»'
+            : '"For over thirty years, our colonies have followed the flowering seasons across Laconia—from the wild coastal thyme of Mani to the high fir forests of Mount Mainalo. We harvest only at natural maturity, raw and unfiltered."'}
         </p>
         <div className="text-[9px] sm:text-[10px] uppercase tracking-widest text-[#2A1B0A]/70 font-bold border-t border-honey/15 pt-4">
           {isEl
@@ -931,7 +885,7 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
             
             <ul className="space-y-3.5 text-xs sm:text-sm text-[#2A1B0A] mb-8 sm:mb-12 font-medium">
               <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Πήλινο δοχείο υποδοχής (1kg) άμεσα' : 'Welcome crock (1kg) shipped immediately'}</li>
-              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Πλήρες Ημερολόγιο Κυψέλης & βιομετρική τηλεμετρία' : 'Apiary Journal access (full live biometric telemetry)'}</li>
+              <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Πλήρες Ημερολόγιο Κυψέλης & ζωντανή τηλεμετρία αισθητήρων' : 'Apiary Journal access (live sensor telemetry)'}</li>
               <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? '3 εποχιακές παραδόσεις (5kg σύνολο — 68€/kg)' : '3 seasonal harvests (5kg total — €68/kg)'}</li>
               <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Επώνυμη ετικέτα με το όνομά σας σε κάθε βάζο' : 'Named jar (your name printed on every label)'}</li>
               <li className="flex gap-2.5"><span className="text-honey font-bold">—</span> {isEl ? 'Επίσημο Πιστοποιητικό Αναδοχής για κορνίζα' : 'Framable Certificate of Hive Adoption'}</li>
@@ -984,7 +938,6 @@ const Pricing = ({ cartPlan, setCartPlan, setIsCartOpen, hasOliveOil, setHasOliv
 
       {/* Olive Oil Add-on */}
       <div className="mt-12 sm:mt-16 border border-honey/25 p-6 sm:p-8 bg-hive-panel/80 rounded-[2px] max-w-3xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-32 h-32 bg-honey/10 blur-[50px] pointer-events-none"></div>
         <div className="relative z-10 space-y-1">
           <div className="text-[9px] uppercase tracking-widest text-[#9E6000] font-bold">
             {isEl ? 'Ετήσια Επιλογή' : 'Annual Add-on'}
@@ -1368,9 +1321,6 @@ export default function Landing() {
             onClick={() => setSelectedPlanForSignup(null)}
           ></div>
           <div className="bg-hive-panel/95 border border-honey/30 p-10 rounded-[2px] w-full max-w-lg relative z-10 shadow-[0_0_50px_rgba(200,134,10,0.15)] animate-in fade-in zoom-in duration-500 overflow-hidden">
-            {/* Subtle Golden Glow */}
-            <div className="absolute -top-24 -left-24 w-48 h-48 bg-honey/10 blur-[80px] rounded-full pointer-events-none"></div>
-            
             <button 
               onClick={() => setSelectedPlanForSignup(null)}
               className="absolute top-6 right-6 text-[#2A1B0A]/20 hover:text-honey transition-colors"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  ArrowRight, Star, Zap, Truck,
+  ArrowRight, Star, Truck,
   ChevronRight, Check, X, Loader2, AlertTriangle, Lock,
   MapPin, ShieldCheck, TrendingDown, ShoppingBag, Plus, Minus,
   PackageCheck, Info, Sparkles, Gift, Utensils, Compass, Award,
@@ -326,7 +326,7 @@ function InteractiveJarLabelPreview() {
               {isEl ? 'Συλλεκτικό Αγνό Μέλι' : 'Reserve Raw Honey'}
             </div>
             <div className="text-[9px] uppercase tracking-[0.2em] text-[#C8860A] font-bold my-1">
-              {isEl ? `Τομέας Αποικίας #${hiveNumber}` : `Colony Sector #${hiveNumber}`}
+              {isEl ? `Κυψέλη Αποικίας #${hiveNumber}` : `Hive Colony #${hiveNumber}`}
             </div>
 
             <div className="my-3 py-2 border-y border-[#C8860A]/20 bg-[#C8860A]/5">
@@ -338,7 +338,7 @@ function InteractiveJarLabelPreview() {
               </div>
             </div>
 
-            <div className="flex justify-between text-[7px] uppercase tracking-widest text-[#2A1B0A]/60 pt-1 font-mono">
+            <div className="flex justify-between text-[7px] uppercase tracking-widest text-[#2A1B0A]/60 pt-1 font-sans font-medium">
               <span>{isEl ? 'Ανεπεξέργαστο' : 'Unheated · Raw'}</span>
               <span>{isEl ? 'Έλεγχος Eurofins' : 'Eurofins Certified'}</span>
               <span>100% Greek</span>
@@ -702,10 +702,8 @@ function JarCheckoutModal({
 
             {/* ── THE HIGH-CONVERTING HIVESHARE VALUE ANCHOR ── */}
             <div className="p-4 sm:p-5 bg-[#1A1208] text-cream border border-honey/40 rounded-[2px] space-y-3 relative overflow-hidden shadow-lg">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-honey/10 blur-[40px] pointer-events-none" />
-              <div className="flex items-center gap-2 text-honey text-[10px] uppercase tracking-widest font-black">
-                <Sparkles size={14} className="text-pale-honey animate-pulse" />
-                Wait — Consider HiveShare Guardianship
+              <div className="flex items-center gap-2 text-honey text-[10px] uppercase tracking-widest font-bold">
+                Consider HiveShare Guardianship
               </div>
               <p className="text-xs text-cream/80 leading-relaxed font-light">
                 You are paying <strong className="text-pale-honey">€{item.option.priceKg}/kg</strong> for individual honey ({totalWeightKg}kg for €{subtotal}).
@@ -904,8 +902,6 @@ function ValueComparisonSection() {
 
   return (
     <div className="my-10 sm:my-20 border border-honey/30 bg-hive-panel rounded-[2px] p-4 sm:p-8 md:p-14 relative overflow-hidden shadow-sm">
-      <div className="absolute top-0 right-0 w-80 h-80 bg-honey/5 blur-[100px] rounded-full pointer-events-none" />
-
       <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center gap-8 sm:gap-12">
         <div className="flex-1 space-y-4">
           <div className="flex items-center gap-2 text-honey">
@@ -1102,7 +1098,7 @@ function MembershipCard({
           }`}
         >
           {plan.highlight ? (
-            <>{isEl ? `Υιοθεσία (Επίτιμος Προστάτης) — €${displayPrice}` : `Adopt Hive (Premium Patron) — €${displayPrice}`} <Zap size={13} className="group-hover:rotate-12 transition-transform" /></>
+            <>{isEl ? `Υιοθεσία (Επίτιμος Προστάτης) — €${displayPrice}` : `Adopt Hive (Premium Patron) — €${displayPrice}`} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" /></>
           ) : (
             <>{isEl ? `Υιοθεσία (Βασική) — €${displayPrice}` : `Adopt Hive (Starter) — €${displayPrice}`} <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" /></>
           )}
@@ -1175,7 +1171,6 @@ function MembershipCheckoutModal({
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/70 backdrop-blur-xl" onClick={onClose} />
       <div className="relative z-10 bg-hive-bg border border-honey/30 rounded-[2px] shadow-[0_0_80px_rgba(200,134,10,0.15)] w-full max-w-lg animate-in fade-in zoom-in-95 duration-300 overflow-hidden">
-        <div className="absolute -top-20 -right-20 w-60 h-60 bg-honey/10 blur-[80px] rounded-full pointer-events-none" />
         <div className="flex items-center justify-between px-8 py-6 border-b border-honey/10">
           <div>
             <div className="text-[9px] uppercase tracking-[0.3em] text-honey font-bold mb-1">Annual HiveShare Membership</div>
@@ -1348,7 +1343,6 @@ export default function BuyHoney() {
 
       {/* Hero */}
       <section className="relative py-12 sm:py-20 md:py-28 px-4 sm:px-6 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,_rgba(200,134,10,0.05)_0%,_transparent_70%)] pointer-events-none" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <div className="flex items-center justify-center gap-3 mb-4 sm:mb-6">
             <div className="h-[1px] w-8 sm:w-10 bg-honey/40" />
@@ -1601,8 +1595,7 @@ export default function BuyHoney() {
       </div>
 
       {/* Final CTA */}
-      <section className="py-28 px-6 relative overflow-hidden border-t border-honey/10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(200,134,10,0.06)_0%,_transparent_70%)] pointer-events-none" />
+      <section className="py-24 sm:py-28 px-6 relative overflow-hidden border-t border-honey/10">
         <div className="max-w-3xl mx-auto text-center relative z-10">
           <h2 className="font-display text-5xl md:text-6xl font-light text-[#2A1B0A] mb-6">
             {isEl ? 'Γευτείτε τα Ελληνικά Βουνά.' : 'Taste the Greek mountains.'}
@@ -1615,9 +1608,9 @@ export default function BuyHoney() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={() => setSelectedPlanId('starter')}
-              className="bg-honey text-[#2A1B0A] px-10 py-5 text-xs uppercase tracking-[0.2em] font-bold hover:bg-honey/90 transition-colors rounded-[2px] shadow-[0_0_30px_rgba(200,134,10,0.3)] flex items-center gap-3 active:scale-[0.98]"
+              className="bg-honey text-[#2A1B0A] px-10 py-5 text-xs uppercase tracking-[0.2em] font-bold hover:bg-honey/90 transition-colors rounded-[2px] shadow-sm flex items-center gap-3 active:scale-[0.98]"
             >
-              {isEl ? 'Υιοθεσία Κυψέλης — από 140€' : 'Adopt a Hive — from €140'} <Zap size={14} />
+              {isEl ? 'Υιοθεσία Κυψέλης — από 140€' : 'Adopt a Hive — from €140'} <ArrowRight size={14} />
             </button>
             <a
               href="#jars"

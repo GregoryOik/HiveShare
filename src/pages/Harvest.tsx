@@ -29,10 +29,10 @@ export default function Harvest() {
         <div className="max-w-md space-y-8 animate-in fade-in zoom-in duration-1000">
            <ShieldAlert className="w-24 h-24 text-honey mx-auto opacity-50" strokeWidth={1} />
            <div className="space-y-4">
-             <h2 className="font-display text-4xl text-white tracking-tight">HIVE_STASIS</h2>
-             <p className="text-[10px] uppercase tracking-[0.3em] font-black text-honey">Logistics Temporarily Locked</p>
-             <p className="text-sm text-white/40 leading-relaxed font-sans">
-               We are updating the nomadic route maps. Access will be restored shortly.
+             <h2 className="font-display text-4xl text-white tracking-tight">Apiary Maintenance</h2>
+             <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-honey">Harvest Tracking Updating</p>
+             <p className="text-sm text-white/50 leading-relaxed font-sans">
+               We are updating the seasonal harvest schedules. Access will be restored shortly.
              </p>
            </div>
         </div>
@@ -79,11 +79,6 @@ export default function Harvest() {
 
   return (
     <div className="min-h-screen bg-hive-bg text-[#2A1B0A]/80 font-body selection:bg-honey selection:text-[#2A1B0A] flex flex-col relative overflow-hidden">
-      {/* Background Ambience */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-honey/5 blur-[120px] rounded-full"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-honey/5 blur-[120px] rounded-full"></div>
-      </div>
 
       <header className="border-b border-honey/10 bg-hive-bg/80 backdrop-blur-md sticky top-0 z-50 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between w-full">
@@ -144,21 +139,16 @@ export default function Harvest() {
                   : 'border-[#2A1B0A]/5 opacity-80'
               }`}
             >
-              {/* Seasonal Accents */}
-              <div className={`absolute top-0 right-0 w-32 h-32 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2 opacity-20 pointer-events-none ${
-                index === 0 ? 'bg-green-400' : index === 1 ? 'bg-honey' : 'bg-red-400'
-              }`}></div>
-
               <div className="flex flex-col lg:flex-row gap-10 relative z-10">
                 <div className="lg:w-1/3 space-y-6">
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       {harvest.status === 'upcoming' ? (
-                        <div className="px-3 py-0.5 bg-honey/10 border border-honey/20 text-honey text-[8px] font-black uppercase tracking-widest rounded-full flex items-center gap-1.5">
-                          <Sparkles size={10} /> Next In Cycle
+                        <div className="px-3 py-0.5 bg-honey/10 border border-honey/20 text-honey text-[8px] font-bold uppercase tracking-wider rounded-full flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-honey" /> Next In Cycle
                         </div>
                       ) : (
-                        <div className="px-3 py-0.5 bg-black/5 border border-black/10 text-black/40 text-[8px] font-black uppercase tracking-widest rounded-full">
+                        <div className="px-3 py-0.5 bg-black/5 border border-black/10 text-black/40 text-[8px] font-bold uppercase tracking-wider rounded-full">
                           Scheduled
                         </div>
                       )}
