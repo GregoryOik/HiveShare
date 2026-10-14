@@ -245,13 +245,46 @@ const Navbar = ({ cartItemsCount, setIsCartOpen, onOpenConcierge }: any) => {
               )}
             </div>
 
-            <div className="text-center pt-2 text-[9px] uppercase tracking-widest text-[#2A1B0A]/50 font-mono">
+            <div className="text-center pt-2 text-[9px] uppercase tracking-widest text-[#2A1B0A]/50 font-sans font-medium">
               Laconia · Mani · Mount Mainalo · Evia
             </div>
           </div>
         </div>
       </div>
     </>
+  );
+};
+
+const HexagonGrid = () => {
+  const hexRadius = 32;
+  const hexWidth = Math.sqrt(3) * hexRadius; // ~55.42
+  const hexHeight = 2 * hexRadius; // 64
+  const xOffset = hexWidth + 4; // 4px gap
+  const yOffset = hexHeight * 0.75 + 3; // 3px gap
+
+  const rows = 35;
+  const cols = 35;
+
+  const hexes = [];
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const x = col * xOffset + (row % 2 === 1 ? xOffset / 2 : 0);
+      const y = row * yOffset;
+      hexes.push(
+        <polygon
+          key={`${row}-${col}`}
+          points="27.71,0 55.42,16 55.42,48 27.71,64 0,48 0,16"
+          transform={`translate(${x}, ${y})`}
+          className="fill-honey/10 hover:fill-honey/50 stroke-honey/20 stroke-[0.5] transition-colors duration-1000 hover:duration-0 cursor-pointer"
+        />
+      );
+    }
+  }
+
+  return (
+    <svg className="absolute inset-0 w-full h-full opacity-40 z-[2]" xmlns="http://www.w3.org/2000/svg">
+      {hexes}
+    </svg>
   );
 };
 
@@ -380,15 +413,23 @@ const Hero = ({ onOpenConcierge }: any) => {
       {/* Right Column - Authentic Editorial Photography & Docked Telemetry (Desktop only) */}
       <div className="hidden md:flex w-full md:w-[52%] lg:w-[55%] relative overflow-hidden min-h-screen items-center justify-center border-l border-honey/15 bg-[#140E08]">
         {/* Rich Mani Apiary Photography */}
-        <img 
-          src="/mani_landscape.png" 
-          alt="Mani landscape with beehives" 
-          className="w-full h-full object-cover opacity-80"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#140E08] via-transparent to-[#140E08]/40"></div>
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/mani_landscape.png" 
+            alt="Mani landscape with beehives" 
+            className="w-full h-full object-cover opacity-45 mix-blend-luminosity"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#140E08] via-[#140E08]/40 to-[#140E08]/70"></div>
+        </div>
+
+        {/* Interactive Honeycomb Hexagon Grid */}
+        <HexagonGrid />
+
+        {/* Subtle Vertical Connecting Line */}
+        <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-honey/20 to-transparent pointer-events-none z-[3]"></div>
 
         {/* Top Provenance Badge */}
-        <div className="absolute top-10 left-10 border-l border-honey pl-4 z-10">
+        <div className="absolute top-10 left-10 border-l border-honey pl-4 z-10 pointer-events-auto">
           <div className="text-[9px] uppercase tracking-[0.25em] text-honey mb-1 font-bold">
             Apiary Station
           </div>
@@ -397,7 +438,7 @@ const Hero = ({ onOpenConcierge }: any) => {
         </div>
 
         {/* Docked Luxury Telemetry Card */}
-        <div className="absolute bottom-10 right-10 left-10 max-w-md ml-auto bg-[#140E08]/92 backdrop-blur-md border border-honey/30 p-5 rounded-[2px] shadow-2xl z-10">
+        <div className="absolute bottom-10 right-10 left-10 max-w-md ml-auto bg-[#140E08]/92 backdrop-blur-md border border-honey/30 p-5 rounded-[2px] shadow-2xl z-10 pointer-events-auto">
           <div className="flex items-center justify-between pb-3 mb-3 border-b border-honey/15">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-honey"></span>
